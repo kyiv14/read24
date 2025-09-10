@@ -9,12 +9,28 @@
 <body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
 
   <!-- Главный экран -->
-  <div id="mainScreen" class="text-center">
+  <div id="mainScreen" class="text-center w-full max-w-md">
     <button id="uploadBtn"
-      class="bg-black text-white text-lg px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
-      ЗАГРУЗИТЬ
+      class="bg-black text-white text-lg px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mb-4">
+      ЗАГРУЗИТЬ ФАЙЛ
     </button>
     <input type="file" id="fileInput" accept="*/*" class="hidden">
+    
+    <div class="my-4 text-gray-600">или</div>
+    
+    <div class="flex items-stretch mb-4">
+      <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
+        class="flex-1 px-4 py-3 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-black">
+      <button id="loadUrlBtn"
+        class="bg-black text-white px-6 py-3 rounded-r-xl hover:bg-gray-900 transition">
+        ВПЕРЕД
+      </button>
+    </div>
+
+    <div id="loading" class="hidden text-blue-600 mb-4">
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
+      Загрузка файла...
+    </div>
 
     <div id="modal"
       class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-10">
@@ -93,6 +109,9 @@
   <script>
     const uploadBtn = document.getElementById('uploadBtn');
     const fileInput = document.getElementById('fileInput');
+    const urlInput = document.getElementById('urlInput');
+    const loadUrlBtn = document.getElementById('loadUrlBtn');
+    const loading = document.getElementById('loading');
     const modal = document.getElementById('modal');
     const saveModal = document.getElementById('saveModal');
     const channelCount = document.getElementById('channelCount');
@@ -123,13 +142,51 @@
       const reader = new FileReader();
       reader.onload = function (e) {
         const content = e.target.result;
+        processPlaylistContent(content);
+      };
+      reader.readAsText(file);
+    });
+
+    loadUrlBtn.addEventListener('click', async () => {
+      const url = urlInput.value.trim();
+      if (!url) {
+        alert('Пожалуйста, введите ссылку');
+        return;
+      }
+
+      loading.classList.remove('hidden');
+      loadUrlBtn.disabled = true;
+
+      try {
+        // Пробуем загрузить через CORS proxy чтобы обойти ограничения
+        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+        const response = await fetch(proxyUrl);
+        
+        if (!response.ok) {
+          throw new Error(`Ошибка HTTP: ${response.status}`);
+        }
+        
+        const content = await response.text();
+        processPlaylistContent(content);
+      } catch (error) {
+        console.error('Ошибка загрузки:', error);
+        alert('Не удалось загрузить файл. Возможно, проблема с CORS или файл недоступен.');
+      } finally {
+        loading.classList.add('hidden');
+        loadUrlBtn.disabled = false;
+      }
+    });
+
+    function processPlaylistContent(content) {
+      try {
         originalLines = content.split('\n');
         parseChannels();
         channelCount.textContent = channels.length;
         modal.classList.remove('hidden');
-      };
-      reader.readAsText(file);
-    });
+      } catch (error) {
+        alert('Ошибка обработки файла: ' + error.message);
+      }
+    }
 
     dropdown.addEventListener('change', (e) => {
       selectedServer = e.target.value;
@@ -154,7 +211,7 @@
         const extgrp = originalLines[i + 1];
         const url = originalLines[i + 2];
 
-        if (extinf.startsWith('#EXTINF') && extgrp.startsWith('#EXTGRP')) {
+        if (extinf && extinf.startsWith('#EXTINF') && extgrp && extgrp.startsWith('#EXTGRP')) {
           const name = extinf.split(',').pop().trim();
           channels.push({
             name,
