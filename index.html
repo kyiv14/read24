@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Редактировать Плейлист</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
+
+  <!-- Главный экран -->
+  <div id="mainScreen" class="text-center">
+    <button id="uploadBtn"
+      class="bg-black text-white text-lg px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
+      ЗАГРУЗИТЬ
+    </button>
+    <input type="file" id="fileInput" accept="*/*" class="hidden">
+
+    <div id="modal"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-10">
+      <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center">
+        <h2 class="text-xl font-semibold mb-2 text-gray-800">КОЛИЧЕСТВО КАНАЛОВ</h2>
+        <p id="channelCount" class="text-3xl font-bold text-black mb-4">0</p>
+        <button id="editBtn"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl transition mb-2">
+          РЕДАКТИРОВАТЬ
+        </button>
+        <button id="closeModal"
+          class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-xl transition">
+          ЗАКРЫТЬ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Экран редактора -->
+  <div id="editorScreen" class="hidden w-full max-w-2xl mx-auto py-6 px-4">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-xl font-bold text-gray-800">Редактировать Каналы</h1>
+      <button id="saveBtn"
+        class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition">
+        СОХРАНИТЬ
+      </button>
+    </div>
+
+    <!-- Поиск -->
+    <div class="mb-2">
+      <input type="text" id="searchInput" placeholder="Поиск канала..."
+        class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
+    </div>
+
+    <!-- Выпадающий список Сервер1–10 -->
+    <div class="mb-4">
+      <select id="dropdown" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black">
+        <option value="" disabled selected>Выберите сервер</option>
+        <option>Сервер1</option>
+        <option>Сервер2</option>
+        <option>Сервер3</option>
+        <option>Сервер4</option>
+        <option>Сервер5</option>
+        <option>Сервер6</option>
+        <option>Сервер7</option>
+        <option>Сервер8</option>
+        <option>Сервер9</option>
+        <option>Сервер10</option>
+      </select>
+    </div>
+
+    <!-- Счётчик -->
+    <div class="text-center mb-4 text-lg font-semibold text-black">
+      Осталось каналов: <span id="channelCounter">0</span>
+    </div>
+
+    <div id="channelList" class="space-y-2"></div>
+  </div>
+
+  <!-- Модалка сохранения -->
+  <div id="saveModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
+    <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+      <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
+      <button id="downloadBtn"
+        class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
+        СКАЧАТЬ
+      </button>
+      <button id="closeSaveModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
+        ЗАКРЫТЬ
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const uploadBtn = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('fileInput');
+    const modal = document.getElementById('modal');
+    const saveModal = document.getElementById('saveModal');
+    const channelCount = document.getElementById('channelCount');
+    const channelCounter = document.getElementById('channelCounter');
+    const finalFileName = document.getElementById('finalFileName');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const closeSaveModal = document.getElementById('closeSaveModal');
+    const editBtn = document.getElementById('editBtn');
+    const closeModal = document.getElementById('closeModal');
+    const mainScreen = document.getElementById('mainScreen');
+    const editorScreen = document.getElementById('editorScreen');
+    const channelList = document.getElementById('channelList');
+    const saveBtn = document.getElementById('saveBtn');
+    const searchInput = document.getElementById('searchInput');
+
+    let originalLines = [];
+    let channels = [];
+    let editedContent = '';
+
+    uploadBtn.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const content = e.target.result;
+        originalLines = content.split('\n');
+        parseChannels();
+        channelCount.textContent = channels.length;
+        modal.classList.remove('hidden');
+      };
+      reader.readAsText(file);
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+
+    editBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      mainScreen.classList.add('hidden');
+      editorScreen.classList.remove('hidden');
+      updateCounter();
+      renderChannelList();
+    });
+
+    function parseChannels() {
+      channels = [];
+      for (let i = 0; i < originalLines.length - 2; i++) {
+        const extinf = originalLines[i];
+        const extgrp = originalLines[i + 1];
+        const url = originalLines[i + 2];
+
+        if (extinf.startsWith('#EXTINF') && extgrp.startsWith('#EXTGRP')) {
+          const name = extinf.split(',').pop().trim();
+          channels.push({
+            name,
+            extinf,
+            extgrp,
+            url,
+            startIndex: i,
+          });
+          i += 2;
+        }
+      }
+
+      channels.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    function renderChannelList(filter = '') {
+      channelList.innerHTML = '';
+      channels
+        .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
+        .forEach((entry) => {
+          const item = document.createElement('div');
+          item.className = 'flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow';
+
+          const name = document.createElement('span');
+          name.className = 'text-black font-medium truncate max-w-[70%]';
+          name.textContent = entry.name;
+
+          const delBtn = document.createElement('button');
+          delBtn.className = 'text-red-600 hover:text-red-500 font-semibold text-sm';
+          delBtn.textContent = 'Удалить';
+          delBtn.onclick = () => {
+            originalLines.splice(entry.startIndex, 3);
+            parseChannels();
+            updateCounter();
+            renderChannelList(searchInput.value);
+          };
+
+          item.appendChild(name);
+          item.appendChild(delBtn);
+          channelList.appendChild(item);
+        });
+    }
+
+    function updateCounter() {
+      channelCounter.textContent = channels.length;
+    }
+
+    searchInput.addEventListener('input', () => {
+      renderChannelList(searchInput.value);
+    });
+
+    saveBtn.addEventListener('click', () => {
+      editedContent = originalLines.join('\n');
+      finalFileName.textContent = `ФАЙЛ ${channels.length} КАНАЛОВ`;
+      saveModal.classList.remove('hidden');
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const blob = new Blob([editedContent], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `playlist_${channels.length}.m3u`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    closeSaveModal.addEventListener('click', () => {
+      saveModal.classList.add('hidden');
+    });
+  </script>
+
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.3s ease-out;
+    }
+  </style>
+</body>
+</html>
