@@ -170,6 +170,30 @@
       channels.sort((a, b) => a.name.localeCompare(b.name));
     }
 
+    function downloadSingleChannel(entry) {
+      let channelUrl = entry.url;
+      
+      // Если выбран сервер, заменяем часть ссылки до /iptv/ включительно
+      if (selectedServer && channelUrl && !channelUrl.startsWith('#')) {
+        const iptvIndex = channelUrl.indexOf('/iptv/');
+        if (iptvIndex !== -1) {
+          const afterIptv = channelUrl.substring(iptvIndex + 6); // +6 чтобы пропустить "/iptv/"
+          channelUrl = selectedServer + afterIptv;
+        }
+      }
+      
+      const playlistContent = `#EXTM3U\n${entry.extinf}\n${entry.extgrp}\n${channelUrl}`;
+      const blob = new Blob([playlistContent], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${entry.name.replace(/[^a-zA-Z0-9а-яА-Я]/g, '_')}.m3u`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
       channels
@@ -179,8 +203,13 @@
           item.className = 'flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow';
 
           const name = document.createElement('span');
-          name.className = 'text-black font-medium truncate max-w-[70%]';
+          name.className = 'text-black font-medium truncate max-w-[40%]';
           name.textContent = entry.name;
+
+          const downloadBtn = document.createElement('button');
+          downloadBtn.className = 'bg-green-600 hover:bg-green-500 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
+          downloadBtn.textContent = 'Скачать канал';
+          downloadBtn.onclick = () => downloadSingleChannel(entry);
 
           const delBtn = document.createElement('button');
           delBtn.className = 'text-red-600 hover:text-red-500 font-semibold text-sm';
@@ -192,8 +221,13 @@
             renderChannelList(searchInput.value);
           };
 
+          const buttonContainer = document.createElement('div');
+          buttonContainer.className = 'flex items-center gap-2';
+          buttonContainer.appendChild(downloadBtn);
+          buttonContainer.appendChild(delBtn);
+
           item.appendChild(name);
-          item.appendChild(delBtn);
+          item.appendChild(buttonContainer);
           channelList.appendChild(item);
         });
     }
