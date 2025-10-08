@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Редактировать Плейлист</title>
+  <link rel="icon" type="image/x-icon" href="https://iptv-box.netlify.app/icon.ico">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
@@ -34,7 +35,7 @@
     <div id="modal"
       class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-10">
       <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center">
-        <h2 class="text-xl font-semibold mb-2 text-gray-800">КОЛИЧЕСТВО КАНАЛОВ</h2>
+        <h2 class="text-xl font-semibold mb-2 text-gray-800">КОЛИЧЕЕСТВО КАНАЛОВ</h2>
         <p id="channelCount" class="text-3xl font-bold text-black mb-4">0</p>
         <button id="editBtn"
           class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl transition mb-2">
@@ -213,12 +214,17 @@
 
         if (extinf && extinf.startsWith('#EXTINF') && extgrp && extgrp.startsWith('#EXTGRP')) {
           const name = extinf.split(',').pop().trim();
+          // Извлекаем название категории
+          const extgrpMatch = extgrp.match(/#EXTGRP:(.*)/);
+          const category = extgrpMatch ? extgrpMatch[1].trim() : 'Без категории';
+
           channels.push({
             name,
             extinf,
             extgrp,
             url,
             startIndex: i,
+            category, // Добавляем категорию
           });
           i += 2;
         }
@@ -280,6 +286,11 @@
           const name = document.createElement('span');
           name.className = 'text-black font-medium truncate max-w-[40%]';
           name.textContent = entry.name;
+          
+          const categoryBadge = document.createElement('span');
+          // Обновленные классы для оранжевого прямоугольника постоянного размера
+          categoryBadge.className = 'bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
+          categoryBadge.textContent = entry.category;
 
           const downloadBtn = document.createElement('button');
           downloadBtn.className = 'bg-green-600 hover:bg-green-500 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
@@ -298,7 +309,10 @@
           };
 
           const buttonContainer = document.createElement('div');
-          buttonContainer.className = 'flex items-center gap-2';
+          buttonContainer.className = 'flex items-center gap-2 flex-shrink-0';
+          
+          // Порядок: Категория -> Скачать -> Удалить
+          buttonContainer.appendChild(categoryBadge); 
           buttonContainer.appendChild(downloadBtn);
           buttonContainer.appendChild(delBtn);
 
