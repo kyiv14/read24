@@ -6,6 +6,23 @@
   <title>Редактировать Плейлист</title>
   <link rel="icon" type="image/x-icon" href="https://read24.vercel.app/icon1.ico">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Добавляем стили для прокрутки категорий */
+    #categoryFilter {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem; /* rounded-xl */
+      padding: 0.5rem; /* p-2 */
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.3s ease-out;
+    }
+  </style>
 </head>
 <body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
 
@@ -84,6 +101,11 @@
       </select>
     </div>
 
+    <div class="mb-4">
+      <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
+      <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
+        </div>
+    </div>
     <div class="text-center mb-4 text-lg font-semibold text-black">
       Осталось каналов: <span id="channelCounter">0</span>
     </div>
@@ -127,10 +149,14 @@
     const saveBtn = document.getElementById('saveBtn');
     const searchInput = document.getElementById('searchInput');
     const dropdown = document.getElementById('dropdown');
-    const keyInput = document.getElementById('keyInput'); // Новое поле
+    const keyInput = document.getElementById('keyInput'); 
+    // НОВЫЕ ЭЛЕМЕНТЫ
+    const categoryFilter = document.getElementById('categoryFilter'); 
 
     let originalLines = [];
     let channels = [];
+    let allCategories = new Set(); // Для хранения всех уникальных категорий
+    let excludedCategories = new Set(); // Для хранения исключенных категорий
     let editedContent = '';
     let selectedServer = '';
 
@@ -201,12 +227,14 @@
       modal.classList.add('hidden');
       mainScreen.classList.add('hidden');
       editorScreen.classList.remove('hidden');
+      renderCategoryFilter(); // Рендерим фильтр категорий
       updateCounter();
       renderChannelList();
     });
 
     function parseChannels() {
       channels = [];
+      allCategories.clear(); // Очищаем список категорий
       for (let i = 0; i < originalLines.length - 2; i++) {
         const extinf = originalLines[i];
         const extgrp = originalLines[i + 1];
@@ -226,11 +254,47 @@
             startIndex: i,
             category, // Добавляем категорию
           });
+          allCategories.add(category); // Добавляем категорию в Set
           i += 2;
         }
       }
 
       channels.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    
+    // НОВАЯ ФУНКЦИЯ: Рендеринг списка категорий
+    function renderCategoryFilter() {
+      categoryFilter.innerHTML = '';
+      const sortedCategories = Array.from(allCategories).sort();
+
+      sortedCategories.forEach(category => {
+        const container = document.createElement('label');
+        container.className = 'flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 transition text-sm';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'form-checkbox h-4 w-4 text-black rounded border-gray-300 focus:ring-0';
+        checkbox.value = category;
+        checkbox.checked = excludedCategories.has(category);
+        
+        checkbox.addEventListener('change', (e) => {
+          if (e.target.checked) {
+            excludedCategories.add(category);
+          } else {
+            excludedCategories.delete(category);
+          }
+          renderChannelList(searchInput.value); // Обновляем список каналов при изменении фильтра
+          updateCounter(); // Обновляем счетчик
+        });
+
+        const span = document.createElement('span');
+        span.className = 'text-gray-800 truncate max-w-[150px]';
+        span.textContent = category;
+
+        container.appendChild(checkbox);
+        container.appendChild(span);
+        categoryFilter.appendChild(container);
+      });
     }
 
     function downloadSingleChannel(entry) {
@@ -274,12 +338,17 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-
+    
+    // ОБНОВЛЕННАЯ ФУНКЦИЯ: Учитываем исключенные категории
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
-      channels
-        .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
-        .forEach((entry) => {
+      
+      // Фильтрация по поиску и исключенным категориям
+      const filteredChannels = channels
+        .filter(entry => !excludedCategories.has(entry.category))
+        .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()));
+        
+      filteredChannels.forEach((entry) => {
           const item = document.createElement('div');
           item.className = 'flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow';
 
@@ -288,7 +357,6 @@
           name.textContent = entry.name;
           
           const categoryBadge = document.createElement('span');
-          // Обновленные классы для оранжевого прямоугольника постоянного размера
           categoryBadge.className = 'bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
           categoryBadge.textContent = entry.category;
 
@@ -304,6 +372,7 @@
             // Удаляем 3 строки: #EXTINF, #EXTGRP, URL, начиная с startIndex
             originalLines.splice(entry.startIndex, 3);
             parseChannels(); // Перепарсируем, чтобы обновить startIndex у всех оставшихся
+            renderCategoryFilter(); // Обновляем список категорий
             updateCounter();
             renderChannelList(searchInput.value);
           };
@@ -311,7 +380,6 @@
           const buttonContainer = document.createElement('div');
           buttonContainer.className = 'flex items-center gap-2 flex-shrink-0';
           
-          // Порядок: Категория -> Скачать -> Удалить
           buttonContainer.appendChild(categoryBadge); 
           buttonContainer.appendChild(downloadBtn);
           buttonContainer.appendChild(delBtn);
@@ -321,9 +389,11 @@
           channelList.appendChild(item);
         });
     }
-
+    
+    // ОБНОВЛЕННАЯ ФУНКЦИЯ: Считает только неисключенные каналы
     function updateCounter() {
-      channelCounter.textContent = channels.length;
+      const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category)).length;
+      channelCounter.textContent = remainingChannels;
     }
 
     searchInput.addEventListener('input', () => {
@@ -331,25 +401,27 @@
     });
 
     saveBtn.addEventListener('click', () => {
-      // Создаем копию оригинальных линий для модификации
-      let modifiedLines = [...originalLines];
-      const newKey = keyInput.value.trim(); // Получаем новый ключ
+      // 1. Фильтруем каналы, оставляя только те, которые не исключены по категории
+      const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
       
-      // Логика замены ключа и/или сервера
-      for (let i = 0; i < modifiedLines.length; i++) {
-        let line = modifiedLines[i];
+      // 2. Генерируем новый плейлист на основе этих каналов
+      let modifiedLines = ['#EXTM3U']; // Начинаем с заголовка
+      
+      remainingChannels.forEach(entry => {
+        modifiedLines.push(entry.extinf);
+        modifiedLines.push(entry.extgrp);
         
-        // Ищем строки с URL (не начинающиеся с #)
+        let line = entry.url;
+        const newKey = keyInput.value.trim();
+        
+        // Логика замены ключа и/или сервера (как было ранее)
         if (line && !line.startsWith('#')) {
           const iptvIndex = line.indexOf('/iptv/');
           
           if (iptvIndex !== -1) {
-            // 1. Извлекаем часть после /iptv/
-            let afterIptv = line.substring(iptvIndex + 6); // +6 чтобы пропустить "/iptv/"
+            let afterIptv = line.substring(iptvIndex + 6);
             
-            // 2. Если есть новый ключ, ищем и заменяем старый ключ
             if (newKey) {
-              // Ключ находится между /iptv/ и следующим /
               const firstSlashAfterIptv = afterIptv.indexOf('/');
               if (firstSlashAfterIptv !== -1) {
                 const afterKey = afterIptv.substring(firstSlashAfterIptv);
@@ -357,21 +429,15 @@
               }
             }
             
-            // 3. Формируем начало ссылки: либо выбранный сервер, либо исходная часть до /iptv/
-            let newStart = '';
-            if (selectedServer) {
-              newStart = selectedServer;
-            } else {
-              newStart = line.substring(0, iptvIndex + 6); // Включая /iptv/
-            }
-            
-            modifiedLines[i] = newStart + afterIptv;
+            let newStart = selectedServer || line.substring(0, iptvIndex + 6);
+            line = newStart + afterIptv;
           }
         }
-      }
+        modifiedLines.push(line);
+      });
       
       editedContent = modifiedLines.join('\n');
-      finalFileName.textContent = `ФАЙЛ ${channels.length} КАНАЛОВ`;
+      finalFileName.textContent = `ФАЙЛ ${remainingChannels.length} КАНАЛОВ`;
       saveModal.classList.remove('hidden');
     });
 
@@ -380,7 +446,9 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `playlist_${channels.length}.m3u`;
+      // Используем количество оставшихся каналов для имени файла
+      const remainingCount = channels.filter(entry => !excludedCategories.has(entry.category)).length; 
+      a.download = `playlist_${remainingCount}.m3u`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -391,15 +459,5 @@
       saveModal.classList.add('hidden');
     });
   </script>
-
-  <style>
-    @keyframes fade-in {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      animation: fade-in 0.3s ease-out;
-    }
-  </style>
 </body>
 </html>
