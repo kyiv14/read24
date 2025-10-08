@@ -22,6 +22,34 @@
     .animate-fade-in {
       animation: fade-in 0.3s ease-out;
     }
+
+    /* Мобильная адаптация для списка каналов */
+    @media (max-width: 640px) { /* sm breakpoint по умолчанию в Tailwind */
+      .channel-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.75rem 1rem; /* Увеличим отступы */
+      }
+      .channel-name {
+        max-width: 100% !important; /* На всю ширину */
+        margin-bottom: 0.5rem;
+      }
+      .channel-buttons-container {
+        display: flex; /* Снова делаем flex для кнопок */
+        flex-direction: row; /* Горизонтальное расположение кнопок */
+        justify-content: space-between;
+        width: 100%; /* Занимает всю ширину */
+      }
+      .channel-category-badge {
+        margin-right: 0.5rem; /* Отступ справа от категории */
+        text-align: left;
+        width: auto !important; /* Убираем фиксированную ширину */
+        flex-grow: 1; /* Чтобы заняла доступное место */
+      }
+      .channel-download-btn, .channel-delete-btn {
+          flex-shrink: 0;
+      }
+    }
   </style>
 </head>
 <body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
@@ -339,7 +367,7 @@
       URL.revokeObjectURL(url);
     }
     
-    // ОБНОВЛЕННАЯ ФУНКЦИЯ: Учитываем исключенные категории
+    // ОБНОВЛЕННАЯ ФУНКЦИЯ: Учитываем исключенные категории и моб. адаптацию
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
       
@@ -350,23 +378,28 @@
         
       filteredChannels.forEach((entry) => {
           const item = document.createElement('div');
-          item.className = 'flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow';
+          // Добавляем класс channel-item для адаптивного CSS
+          item.className = 'channel-item flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow'; 
 
           const name = document.createElement('span');
-          name.className = 'text-black font-medium truncate max-w-[40%]';
+          // Добавляем класс channel-name для адаптивного CSS
+          name.className = 'channel-name text-black font-medium truncate max-w-[40%]'; 
           name.textContent = entry.name;
           
           const categoryBadge = document.createElement('span');
-          categoryBadge.className = 'bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
+          // Добавляем класс channel-category-badge для адаптивного CSS
+          categoryBadge.className = 'channel-category-badge bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
           categoryBadge.textContent = entry.category;
 
           const downloadBtn = document.createElement('button');
-          downloadBtn.className = 'bg-green-600 hover:bg-green-500 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
+          // Добавляем класс channel-download-btn для адаптивного CSS
+          downloadBtn.className = 'channel-download-btn bg-green-600 hover:bg-green-500 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
           downloadBtn.textContent = 'Скачать канал';
           downloadBtn.onclick = () => downloadSingleChannel(entry);
 
           const delBtn = document.createElement('button');
-          delBtn.className = 'text-red-600 hover:text-red-500 font-semibold text-sm';
+          // Добавляем класс channel-delete-btn для адаптивного CSS
+          delBtn.className = 'channel-delete-btn text-red-600 hover:text-red-500 font-semibold text-sm';
           delBtn.textContent = 'Удалить';
           delBtn.onclick = () => {
             // Удаляем 3 строки: #EXTINF, #EXTGRP, URL, начиная с startIndex
@@ -378,7 +411,8 @@
           };
 
           const buttonContainer = document.createElement('div');
-          buttonContainer.className = 'flex items-center gap-2 flex-shrink-0';
+          // Добавляем класс channel-buttons-container для адаптивного CSS
+          buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
           
           buttonContainer.appendChild(categoryBadge); 
           buttonContainer.appendChild(downloadBtn);
