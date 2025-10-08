@@ -33,7 +33,8 @@
       .channel-name {
         max-width: 100% !important; /* На всю ширину */
         margin-bottom: 0.5rem;
-        font-size: 20px; /* Увеличение шрифта на ~4 пункта */
+        font-size: 24px; /* Установлен размер 24px */
+        font-weight: bold; /* Сделан жирным */
       }
       .channel-buttons-container {
         display: flex; /* Снова делаем flex для кнопок */
@@ -384,6 +385,7 @@
 
           const name = document.createElement('span');
           // Добавляем класс channel-name для адаптивного CSS
+          // Примечание: жирный шрифт уже применяется через Tailwind класс 'font-medium' в ПК-версии, но CSS-правило в медиа-запросе переопределит его на 'font-weight: bold' (более жирный) для моб.версии.
           name.className = 'channel-name text-black font-medium truncate max-w-[40%]'; 
           name.textContent = entry.name;
           
