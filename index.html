@@ -262,33 +262,59 @@
       renderChannelList();
     });
 
+    /**
+     * ОБНОВЛЕННАЯ ФУНКЦИЯ: Парсит каналы в стандартном формате M3U:
+     * #EXTINF:...group-title="CATEGORY",NAME
+     * URL
+     * Игнорирует старую, нестандартную структуру с #EXTGRP.
+     */
     function parseChannels() {
       channels = [];
-      allCategories.clear(); // Очищаем список категорий
-      for (let i = 0; i < originalLines.length - 2; i++) {
-        const extinf = originalLines[i];
-        const extgrp = originalLines[i + 1];
-        const url = originalLines[i + 2];
+      allCategories.clear(); 
+      
+      for (let i = 0; i < originalLines.length; i++) {
+        const line = originalLines[i].trim();
 
-        if (extinf && extinf.startsWith('#EXTINF') && extgrp && extgrp.startsWith('#EXTGRP')) {
-          const name = extinf.split(',').pop().trim();
-          // Извлекаем название категории
-          const extgrpMatch = extgrp.match(/#EXTGRP:(.*)/);
-          const category = extgrpMatch ? extgrpMatch[1].trim() : 'Без категории';
+        if (line.startsWith('#EXTINF')) {
+          const extinf = line;
+          
+          // 1. Извлекаем имя канала (после последней запятой)
+          const nameMatch = extinf.match(/,(.*)$/);
+          const name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
+          
+          // 2. Извлекаем название группы (group-title)
+          const groupMatch = extinf.match(/group-title="([^"]*)"/i);
+          const category = groupMatch ? groupMatch[1].trim() : 'Без категории';
 
-          channels.push({
-            name,
-            extinf,
-            extgrp,
-            url,
-            startIndex: i,
-            category, // Добавляем категорию
-          });
-          allCategories.add(category); // Добавляем категорию в Set
-          i += 2;
+          // 3. Ищем URL в следующей строке, пропуская пустые строки и комментарии
+          let url = '';
+          let urlIndex = i + 1;
+          while (urlIndex < originalLines.length) {
+            const nextLine = originalLines[urlIndex].trim();
+            if (nextLine && !nextLine.startsWith('#')) {
+              url = nextLine;
+              break;
+            }
+            urlIndex++;
+          }
+          
+          if (url) {
+            channels.push({
+              name,
+              extinf,
+              extgrp: '', // Удалена зависимость от этого тега
+              url,
+              startIndex: i,
+              endIndex: urlIndex, // Добавляем конечный индекс для корректного удаления
+              category, 
+            });
+            allCategories.add(category);
+            
+            // Пропускаем все строки до следующей записи #EXTINF
+            i = urlIndex; 
+          }
         }
       }
-
       channels.sort((a, b) => a.name.localeCompare(b.name));
     }
     
@@ -357,7 +383,8 @@
           channelUrl = newStart + afterIptv;
       }
       
-      const playlistContent = `#EXTM3U\n${entry.extinf}\n${entry.extgrp}\n${channelUrl}`;
+      // ИСПОЛЬЗУЕМ ТОЛЬКО EXTINF и URL
+      const playlistContent = `#EXTM3U\n${entry.extinf}\n${channelUrl}`; 
       const blob = new Blob([playlistContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -404,9 +431,11 @@
           delBtn.className = 'channel-delete-btn text-red-600 hover:text-red-500 font-semibold text-sm';
           delBtn.textContent = 'Удалить';
           delBtn.onclick = () => {
-            // Удаляем 3 строки: #EXTINF, #EXTGRP, URL, начиная с startIndex
-            originalLines.splice(entry.startIndex, 3);
-            parseChannels(); // Перепарсируем, чтобы обновить startIndex у всех оставшихся
+            // Рассчитываем количество строк для удаления: от startIndex до endIndex включительно
+            const linesToDelete = entry.endIndex - entry.startIndex + 1;
+            originalLines.splice(entry.startIndex, linesToDelete);
+            
+            parseChannels(); // Перепарсируем, чтобы обновить индексы у всех оставшихся
             renderCategoryFilter(); // Обновляем список категорий
             updateCounter();
             renderChannelList(searchInput.value);
@@ -445,7 +474,6 @@
       
       remainingChannels.forEach(entry => {
         modifiedLines.push(entry.extinf);
-        modifiedLines.push(entry.extgrp);
         
         let line = entry.url;
         const newKey = keyInput.value.trim();
