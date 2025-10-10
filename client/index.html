@@ -83,22 +83,27 @@
 
   <div id="mainScreen" class="text-center w-full max-w-md">
     
-    <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
+    <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition border-dashed border-gray-300 hover:border-black">
         <button id="uploadBtn"
           class="bg-black text-white text-lg px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mb-4">
           ЗАГРУЗИТЬ ФАЙЛ
         </button>
         <input type="file" id="fileInput" accept="*/*" class="hidden">
         
-        <div class="my-4 text-gray-600">или перетащите сюда</div>
-        
-        <div class="flex items-stretch mb-4">
-          <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
-            class="flex-1 px-4 py-3 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-black">
-          <button id="loadUrlBtn"
-            class="bg-black text-white px-6 py-3 rounded-r-xl hover:bg-gray-900 transition">
-            ВПЕРЕД
-          </button>
+        <div class="my-2 text-gray-600">или перетащите файл сюда</div>
+    </div>
+    
+    <div class="my-6">
+        <div class="text-lg font-semibold mb-2 text-gray-800">
+            ИЛИ ЗАГРУЗИТЕ ПО ССЫЛКЕ
+        </div>
+        <div class="flex flex-col gap-3">
+            <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
+                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black">
+            <button id="loadUrlBtn"
+                class="w-full bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-900 transition">
+                ВПЕРЕД
+            </button>
         </div>
     </div>
     <div id="loading" class="hidden text-blue-600 mb-4">
