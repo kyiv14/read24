@@ -57,6 +57,25 @@
       .channel-download-btn, .channel-delete-btn {
           flex-shrink: 0;
       }
+      
+      /* НОВЫЕ СТИЛИ ДЛЯ МОБИЛЬНОЙ АДАПТАЦИИ ЭКРАНА РЕДАКТОРА */
+      #editorScreen .sm\\:justify-between {
+          justify-content: center; /* Центрируем заголовок на мобильных */
+      }
+      #editorScreen .sm\\:items-center {
+          align-items: center; 
+      }
+      #editorScreen .sm\\:flex-row {
+          flex-direction: column; /* Размещаем заголовок и кнопки вертикально */
+      }
+      #editorScreen .sm\\:text-left {
+          text-align: center; /* Центрируем заголовок */
+      }
+      #editorScreen .sm\\:w-auto {
+          width: 100%; /* Кнопки на всю ширину */
+          justify-content: center;
+          margin-top: 0.5rem; /* Отступ сверху для кнопок */
+      }
     }
   </style>
 </head>
@@ -105,9 +124,9 @@
   </div>
 
   <div id="editorScreen" class="hidden w-full max-w-2xl mx-auto py-6 px-4">
-    <div class="flex justify-between items-center mb-4">
-      <h1 class="text-xl font-bold text-gray-800">Редактировать Каналы</h1>
-      <div class="flex gap-2">
+    <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
+      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">Редактировать Каналы</h1>
+      <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
         <button id="removeDuplicatesBtn"
           class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
           УДАЛИТЬ ДУБЛИ
@@ -118,7 +137,6 @@
         </button>
       </div>
     </div>
-
     <div class="mb-2">
       <input type="text" id="searchInput" placeholder="Поиск канала..."
         class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
