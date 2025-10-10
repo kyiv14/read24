@@ -204,6 +204,7 @@
     let excludedCategories = new Set(); 
     let editedContent = '';
     let selectedServer = ''; // Оставляем переменную, но она не будет использоваться, т.к. нет поля
+    let categoryChannelCounts = {}; // НОВЫЙ ОБЪЕКТ ДЛЯ ХРАНЕНИЯ КОЛИЧЕСТВА КАНАЛОВ ПО КАТЕГОРИЯМ
     
     // ===============================
     // ЛОГИКА DRAG AND DROP
@@ -343,6 +344,7 @@
     function parseChannels() {
       channels = [];
       allCategories.clear(); 
+      categoryChannelCounts = {}; // ИНИЦИАЛИЗАЦИЯ СЧЕТЧИКА КАНАЛОВ
       
       for (let i = 0; i < originalLines.length; i++) {
         const line = originalLines[i].trim();
@@ -400,6 +402,9 @@
             });
             allCategories.add(category);
             
+            // НОВОЕ: УВЕЛИЧИВАЕМ СЧЕТЧИК КАНАЛОВ ДЛЯ КАТЕГОРИИ
+            categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
+
             // Пропускаем все строки до следующей записи #EXTINF
             i = urlIndex; 
           }
@@ -434,8 +439,10 @@
         });
 
         const span = document.createElement('span');
+        // НОВОЕ: ДОБАВЛЯЕМ СЧЕТЧИК КАНАЛОВ
+        const count = categoryChannelCounts[category] || 0;
         span.className = 'text-gray-800 truncate max-w-[150px]';
-        span.textContent = category;
+        span.innerHTML = `${category} (<span class="text-red-600 font-bold">${count}</span>)`;
 
         container.appendChild(checkbox);
         container.appendChild(span);
