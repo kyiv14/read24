@@ -510,9 +510,16 @@
       URL.revokeObjectURL(url);
     }
     
-    // ОБНОВЛЕННАЯ ФУНКЦИЯ: Учитываем исключенные категории и моб. адаптацию
+    // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Учитываем исключенные категории и моб. адаптацию
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
+      
+      // Определяем, является ли экран мобильным (<= 640px)
+      // Media Query List для проверки ширины экрана
+      // Важно: matchMedia не требует слушателей, чтобы получить текущее состояние
+      const isMobile = window.matchMedia('(max-width: 640px)').matches;
+      // Устанавливаем текст кнопки
+      const downloadButtonText = isMobile ? 'Скачать' : 'Скачать канал';
       
       // Фильтрация по поиску и исключенным категориям
       const filteredChannels = channels
@@ -535,9 +542,9 @@
           categoryBadge.textContent = entry.category;
 
           const downloadBtn = document.createElement('button');
-          // Добавляем класс channel-download-btn для адаптивного CSS
+          // Добавляем класс channel-download-btn для адаптивного CSS.
           downloadBtn.className = 'channel-download-btn bg-green-600 hover:bg-green-500 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
-          downloadBtn.textContent = 'Скачать канал';
+          downloadBtn.textContent = downloadButtonText; // Устанавливаем правильный текст
           downloadBtn.onclick = () => downloadSingleChannel(entry);
 
           const delBtn = document.createElement('button');
