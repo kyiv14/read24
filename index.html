@@ -433,8 +433,16 @@
     function renderCategoryFilter() {
       categoryFilter.innerHTML = '';
       const sortedCategories = Array.from(allCategories).sort();
+      
+      // Создаем объект для подсчета каналов по категориям
+      const categoryCounts = channels.reduce((acc, channel) => {
+        acc[channel.category] = (acc[channel.category] || 0) + 1;
+        return acc;
+      }, {});
 
       sortedCategories.forEach(category => {
+        const count = categoryCounts[category] || 0; // Получаем количество каналов
+        
         const container = document.createElement('label');
         container.className = 'flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 transition text-sm';
 
@@ -454,9 +462,11 @@
           updateCounter(); // Обновляем счетчик
         });
 
-        const span = document.createElement('span');
+        // ИЗМЕНЕНИЕ: Используем div и innerHTML для поддержки жирного красного текста
+        const span = document.createElement('div');
         span.className = 'text-gray-800 truncate max-w-[150px]';
-        span.textContent = category;
+        // Добавляем HTML для жирного красного текста (font-bold text-red-600)
+        span.innerHTML = `${category} (<span class="font-bold text-red-600">${count}</span>)`; 
 
         container.appendChild(checkbox);
         container.appendChild(span);
