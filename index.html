@@ -23,6 +23,12 @@
       animation: fade-in 0.3s ease-out;
     }
 
+    /* Стили для Drag and Drop */
+    .drag-over {
+      border: 2px dashed #000;
+      background-color: #f3f4f6; /* bg-gray-100 */
+    }
+
     /* Мобильная адаптация для списка каналов */
     @media (max-width: 640px) { /* sm breakpoint по умолчанию в Tailwind */
       .channel-item {
@@ -57,23 +63,25 @@
 <body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
 
   <div id="mainScreen" class="text-center w-full max-w-md">
-    <button id="uploadBtn"
-      class="bg-black text-white text-lg px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mb-4">
-      ЗАГРУЗИТЬ ФАЙЛ
-    </button>
-    <input type="file" id="fileInput" accept="*/*" class="hidden">
     
-    <div class="my-4 text-gray-600">или</div>
-    
-    <div class="flex items-stretch mb-4">
-      <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
-        class="flex-1 px-4 py-3 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-black">
-      <button id="loadUrlBtn"
-        class="bg-black text-white px-6 py-3 rounded-r-xl hover:bg-gray-900 transition">
-        ВПЕРЕД
-      </button>
+    <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
+        <button id="uploadBtn"
+          class="bg-black text-white text-lg px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mb-4">
+          ЗАГРУЗИТЬ ФАЙЛ
+        </button>
+        <input type="file" id="fileInput" accept="*/*" class="hidden">
+        
+        <div class="my-4 text-gray-600">или перетащите сюда</div>
+        
+        <div class="flex items-stretch mb-4">
+          <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
+            class="flex-1 px-4 py-3 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-black">
+          <button id="loadUrlBtn"
+            class="bg-black text-white px-6 py-3 rounded-r-xl hover:bg-gray-900 transition">
+            ВПЕРЕД
+          </button>
+        </div>
     </div>
-
     <div id="loading" class="hidden text-blue-600 mb-4">
       <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
       Загрузка файла...
@@ -99,10 +107,16 @@
   <div id="editorScreen" class="hidden w-full max-w-2xl mx-auto py-6 px-4">
     <div class="flex justify-between items-center mb-4">
       <h1 class="text-xl font-bold text-gray-800">Редактировать Каналы</h1>
-      <button id="saveBtn"
-        class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition">
-        СОХРАНИТЬ
-      </button>
+      <div class="flex gap-2">
+        <button id="removeDuplicatesBtn"
+          class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
+          УДАЛИТЬ ДУБЛИ
+        </button>
+        <button id="saveBtn"
+          class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition text-sm sm:text-base">
+          СОХРАНИТЬ
+        </button>
+      </div>
     </div>
 
     <div class="mb-2">
@@ -136,7 +150,7 @@
       <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
         </div>
     </div>
-    <div class="text-center mb-4 text-lg font-semibold text-black">
+    <div class="text-center mb-4 наtext-lg font-semibold text-black">
       Осталось каналов: <span id="channelCounter">0</span>
     </div>
 
@@ -182,13 +196,74 @@
     const keyInput = document.getElementById('keyInput'); 
     // НОВЫЕ ЭЛЕМЕНТЫ
     const categoryFilter = document.getElementById('categoryFilter'); 
+    const removeDuplicatesBtn = document.getElementById('removeDuplicatesBtn'); 
+    const dropArea = document.getElementById('dropArea'); // Элемент для Drag and Drop
 
     let originalLines = [];
     let channels = [];
-    let allCategories = new Set(); // Для хранения всех уникальных категорий
-    let excludedCategories = new Set(); // Для хранения исключенных категорий
+    let allCategories = new Set();
+    let excludedCategories = new Set(); 
     let editedContent = '';
     let selectedServer = '';
+    
+    // ===============================
+    // ЛОГИКА DRAG AND DROP
+    // ===============================
+
+    // Отменяем стандартное поведение браузера для всех событий d&d
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false);
+      document.body.addEventListener(eventName, preventDefaults, false); // Для предотвращения открытия файла в браузере
+    });
+
+    // Добавляем класс при наведении
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, highlight, false);
+    });
+
+    // Удаляем класс при уходе
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    // Обрабатываем брошенный файл
+    dropArea.addEventListener('drop', handleDrop, false);
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    function highlight(e) {
+      dropArea.classList.add('drag-over');
+    }
+
+    function unhighlight(e) {
+      dropArea.classList.remove('drag-over');
+    }
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      
+      // Проверяем, что это файл, а не что-то другое
+      if (files.length > 0) {
+        handleFiles(files);
+      }
+    }
+
+    function handleFiles(files) {
+        const file = files[0];
+        if (!file) return;
+
+        // Эмулируем событие change на fileInput для переиспользования логики
+        fileInput.files = files;
+        fileInput.dispatchEvent(new Event('change'));
+    }
+
+    // ===============================
+    // СУЩЕСТВУЮЩАЯ ЛОГИКА
+    // ===============================
 
     uploadBtn.addEventListener('click', () => fileInput.click());
 
@@ -263,10 +338,8 @@
     });
 
     /**
-     * ОБНОВЛЕННАЯ ФУНКЦИЯ: Парсит каналы в стандартном формате M3U:
-     * #EXTINF:...group-title="CATEGORY",NAME
-     * URL
-     * Игнорирует старую, нестандартную структуру с #EXTGRP.
+     * ИСПРАВЛЕННАЯ ФУНКЦИЯ: Парсит каналы, поддерживая как #EXTINF:...,group-title="CAT",NAME
+     * так и старую/нестандартную структуру с #EXTGRP:CATEGORY
      */
     function parseChannels() {
       channels = [];
@@ -280,32 +353,50 @@
           
           // 1. Извлекаем имя канала (после последней запятой)
           const nameMatch = extinf.match(/,(.*)$/);
-          const name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
+          let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
           
-          // 2. Извлекаем название группы (group-title)
-          const groupMatch = extinf.match(/group-title="([^"]*)"/i);
-          const category = groupMatch ? groupMatch[1].trim() : 'Без категории';
+          // 2. Ищем название группы (group-title) в EXTINF
+          let category = 'Без категории';
+          const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
+          if (groupTitleMatch) {
+              category = groupTitleMatch[1].trim();
+          }
 
-          // 3. Ищем URL в следующей строке, пропуская пустые строки и комментарии
           let url = '';
+          let extgrp = '';
           let urlIndex = i + 1;
+
+          // 3. Ищем EXTGRP и URL в следующих строках
           while (urlIndex < originalLines.length) {
             const nextLine = originalLines[urlIndex].trim();
-            if (nextLine && !nextLine.startsWith('#')) {
-              url = nextLine;
-              break;
+
+            if (nextLine.startsWith('#EXTGRP:')) {
+                // Если найден #EXTGRP, используем его для категории, если group-title не был найден
+                if (category === 'Без категории' || category === '') {
+                    category = nextLine.substring(8).trim(); // Пропускаем #EXTGRP:
+                }
+                extgrp = nextLine;
+            } else if (nextLine.startsWith('#') && !nextLine.startsWith('#EXTINF')) {
+                // Пропускаем другие комментарии, кроме #EXTINF
+            } else if (nextLine) {
+                // Нашли URL или начало следующей записи #EXTINF
+                if (!nextLine.startsWith('#EXTINF')) {
+                    url = nextLine;
+                }
+                break;
             }
             urlIndex++;
           }
           
+          // Убедимся, что мы правильно нашли конец блока (URL)
           if (url) {
             channels.push({
               name,
               extinf,
-              extgrp: '', // Удалена зависимость от этого тега
+              extgrp, 
               url,
               startIndex: i,
-              endIndex: urlIndex, // Добавляем конечный индекс для корректного удаления
+              endIndex: urlIndex, // Конечный индекс, где находится URL
               category, 
             });
             allCategories.add(category);
@@ -383,8 +474,13 @@
           channelUrl = newStart + afterIptv;
       }
       
-      // ИСПОЛЬЗУЕМ ТОЛЬКО EXTINF и URL
-      const playlistContent = `#EXTM3U\n${entry.extinf}\n${channelUrl}`; 
+      // ИСПОЛЬЗУЕМ EXTINF, EXTGRP (если есть) и URL
+      let playlistContent = `#EXTM3U\n${entry.extinf}\n`;
+      if (entry.extgrp) {
+        playlistContent += `${entry.extgrp}\n`;
+      }
+      playlistContent += `${channelUrl}`;
+
       const blob = new Blob([playlistContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -432,8 +528,15 @@
           delBtn.textContent = 'Удалить';
           delBtn.onclick = () => {
             // Рассчитываем количество строк для удаления: от startIndex до endIndex включительно
-            const linesToDelete = entry.endIndex - entry.startIndex + 1;
-            originalLines.splice(entry.startIndex, linesToDelete);
+            
+            // Находим все строки между #EXTINF и URL
+            let linesToDelete = 0;
+            const lines = originalLines.slice(entry.startIndex, entry.endIndex + 1);
+            linesToDelete = lines.length;
+
+            if (linesToDelete > 0) {
+              originalLines.splice(entry.startIndex, linesToDelete);
+            }
             
             parseChannels(); // Перепарсируем, чтобы обновить индексы у всех оставшихся
             renderCategoryFilter(); // Обновляем список категорий
@@ -465,6 +568,59 @@
       renderChannelList(searchInput.value);
     });
 
+    // НОВАЯ ФУНКЦИЯ: Удаление дубликатов каналов по названию
+    function removeDuplicates() {
+        const uniqueNames = new Set();
+        const linesToRemove = [];
+        let removedCount = 0;
+
+        // Идем по каналам с конца, чтобы splice не ломал индексы
+        // Мы хотим сохранить ПЕРВЫЙ найденный канал с уникальным именем и удалить все последующие.
+        for (let i = channels.length - 1; i >= 0; i--) {
+            const channel = channels[i];
+            // Имя канала для сравнения (обрезаем и приводим к нижнему регистру)
+            const nameKey = channel.name.trim().toLowerCase(); 
+
+            if (uniqueNames.has(nameKey)) {
+                // Это дубликат, добавляем его строки для удаления
+                
+                // Находим все строки, относящиеся к этому каналу
+                let linesToDelete = 0;
+                const lines = originalLines.slice(channel.startIndex, channel.endIndex + 1);
+                linesToDelete = lines.length;
+
+                linesToRemove.push({
+                    startIndex: channel.startIndex,
+                    count: linesToDelete
+                });
+                removedCount++;
+            } else {
+                // Первый раз встречаем это имя, добавляем в Set
+                uniqueNames.add(nameKey);
+            }
+        }
+        
+        // Сортируем по убыванию startIndex для корректного удаления
+        linesToRemove.sort((a, b) => b.startIndex - a.startIndex);
+        
+        // Удаляем строки из originalLines
+        linesToRemove.forEach(item => {
+            originalLines.splice(item.startIndex, item.count);
+        });
+        
+        if (removedCount > 0) {
+            parseChannels(); // Перепарсируем, чтобы обновить индексы и список
+            renderCategoryFilter(); // Обновляем список категорий
+            updateCounter();
+            renderChannelList(searchInput.value);
+            alert(`Удалено ${removedCount} дубликатов каналов.`);
+        } else {
+            alert('Дубликаты каналов не найдены.');
+        }
+    }
+    
+    removeDuplicatesBtn.addEventListener('click', removeDuplicates); // Подключаем новую функцию
+
     saveBtn.addEventListener('click', () => {
       // 1. Фильтруем каналы, оставляя только те, которые не исключены по категории
       const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
@@ -473,7 +629,13 @@
       let modifiedLines = ['#EXTM3U']; // Начинаем с заголовка
       
       remainingChannels.forEach(entry => {
+        // Добавляем #EXTINF
         modifiedLines.push(entry.extinf);
+
+        // Добавляем #EXTGRP, если он был, чтобы сохранить структуру плейлиста
+        if (entry.extgrp) {
+            modifiedLines.push(entry.extgrp);
+        }
         
         let line = entry.url;
         const newKey = keyInput.value.trim();
