@@ -465,8 +465,8 @@
         // ИЗМЕНЕНИЕ: Используем div и innerHTML для поддержки жирного красного текста
         const span = document.createElement('div');
         span.className = 'text-gray-800 truncate max-w-[150px]';
-        // Добавляем HTML для жирного красного текста (font-bold text-red-600)
-        span.innerHTML = `${category} (<span class="font-bold text-red-600">${count}</span>)`; 
+        // Изменено на font-extrabold и **text-sm** (было text-lg)
+        span.innerHTML = `${category} (<span class="font-extrabold text-red-600 text-sm">${count}</span>)`; 
 
         container.appendChild(checkbox);
         container.appendChild(span);
