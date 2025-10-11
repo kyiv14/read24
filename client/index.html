@@ -111,7 +111,7 @@
     <div id="modal"
       class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-10">
       <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center">
-        <h2 class="text-xl font-semibold mb-2 text-gray-800">КОЛИЧЕЕСТВО КАНАЛОВ</h2>
+        <h2 class="text-xl font-semibold mb-2 text-gray-800">КОЛИЧЕСТВО КАНАЛОВ</h2>
         <p id="channelCount" class="text-3xl font-bold text-black mb-4">0</p>
         <button id="editBtn"
           class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl transition mb-2">
@@ -129,6 +129,10 @@
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
       <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">Редактировать Каналы</h1>
       <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
+        <button id="openUploadModalBtn"
+          class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base">
+          ЗАГРУЗИТЬ ПЛЕЙЛИСТ
+        </button>
         <button id="removeDuplicatesBtn"
           class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
           УДАЛИТЬ ДУБЛИ
@@ -149,11 +153,46 @@
       <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
         </div>
     </div>
-    <div class="text-center mb-4 наtext-lg font-semibold text-black">
+    <div class="text-center mb-4 text-lg font-semibold text-black">
       Осталось каналов: <span id="channelCounter">0</span>
     </div>
 
     <div id="channelList" class="space-y-2"></div>
+  </div>
+  
+  <div id="uploadModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
+    <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+      <h2 class="text-xl font-semibold mb-6 text-gray-800">Загрузка нового плейлиста</h2>
+
+      <div id="dropAreaModal" class="p-4 rounded-2xl border-2 border-transparent transition border-dashed border-gray-300 hover:border-black">
+          <button id="uploadModalBtn"
+            class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4">
+            ЗАГРУЗИТЬ ФАЙЛ
+          </button>
+          
+          <div class="my-4 text-gray-600">или перетащите сюда</div>
+          
+          <div class="flex flex-col gap-3 w-full mx-auto mb-4">
+            <input type="text" id="urlModalInput" placeholder="Введите ссылку на m3u файл"
+              class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
+            
+            <button id="loadUrlModalBtn"
+              class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
+              ВПЕРЕД
+            </button>
+          </div>
+      </div>
+      <div id="loadingModal" class="hidden text-blue-600 mt-4">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
+        Загрузка файла...
+      </div>
+
+      <button id="closeUploadModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition mt-4">
+        ОТМЕНА
+      </button>
+    </div>
   </div>
 
   <div id="saveModal"
@@ -170,6 +209,16 @@
       </button>
     </div>
   </div>
+  
+  <div id="toastNotification" class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-xl shadow-lg hidden animate-fade-in z-50">
+    Плейлист загружен. Каналов: <span id="toastChannelCount" class="font-bold">0</span>
+  </div>
+
+  <div id="globalLoader" class="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-50">
+    <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-white mb-4"></div>
+    <p class="text-white text-xl font-semibold">Обработка плейлиста...</p>
+  </div>
+
 
   <script>
     const uploadBtn = document.getElementById('uploadBtn');
@@ -191,43 +240,52 @@
     const channelList = document.getElementById('channelList');
     const saveBtn = document.getElementById('saveBtn');
     const searchInput = document.getElementById('searchInput');
-    // const dropdown = document.getElementById('dropdown'); // Удаляем
-    // const keyInput = document.getElementById('keyInput'); // Удаляем
-    // НОВЫЕ ЭЛЕМЕНТЫ
     const categoryFilter = document.getElementById('categoryFilter'); 
     const removeDuplicatesBtn = document.getElementById('removeDuplicatesBtn'); 
-    const dropArea = document.getElementById('dropArea'); // Элемент для Drag and Drop
+    const dropArea = document.getElementById('dropArea');
+
+    const uploadModal = document.getElementById('uploadModal');
+    const openUploadModalBtn = document.getElementById('openUploadModalBtn');
+    const closeUploadModal = document.getElementById('closeUploadModal');
+    const uploadModalBtn = document.getElementById('uploadModalBtn');
+    const urlModalInput = document.getElementById('urlModalInput');
+    const loadUrlModalBtn = document.getElementById('loadUrlModalBtn');
+    const loadingModal = document.getElementById('loadingModal');
+    const dropAreaModal = document.getElementById('dropAreaModal'); 
+    
+    const toastNotification = document.getElementById('toastNotification');
+    const toastChannelCount = document.getElementById('toastChannelCount');
+
+    const globalLoader = document.getElementById('globalLoader');
 
     let originalLines = [];
     let channels = [];
     let allCategories = new Set();
     let excludedCategories = new Set(); 
     let editedContent = '';
-    let selectedServer = ''; // Оставляем переменную, но она не будет использоваться, т.к. нет поля
-    let categoryChannelCounts = {}; // НОВЫЙ ОБЪЕКТ ДЛЯ ХРАНЕНИЯ КОЛИЧЕСТВА КАНАЛОВ ПО КАТЕГОРИЯМ
+    let categoryChannelCounts = {}; 
     
     // ===============================
     // ЛОГИКА DRAG AND DROP
     // ===============================
+    const dragDropAreas = [dropArea, dropAreaModal];
 
-    // Отменяем стандартное поведение браузера для всех событий d&d
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, preventDefaults, false);
-      document.body.addEventListener(eventName, preventDefaults, false); // Для предотвращения открытия файла в браузере
+    dragDropAreas.forEach(area => {
+        if (area) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                area.addEventListener(eventName, preventDefaults, false);
+            });
+            document.body.addEventListener('dragover', preventDefaults, false); 
+            document.body.addEventListener('drop', preventDefaults, false);
+            ['dragenter', 'dragover'].forEach(eventName => {
+                area.addEventListener(eventName, highlight, false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                area.addEventListener(eventName, unhighlight, false);
+            });
+            area.addEventListener('drop', handleDrop, false);
+        }
     });
-
-    // Добавляем класс при наведении
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropArea.addEventListener(eventName, highlight, false);
-    });
-
-    // Удаляем класс при уходе
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, unhighlight, false);
-    });
-
-    // Обрабатываем брошенный файл
-    dropArea.addEventListener('drop', handleDrop, false);
 
     function preventDefaults(e) {
       e.preventDefault();
@@ -235,18 +293,16 @@
     }
 
     function highlight(e) {
-      dropArea.classList.add('drag-over');
+      e.currentTarget.classList.add('drag-over');
     }
 
     function unhighlight(e) {
-      dropArea.classList.remove('drag-over');
+      e.currentTarget.classList.remove('drag-over');
     }
 
     function handleDrop(e) {
       const dt = e.dataTransfer;
       const files = dt.files;
-      
-      // Проверяем, что это файл, а не что-то другое
       if (files.length > 0) {
         handleFiles(files);
       }
@@ -255,74 +311,151 @@
     function handleFiles(files) {
         const file = files[0];
         if (!file) return;
-
-        // Эмулируем событие change на fileInput для переиспользования логики
         fileInput.files = files;
         fileInput.dispatchEvent(new Event('change'));
     }
-
+    
     // ===============================
-    // СУЩЕСТВУЮЩАЯ ЛОГИКА
+    // ФУНКЦИИ УВЕДОМЛЕНИЯ
     // ===============================
+    function showToast(message, count = null) {
+        toastChannelCount.classList.add('hidden');
+        toastNotification.classList.remove('bg-green-600', 'bg-red-600'); 
+        
+        if (count !== null) {
+            toastChannelCount.textContent = count;
+            toastNotification.innerHTML = `Плейлист загружен. Каналов: <span class="font-bold">${count}</span>`;
+            toastNotification.classList.add('bg-green-600'); 
+        } else {
+            toastNotification.textContent = message;
+            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста')) {
+                 toastNotification.classList.add('bg-red-600'); 
+            } else {
+                 toastNotification.classList.add('bg-green-600');
+            }
+        }
+        
+        toastNotification.classList.remove('hidden');
+        toastNotification.classList.add('animate-fade-in');
 
+        setTimeout(() => {
+            toastNotification.classList.add('hidden');
+            toastNotification.classList.remove('animate-fade-in');
+        }, 3000);
+    }
+    
+    // ===============================
+    // ОБРАБОТЧИКИ СОБЫТИЙ
+    // ===============================
     uploadBtn.addEventListener('click', () => fileInput.click());
 
     fileInput.addEventListener('change', () => {
       const file = fileInput.files[0];
       if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const content = e.target.result;
-        processPlaylistContent(content);
-      };
-      reader.readAsText(file);
+    
+      // Показываем глобальный прелоадер немедленно
+      globalLoader.classList.remove('hidden');
+    
+      // Используем короткий таймаут, чтобы UI успел обновиться (показать прелоадер)
+      // перед началом потенциально блокирующей операции чтения файла.
+      setTimeout(() => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const content = e.target.result;
+          processPlaylistContent(content);
+        };
+        reader.readAsText(file);
+      }, 50);
     });
 
     loadUrlBtn.addEventListener('click', async () => {
       const url = urlInput.value.trim();
-      if (!url) {
-        alert('Пожалуйста, введите ссылку');
-        return;
-      }
-
-      loading.classList.remove('hidden');
-      loadUrlBtn.disabled = true;
-
-      try {
-        // Пробуем загрузить через CORS proxy чтобы обойти ограничения
-        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-        const response = await fetch(proxyUrl);
-        
-        if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status}`);
-        }
-        
-        const content = await response.text();
-        processPlaylistContent(content);
-      } catch (error) {
-        console.error('Ошибка загрузки:', error);
-        alert('Не удалось загрузить файл. Возможно, проблема с CORS или файл недоступен.');
-      } finally {
-        loading.classList.add('hidden');
-        loadUrlBtn.disabled = false;
-      }
+      await loadPlaylistFromUrl(url, loading, loadUrlBtn);
+    });
+    
+    openUploadModalBtn.addEventListener('click', () => {
+        editorScreen.classList.add('hidden');
+        mainScreen.classList.remove('hidden');
     });
 
-    function processPlaylistContent(content) {
-      try {
-        originalLines = content.split('\n');
-        parseChannels();
-        channelCount.textContent = channels.length;
-        modal.classList.remove('hidden');
-      } catch (error) {
-        alert('Ошибка обработки файла: ' + error.message);
-      }
+    uploadModalBtn.addEventListener('click', () => fileInput.click());
+    
+    loadUrlModalBtn.addEventListener('click', async () => {
+      const url = urlModalInput.value.trim();
+      await loadPlaylistFromUrl(url, loadingModal, loadUrlModalBtn);
+    });
+
+    closeUploadModal.addEventListener('click', () => {
+        uploadModal.classList.add('hidden');
+    });
+
+    async function loadPlaylistFromUrl(url, loadingElement, buttonElement) {
+        if (!url) {
+            showToast('Пожалуйста, введите ссылку');
+            return;
+        }
+
+        loadingElement.classList.remove('hidden');
+        buttonElement.disabled = true;
+
+        try {
+            const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+            const response = await fetch(proxyUrl);
+            
+            if (!response.ok) {
+                throw new Error(`Ошибка HTTP: ${response.status}`);
+            }
+            
+            loadingElement.classList.add('hidden');
+            const content = await response.text();
+
+            // Показываем глобальный прелоадер перед обработкой
+            globalLoader.classList.remove('hidden');
+
+            // Используем таймаут для консистентности обновления UI
+            setTimeout(() => {
+                processPlaylistContent(content);
+            }, 50);
+
+        } catch (error) {
+            console.error('Ошибка загрузки:', error);
+            showToast('Не удалось загрузить файл. Возможно, проблема с CORS или файл недоступен.');
+            loadingElement.classList.add('hidden');
+        } finally {
+            buttonElement.disabled = false;
+        }
     }
 
-    // dropdown.addEventListener('change', (e) => { // Удаляем слушатель
-    //   selectedServer = e.target.value;
-    // });
+    function processPlaylistContent(content) {
+        originalLines = content.split('\n');
+        
+        // Прелоадер уже показан вызывающей функцией.
+        // Сразу начинаем асинхронную обработку.
+        parseChannelsAsync()
+            .then(() => {
+                globalLoader.classList.add('hidden');
+                loadingModal.classList.add('hidden');
+                dropAreaModal.classList.remove('hidden');
+                uploadModal.classList.add('hidden');
+
+                if (!editorScreen.classList.contains('hidden')) {
+                    excludedCategories.clear(); 
+                    renderCategoryFilter();
+                    updateCounter();
+                    renderChannelList(searchInput.value);
+                    showToast('Плейлист загружен.', channels.length);
+                } else {
+                    channelCount.textContent = channels.length;
+                    modal.classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                globalLoader.classList.add('hidden');
+                loadingModal.classList.add('hidden');
+                dropAreaModal.classList.remove('hidden');
+                showToast('Ошибка обработки файла: ' + error.message);
+            });
+    }
 
     closeModal.addEventListener('click', () => {
       modal.classList.add('hidden');
@@ -332,88 +465,91 @@
       modal.classList.add('hidden');
       mainScreen.classList.add('hidden');
       editorScreen.classList.remove('hidden');
-      renderCategoryFilter(); // Рендерим фильтр категорий
+      renderCategoryFilter(); 
       updateCounter();
       renderChannelList();
     });
 
-    /**
-     * ИСПРАВЛЕННАЯ ФУНКЦИЯ: Парсит каналы, поддерживая как #EXTINF:...,group-title="CAT",NAME
-     * так и старую/нестандартную структуру с #EXTGRP:CATEGORY
-     */
-    function parseChannels() {
-      channels = [];
-      allCategories.clear(); 
-      categoryChannelCounts = {}; // ИНИЦИАЛИЗАЦИЯ СЧЕТЧИКА КАНАЛОВ
-      
-      for (let i = 0; i < originalLines.length; i++) {
-        const line = originalLines[i].trim();
+    function parseChannelsAsync() {
+        return new Promise((resolve, reject) => {
+            try {
+                channels = [];
+                allCategories.clear();
+                categoryChannelCounts = {};
 
-        if (line.startsWith('#EXTINF')) {
-          const extinf = line;
-          
-          // 1. Извлекаем имя канала (после последней запятой)
-          const nameMatch = extinf.match(/,(.*)$/);
-          let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
-          
-          // 2. Ищем название группы (group-title) в EXTINF
-          let category = 'Без категории';
-          const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
-          if (groupTitleMatch) {
-              category = groupTitleMatch[1].trim();
-          }
+                const lines = originalLines;
+                const totalLines = lines.length;
+                let currentIndex = 0;
+                const chunkSize = 1000;
 
-          let url = '';
-          let extgrp = '';
-          let urlIndex = i + 1;
+                function processChunk() {
+                    const limit = Math.min(currentIndex + chunkSize, totalLines);
 
-          // 3. Ищем EXTGRP и URL в следующих строках
-          while (urlIndex < originalLines.length) {
-            const nextLine = originalLines[urlIndex].trim();
+                    for (let i = currentIndex; i < limit; i++) {
+                        const line = lines[i].trim();
 
-            if (nextLine.startsWith('#EXTGRP:')) {
-                // Если найден #EXTGRP, используем его для категории, если group-title не был найден
-                if (category === 'Без категории' || category === '') {
-                    category = nextLine.substring(8).trim(); // Пропускаем #EXTGRP:
+                        if (line.startsWith('#EXTINF')) {
+                            const extinf = line;
+                            const nameMatch = extinf.match(/,(.*)$/);
+                            let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
+                            
+                            let category = 'Без категории';
+                            const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
+                            if (groupTitleMatch) {
+                                category = groupTitleMatch[1].trim();
+                            }
+
+                            let url = '';
+                            let extgrp = '';
+                            let urlIndex = i + 1;
+
+                            while (urlIndex < lines.length) {
+                                const nextLine = lines[urlIndex].trim();
+                                if (nextLine.startsWith('#EXTGRP:')) {
+                                    if (category === 'Без категории' || category === '') {
+                                        category = nextLine.substring(8).trim();
+                                    }
+                                    extgrp = nextLine;
+                                } else if (nextLine && !nextLine.startsWith('#')) {
+                                    url = nextLine;
+                                    break;
+                                } else if (nextLine.startsWith('#EXTINF')) {
+                                    break; 
+                                }
+                                urlIndex++;
+                            }
+
+                            if (url) {
+                                channels.push({
+                                    name, extinf, extgrp, url,
+                                    startIndex: i,
+                                    endIndex: urlIndex,
+                                    category,
+                                });
+                                allCategories.add(category);
+                                categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
+                                i = urlIndex;
+                            }
+                        }
+                    }
+
+                    currentIndex = limit;
+
+                    if (currentIndex < totalLines) {
+                        setTimeout(processChunk, 0);
+                    } else {
+                        channels.sort((a, b) => a.name.localeCompare(b.name));
+                        resolve();
+                    }
                 }
-                extgrp = nextLine;
-            } else if (nextLine.startsWith('#') && !nextLine.startsWith('#EXTINF')) {
-                // Пропускаем другие комментарии, кроме #EXTINF
-            } else if (nextLine) {
-                // Нашли URL или начало следующей записи #EXTINF
-                if (!nextLine.startsWith('#EXTINF')) {
-                    url = nextLine;
-                }
-                break;
+
+                processChunk();
+            } catch (error) {
+                reject(error);
             }
-            urlIndex++;
-          }
-          
-          // Убедимся, что мы правильно нашли конец блока (URL)
-          if (url) {
-            channels.push({
-              name,
-              extinf,
-              extgrp, 
-              url,
-              startIndex: i,
-              endIndex: urlIndex, // Конечный индекс, где находится URL
-              category, 
-            });
-            allCategories.add(category);
-            
-            // НОВОЕ: УВЕЛИЧИВАЕМ СЧЕТЧИК КАНАЛОВ ДЛЯ КАТЕГОРИИ
-            categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
-
-            // Пропускаем все строки до следующей записи #EXTINF
-            i = urlIndex; 
-          }
-        }
-      }
-      channels.sort((a, b) => a.name.localeCompare(b.name));
+        });
     }
-    
-    // НОВАЯ ФУНКЦИЯ: Рендеринг списка категорий
+
     function renderCategoryFilter() {
       categoryFilter.innerHTML = '';
       const sortedCategories = Array.from(allCategories).sort();
@@ -434,12 +570,11 @@
           } else {
             excludedCategories.delete(category);
           }
-          renderChannelList(searchInput.value); // Обновляем список каналов при изменении фильтра
-          updateCounter(); // Обновляем счетчик
+          renderChannelList(searchInput.value);
+          updateCounter();
         });
 
         const span = document.createElement('span');
-        // НОВОЕ: ДОБАВЛЯЕМ СЧЕТЧИК КАНАЛОВ
         const count = categoryChannelCounts[category] || 0;
         span.className = 'text-gray-800 truncate max-w-[150px]';
         span.innerHTML = `${category} (<span class="text-red-600 font-bold">${count}</span>)`;
@@ -450,19 +585,12 @@
       });
     }
 
-    // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Удалена логика замены ключа/сервера
     function downloadSingleChannel(entry) {
-      let channelUrl = entry.url;
-      // const newKey = keyInput.value.trim(); // Удаляем
-      
-      // Логика замены ключа и сервера удалена, остается только оригинальный URL
-      
-      // ИСПОЛЬЗУЕМ EXTINF, EXTGRP (если есть) и URL
       let playlistContent = `#EXTM3U\n${entry.extinf}\n`;
       if (entry.extgrp) {
         playlistContent += `${entry.extgrp}\n`;
       }
-      playlistContent += `${channelUrl}`;
+      playlistContent += `${entry.url}`;
 
       const blob = new Blob([playlistContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -475,67 +603,47 @@
       URL.revokeObjectURL(url);
     }
     
-    // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Учитываем исключенные категории и моб. адаптацию
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
       
-      // Определяем, является ли экран мобильным (<= 640px)
-      // Media Query List для проверки ширины экрана
-      // Важно: matchMedia не требует слушателей, чтобы получить текущее состояние
       const isMobile = window.matchMedia('(max-width: 640px)').matches;
-      // Устанавливаем текст кнопки
       const downloadButtonText = isMobile ? 'Скачать' : 'Скачать канал';
       
-      // Фильтрация по поиску и исключенным категориям
       const filteredChannels = channels
         .filter(entry => !excludedCategories.has(entry.category))
         .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()));
         
       filteredChannels.forEach((entry) => {
           const item = document.createElement('div');
-          // Добавляем класс channel-item для адаптивного CSS
           item.className = 'channel-item flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow'; 
 
           const name = document.createElement('span');
-          // Добавляем класс channel-name для адаптивного CSS
           name.className = 'channel-name text-black font-medium truncate max-w-[40%]'; 
           name.textContent = entry.name;
           
           const categoryBadge = document.createElement('span');
-          // Добавляем класс channel-category-badge для адаптивного CSS
           categoryBadge.className = 'channel-category-badge bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
           categoryBadge.textContent = entry.category;
 
           const downloadBtn = document.createElement('button');
-          // Добавляем класс channel-download-btn для адаптивного CSS.
           downloadBtn.className = 'channel-download-btn bg-green-600 hover:bg-green-500 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
-          downloadBtn.textContent = downloadButtonText; // Устанавливаем правильный текст
+          downloadBtn.textContent = downloadButtonText;
           downloadBtn.onclick = () => downloadSingleChannel(entry);
 
           const delBtn = document.createElement('button');
-          // Добавляем класс channel-delete-btn для адаптивного CSS
           delBtn.className = 'channel-delete-btn text-red-600 hover:text-red-500 font-semibold text-sm';
           delBtn.textContent = 'Удалить';
           delBtn.onclick = () => {
-            // Рассчитываем количество строк для удаления: от startIndex до endIndex включительно
+            const linesToDelete = (entry.endIndex - entry.startIndex) + 1;
+            originalLines.splice(entry.startIndex, linesToDelete);
             
-            // Находим все строки между #EXTINF и URL
-            let linesToDelete = 0;
-            const lines = originalLines.slice(entry.startIndex, entry.endIndex + 1);
-            linesToDelete = lines.length;
-
-            if (linesToDelete > 0) {
-              originalLines.splice(entry.startIndex, linesToDelete);
-            }
-            
-            parseChannels(); // Перепарсируем, чтобы обновить индексы у всех оставшихся
-            renderCategoryFilter(); // Обновляем список категорий
+            parseChannelsSync(); 
+            renderCategoryFilter();
             updateCounter();
             renderChannelList(searchInput.value);
           };
 
           const buttonContainer = document.createElement('div');
-          // Добавляем класс channel-buttons-container для адаптивного CSS
           buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
           
           buttonContainer.appendChild(categoryBadge); 
@@ -547,8 +655,56 @@
           channelList.appendChild(item);
         });
     }
-    
-    // ОБНОВЛЕННАЯ ФУНКЦИЯ: Считает только неисключенные каналы
+
+    function parseChannelsSync() {
+      channels = [];
+      allCategories.clear();
+      categoryChannelCounts = {};
+      for (let i = 0; i < originalLines.length; i++) {
+        const line = originalLines[i].trim();
+        if (line.startsWith('#EXTINF')) {
+          const extinf = line;
+          const nameMatch = extinf.match(/,(.*)$/);
+          let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
+          let category = 'Без категории';
+          const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
+          if (groupTitleMatch) {
+            category = groupTitleMatch[1].trim();
+          }
+          let url = '';
+          let extgrp = '';
+          let urlIndex = i + 1;
+          while (urlIndex < originalLines.length) {
+            const nextLine = originalLines[urlIndex].trim();
+            if (nextLine.startsWith('#EXTGRP:')) {
+              if (category === 'Без категории' || category === '') {
+                category = nextLine.substring(8).trim();
+              }
+              extgrp = nextLine;
+            } else if (nextLine && !nextLine.startsWith('#')) {
+              url = nextLine;
+              break;
+            } else if (nextLine.startsWith('#EXTINF')) {
+              break;
+            }
+            urlIndex++;
+          }
+          if (url) {
+            channels.push({
+              name, extinf, extgrp, url,
+              startIndex: i,
+              endIndex: urlIndex,
+              category,
+            });
+            allCategories.add(category);
+            categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
+            i = urlIndex;
+          }
+        }
+      }
+      channels.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
     function updateCounter() {
       const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category)).length;
       channelCounter.textContent = remainingChannels;
@@ -558,83 +714,57 @@
       renderChannelList(searchInput.value);
     });
 
-    // НОВАЯ ФУНКЦИЯ: Удаление дубликатов каналов по названию
     function removeDuplicates() {
         const uniqueNames = new Set();
         const linesToRemove = [];
         let removedCount = 0;
 
-        // Идем по каналам с конца, чтобы splice не ломал индексы
-        // Мы хотим сохранить ПЕРВЫЙ найденный канал с уникальным именем и удалить все последующие.
         for (let i = channels.length - 1; i >= 0; i--) {
             const channel = channels[i];
-            // Имя канала для сравнения (обрезаем и приводим к нижнему регистру)
             const nameKey = channel.name.trim().toLowerCase(); 
 
             if (uniqueNames.has(nameKey)) {
-                // Это дубликат, добавляем его строки для удаления
-                
-                // Находим все строки, относящиеся к этому каналу
-                let linesToDelete = 0;
-                const lines = originalLines.slice(channel.startIndex, channel.endIndex + 1);
-                linesToDelete = lines.length;
-
+                const linesToDelete = (channel.endIndex - channel.startIndex) + 1;
                 linesToRemove.push({
                     startIndex: channel.startIndex,
                     count: linesToDelete
                 });
                 removedCount++;
             } else {
-                // Первый раз встречаем это имя, добавляем в Set
                 uniqueNames.add(nameKey);
             }
         }
         
-        // Сортируем по убыванию startIndex для корректного удаления
         linesToRemove.sort((a, b) => b.startIndex - a.startIndex);
         
-        // Удаляем строки из originalLines
         linesToRemove.forEach(item => {
             originalLines.splice(item.startIndex, item.count);
         });
         
         if (removedCount > 0) {
-            parseChannels(); // Перепарсируем, чтобы обновить индексы и список
-            renderCategoryFilter(); // Обновляем список категорий
+            parseChannelsSync();
+            renderCategoryFilter();
             updateCounter();
             renderChannelList(searchInput.value);
-            alert(`Удалено ${removedCount} дубликатов каналов.`);
+            showToast(`Удалено ${removedCount} дубликатов каналов.`); 
         } else {
-            alert('Дубликаты каналов не найдены.');
+            showToast('Дубликаты каналов не найдены.'); 
         }
     }
     
-    removeDuplicatesBtn.addEventListener('click', removeDuplicates); // Подключаем новую функцию
+    removeDuplicatesBtn.addEventListener('click', removeDuplicates);
 
-    // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Удалена логика замены ключа/сервера
     saveBtn.addEventListener('click', () => {
-      // 1. Фильтруем каналы, оставляя только те, которые не исключены по категории
       const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
       
-      // 2. Генерируем новый плейлист на основе этих каналов
-      let modifiedLines = ['#EXTM3U']; // Начинаем с заголовка
+      let modifiedLines = ['#EXTM3U'];
       
       remainingChannels.forEach(entry => {
-        // Добавляем #EXTINF
         modifiedLines.push(entry.extinf);
-
-        // Добавляем #EXTGRP, если он был, чтобы сохранить структуру плейлиста
         if (entry.extgrp) {
             modifiedLines.push(entry.extgrp);
         }
-        
-        let line = entry.url;
-        // const newKey = keyInput.value.trim(); // Удалено
-
-        // Логика замены ключа и/или сервера удалена
-        // line остается оригинальным URL
-        
-        modifiedLines.push(line);
+        modifiedLines.push(entry.url);
       });
       
       editedContent = modifiedLines.join('\n');
@@ -647,7 +777,6 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      // Используем количество оставшихся каналов для имени файла
       const remainingCount = channels.filter(entry => !excludedCategories.has(entry.category)).length; 
       a.download = `playlist_${remainingCount}.m3u`;
       document.body.appendChild(a);
