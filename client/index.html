@@ -107,9 +107,9 @@
 
     </div>
 
-  <div id="editorScreen" class="hidden w-full max-w-2xl mx-auto py-6 px-4">
+  <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
-      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">Редактировать Каналы</h1>
+      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
       <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
         <button id="openUploadModalBtn"
           class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base">
@@ -125,28 +125,38 @@
         </button>
       </div>
     </div>
-    <div class="mb-2">
-      <input type="text" id="searchInput" placeholder="Поиск канала..."
-        class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
-    </div>
-
-    <div class="mb-4">
-      <h3 class="text-md font-semibold mb-2 text-gray-800">Выбрать категорию для просмотра</h3>
-      <select id="categorySelect"
-          class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
-          <option value="">Все категории</option>
-      </select>
-    </div>
-    <div class="mb-4">
-      <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
-      <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
+    
+    <div class="flex flex-col md:flex-row gap-6">
+      
+      <div id="filterPanel" class="w-full md:w-2/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
+        <div class="mb-2">
+          <input type="text" id="searchInput" placeholder="Поиск канала..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
         </div>
-    </div>
-    <div class="text-center mb-4 text-xl font-bold text-red-600">
-      ВСЕГО КАНАЛОВ: <span id="channelCounter">0</span>
-    </div>
 
-    <div id="channelList" class="space-y-2"></div>
+        <div class="mb-4">
+          <h3 class="text-md font-semibold mb-2 text-gray-800">Выбрать категорию для просмотра</h3>
+          <select id="categorySelect"
+              class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
+              <option value="">Все категории</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
+          <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
+            </div>
+        </div>
+        
+        <div class="text-center mb-4 text-xl font-bold text-red-600">
+          КАНАЛОВ В СПИСКЕ: <span id="channelCounter">0</span>
+        </div>
+      </div>
+      
+      <div id="listPanel" class="w-full md:w-3/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
+        <div id="channelList" class="space-y-2"></div>
+      </div>
+    </div>
+    
   </div>
   
   <div id="uploadModal"
@@ -364,8 +374,8 @@
     });
     
     openUploadModalBtn.addEventListener('click', () => {
-        editorScreen.classList.add('hidden');
-        mainScreen.classList.remove('hidden');
+        // Заменяем переход на mainScreen на показ модалки загрузки
+        uploadModal.classList.remove('hidden');
     });
 
     uploadModalBtn.addEventListener('click', () => fileInput.click());
@@ -440,7 +450,7 @@
                 renderCategoryFilter();
                 renderCategorySelect(); // НОВАЯ ФУНКЦИЯ
                 categorySelect.value = ""; // Сброс выбранной категории
-                updateCounter();
+                updateCounter(channels.length); // Обновляем счетчик общим количеством
                 renderChannelList();
 
                 showToast('Плейлист загружен.', channels.length);
@@ -566,8 +576,7 @@
           } else {
             excludedCategories.delete(category);
           }
-          renderChannelList(searchInput.value);
-          updateCounter();
+          renderChannelList(searchInput.value); // renderChannelList вызывает updateCounter()
         });
 
         const span = document.createElement('span');
@@ -631,6 +640,9 @@
         .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
         .filter(entry => !selectedCategory || entry.category === selectedCategory); // Применяем фильтр по категории
         
+      // !!! ОБНОВЛЕНИЕ СЧЕТЧИКА: Теперь он показывает количество каналов в списке
+      updateCounter(filteredChannels.length); 
+        
       filteredChannels.forEach((entry) => {
           const item = document.createElement('div');
           item.className = 'channel-item flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow'; 
@@ -658,8 +670,7 @@
             parseChannelsSync(); 
             renderCategoryFilter();
             renderCategorySelect(); // Обновляем выпадающий список после удаления
-            updateCounter();
-            renderChannelList(searchInput.value);
+            renderChannelList(searchInput.value); // renderChannelList вызывает updateCounter()
           };
 
           const buttonContainer = document.createElement('div');
@@ -724,9 +735,14 @@
       channels.sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    function updateCounter() {
-      const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category)).length;
-      channelCounter.textContent = remainingChannels;
+    function updateCounter(filteredCount = null) {
+      if (filteredCount !== null) {
+          channelCounter.textContent = filteredCount;
+      } else {
+          // Если не передано число, считаем только по исключенным (для начального рендеринга/сброса)
+          const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category)).length;
+          channelCounter.textContent = remainingChannels;
+      }
     }
 
     searchInput.addEventListener('input', () => {
@@ -764,8 +780,7 @@
             parseChannelsSync();
             renderCategoryFilter();
             renderCategorySelect(); // Обновляем выпадающий список после удаления дубликатов
-            updateCounter();
-            renderChannelList(searchInput.value);
+            renderChannelList(searchInput.value); // renderChannelList вызывает updateCounter()
             showToast(`Удалено ${removedCount} дубликатов каналов.`); 
         } else {
             showToast('Дубликаты каналов не найдены.'); 
