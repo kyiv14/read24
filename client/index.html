@@ -51,7 +51,7 @@
         width: auto !important; /* Убираем фиксированную ширину */
         flex-grow: 1; /* Чтобы заняла доступное место */
       }
-      .channel-download-btn, .channel-delete-btn {
+      .channel-download-btn, .channel-delete-btn, .channel-favorite-btn { /* ДОБАВЛЕН .channel-favorite-btn */
           flex-shrink: 0;
       }
       
@@ -135,7 +135,7 @@
         </div>
 
         <div class="mb-4">
-          <h3 class="text-md font-semibold mb-2 text-gray-800">Выбрать категорию для просмотра</h3>
+          <h3 class="text-md font-semibold mb-2 аtext-gray-800">Выбрать категорию для просмотра</h3>
           <select id="categorySelect"
               class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
               <option value="">Все категории</option>
@@ -265,6 +265,9 @@
     let editedContent = '';
     let categoryChannelCounts = {}; 
     
+    const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
+    const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; // <-- ИЗМЕНЕНО: Одинаковый смайлик спереди и сзади
+
     // ===============================
     // ЛОГИКА DRAG AND DROP - УДАЛЕНА ИЗ КОДА
     // ===============================
@@ -531,6 +534,7 @@
                                     startIndex: i,
                                     endIndex: urlIndex,
                                     category,
+                                    isFavorite: false, // <-- Инициализация нового свойства
                                 });
                                 allCategories.add(category);
                                 categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
@@ -556,9 +560,21 @@
         });
     }
 
+    function getFavoriteCount() { // <-- НОВАЯ ФУНКЦИЯ
+        return channels.filter(c => c.isFavorite).length;
+    }
+
     function renderCategoryFilter() {
       categoryFilter.innerHTML = '';
       const sortedCategories = Array.from(allCategories).sort();
+
+      const favoriteCount = getFavoriteCount(); // NEW
+      
+      // Добавляем "ИЗБРАННОЕ" в список категорий, если есть избранные каналы
+      if (favoriteCount > 0 || excludedCategories.has(FAVORITE_CATEGORY)) {
+          sortedCategories.unshift(FAVORITE_CATEGORY);
+          categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
+      }
 
       sortedCategories.forEach(category => {
         const container = document.createElement('label');
@@ -595,6 +611,14 @@
         categorySelect.innerHTML = '<option value="">Все категории</option>';
         const sortedCategories = Array.from(allCategories).sort();
         
+        const favoriteCount = getFavoriteCount(); // NEW
+        
+        // Добавляем "ИЗБРАННОЕ" в список выбора категорий, если есть избранные каналы
+        if (favoriteCount > 0) { 
+             sortedCategories.unshift(FAVORITE_CATEGORY);
+             categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
+        }
+
         sortedCategories.forEach(category => {
             const option = document.createElement('option');
             option.value = category;
@@ -610,7 +634,13 @@
     });
 
     function downloadSingleChannel(entry) {
-      let playlistContent = `#EXTM3U\n${entry.extinf}\n`;
+      let playlistContent = `#EXTM3U\n`;
+      
+      // УДАЛЯЕМ ЛОГИКУ favorite="1"
+      let extinfLine = entry.extinf;
+      
+      playlistContent += `${extinfLine}\n`;
+      
       if (entry.extgrp) {
         playlistContent += `${entry.extgrp}\n`;
       }
@@ -626,6 +656,19 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
+
+    // НОВАЯ ФУНКЦИЯ: Обработка избранного (обновлено для логики)
+    function toggleFavorite(entry) {
+        entry.isFavorite = !entry.isFavorite; // Переключаем статус
+
+        // Перерисовываем UI
+        renderCategoryFilter();
+        renderCategorySelect();
+        renderChannelList(searchInput.value);
+        
+        const action = entry.isFavorite ? 'добавлен в' : 'удален из';
+        showToast(`Канал "${entry.name}" ${action} избранного.`);
+    }
     
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
@@ -635,10 +678,23 @@
       
       const selectedCategory = categorySelect.value; // Получаем выбранную категорию
       
-      const filteredChannels = channels
-        .filter(entry => !excludedCategories.has(entry.category))
+      let filteredChannels = channels;
+
+      // 1. Исключаем категории, отмеченные в чекбоксах
+      filteredChannels = filteredChannels.filter(entry => !excludedCategories.has(entry.category));
+
+      // 2. Применяем фильтр "ИЗБРАННОЕ"
+      if (selectedCategory === FAVORITE_CATEGORY) {
+          filteredChannels = filteredChannels.filter(entry => entry.isFavorite);
+      } else if (excludedCategories.has(FAVORITE_CATEGORY)) {
+          filteredChannels = filteredChannels.filter(entry => !entry.isFavorite);
+      }
+
+      // 3. Применяем фильтр по имени и обычной категории
+      filteredChannels = filteredChannels
         .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
-        .filter(entry => !selectedCategory || entry.category === selectedCategory); // Применяем фильтр по категории
+        .filter(entry => !selectedCategory || selectedCategory === FAVORITE_CATEGORY || entry.category === selectedCategory);
+
         
       // !!! ОБНОВЛЕНИЕ СЧЕТЧИКА: Теперь он показывает количество каналов в списке
       updateCounter(filteredChannels.length); 
@@ -654,6 +710,16 @@
           const categoryBadge = document.createElement('span');
           categoryBadge.className = 'channel-category-badge bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
           categoryBadge.textContent = entry.category;
+
+          // ДОБАВЛЕНА КНОПКА ИЗБРАННОЕ (обновлено)
+          const favBtn = document.createElement('button');
+          // Цвет кнопки зависит от статуса isFavorite
+          const starColor = entry.isFavorite ? 'text-yellow-500 hover:text-yellow-400' : 'text-gray-400 hover:text-yellow-500';
+          favBtn.className = `channel-favorite-btn ${starColor} font-semibold text-xl px-2 py-1 transition flex-shrink-0`;
+          favBtn.innerHTML = '★'; // Символ звезды
+          favBtn.title = entry.isFavorite ? 'Удалить из избранного' : 'Добавить в избранное';
+          favBtn.onclick = () => toggleFavorite(entry);
+
 
           const downloadBtn = document.createElement('button');
           downloadBtn.className = 'channel-download-btn bg-green-600 hover:bg-green-500 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
@@ -677,6 +743,7 @@
           buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
           
           buttonContainer.appendChild(categoryBadge); 
+          buttonContainer.appendChild(favBtn); // ДОБАВЛЕНИЕ КНОПКИ ИЗБРАННОЕ
           buttonContainer.appendChild(downloadBtn);
           buttonContainer.appendChild(delBtn);
 
@@ -687,6 +754,15 @@
     }
 
     function parseChannelsSync() {
+      // 1. Сохраняем текущие статусы избранного перед очисткой
+      const tempFavoriteMap = {};
+      channels.forEach(c => {
+        // Используем связку URL+Name как уникальный ключ для сохранения статуса
+        if (c.isFavorite) {
+            tempFavoriteMap[c.url + c.name] = true; 
+        }
+      });
+        
       channels = [];
       allCategories.clear();
       categoryChannelCounts = {};
@@ -720,11 +796,15 @@
             urlIndex++;
           }
           if (url) {
+            const key = url + name;
+            const isFav = tempFavoriteMap[key] || false; // 2. Восстанавливаем статус
+
             channels.push({
               name, extinf, extgrp, url,
               startIndex: i,
               endIndex: urlIndex,
               category,
+              isFavorite: isFav, // <-- Используем восстановленный статус
             });
             allCategories.add(category);
             categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
@@ -740,8 +820,13 @@
           channelCounter.textContent = filteredCount;
       } else {
           // Если не передано число, считаем только по исключенным (для начального рендеринга/сброса)
-          const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category)).length;
-          channelCounter.textContent = remainingChannels;
+          let remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
+          
+          if (excludedCategories.has(FAVORITE_CATEGORY)) { // Учитываем, если ИЗБРАННОЕ исключено
+              remainingChannels = remainingChannels.filter(entry => !entry.isFavorite);
+          }
+          
+          channelCounter.textContent = remainingChannels.length;
       }
     }
 
@@ -790,20 +875,94 @@
     removeDuplicatesBtn.addEventListener('click', removeDuplicates);
 
     saveBtn.addEventListener('click', () => {
-      const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
       
+      // Определяем, какие каналы должны быть включены в основной список
+      const includedChannels = channels.filter(entry => {
+        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
+        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
+        const isFavorite = entry.isFavorite;
+
+        // Канал сохраняется, если (он не избранный И его категория не исключена) 
+        // ИЛИ (он избранный И категория 'ИЗБРАННОЕ' не исключена).
+        if (isFavorite) {
+            return !isFavoriteCategoryExcluded;
+        }
+        
+        return !isNormalCategoryExcluded;
+      });
+      
+      // Отдельно выделяем избранные каналы
+      const favoriteChannels = includedChannels.filter(c => c.isFavorite);
+
       let modifiedLines = ['#EXTM3U'];
       
-      remainingChannels.forEach(entry => {
-        modifiedLines.push(entry.extinf);
-        if (entry.extgrp) {
-            modifiedLines.push(entry.extgrp);
-        }
-        modifiedLines.push(entry.url);
+      // 1. ДОБАВЛЯЕМ ДОПОЛНИТЕЛЬНУЮ КАТЕГОРИЮ ДЛЯ ИЗБРАННЫХ КАНАЛОВ В НАЧАЛО
+      if (favoriteChannels.length > 0) {
+        // Используем DISPLAY_FAVORITE_CATEGORY с одинаковыми эмодзи
+        modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
+        
+        favoriteChannels.forEach(entry => {
+          // Создаем строку EXTINF, используя оригинальный тег EXTINF, но гарантируя, что group-title соответствует DISPLAY_FAVORITE_CATEGORY
+          let favExtinf = entry.extinf;
+          
+          // Удаляем старый group-title и заменяем его на DISPLAY_FAVORITE_CATEGORY
+          favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
+          
+          // Если group-title вообще не было, добавляем его перед именем
+          if (!favExtinf.includes('group-title=')) {
+              favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
+          }
+          
+          modifiedLines.push(favExtinf);
+          modifiedLines.push(entry.url);
+        });
+        
+        modifiedLines.push('\n'); // Добавляем пустую строку после категории ИЗБРАННОЕ для читаемости
+      }
+      
+      // 2. Формируем ОСНОВНОЙ СПИСОК каналов
+      
+      // Группируем каналы по категориям для лучшей организации плейлиста
+      const groupedChannels = {};
+      includedChannels.forEach(entry => {
+          const cat = entry.category || 'Без категории';
+          if (!groupedChannels[cat]) {
+              groupedChannels[cat] = [];
+          }
+          groupedChannels[cat].push(entry);
+      });
+      
+      // Сортируем остальные категории по алфавиту
+      const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
+      
+      // Добавляем каналы в плейлист по категориям, пропуская Избранные, чтобы не дублировать
+      sortedCategories.forEach(cat => {
+          
+          // Добавляем заголовок категории (если это не Без категории)
+          if (cat !== 'Без категории') {
+             modifiedLines.push(`#EXTGRP:${cat}`);
+          }
+
+          groupedChannels[cat].forEach(entry => {
+              
+              // Пропускаем Избранные каналы, т.к. они уже добавлены в начале в категорию DISPLAY_FAVORITE_CATEGORY
+              if (entry.isFavorite) {
+                   return; 
+              }
+
+              modifiedLines.push(entry.extinf);
+              if (entry.extgrp) {
+                  modifiedLines.push(entry.extgrp);
+              }
+              modifiedLines.push(entry.url);
+          });
       });
       
       editedContent = modifiedLines.join('\n');
-      finalFileName.textContent = `ФАЙЛ ${remainingChannels.length} КАНАЛОВ`;
+      // Счетчиком остаются только те каналы, которые не были исключены (не важно, избранные они или нет)
+      const finalChannelCount = includedChannels.length; 
+      finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
+      
       saveModal.classList.remove('hidden');
     });
 
@@ -812,7 +971,20 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      const remainingCount = channels.filter(entry => !excludedCategories.has(entry.category)).length; 
+      
+      const remainingChannels = channels.filter(entry => {
+        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
+        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
+        const isFavorite = entry.isFavorite;
+
+        if (isFavorite) {
+            return !isFavoriteCategoryExcluded;
+        }
+        
+        return !isNormalCategoryExcluded;
+      });
+      
+      const remainingCount = remainingChannels.length; 
       a.download = `playlist_${remainingCount}.m3u`;
       document.body.appendChild(a);
       a.click();
