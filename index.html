@@ -827,14 +827,13 @@
     removeDuplicatesBtn.addEventListener('click', removeDuplicates);
     
     // =======================================================
-    // !!! НОВАЯ ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION !!!
+    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (БЕЗ ТОСТА УСПЕХА)
     // =======================================================
 
     async function uploadPlaylistToGitHub(content, count) {
-        // Netlify Function будет доступна по пути /.netlify/functions/имя-файла
         const uploadUrl = '/.netlify/functions/save-playlist'; 
         
-        // Показываем модальное окно с текстом "Идет сохранение..." и глобальный лоадер
+        // Показываем лоадер
         saveModal.classList.remove('hidden'); 
         globalLoader.classList.remove('hidden');
         
@@ -845,37 +844,36 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    // Отправляем имя файла с количеством каналов
                     filename: `playlist_${count}.m3u`, 
                     fileContent: content, 
                 }),
             });
             
             if (!response.ok) {
-                // Пытаемся получить детали ошибки от сервера
                 const errorData = await response.json();
                 throw new Error(errorData.details || errorData.error || 'Unknown API Error');
             }
             
-            saveModal.classList.add('hidden'); // Закрываем модальное окно
-            showToast('Плейлист успешно сохранен на GitHub!', null);
+            // saveModal.classList.add('hidden'); // Убираем модалку, т.к. это делает лоадер
+            
+            // !!! УДАЛЕНО: showToast('Плейлист успешно сохранен на GitHub!', null);
             
         } catch (error) {
             console.error('Ошибка сохранения:', error);
-            saveModal.classList.add('hidden'); // Закрываем модальное окно в случае ошибки
+            // Показываем ошибку только при неудаче
             showToast(`Ошибка: Не удалось сохранить плейлист. ${error.message}`, null);
         } finally {
             globalLoader.classList.add('hidden'); // Скрыть лоадер
+            saveModal.classList.add('hidden'); // Убрать модалку "Идет сохранение"
         }
     }
 
 
     // =======================================================
-    // !!! ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ !!!
+    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ
     // =======================================================
     saveBtn.addEventListener('click', () => {
       
-      // Определяем, какие каналы должны быть включены в основной список
       const includedChannels = channels.filter(entry => {
         const isNormalCategoryExcluded = excludedCategories.has(entry.category);
         const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
@@ -888,7 +886,6 @@
         return !isNormalCategoryExcluded;
       });
       
-      // Отдельно выделяем избранные каналы
       const favoriteChannels = includedChannels.filter(c => c.isFavorite);
 
       let modifiedLines = ['#EXTM3U'];
@@ -950,42 +947,13 @@
       uploadPlaylistToGitHub(editedContent, finalChannelCount);
       
     });
-
+    
     // =======================================================
-    // !!! УДАЛЕННЫЕ/ОТКЛЮЧЕННЫЕ ОБРАБОТЧИКИ СКАЧИВАНИЯ !!!
+    // ОТКЛЮЧЕННЫЕ ОБРАБОТЧИКИ (Оставлены пустыми, так как элементы есть в DOM)
     // =======================================================
-
-    /*
-    downloadBtn.addEventListener('click', () => {
-      const blob = new Blob([editedContent], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      
-      const remainingChannels = channels.filter(entry => {
-        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
-        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
-        const isFavorite = entry.isFavorite;
-
-        if (isFavorite) {
-            return !isFavoriteCategoryExcluded;
-        }
-        
-        return !isNormalCategoryExcluded;
-      });
-      
-      const remainingCount = remainingChannels.length; 
-      a.download = `playlist_${remainingCount}.m3u`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-
-    closeSaveModal.addEventListener('click', () => {
-      saveModal.classList.add('hidden');
-    });
-    */
+    downloadBtn.addEventListener('click', () => {});
+    closeSaveModal.addEventListener('click', () => {});
+    
   </script>
 </body>
 </html>
