@@ -6,10 +6,8 @@
   <title>Редактировать Плейлист</title>
   <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth-compat.js"></script>
   <style>
-    /* Добавляем стилы для прокрутки категорий */
+    /* Добавляем стили для прокрутки категорий */
     #categoryFilter {
       max-height: 200px;
       overflow-y: auto;
@@ -67,43 +65,17 @@
       #editorScreen .sm\\:text-left {
           text-align: center; /* Центрируем заголовок */
       }
-      .auth-input {
-          @apply w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner mb-4;
+      #editorScreen .sm\\:w-auto {
+          width: 100%; /* Кнопки на всю ширину */
+          justify-content: center;
+          margin-top: 0.5rem; /* Отступ сверху для кнопок */
       }
     }
   </style>
 </head>
-<body class="bg-white text-black min-h-screen flex items-center justify-center px-4 hidden">
+<body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
 
-  <div id="authScreen" class="text-center w-full max-w-md hidden">
-      <h1 class="text-3xl font-bold mb-8 text-gray-800">Вход / Регистрация</h1>
-      
-      <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
-          
-          <input type="email" id="authEmail" placeholder="Email" class="auth-input">
-          <input type="password" id="authPassword" placeholder="Пароль" class="auth-input">
-          
-          <button id="loginBtn"
-              class="w-full bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-blue-700 transition mb-3">
-              Войти
-          </button>
-          
-          <button id="signupBtn"
-              class="w-full bg-gray-500 text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-600 transition mb-6">
-              Зарегистрироваться
-          </button>
-          
-          <div class="my-4 text-gray-600">или</div>
-          
-          <button id="googleSignInBtn"
-              class="w-full bg-red-600 text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-red-700 transition flex items-center justify-center">
-              <svg class="w-6 h-6 mr-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.38-6.02 7.5-11.303 7.5-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 8.04 3.056l5.786-5.786C36.03 9.471 30.72 7 24 7 12.955 7 4 15.955 4 27s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.693l6.096 5.518C14.077 17.518 17.94 15 24 15c3.059 0 5.842 1.154 8.04 3.056l5.786-5.786C36.03 9.471 30.72 7 24 7 12.955 7 4 15.955 4 27s8.955 20 20 20c7.873 0 14.757-4.221 18.57-10.741L37.1 29.894C33.277 35.809 28.09 38 24 38c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 8.04 3.056l5.786-5.786C36.03 9.471 30.72 7 24 7z"/><path fill="#4CAF50" d="M14.077 34.482l6.096 5.518C20.173 40.528 22.052 41 24 41c7.873 0 14.757-4.221 18.57-10.741L37.1 29.894C33.277 35.809 28.09 38 24 38c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 8.04 3.056l5.786-5.786C36.03 9.471 30.72 7 24 7z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.38-6.02 7.5-11.303 7.5-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 8.04 3.056l5.786-5.786C36.03 9.471 30.72 7 24 7 12.955 7 4 15.955 4 27s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/></svg>
-              Войти через Google
-          </button>
-      </div>
-  </div>
-
-  <div id="mainScreen" class="text-center w-full max-w-md hidden">
+  <div id="mainScreen" class="text-center w-full max-w-md">
     
     <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
         
@@ -132,16 +104,10 @@
 
     </div>
 
-  <div id="editorScreen" class="w-full max-w-7xl mx-auto py-6 px-4 hidden">
+  <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
-      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">
-          РЕДАКТОР КАНАЛОВ (<span id="userNameDisplay">Гость</span>)
-      </h1>
+      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
       <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
-        <button id="logoutBtn"
-          class="bg-gray-700 text-white px-5 py-2 rounded-xl hover:bg-gray-800 transition text-sm sm:text-base">
-          ВЫЙТИ
-        </button>
         <button id="openUploadModalBtn"
           class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base">
           ЗАГРУЗИТЬ ПЛЕЙЛИСТ
@@ -231,7 +197,7 @@
       <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
       <button id="downloadBtn"
         class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
-        СКАЧАТЬ ЛОКАЛЬНО
+        СКАЧАТЬ
       </button>
       <button id="closeSaveModal"
         class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
@@ -251,43 +217,6 @@
 
 
   <script>
-    // =======================================================
-    // 1. FIREBASE ИНИЦИАЛИЗАЦИЯ
-    // =======================================================
-    const firebaseConfig = {
-      apiKey: "AIzaSyCko3aktIDmXWbsDekdr-dKUscX2fkRpjo",
-      authDomain: "read24-7.firebaseapp.com",
-      projectId: "read24-7",
-      storageBucket: "read24-7.firebasestorage.app",
-      messagingSenderId: "966949567813",
-      appId: "1:966949567813:web:b12ff4001282d20c29922c",
-      measurementId: "G-NVEC5F7S8F"
-    };
-
-    // Проверка, что Firebase SDK загружен, перед инициализацией
-    if (typeof firebase !== 'undefined') {
-        firebase.initializeApp(firebaseConfig);
-    } else {
-        console.error("Firebase SDK не загружен. Проверьте подключение через CDN.");
-    }
-    
-    const auth = firebase.auth();
-    const GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
-    
-    let currentUser = null; // Глобальная переменная для хранения текущего пользователя
-
-    // =======================================================
-    // 2. ССЫЛКИ НА ЭЛЕМЕНТЫ (ВКЛЮЧАЯ АУТЕНТИФИКАЦИОННЫЕ)
-    // =======================================================
-    const authScreen = document.getElementById('authScreen');
-    const authEmail = document.getElementById('authEmail');
-    const authPassword = document.getElementById('authPassword');
-    const loginBtn = document.getElementById('loginBtn');
-    const signupBtn = document.getElementById('signupBtn');
-    const googleSignInBtn = document.getElementById('googleSignInBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const userNameDisplay = document.getElementById('userNameDisplay');
-
     const uploadBtn = document.getElementById('uploadBtn');
     const fileInput = document.getElementById('fileInput');
     const urlInput = document.getElementById('urlInput');
@@ -326,156 +255,65 @@
     let channels = [];
     let allCategories = new Set();
     let excludedCategories = new Set(); 
-    let editedContent = ''; 
+    let editedContent = ''; // Переменная для хранения контента плейлиста для скачивания
     let categoryChannelCounts = {}; 
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
     const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
 
-    // =======================================================
-    // 3. ФУНКЦИИ АУТЕНТИФИКАЦИИ
-    // =======================================================
+    // ===============================
+    // ЛОГИКА DRAG AND DROP
+    // ===============================
+    const dragDropAreas = [dropArea, dropAreaModal];
 
-    // Функция для переключения экранов
-    function switchScreens(user) {
-        // ИСПРАВЛЕНИЕ: Сначала гарантируем, что показывается body, а затем скрываем/показываем нужный экран.
-        document.body.classList.remove('hidden'); 
-        
-        // Сначала скрываем все основные экраны
-        authScreen.classList.add('hidden');
-        mainScreen.classList.add('hidden');
-        editorScreen.classList.add('hidden');
-        
-        if (user) {
-            // Пользователь вошел: показываем либо редактор, либо главный экран загрузки
-            const displayName = user.displayName || user.email || 'Пользователь';
-            userNameDisplay.textContent = displayName;
-            
-            // Если у нас уже есть загруженный плейлист (показываем editorScreen)
-            // ИСПРАВЛЕНИЕ: Добавим проверку, если mainScreen был скрыт, это означает, что пользователь уже загружал плейлист.
-            // Однако, для чистоты лучше полагаться на массив `channels`.
-            if (channels.length > 0) {
-                 editorScreen.classList.remove('hidden');
-            } else {
-                 mainScreen.classList.remove('hidden');
-            }
-            
-        } else {
-            // Пользователь вышел: показываем экран аутентификации
-            authScreen.classList.remove('hidden');
+    dragDropAreas.forEach(area => {
+        if (area) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                area.removeEventListener(eventName, preventDefaults, false);
+            });
+            document.body.removeEventListener('dragover', preventDefaults, false); 
+            document.body.removeEventListener('drop', preventDefaults, false);
+            ['dragenter', 'dragover'].forEach(eventName => {
+                area.removeEventListener(eventName, highlight, false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                area.removeEventListener(eventName, unhighlight, false);
+            });
+            area.removeEventListener('drop', handleDrop, false);
         }
-        
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
 
-    // Обработчик регистрации по почте
-    signupBtn.addEventListener('click', async () => {
-        const email = authEmail.value;
-        const password = authPassword.value;
+    function highlight(e) {
+      // e.currentTarget.classList.add('drag-over'); 
+    }
 
-        if (!email || password.length < 6) {
-            showToast('Email и пароль (минимум 6 символов) обязательны.');
-            return;
-        }
+    function unhighlight(e) {
+      // e.currentTarget.classList.remove('drag-over'); 
+    }
 
-        try {
-            await auth.createUserWithEmailAndPassword(email, password);
-            showToast('Регистрация успешна! Вы вошли.');
-        } catch (error) {
-            console.error(error);
-            showToast(`Ошибка регистрации: ${error.message}`);
-        }
-    });
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        handleFiles(files);
+      }
+    }
 
-    // Обработчик входа по почте
-    loginBtn.addEventListener('click', async () => {
-        const email = authEmail.value;
-        const password = authPassword.value;
-
-        if (!email || !password) {
-            showToast('Email и пароль обязательны.');
-            return;
-        }
-
-        try {
-            await auth.signInWithEmailAndPassword(email, password);
-            showToast('Вход успешен!');
-        } catch (error) {
-            console.error(error);
-            showToast(`Ошибка входа: ${error.message}`);
-        }
-    });
-
-    // Используем signInWithRedirect
-    googleSignInBtn.addEventListener('click', async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-            await auth.signInWithRedirect(provider);
-        } catch (error) {
-            console.error(error);
-            showToast(`Ошибка Google входа: ${error.message}`);
-        }
-    });
-
-    // Обработчик выхода
-    logoutBtn.addEventListener('click', async () => {
-        try {
-            // ИСПРАВЛЕНИЕ: Очистка плейлиста при выходе, чтобы в следующий раз пользователь начал с экрана загрузки.
-            channels = []; 
-            originalLines = [];
-            
-            await auth.signOut();
-            showToast('Вы вышли из системы.');
-        } catch (error) {
-            console.error(error);
-            showToast(`Ошибка выхода: ${error.message}`);
-        }
-    });
-
-
-    // Слушатель состояния аутентификации
-    auth.onAuthStateChanged(user => {
-        currentUser = user;
-        // onAuthStateChanged может быть вызван несколько раз, но switchScreens гарантирует правильное состояние
-        switchScreens(user);
-    });
-
-    // Обработка ответа после перенаправления (для Google) - Запускается ПЕРВОЙ
-    // Мы обернем это в IIFE, чтобы гарантировать выполнение перед onAuthStateChanged
-    (async () => {
-        try {
-            // Ждем завершения обработки редиректа
-            const result = await auth.getRedirectResult();
-            
-            // Если был результат редиректа, onAuthStateChanged будет вызван сразу после этого,
-            // и switchScreens(user) будет вызван с правильным состоянием.
-            if (result.user) {
-                showToast('Вход через Google успешен!');
-            }
-        } catch (error) {
-            // ИЗМЕНЕНИЕ: Если ошибка связана с неподдерживаемой средой, игнорируем ее, 
-            // чтобы приложение не падало в iframe (например, в нашей среде чата).
-            if (error.code && error.code === 'auth/operation-not-supported-in-this-environment') {
-                 console.warn("Предупреждение: Google Redirect Result не поддерживается в этой среде (iframe/file://).");
-                 // Пропускаем ошибку, полагаясь на onAuthStateChanged для дальнейшей обработки
-            } else if (error) {
-                 console.error("Ошибка при возврате с Google:", error);
-                 showToast(`Ошибка Google входа: ${error.message}`);
-            }
-        }
-    })();
+    function handleFiles(files) {
+        const file = files[0];
+        if (!file) return;
+        fileInput.files = files;
+        fileInput.dispatchEvent(new Event('change'));
+    }
     
-
-
-    // =======================================================
-    // 4. СУЩЕСТВУЮЩИЕ ФУНКЦИИ (Сокращены для компактности)
-    // =======================================================
-
-    function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
-    function highlight(e) { /*...*/ }
-    function unhighlight(e) { /*...*/ }
-    function handleDrop(e) { const dt = e.dataTransfer; const files = dt.files; if (files.length > 0) { handleFiles(files); } }
-    function handleFiles(files) { const file = files[0]; if (!file) return; fileInput.files = files; fileInput.dispatchEvent(new Event('change')); }
-    
+    // ===============================
+    // ФУНКЦИИ УВЕДОМЛЕНИЯ
+    // ===============================
     function showToast(message, count = null) {
         toastChannelCount.classList.add('hidden');
         toastNotification.classList.remove('bg-green-600', 'bg-red-600'); 
@@ -486,7 +324,7 @@
             toastNotification.classList.add('bg-green-600'); 
         } else {
             toastNotification.textContent = message;
-            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Firebase')) {
+            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста')) {
                  toastNotification.classList.add('bg-red-600'); 
             } else {
                  toastNotification.classList.add('bg-green-600');
@@ -503,7 +341,7 @@
     }
     
     // ===============================
-    // ОБРАБОТЧИКИ СОБЫТИЙ (ОСТАЛЬНЫЕ)
+    // ОБРАБОТЧИКИ СОБЫТИЙ
     // ===============================
     uploadBtn.addEventListener('click', () => fileInput.click());
 
@@ -688,11 +526,14 @@
         });
     }
 
-    function getFavoriteCount() { return channels.filter(c => c.isFavorite).length; }
+    function getFavoriteCount() { 
+        return channels.filter(c => c.isFavorite).length;
+    }
 
     function renderCategoryFilter() {
       categoryFilter.innerHTML = '';
       const sortedCategories = Array.from(allCategories).sort();
+
       const favoriteCount = getFavoriteCount(); 
       
       if (favoriteCount > 0 || excludedCategories.has(FAVORITE_CATEGORY)) {
@@ -703,6 +544,7 @@
       sortedCategories.forEach(category => {
         const container = document.createElement('label');
         container.className = 'flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 transition text-sm';
+
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.className = 'form-checkbox h-4 w-4 text-black rounded border-gray-300 focus:ring-0';
@@ -732,6 +574,7 @@
     function renderCategorySelect() {
         categorySelect.innerHTML = '<option value="">Все категории</option>';
         const sortedCategories = Array.from(allCategories).sort();
+        
         const favoriteCount = getFavoriteCount(); 
         
         if (favoriteCount > 0) { 
@@ -748,13 +591,20 @@
         });
     }
 
-    categorySelect.addEventListener('change', () => { renderChannelList(searchInput.value); });
+    categorySelect.addEventListener('change', () => {
+        renderChannelList(searchInput.value);
+    });
 
     function downloadSingleChannel(entry) {
       let playlistContent = `#EXTM3U\n`;
+      
       let extinfLine = entry.extinf;
+      
       playlistContent += `${extinfLine}\n`;
-      if (entry.extgrp) { playlistContent += `${entry.extgrp}\n`; }
+      
+      if (entry.extgrp) {
+        playlistContent += `${entry.extgrp}\n`;
+      }
       playlistContent += `${entry.url}`;
 
       const blob = new Blob([playlistContent], { type: 'text/plain;charset=utf-8' });
@@ -770,31 +620,41 @@
 
     function toggleFavorite(entry) {
         entry.isFavorite = !entry.isFavorite; 
+
         renderCategoryFilter();
         renderCategorySelect();
         renderChannelList(searchInput.value);
+        
         const action = entry.isFavorite ? 'добавлен в' : 'удален из';
         showToast(`Канал "${entry.name}" ${action} избранного.`);
     }
     
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
+      
       const isMobile = window.matchMedia('(max-width: 640px)').matches;
       const downloadButtonText = isMobile ? 'Скачать' : 'Скачать канал';
+      
       const selectedCategory = categorySelect.value; 
+      
       let filteredChannels = channels;
 
+      // 1. Исключаем категории, отмеченные в чекбоксах
       filteredChannels = filteredChannels.filter(entry => !excludedCategories.has(entry.category));
+
+      // 2. Применяем фильтр "ИЗБРАННОЕ"
       if (selectedCategory === FAVORITE_CATEGORY) {
           filteredChannels = filteredChannels.filter(entry => entry.isFavorite);
       } else if (excludedCategories.has(FAVORITE_CATEGORY)) {
           filteredChannels = filteredChannels.filter(entry => !entry.isFavorite);
       }
 
+      // 3. Применяем фильтр по имени и обычной категории
       filteredChannels = filteredChannels
         .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
         .filter(entry => !selectedCategory || selectedCategory === FAVORITE_CATEGORY || entry.category === selectedCategory);
 
+        
       updateCounter(filteredChannels.length); 
         
       filteredChannels.forEach((entry) => {
@@ -828,6 +688,7 @@
           delBtn.onclick = () => {
             const linesToDelete = (entry.endIndex - entry.startIndex) + 1;
             originalLines.splice(entry.startIndex, linesToDelete);
+            
             parseChannelsSync(); 
             renderCategoryFilter();
             renderCategorySelect(); 
@@ -849,8 +710,13 @@
     }
 
     function parseChannelsSync() {
+      // 1. Сохраняем текущие статусы избранного перед очисткой
       const tempFavoriteMap = {};
-      channels.forEach(c => { if (c.isFavorite) { tempFavoriteMap[c.url + c.name] = true; } });
+      channels.forEach(c => {
+        if (c.isFavorite) {
+            tempFavoriteMap[c.url + c.name] = true; 
+        }
+      });
         
       channels = [];
       allCategories.clear();
@@ -863,19 +729,25 @@
           let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
           let category = 'Без категории';
           const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
-          if (groupTitleMatch) { category = groupTitleMatch[1].trim(); }
+          if (groupTitleMatch) {
+            category = groupTitleMatch[1].trim();
+          }
           let url = '';
           let extgrp = '';
           let urlIndex = i + 1;
           while (urlIndex < originalLines.length) {
             const nextLine = originalLines[urlIndex].trim();
             if (nextLine.startsWith('#EXTGRP:')) {
-              if (category === 'Без категории' || category === '') { category = nextLine.substring(8).trim(); }
+              if (category === 'Без категории' || category === '') {
+                category = nextLine.substring(8).trim();
+              }
               extgrp = nextLine;
             } else if (nextLine && !nextLine.startsWith('#')) {
               url = nextLine;
               break;
-            } else if (nextLine.startsWith('#EXTINF')) { break; }
+            } else if (nextLine.startsWith('#EXTINF')) {
+              break;
+            }
             urlIndex++;
           }
           if (url) {
@@ -903,14 +775,19 @@
           channelCounter.textContent = filteredCount;
       } else {
           let remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
-          if (excludedCategories.has(FAVORITE_CATEGORY)) { remainingChannels = remainingChannels.filter(entry => !entry.isFavorite); }
+          
+          if (excludedCategories.has(FAVORITE_CATEGORY)) { 
+              remainingChannels = remainingChannels.filter(entry => !entry.isFavorite);
+          }
+          
           channelCounter.textContent = remainingChannels.length;
       }
     }
 
-    searchInput.addEventListener('input', () => { renderChannelList(searchInput.value); });
-    removeDuplicatesBtn.addEventListener('click', removeDuplicates);
-    
+    searchInput.addEventListener('input', () => {
+      renderChannelList(searchInput.value);
+    });
+
     function removeDuplicates() {
         const uniqueNames = new Set();
         const linesToRemove = [];
@@ -919,15 +796,24 @@
         for (let i = channels.length - 1; i >= 0; i--) {
             const channel = channels[i];
             const nameKey = channel.name.trim().toLowerCase(); 
+
             if (uniqueNames.has(nameKey)) {
                 const linesToDelete = (channel.endIndex - channel.startIndex) + 1;
-                linesToRemove.push({ startIndex: channel.startIndex, count: linesToDelete });
+                linesToRemove.push({
+                    startIndex: channel.startIndex,
+                    count: linesToDelete
+                });
                 removedCount++;
-            } else { uniqueNames.add(nameKey); }
+            } else {
+                uniqueNames.add(nameKey);
+            }
         }
         
         linesToRemove.sort((a, b) => b.startIndex - a.startIndex);
-        linesToRemove.forEach(item => { originalLines.splice(item.startIndex, item.count); });
+        
+        linesToRemove.forEach(item => {
+            originalLines.splice(item.startIndex, item.count);
+        });
         
         if (removedCount > 0) {
             parseChannelsSync();
@@ -940,21 +826,20 @@
         }
     }
     
+    removeDuplicatesBtn.addEventListener('click', removeDuplicates);
+    
     // =======================================================
-    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (БЕЗ ТОСТА УСПЕХА)
+    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (БЕЗ ЛОАДЕРА/ЗАТЕМНЕНИЯ)
     // =======================================================
-    async function uploadPlaylistToGitHub(content, count) {
-        if (!currentUser) {
-            showToast('Ошибка: Войдите в систему, чтобы сохранить на GitHub.');
-            return;
-        }
 
+    async function uploadPlaylistToGitHub(content, count) {
         const uploadUrl = '/.netlify/functions/save-playlist'; 
         
+        // !!! Сохранение происходит в фоне, без лоадера/модалки
+        
         try {
-            const idToken = await currentUser.getIdToken(true); 
-
             const now = new Date();
+            // Форматируем дату в строку ГГГГММДД_ЧЧММСС для уникальности
             const timestamp = now.getFullYear().toString() + 
                               (now.getMonth() + 1).toString().padStart(2, '0') + 
                               now.getDate().toString().padStart(2, '0') + 
@@ -963,15 +848,16 @@
                               now.getMinutes().toString().padStart(2, '0') +
                               now.getSeconds().toString().padStart(2, '0');
                               
+            // Формируем уникальное имя файла
             const uniqueFilename = `playlist_${count}_${timestamp}.m3u`;
             
             const response = await fetch(uploadUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${idToken}` 
                 },
                 body: JSON.stringify({
+                    // Передаем уникальное имя файла
                     filename: uniqueFilename, 
                     fileContent: content, 
                 }),
@@ -982,17 +868,20 @@
                 throw new Error(errorData.details || errorData.error || 'Unknown API Error');
             }
             
-            // !!! УДАЛЕНО: showToast('Плейлист успешно сохранен на GitHub!', null);
+            // Сообщение об успехе на гитхабе не показываем, согласно запросу.
             
         } catch (error) {
             console.error('Ошибка сохранения:', error);
+            // Показываем ошибку при неудаче
             showToast(`Ошибка сохранения на GitHub: ${error.message}`, null);
+        } finally {
+            // Никаких действий с UI в finally нет.
         }
     }
 
 
     // =======================================================
-    // ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ (ДЛЯ ЛОКАЛЬНОГО И СЕРВЕРНОГО СОХРАНЕНИЯ)
+    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ (ДЛЯ ЛОКАЛЬНОГО И СЕРВЕРНОГО СОХРАНЕНИЯ)
     // =======================================================
     saveBtn.addEventListener('click', () => {
       
@@ -1012,39 +901,57 @@
 
       let modifiedLines = ['#EXTM3U'];
       
+      // 1. ДОБАВЛЯЕМ ДОПОЛНИТЕЛЬНУЮ КАТЕГОРИЮ ДЛЯ ИЗБРАННЫХ КАНАЛОВ В НАЧАЛО
       if (favoriteChannels.length > 0) {
         modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
         
         favoriteChannels.forEach(entry => {
           let favExtinf = entry.extinf;
+          
           favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
-          if (!favExtinf.includes('group-title=')) { favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`); }
+          
+          if (!favExtinf.includes('group-title=')) {
+              favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
+          }
+          
           modifiedLines.push(favExtinf);
           modifiedLines.push(entry.url);
         });
+        
         modifiedLines.push('\n');
       }
       
+      // 2. Формируем ОСНОВНОЙ СПИСОК каналов
       const groupedChannels = {};
       includedChannels.forEach(entry => {
           const cat = entry.category || 'Без категории';
-          if (!groupedChannels[cat]) { groupedChannels[cat] = []; }
+          if (!groupedChannels[cat]) {
+              groupedChannels[cat] = [];
+          }
           groupedChannels[cat].push(entry);
       });
       
       const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
       
       sortedCategories.forEach(cat => {
-          if (cat !== 'Без категории') { modifiedLines.push(`#EXTGRP:${cat}`); }
+          if (cat !== 'Без категории') {
+             modifiedLines.push(`#EXTGRP:${cat}`);
+          }
 
           groupedChannels[cat].forEach(entry => {
-              if (entry.isFavorite) { return; }
+              if (entry.isFavorite) {
+                   return; 
+              }
+
               modifiedLines.push(entry.extinf);
-              if (entry.extgrp) { modifiedLines.push(entry.extgrp); }
+              if (entry.extgrp) {
+                  modifiedLines.push(entry.extgrp);
+              }
               modifiedLines.push(entry.url);
           });
       });
       
+      // Сохраняем контент в глобальную переменную для локального скачивания
       editedContent = modifiedLines.join('\n');
       const finalChannelCount = includedChannels.length; 
       
@@ -1078,6 +985,7 @@
       });
       
       const remainingCount = remainingChannels.length; 
+      // Имя файла для локального скачивания можно сделать проще
       a.download = `playlist_${remainingCount}.m3u`; 
       document.body.appendChild(a);
       a.click();
