@@ -6,7 +6,6 @@
   <title>Редактировать Плейлист</title>
   <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Подключение Firebase SDK через CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth-compat.js"></script>
   <style>
@@ -74,12 +73,9 @@
     }
   </style>
 </head>
-<body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
+<body class="bg-white text-black min-h-screen flex items-center justify-center px-4 hidden">
 
-  <!-- ============================================== -->
-  <!-- 1. ЭКРАН АУТЕНТИФИКАЦИИ -->
-  <!-- ============================================== -->
-  <div id="authScreen" class="text-center w-full max-w-md hidden">
+  <div id="authScreen" class="text-center w-full max-w-md">
       <h1 class="text-3xl font-bold mb-8 text-gray-800">Вход / Регистрация</h1>
       
       <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
@@ -107,10 +103,7 @@
       </div>
   </div>
 
-  <!-- ============================================== -->
-  <!-- 2. ЭКРАН ЗАГРУЗКИ ПЛЕЙЛИСТА -->
-  <!-- ============================================== -->
-  <div id="mainScreen" class="text-center w-full max-w-md hidden">
+  <div id="mainScreen" class="text-center w-full max-w-md">
     
     <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
         
@@ -139,10 +132,7 @@
 
     </div>
 
-  <!-- ============================================== -->
-  <!-- 3. ЭКРАН РЕДАКТОРА -->
-  <!-- ============================================== -->
-  <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
+  <div id="editorScreen" class="w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
       <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">
           РЕДАКТОР КАНАЛОВ (<span id="userNameDisplay">Гость</span>)
@@ -238,7 +228,6 @@
   <div id="saveModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
-      <!-- Назначение модального окна восстановлено для локального скачивания -->
       <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
       <button id="downloadBtn"
         class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
@@ -286,6 +275,7 @@
     const GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
     
     let currentUser = null; // Глобальная переменная для хранения текущего пользователя
+    let isInitialAuthCheckComplete = false; // Флаг для первого запуска
 
     // =======================================================
     // 2. ССЫЛКИ НА ЭЛЕМЕНТЫ (ВКЛЮЧАЯ АУТЕНТИФИКАЦИОННЫЕ)
@@ -347,6 +337,34 @@
     // 3. ФУНКЦИИ АУТЕНТИФИКАЦИИ
     // =======================================================
 
+    // Функция для переключения экранов
+    function switchScreens(user) {
+        // Сначала скрываем все основные экраны
+        authScreen.classList.add('hidden');
+        mainScreen.classList.add('hidden');
+        editorScreen.classList.add('hidden');
+        
+        if (user) {
+            // Пользователь вошел: показываем либо редактор, либо главный экран загрузки
+            const displayName = user.displayName || user.email || 'Пользователь';
+            userNameDisplay.textContent = displayName;
+            
+            // Если у нас уже есть загруженный плейлист (показываем editorScreen)
+            if (channels.length > 0) {
+                 editorScreen.classList.remove('hidden');
+            } else {
+                 mainScreen.classList.remove('hidden');
+            }
+            
+        } else {
+            // Пользователь вышел: показываем экран аутентификации
+            authScreen.classList.remove('hidden');
+        }
+        
+        // Показываем body после того, как все настроено
+        document.body.classList.remove('hidden');
+    }
+
     // Обработчик регистрации по почте
     signupBtn.addEventListener('click', async () => {
         const email = authEmail.value;
@@ -385,11 +403,10 @@
         }
     });
 
-    // Используем signInWithRedirect вместо signInWithPopup
+    // Используем signInWithRedirect
     googleSignInBtn.addEventListener('click', async () => {
         const provider = new GoogleAuthProvider();
         try {
-            // Запускаем перенаправление
             await auth.signInWithRedirect(provider);
         } catch (error) {
             console.error(error);
@@ -408,8 +425,22 @@
         }
     });
 
-    // Обработка ответа после перенаправления (для Google) - ПЕРВОЕ, что нужно проверить
+    // Слушатель состояния аутентификации
+    auth.onAuthStateChanged(user => {
+        currentUser = user;
+        if (!isInitialAuthCheckComplete) {
+            // При первом запуске используем switchScreens
+            switchScreens(user);
+            isInitialAuthCheckComplete = true;
+        } else {
+            // При изменении состояния (вход/выход) переключаем экраны
+            switchScreens(user);
+        }
+    });
+
+    // Обработка ответа после перенаправления (для Google) - Запускается ПЕРВОЙ
     auth.getRedirectResult().then((result) => {
+        // После обработки редиректа, onAuthStateChanged будет вызван автоматически
         if (result.user) {
             showToast('Вход через Google успешен!');
         }
@@ -420,32 +451,6 @@
         }
     });
 
-
-    // Слушатель состояния аутентификации
-    auth.onAuthStateChanged(user => {
-        currentUser = user;
-        if (user) {
-            // Пользователь вошел
-            authScreen.classList.add('hidden');
-            
-            const displayName = user.displayName || user.email || 'Пользователь';
-            userNameDisplay.textContent = displayName;
-            
-            // Если редактор открыт, оставляем его, иначе показываем mainScreen
-            if (editorScreen.classList.contains('hidden')) {
-                mainScreen.classList.remove('hidden');
-            } else {
-                 editorScreen.classList.remove('hidden');
-            }
-
-        } else {
-            // Пользователь вышел
-            authScreen.classList.remove('hidden');
-            mainScreen.classList.add('hidden');
-            editorScreen.classList.add('hidden');
-            userNameDisplay.textContent = 'Гость';
-        }
-    });
 
     // =======================================================
     // 4. СУЩЕСТВУЮЩИЕ ФУНКЦИИ (Сокращены для компактности)
