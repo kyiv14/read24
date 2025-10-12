@@ -1,0 +1,3 @@
+[build]
+  # Указываем, что функции находятся в папке 'functions'
+  functions = "functions"
