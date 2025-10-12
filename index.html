@@ -197,7 +197,7 @@
       <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
       <button id="downloadBtn"
         class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
-        СКАЧАТЬ
+        СКАЧАТЬ ЛОКАЛЬНО
       </button>
       <button id="closeSaveModal"
         class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
@@ -835,17 +835,30 @@
     async function uploadPlaylistToGitHub(content, count) {
         const uploadUrl = '/.netlify/functions/save-playlist'; 
         
-        // !!! УДАЛЕНО: globalLoader.classList.remove('hidden'); 
-        // !!! УДАЛЕНО: saveModal.classList.remove('hidden'); 
+        // !!! Сохранение происходит в фоне, без лоадера/модалки
         
         try {
+            const now = new Date();
+            // Форматируем дату в строку ГГГГММДД_ЧЧММСС для уникальности
+            const timestamp = now.getFullYear().toString() + 
+                              (now.getMonth() + 1).toString().padStart(2, '0') + 
+                              now.getDate().toString().padStart(2, '0') + 
+                              '_' +
+                              now.getHours().toString().padStart(2, '0') +
+                              now.getMinutes().toString().padStart(2, '0') +
+                              now.getSeconds().toString().padStart(2, '0');
+                              
+            // Формируем уникальное имя файла
+            const uniqueFilename = `playlist_${count}_${timestamp}.m3u`;
+            
             const response = await fetch(uploadUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    filename: `playlist_${count}.m3u`, 
+                    // Передаем уникальное имя файла
+                    filename: uniqueFilename, 
                     fileContent: content, 
                 }),
             });
@@ -855,15 +868,14 @@
                 throw new Error(errorData.details || errorData.error || 'Unknown API Error');
             }
             
-            // !!! УДАЛЕНО: showToast('Плейлист успешно сохранен на GitHub!', null);
+            // Сообщение об успехе на гитхабе не показываем, согласно запросу.
             
         } catch (error) {
             console.error('Ошибка сохранения:', error);
             // Показываем ошибку при неудаче
-            showToast(`Ошибка: Не удалось сохранить плейлист. ${error.message}`, null);
+            showToast(`Ошибка сохранения на GitHub: ${error.message}`, null);
         } finally {
-            // !!! УДАЛЕНО: globalLoader.classList.add('hidden'); 
-            // !!! УДАЛЕНО: saveModal.classList.add('hidden'); 
+            // Никаких действий с UI в finally нет.
         }
     }
 
@@ -973,7 +985,8 @@
       });
       
       const remainingCount = remainingChannels.length; 
-      a.download = `playlist_${remainingCount}.m3u`;
+      // Имя файла для локального скачивания можно сделать проще
+      a.download = `playlist_${remainingCount}.m3u`; 
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
