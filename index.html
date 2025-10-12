@@ -6,6 +6,7 @@
   <title>Редактировать Плейлист</title>
   <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Подключение Firebase SDK через CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth-compat.js"></script>
   <style>
@@ -73,8 +74,12 @@
     }
   </style>
 </head>
+<!-- ИЗМЕНЕНИЕ: Скрываем body, чтобы избежать "мерцания" -->
 <body class="bg-white text-black min-h-screen flex items-center justify-center px-4 hidden">
 
+  <!-- ============================================== -->
+  <!-- 1. ЭКРАН АУТЕНТИФИКАЦИИ (УДАЛЕН КЛАСС hidden) -->
+  <!-- ============================================== -->
   <div id="authScreen" class="text-center w-full max-w-md">
       <h1 class="text-3xl font-bold mb-8 text-gray-800">Вход / Регистрация</h1>
       
@@ -103,6 +108,9 @@
       </div>
   </div>
 
+  <!-- ============================================== -->
+  <!-- 2. ЭКРАН ЗАГРУЗКИ ПЛЕЙЛИСТА (УДАЛЕН КЛАСС hidden) -->
+  <!-- ============================================== -->
   <div id="mainScreen" class="text-center w-full max-w-md">
     
     <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
@@ -132,6 +140,9 @@
 
     </div>
 
+  <!-- ============================================== -->
+  <!-- 3. ЭКРАН РЕДАКТОРА (УДАЛЕН КЛАСС hidden) -->
+  <!-- ============================================== -->
   <div id="editorScreen" class="w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
       <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">
@@ -228,6 +239,7 @@
   <div id="saveModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+      <!-- Назначение модального окна восстановлено для локального скачивания -->
       <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
       <button id="downloadBtn"
         class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
@@ -428,28 +440,27 @@
     // Слушатель состояния аутентификации
     auth.onAuthStateChanged(user => {
         currentUser = user;
-        if (!isInitialAuthCheckComplete) {
-            // При первом запуске используем switchScreens
-            switchScreens(user);
-            isInitialAuthCheckComplete = true;
-        } else {
-            // При изменении состояния (вход/выход) переключаем экраны
-            switchScreens(user);
-        }
+        // onAuthStateChanged может быть вызван несколько раз, но switchScreens гарантирует правильное состояние
+        switchScreens(user);
     });
 
     // Обработка ответа после перенаправления (для Google) - Запускается ПЕРВОЙ
-    auth.getRedirectResult().then((result) => {
-        // После обработки редиректа, onAuthStateChanged будет вызван автоматически
-        if (result.user) {
-            showToast('Вход через Google успешен!');
+    // Эту логику мы обернем в асинхронную IIFE, чтобы она выполнилась немедленно и до onAuthStateChanged
+    (async () => {
+        try {
+            const result = await auth.getRedirectResult();
+            if (result.user) {
+                // Если был результат редиректа, onAuthStateChanged будет вызван сразу после этого
+                showToast('Вход через Google успешен!');
+            }
+        } catch (error) {
+            if (error) {
+                 console.error("Ошибка при возврате с Google:", error);
+                 showToast(`Ошибка Google входа: ${error.message}`);
+            }
         }
-    }).catch((error) => {
-        if (error) {
-             console.error("Ошибка при возврате с Google:", error);
-             showToast(`Ошибка Google входа: ${error.message}`);
-        }
-    });
+    })();
+    
 
 
     // =======================================================
