@@ -23,9 +23,6 @@
       animation: fade-in 0.3s ease-out;
     }
 
-    /* Стили для Drag and Drop */
-    /* УДАЛЕНО: .drag-over {} */
-
     /* Мобильная адаптация для списка каналов */
     @media (max-width: 640px) { /* sm breakpoint по умолчанию в Tailwind */
       .channel-item {
@@ -55,7 +52,7 @@
           flex-shrink: 0;
       }
       
-      /* НОВЫЕ СТИЛИ ДЛЯ МОБИЛЬНОЙ АДАПТАЦИИ ЭКРАНА РЕДАКТОРА */
+      /* НОВЫЕ СТИЛЫ ДЛЯ МОБИЛЬНОЙ АДАПТАЦИИ ЭКРАНА РЕДАКТОРА */
       #editorScreen .sm\\:justify-between {
           justify-content: center; /* Центрируем заголовок на мобильных */
       }
@@ -197,14 +194,12 @@
   <div id="saveModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
-      <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
-      <button id="downloadBtn"
-        class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
-        СКАЧАТЬ
+      <h2 class="text-2xl font-bold mb-6">Идет сохранение на GitHub...</h2>
+      <button id="downloadBtn" class="w-full bg-gray-400 text-white font-medium py-2 rounded-xl transition mb-2 hidden">
+        СКАЧАТЬ (Не используется)
       </button>
-      <button id="closeSaveModal"
-        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
-        ЗАКРЫТЬ
+      <button id="closeSaveModal" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition hidden">
+        ЗАКРЫТЬ (Не используется)
       </button>
     </div>
   </div>
@@ -225,15 +220,11 @@
     const urlInput = document.getElementById('urlInput');
     const loadUrlBtn = document.getElementById('loadUrlBtn');
     const loading = document.getElementById('loading');
-    // const modal = document.getElementById('modal'); // Удалена ссылка на модалку
     const saveModal = document.getElementById('saveModal');
-    // const channelCount = document.getElementById('channelCount'); // Удалена ссылка на счетчик в модалке
     const channelCounter = document.getElementById('channelCounter');
     const finalFileName = document.getElementById('finalFileName');
     const downloadBtn = document.getElementById('downloadBtn');
     const closeSaveModal = document.getElementById('closeSaveModal');
-    // const editBtn = document.getElementById('editBtn'); // Удалена ссылка на кнопку
-    // const closeModal = document.getElementById('closeModal'); // Удалена ссылка на кнопку
     const mainScreen = document.getElementById('mainScreen');
     const editorScreen = document.getElementById('editorScreen');
     const channelList = document.getElementById('channelList');
@@ -242,7 +233,7 @@
     const categoryFilter = document.getElementById('categoryFilter'); 
     const removeDuplicatesBtn = document.getElementById('removeDuplicatesBtn'); 
     const dropArea = document.getElementById('dropArea');
-    const categorySelect = document.getElementById('categorySelect'); // НОВАЯ ССЫЛКА
+    const categorySelect = document.getElementById('categorySelect'); 
     
     const uploadModal = document.getElementById('uploadModal');
     const openUploadModalBtn = document.getElementById('openUploadModalBtn');
@@ -266,10 +257,10 @@
     let categoryChannelCounts = {}; 
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
-    const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; // <-- ИЗМЕНЕНО: Одинаковый смайлик спереди и сзади
+    const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
 
     // ===============================
-    // ЛОГИКА DRAG AND DROP - УДАЛЕНА ИЗ КОДА
+    // ЛОГИКА DRAG AND DROP
     // ===============================
     const dragDropAreas = [dropArea, dropAreaModal];
 
@@ -296,11 +287,11 @@
     }
 
     function highlight(e) {
-      // e.currentTarget.classList.add('drag-over'); // Удалено применение стиля
+      // e.currentTarget.classList.add('drag-over'); 
     }
 
     function unhighlight(e) {
-      // e.currentTarget.classList.remove('drag-over'); // Удалено снятие стиля
+      // e.currentTarget.classList.remove('drag-over'); 
     }
 
     function handleDrop(e) {
@@ -356,11 +347,8 @@
       const file = fileInput.files[0];
       if (!file) return;
     
-      // Показываем глобальный прелоадер немедленно
       globalLoader.classList.remove('hidden');
     
-      // Используем короткий таймаут, чтобы UI успел обновиться (показать прелоадер)
-      // перед началом потенциально блокирующей операции чтения файла.
       setTimeout(() => {
         const reader = new FileReader();
         reader.onload = function (e) {
@@ -377,7 +365,6 @@
     });
     
     openUploadModalBtn.addEventListener('click', () => {
-        // Заменяем переход на mainScreen на показ модалки загрузки
         uploadModal.classList.remove('hidden');
     });
 
@@ -412,10 +399,8 @@
             loadingElement.classList.add('hidden');
             const content = await response.text();
 
-            // Показываем глобальный прелоадер перед обработкой
             globalLoader.classList.remove('hidden');
 
-            // Используем таймаут для консистентности обновления UI
             setTimeout(() => {
                 processPlaylistContent(content);
             }, 50);
@@ -432,8 +417,6 @@
     function processPlaylistContent(content) {
         originalLines = content.split('\n');
         
-        // Прелоадер уже показан вызывающей функцией.
-        // Сразу начинаем асинхронную обработку.
         parseChannelsAsync()
             .then(() => {
                 globalLoader.classList.add('hidden');
@@ -441,19 +424,13 @@
                 dropAreaModal.classList.remove('hidden');
                 uploadModal.classList.add('hidden');
 
-                // ПРЯМОЙ ПЕРЕХОД К РЕДАКТОРУ:
-                
-                // channelCount.textContent = channels.length; // Больше не нужно обновлять счетчик в модалке
-                // modal.classList.remove('hidden'); // Убрали показ модалки
-
-                // Действия, которые раньше были в editBtn.addEventListener
                 mainScreen.classList.add('hidden');
                 editorScreen.classList.remove('hidden');
                 excludedCategories.clear(); 
                 renderCategoryFilter();
-                renderCategorySelect(); // НОВАЯ ФУНКЦИЯ
-                categorySelect.value = ""; // Сброс выбранной категории
-                updateCounter(channels.length); // Обновляем счетчик общим количеством
+                renderCategorySelect();
+                categorySelect.value = ""; 
+                updateCounter(channels.length); 
                 renderChannelList();
 
                 showToast('Плейлист загружен.', channels.length);
@@ -465,19 +442,6 @@
                 showToast('Ошибка обработки файла: ' + error.message);
             });
     }
-
-    // closeModal.addEventListener('click', () => { // УДАЛЕНО
-    //   modal.classList.add('hidden');
-    // });
-
-    // editBtn.addEventListener('click', () => { // УДАЛЕНО, логика перенесена в processPlaylistContent
-    //   modal.classList.add('hidden');
-    //   mainScreen.classList.add('hidden');
-    //   editorScreen.classList.remove('hidden');
-    //   renderCategoryFilter(); 
-    //   updateCounter();
-    //   renderChannelList();
-    // });
 
     function parseChannelsAsync() {
         return new Promise((resolve, reject) => {
@@ -534,7 +498,7 @@
                                     startIndex: i,
                                     endIndex: urlIndex,
                                     category,
-                                    isFavorite: false, // <-- Инициализация нового свойства
+                                    isFavorite: false,
                                 });
                                 allCategories.add(category);
                                 categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
@@ -560,7 +524,7 @@
         });
     }
 
-    function getFavoriteCount() { // <-- НОВАЯ ФУНКЦИЯ
+    function getFavoriteCount() { 
         return channels.filter(c => c.isFavorite).length;
     }
 
@@ -568,9 +532,8 @@
       categoryFilter.innerHTML = '';
       const sortedCategories = Array.from(allCategories).sort();
 
-      const favoriteCount = getFavoriteCount(); // NEW
+      const favoriteCount = getFavoriteCount(); 
       
-      // Добавляем "ИЗБРАННОЕ" в список категорий, если есть избранные каналы
       if (favoriteCount > 0 || excludedCategories.has(FAVORITE_CATEGORY)) {
           sortedCategories.unshift(FAVORITE_CATEGORY);
           categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
@@ -592,7 +555,7 @@
           } else {
             excludedCategories.delete(category);
           }
-          renderChannelList(searchInput.value); // renderChannelList вызывает updateCounter()
+          renderChannelList(searchInput.value); 
         });
 
         const span = document.createElement('span');
@@ -606,14 +569,12 @@
       });
     }
     
-    // НОВАЯ ФУНКЦИЯ: Рендеринг выпадающего списка категорий
     function renderCategorySelect() {
         categorySelect.innerHTML = '<option value="">Все категории</option>';
         const sortedCategories = Array.from(allCategories).sort();
         
-        const favoriteCount = getFavoriteCount(); // NEW
+        const favoriteCount = getFavoriteCount(); 
         
-        // Добавляем "ИЗБРАННОЕ" в список выбора категорий, если есть избранные каналы
         if (favoriteCount > 0) { 
              sortedCategories.unshift(FAVORITE_CATEGORY);
              categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
@@ -628,7 +589,6 @@
         });
     }
 
-    // НОВЫЙ ОБРАБОТЧИК: Фильтрация по выбранной категории
     categorySelect.addEventListener('change', () => {
         renderChannelList(searchInput.value);
     });
@@ -636,7 +596,6 @@
     function downloadSingleChannel(entry) {
       let playlistContent = `#EXTM3U\n`;
       
-      // УДАЛЯЕМ ЛОГИКУ favorite="1"
       let extinfLine = entry.extinf;
       
       playlistContent += `${extinfLine}\n`;
@@ -657,11 +616,9 @@
       URL.revokeObjectURL(url);
     }
 
-    // НОВАЯ ФУНКЦИЯ: Обработка избранного (обновлено для логики)
     function toggleFavorite(entry) {
-        entry.isFavorite = !entry.isFavorite; // Переключаем статус
+        entry.isFavorite = !entry.isFavorite; 
 
-        // Перерисовываем UI
         renderCategoryFilter();
         renderCategorySelect();
         renderChannelList(searchInput.value);
@@ -676,7 +633,7 @@
       const isMobile = window.matchMedia('(max-width: 640px)').matches;
       const downloadButtonText = isMobile ? 'Скачать' : 'Скачать канал';
       
-      const selectedCategory = categorySelect.value; // Получаем выбранную категорию
+      const selectedCategory = categorySelect.value; 
       
       let filteredChannels = channels;
 
@@ -696,7 +653,6 @@
         .filter(entry => !selectedCategory || selectedCategory === FAVORITE_CATEGORY || entry.category === selectedCategory);
 
         
-      // !!! ОБНОВЛЕНИЕ СЧЕТЧИКА: Теперь он показывает количество каналов в списке
       updateCounter(filteredChannels.length); 
         
       filteredChannels.forEach((entry) => {
@@ -711,12 +667,10 @@
           categoryBadge.className = 'channel-category-badge bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
           categoryBadge.textContent = entry.category;
 
-          // ДОБАВЛЕНА КНОПКА ИЗБРАННОЕ (обновлено)
           const favBtn = document.createElement('button');
-          // Цвет кнопки зависит от статуса isFavorite
           const starColor = entry.isFavorite ? 'text-yellow-500 hover:text-yellow-400' : 'text-gray-400 hover:text-yellow-500';
           favBtn.className = `channel-favorite-btn ${starColor} font-semibold text-xl px-2 py-1 transition flex-shrink-0`;
-          favBtn.innerHTML = '★'; // Символ звезды
+          favBtn.innerHTML = '★'; 
           favBtn.title = entry.isFavorite ? 'Удалить из избранного' : 'Добавить в избранное';
           favBtn.onclick = () => toggleFavorite(entry);
 
@@ -735,15 +689,15 @@
             
             parseChannelsSync(); 
             renderCategoryFilter();
-            renderCategorySelect(); // Обновляем выпадающий список после удаления
-            renderChannelList(searchInput.value); // renderChannelList вызывает updateCounter()
+            renderCategorySelect(); 
+            renderChannelList(searchInput.value); 
           };
 
           const buttonContainer = document.createElement('div');
           buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
           
           buttonContainer.appendChild(categoryBadge); 
-          buttonContainer.appendChild(favBtn); // ДОБАВЛЕНИЕ КНОПКИ ИЗБРАННОЕ
+          buttonContainer.appendChild(favBtn); 
           buttonContainer.appendChild(downloadBtn);
           buttonContainer.appendChild(delBtn);
 
@@ -757,7 +711,6 @@
       // 1. Сохраняем текущие статусы избранного перед очисткой
       const tempFavoriteMap = {};
       channels.forEach(c => {
-        // Используем связку URL+Name как уникальный ключ для сохранения статуса
         if (c.isFavorite) {
             tempFavoriteMap[c.url + c.name] = true; 
         }
@@ -797,14 +750,14 @@
           }
           if (url) {
             const key = url + name;
-            const isFav = tempFavoriteMap[key] || false; // 2. Восстанавливаем статус
+            const isFav = tempFavoriteMap[key] || false; 
 
             channels.push({
               name, extinf, extgrp, url,
               startIndex: i,
               endIndex: urlIndex,
               category,
-              isFavorite: isFav, // <-- Используем восстановленный статус
+              isFavorite: isFav, 
             });
             allCategories.add(category);
             categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
@@ -819,10 +772,9 @@
       if (filteredCount !== null) {
           channelCounter.textContent = filteredCount;
       } else {
-          // Если не передано число, считаем только по исключенным (для начального рендеринга/сброса)
           let remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
           
-          if (excludedCategories.has(FAVORITE_CATEGORY)) { // Учитываем, если ИЗБРАННОЕ исключено
+          if (excludedCategories.has(FAVORITE_CATEGORY)) { 
               remainingChannels = remainingChannels.filter(entry => !entry.isFavorite);
           }
           
@@ -864,8 +816,8 @@
         if (removedCount > 0) {
             parseChannelsSync();
             renderCategoryFilter();
-            renderCategorySelect(); // Обновляем выпадающий список после удаления дубликатов
-            renderChannelList(searchInput.value); // renderChannelList вызывает updateCounter()
+            renderCategorySelect(); 
+            renderChannelList(searchInput.value); 
             showToast(`Удалено ${removedCount} дубликатов каналов.`); 
         } else {
             showToast('Дубликаты каналов не найдены.'); 
@@ -873,7 +825,54 @@
     }
     
     removeDuplicatesBtn.addEventListener('click', removeDuplicates);
+    
+    // =======================================================
+    // !!! НОВАЯ ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION !!!
+    // =======================================================
 
+    async function uploadPlaylistToGitHub(content, count) {
+        // Netlify Function будет доступна по пути /.netlify/functions/имя-файла
+        const uploadUrl = '/.netlify/functions/save-playlist'; 
+        
+        // Показываем модальное окно с текстом "Идет сохранение..." и глобальный лоадер
+        saveModal.classList.remove('hidden'); 
+        globalLoader.classList.remove('hidden');
+        
+        try {
+            const response = await fetch(uploadUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    // Отправляем имя файла с количеством каналов
+                    filename: `playlist_${count}.m3u`, 
+                    fileContent: content, 
+                }),
+            });
+            
+            if (!response.ok) {
+                // Пытаемся получить детали ошибки от сервера
+                const errorData = await response.json();
+                throw new Error(errorData.details || errorData.error || 'Unknown API Error');
+            }
+            
+            saveModal.classList.add('hidden'); // Закрываем модальное окно
+            showToast('Плейлист успешно сохранен на GitHub!', null);
+            
+        } catch (error) {
+            console.error('Ошибка сохранения:', error);
+            saveModal.classList.add('hidden'); // Закрываем модальное окно в случае ошибки
+            showToast(`Ошибка: Не удалось сохранить плейлист. ${error.message}`, null);
+        } finally {
+            globalLoader.classList.add('hidden'); // Скрыть лоадер
+        }
+    }
+
+
+    // =======================================================
+    // !!! ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ !!!
+    // =======================================================
     saveBtn.addEventListener('click', () => {
       
       // Определяем, какие каналы должны быть включены в основной список
@@ -882,8 +881,6 @@
         const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
         const isFavorite = entry.isFavorite;
 
-        // Канал сохраняется, если (он не избранный И его категория не исключена) 
-        // ИЛИ (он избранный И категория 'ИЗБРАННОЕ' не исключена).
         if (isFavorite) {
             return !isFavoriteCategoryExcluded;
         }
@@ -898,17 +895,13 @@
       
       // 1. ДОБАВЛЯЕМ ДОПОЛНИТЕЛЬНУЮ КАТЕГОРИЮ ДЛЯ ИЗБРАННЫХ КАНАЛОВ В НАЧАЛО
       if (favoriteChannels.length > 0) {
-        // Используем DISPLAY_FAVORITE_CATEGORY с одинаковыми эмодзи
         modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
         
         favoriteChannels.forEach(entry => {
-          // Создаем строку EXTINF, используя оригинальный тег EXTINF, но гарантируя, что group-title соответствует DISPLAY_FAVORITE_CATEGORY
           let favExtinf = entry.extinf;
           
-          // Удаляем старый group-title и заменяем его на DISPLAY_FAVORITE_CATEGORY
           favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
           
-          // Если group-title вообще не было, добавляем его перед именем
           if (!favExtinf.includes('group-title=')) {
               favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
           }
@@ -917,12 +910,10 @@
           modifiedLines.push(entry.url);
         });
         
-        modifiedLines.push('\n'); // Добавляем пустую строку после категории ИЗБРАННОЕ для читаемости
+        modifiedLines.push('\n');
       }
       
       // 2. Формируем ОСНОВНОЙ СПИСОК каналов
-      
-      // Группируем каналы по категориям для лучшей организации плейлиста
       const groupedChannels = {};
       includedChannels.forEach(entry => {
           const cat = entry.category || 'Без категории';
@@ -932,20 +923,14 @@
           groupedChannels[cat].push(entry);
       });
       
-      // Сортируем остальные категории по алфавиту
       const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
       
-      // Добавляем каналы в плейлист по категориям, пропуская Избранные, чтобы не дублировать
       sortedCategories.forEach(cat => {
-          
-          // Добавляем заголовок категории (если это не Без категории)
           if (cat !== 'Без категории') {
              modifiedLines.push(`#EXTGRP:${cat}`);
           }
 
           groupedChannels[cat].forEach(entry => {
-              
-              // Пропускаем Избранные каналы, т.к. они уже добавлены в начале в категорию DISPLAY_FAVORITE_CATEGORY
               if (entry.isFavorite) {
                    return; 
               }
@@ -958,14 +943,19 @@
           });
       });
       
-      editedContent = modifiedLines.join('\n');
-      // Счетчиком остаются только те каналы, которые не были исключены (не важно, избранные они или нет)
+      const editedContent = modifiedLines.join('\n');
       const finalChannelCount = includedChannels.length; 
-      finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
       
-      saveModal.classList.remove('hidden');
+      // !!! ВЫЗОВ НОВОЙ ФУНКЦИИ: Отправка на Netlify Function
+      uploadPlaylistToGitHub(editedContent, finalChannelCount);
+      
     });
 
+    // =======================================================
+    // !!! УДАЛЕННЫЕ/ОТКЛЮЧЕННЫЕ ОБРАБОТЧИКИ СКАЧИВАНИЯ !!!
+    // =======================================================
+
+    /*
     downloadBtn.addEventListener('click', () => {
       const blob = new Blob([editedContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -995,6 +985,7 @@
     closeSaveModal.addEventListener('click', () => {
       saveModal.classList.add('hidden');
     });
+    */
   </script>
 </body>
 </html>
