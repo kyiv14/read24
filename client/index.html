@@ -105,22 +105,7 @@
       Загрузка файла...
     </div>
 
-    <div id="modal"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-10">
-      <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center">
-        <h2 class="text-xl font-semibold mb-2 text-gray-800">КОЛИЧЕСТВО КАНАЛОВ</h2>
-        <p id="channelCount" class="text-3xl font-bold text-black mb-4">0</p>
-        <button id="editBtn"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl transition mb-2">
-          РЕДАКТИРОВАТЬ
-        </button>
-        <button id="closeModal"
-          class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-xl transition">
-          ЗАКРЫТЬ
-        </button>
-      </div>
     </div>
-  </div>
 
   <div id="editorScreen" class="hidden w-full max-w-2xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
@@ -223,15 +208,15 @@
     const urlInput = document.getElementById('urlInput');
     const loadUrlBtn = document.getElementById('loadUrlBtn');
     const loading = document.getElementById('loading');
-    const modal = document.getElementById('modal');
+    // const modal = document.getElementById('modal'); // Удалена ссылка на модалку
     const saveModal = document.getElementById('saveModal');
-    const channelCount = document.getElementById('channelCount');
+    // const channelCount = document.getElementById('channelCount'); // Удалена ссылка на счетчик в модалке
     const channelCounter = document.getElementById('channelCounter');
     const finalFileName = document.getElementById('finalFileName');
     const downloadBtn = document.getElementById('downloadBtn');
     const closeSaveModal = document.getElementById('closeSaveModal');
-    const editBtn = document.getElementById('editBtn');
-    const closeModal = document.getElementById('closeModal');
+    // const editBtn = document.getElementById('editBtn'); // Удалена ссылка на кнопку
+    // const closeModal = document.getElementById('closeModal'); // Удалена ссылка на кнопку
     const mainScreen = document.getElementById('mainScreen');
     const editorScreen = document.getElementById('editorScreen');
     const channelList = document.getElementById('channelList');
@@ -435,16 +420,20 @@
                 dropAreaModal.classList.remove('hidden');
                 uploadModal.classList.add('hidden');
 
-                if (!editorScreen.classList.contains('hidden')) {
-                    excludedCategories.clear(); 
-                    renderCategoryFilter();
-                    updateCounter();
-                    renderChannelList(searchInput.value);
-                    showToast('Плейлист загружен.', channels.length);
-                } else {
-                    channelCount.textContent = channels.length;
-                    modal.classList.remove('hidden');
-                }
+                // ПРЯМОЙ ПЕРЕХОД К РЕДАКТОРУ:
+                
+                // channelCount.textContent = channels.length; // Больше не нужно обновлять счетчик в модалке
+                // modal.classList.remove('hidden'); // Убрали показ модалки
+
+                // Действия, которые раньше были в editBtn.addEventListener
+                mainScreen.classList.add('hidden');
+                editorScreen.classList.remove('hidden');
+                excludedCategories.clear(); 
+                renderCategoryFilter();
+                updateCounter();
+                renderChannelList();
+
+                showToast('Плейлист загружен.', channels.length);
             })
             .catch(error => {
                 globalLoader.classList.add('hidden');
@@ -454,18 +443,18 @@
             });
     }
 
-    closeModal.addEventListener('click', () => {
-      modal.classList.add('hidden');
-    });
+    // closeModal.addEventListener('click', () => { // УДАЛЕНО
+    //   modal.classList.add('hidden');
+    // });
 
-    editBtn.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      mainScreen.classList.add('hidden');
-      editorScreen.classList.remove('hidden');
-      renderCategoryFilter(); 
-      updateCounter();
-      renderChannelList();
-    });
+    // editBtn.addEventListener('click', () => { // УДАЛЕНО, логика перенесена в processPlaylistContent
+    //   modal.classList.add('hidden');
+    //   mainScreen.classList.add('hidden');
+    //   editorScreen.classList.remove('hidden');
+    //   renderCategoryFilter(); 
+    //   updateCounter();
+    //   renderChannelList();
+    // });
 
     function parseChannelsAsync() {
         return new Promise((resolve, reject) => {
