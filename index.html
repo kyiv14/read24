@@ -194,12 +194,14 @@
   <div id="saveModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
-      <h2 class="text-2xl font-bold mb-6">Идет сохранение на GitHub...</h2>
-      <button id="downloadBtn" class="w-full bg-gray-400 text-white font-medium py-2 rounded-xl transition mb-2 hidden">
-        СКАЧАТЬ (Не используется)
+      <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
+      <button id="downloadBtn"
+        class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
+        СКАЧАТЬ ЛОКАЛЬНО
       </button>
-      <button id="closeSaveModal" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition hidden">
-        ЗАКРЫТЬ (Не используется)
+      <button id="closeSaveModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
+        ЗАКРЫТЬ
       </button>
     </div>
   </div>
@@ -253,7 +255,7 @@
     let channels = [];
     let allCategories = new Set();
     let excludedCategories = new Set(); 
-    let editedContent = '';
+    let editedContent = ''; // Переменная для хранения контента плейлиста для скачивания
     let categoryChannelCounts = {}; 
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
@@ -827,15 +829,14 @@
     removeDuplicatesBtn.addEventListener('click', removeDuplicates);
     
     // =======================================================
-    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (БЕЗ ТОСТА УСПЕХА)
+    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (БЕЗ ЛОАДЕРА/ЗАТЕМНЕНИЯ)
     // =======================================================
 
     async function uploadPlaylistToGitHub(content, count) {
         const uploadUrl = '/.netlify/functions/save-playlist'; 
         
-        // Показываем лоадер
-        saveModal.classList.remove('hidden'); 
-        globalLoader.classList.remove('hidden');
+        // !!! УДАЛЕНО: globalLoader.classList.remove('hidden'); 
+        // !!! УДАЛЕНО: saveModal.classList.remove('hidden'); 
         
         try {
             const response = await fetch(uploadUrl, {
@@ -854,23 +855,21 @@
                 throw new Error(errorData.details || errorData.error || 'Unknown API Error');
             }
             
-            // saveModal.classList.add('hidden'); // Убираем модалку, т.к. это делает лоадер
-            
             // !!! УДАЛЕНО: showToast('Плейлист успешно сохранен на GitHub!', null);
             
         } catch (error) {
             console.error('Ошибка сохранения:', error);
-            // Показываем ошибку только при неудаче
+            // Показываем ошибку при неудаче
             showToast(`Ошибка: Не удалось сохранить плейлист. ${error.message}`, null);
         } finally {
-            globalLoader.classList.add('hidden'); // Скрыть лоадер
-            saveModal.classList.add('hidden'); // Убрать модалку "Идет сохранение"
+            // !!! УДАЛЕНО: globalLoader.classList.add('hidden'); 
+            // !!! УДАЛЕНО: saveModal.classList.add('hidden'); 
         }
     }
 
 
     // =======================================================
-    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ
+    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ (ДЛЯ ЛОКАЛЬНОГО И СЕРВЕРНОГО СОХРАНЕНИЯ)
     // =======================================================
     saveBtn.addEventListener('click', () => {
       
@@ -940,19 +939,50 @@
           });
       });
       
-      const editedContent = modifiedLines.join('\n');
+      // Сохраняем контент в глобальную переменную для локального скачивания
+      editedContent = modifiedLines.join('\n');
       const finalChannelCount = includedChannels.length; 
       
-      // !!! ВЫЗОВ НОВОЙ ФУНКЦИИ: Отправка на Netlify Function
+      // 1. ЗАПУСК СОХРАНЕНИЯ НА GITHUB В ФОНОВОМ РЕЖИМЕ
       uploadPlaylistToGitHub(editedContent, finalChannelCount);
       
+      // 2. ПОКАЗ МОДАЛКИ ДЛЯ ЛОКАЛЬНОГО СКАЧИВАНИЯ
+      finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
+      saveModal.classList.remove('hidden');
     });
-    
+
     // =======================================================
-    // ОТКЛЮЧЕННЫЕ ОБРАБОТЧИКИ (Оставлены пустыми, так как элементы есть в DOM)
+    // ВОССТАНОВЛЕННЫЕ ОБРАБОТЧИКИ ЛОКАЛЬНОГО СКАЧИВАНИЯ
     // =======================================================
-    downloadBtn.addEventListener('click', () => {});
-    closeSaveModal.addEventListener('click', () => {});
+    downloadBtn.addEventListener('click', () => {
+      const blob = new Blob([editedContent], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      
+      const remainingChannels = channels.filter(entry => {
+        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
+        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
+        const isFavorite = entry.isFavorite;
+
+        if (isFavorite) {
+            return !isFavoriteCategoryExcluded;
+        }
+        
+        return !isNormalCategoryExcluded;
+      });
+      
+      const remainingCount = remainingChannels.length; 
+      a.download = `playlist_${remainingCount}.m3u`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    closeSaveModal.addEventListener('click', () => {
+      saveModal.classList.add('hidden');
+    });
     
   </script>
 </body>
