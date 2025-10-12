@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Редактировать Плейлист</title>
-  <link rel="icon" type="image/x-icon" href="https://read24.vercel.app/icon1.ico">
+  <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* Добавляем стили для прокрутки категорий */
@@ -21,12 +21,6 @@
     }
     .animate-fade-in {
       animation: fade-in 0.3s ease-out;
-    }
-
-    /* Стили для Drag and Drop */
-    .drag-over {
-      border: 2px dashed #000;
-      background-color: #f3f4f6; /* bg-gray-100 */
     }
 
     /* Мобильная адаптация для списка каналов */
@@ -54,11 +48,11 @@
         width: auto !important; /* Убираем фиксированную ширину */
         flex-grow: 1; /* Чтобы заняла доступное место */
       }
-      .channel-download-btn, .channel-delete-btn {
+      .channel-download-btn, .channel-delete-btn, .channel-favorite-btn { /* ДОБАВЛЕН .channel-favorite-btn */
           flex-shrink: 0;
       }
       
-      /* НОВЫЕ СТИЛИ ДЛЯ МОБИЛЬНОЙ АДАПТАЦИИ ЭКРАНА РЕДАКТОРА */
+      /* НОВЫЕ СТИЛЫ ДЛЯ МОБИЛЬНОЙ АДАПТАЦИИ ЭКРАНА РЕДАКТОРА */
       #editorScreen .sm\\:justify-between {
           justify-content: center; /* Центрируем заголовок на мобильных */
       }
@@ -83,7 +77,7 @@
 
   <div id="mainScreen" class="text-center w-full max-w-md">
     
-    <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition border-dashed border-gray-300 hover:border-black">
+    <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
         
         <button id="uploadBtn"
           class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-4/5 mx-auto mb-4">
@@ -91,7 +85,7 @@
         </button>
         <input type="file" id="fileInput" accept="*/*" class="hidden">
         
-        <div class="my-4 text-gray-600">или перетащите сюда</div>
+        <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
         
         <div class="flex flex-col gap-3 w-4/5 mx-auto mb-4">
           <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
@@ -108,27 +102,16 @@
       Загрузка файла...
     </div>
 
-    <div id="modal"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-10">
-      <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center">
-        <h2 class="text-xl font-semibold mb-2 text-gray-800">КОЛИЧЕЕСТВО КАНАЛОВ</h2>
-        <p id="channelCount" class="text-3xl font-bold text-black mb-4">0</p>
-        <button id="editBtn"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl transition mb-2">
-          РЕДАКТИРОВАТЬ
-        </button>
-        <button id="closeModal"
-          class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-xl transition">
-          ЗАКРЫТЬ
-        </button>
-      </div>
     </div>
-  </div>
 
-  <div id="editorScreen" class="hidden w-full max-w-2xl mx-auto py-6 px-4">
+  <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
-      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">Редактировать Каналы</h1>
+      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
       <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
+        <button id="openUploadModalBtn"
+          class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base">
+          ЗАГРУЗИТЬ ПЛЕЙЛИСТ
+        </button>
         <button id="removeDuplicatesBtn"
           class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
           УДАЛИТЬ ДУБЛИ
@@ -139,58 +122,97 @@
         </button>
       </div>
     </div>
-    <div class="mb-2">
-      <input type="text" id="searchInput" placeholder="Поиск канала..."
-        class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
-    </div>
+    
+    <div class="flex flex-col md:flex-row gap-6">
+      
+      <div id="filterPanel" class="w-full md:w-2/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
+        <div class="mb-2">
+          <input type="text" id="searchInput" placeholder="Поиск канала..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
+        </div>
 
-    <div class="mb-2">
-      <input type="text" id="keyInput" placeholder="Введите новый ключ (опционально)"
-        class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
+        <div class="mb-4">
+          <h3 class="text-md font-semibold mb-2 аtext-gray-800">Выбрать категорию для просмотра</h3>
+          <select id="categorySelect"
+              class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
+              <option value="">Все категории</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
+          <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
+            </div>
+        </div>
+        
+        <div class="text-center mb-4 text-xl font-bold text-red-600">
+          КАНАЛОВ В СПИСКЕ: <span id="channelCounter">0</span>
+        </div>
+      </div>
+      
+      <div id="listPanel" class="w-full md:w-3/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
+        <div id="channelList" class="space-y-2"></div>
+      </div>
     </div>
     
-    <div class="mb-4">
-      <select id="dropdown" class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black">
-        <option value="" disabled selected>Выберите сервер</option>
-        <option>http://ipprrbtw.russtv.net/iptv/</option>
-        <option>http://ba2n5jlm.ukminlt.org/iptv/</option>
-        <option>http://885e3557.megatv.fun/iptv/</option>
-        <option>http://uplk6m1h.ukminlt.fun/iptv/</option>
-        <option>http://2gblj3h0.megatv.fun/iptv/</option>
-        <option>http://tyviuz4i.socminlt.com/iptv/</option>
-        <option>http://ipprrbtw.russtv.net/iptv/</option>
-        <option>http://murlxagf.ukminlt.org/iptv/</option>
-        <option>http://u9trto3l.siauliairsavlt.org/iptv/</option>
-        <option>Сервер10</option>
-      </select>
-    </div>
+  </div>
+  
+  <div id="uploadModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
+    <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+      <h2 class="text-xl font-semibold mb-6 text-gray-800">Загрузка нового плейлиста</h2>
 
-    <div class="mb-4">
-      <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
-      <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
-        </div>
-    </div>
-    <div class="text-center mb-4 наtext-lg font-semibold text-black">
-      Осталось каналов: <span id="channelCounter">0</span>
-    </div>
+      <div id="dropAreaModal" class="p-4 rounded-2xl border-2 border-transparent transition">
+          <button id="uploadModalBtn"
+            class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4">
+            ЗАГРУЗИТЬ ФАЙЛ
+          </button>
+          
+          <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
+          
+          <div class="flex flex-col gap-3 w-full mx-auto mb-4">
+            <input type="text" id="urlModalInput" placeholder="Введите ссылку на m3u файл"
+              class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
+            
+            <button id="loadUrlModalBtn"
+              class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
+              ВПЕРЕД
+            </button>
+          </div>
+      </div>
+      <div id="loadingModal" class="hidden text-blue-600 mt-4">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
+        Загрузка файла...
+      </div>
 
-    <div id="channelList" class="space-y-2"></div>
+      <button id="closeUploadModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition mt-4">
+        ОТМЕНА
+      </button>
+    </div>
   </div>
 
   <div id="saveModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
-      <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
-      <button id="downloadBtn"
-        class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
-        СКАЧАТЬ
+      <h2 class="text-2xl font-bold mb-6">Идет сохранение на GitHub...</h2>
+      <button id="downloadBtn" class="w-full bg-gray-400 text-white font-medium py-2 rounded-xl transition mb-2 hidden">
+        СКАЧАТЬ (Не используется)
       </button>
-      <button id="closeSaveModal"
-        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
-        ЗАКРЫТЬ
+      <button id="closeSaveModal" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition hidden">
+        ЗАКРЫТЬ (Не используется)
       </button>
     </div>
   </div>
+  
+  <div id="toastNotification" class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-xl shadow-lg hidden animate-fade-in z-50">
+    Плейлист загружен. Каналов: <span id="toastChannelCount" class="font-bold">0</span>
+  </div>
+
+  <div id="globalLoader" class="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-50">
+    <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-white mb-4"></div>
+    <p class="text-white text-xl font-semibold">Обработка плейлиста...</p>
+  </div>
+
 
   <script>
     const uploadBtn = document.getElementById('uploadBtn');
@@ -198,56 +220,66 @@
     const urlInput = document.getElementById('urlInput');
     const loadUrlBtn = document.getElementById('loadUrlBtn');
     const loading = document.getElementById('loading');
-    const modal = document.getElementById('modal');
     const saveModal = document.getElementById('saveModal');
-    const channelCount = document.getElementById('channelCount');
     const channelCounter = document.getElementById('channelCounter');
     const finalFileName = document.getElementById('finalFileName');
     const downloadBtn = document.getElementById('downloadBtn');
     const closeSaveModal = document.getElementById('closeSaveModal');
-    const editBtn = document.getElementById('editBtn');
-    const closeModal = document.getElementById('closeModal');
     const mainScreen = document.getElementById('mainScreen');
     const editorScreen = document.getElementById('editorScreen');
     const channelList = document.getElementById('channelList');
     const saveBtn = document.getElementById('saveBtn');
     const searchInput = document.getElementById('searchInput');
-    const dropdown = document.getElementById('dropdown');
-    const keyInput = document.getElementById('keyInput'); 
-    // НОВЫЕ ЭЛЕМЕНТЫ
     const categoryFilter = document.getElementById('categoryFilter'); 
     const removeDuplicatesBtn = document.getElementById('removeDuplicatesBtn'); 
-    const dropArea = document.getElementById('dropArea'); // Элемент для Drag and Drop
+    const dropArea = document.getElementById('dropArea');
+    const categorySelect = document.getElementById('categorySelect'); 
+    
+    const uploadModal = document.getElementById('uploadModal');
+    const openUploadModalBtn = document.getElementById('openUploadModalBtn');
+    const closeUploadModal = document.getElementById('closeUploadModal');
+    const uploadModalBtn = document.getElementById('uploadModalBtn');
+    const urlModalInput = document.getElementById('urlModalInput');
+    const loadUrlModalBtn = document.getElementById('loadUrlModalBtn');
+    const loadingModal = document.getElementById('loadingModal');
+    const dropAreaModal = document.getElementById('dropAreaModal'); 
+    
+    const toastNotification = document.getElementById('toastNotification');
+    const toastChannelCount = document.getElementById('toastChannelCount');
+
+    const globalLoader = document.getElementById('globalLoader');
 
     let originalLines = [];
     let channels = [];
     let allCategories = new Set();
     let excludedCategories = new Set(); 
     let editedContent = '';
-    let selectedServer = '';
+    let categoryChannelCounts = {}; 
     
+    const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
+    const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
+
     // ===============================
     // ЛОГИКА DRAG AND DROP
     // ===============================
+    const dragDropAreas = [dropArea, dropAreaModal];
 
-    // Отменяем стандартное поведение браузера для всех событий d&d
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, preventDefaults, false);
-      document.body.addEventListener(eventName, preventDefaults, false); // Для предотвращения открытия файла в браузере
+    dragDropAreas.forEach(area => {
+        if (area) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                area.removeEventListener(eventName, preventDefaults, false);
+            });
+            document.body.removeEventListener('dragover', preventDefaults, false); 
+            document.body.removeEventListener('drop', preventDefaults, false);
+            ['dragenter', 'dragover'].forEach(eventName => {
+                area.removeEventListener(eventName, highlight, false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                area.removeEventListener(eventName, unhighlight, false);
+            });
+            area.removeEventListener('drop', handleDrop, false);
+        }
     });
-
-    // Добавляем класс при наведении
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropArea.addEventListener(eventName, highlight, false);
-    });
-
-    // Удаляем класс при уходе
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, unhighlight, false);
-    });
-
-    // Обрабатываем брошенный файл
-    dropArea.addEventListener('drop', handleDrop, false);
 
     function preventDefaults(e) {
       e.preventDefault();
@@ -255,18 +287,16 @@
     }
 
     function highlight(e) {
-      dropArea.classList.add('drag-over');
+      // e.currentTarget.classList.add('drag-over'); 
     }
 
     function unhighlight(e) {
-      dropArea.classList.remove('drag-over');
+      // e.currentTarget.classList.remove('drag-over'); 
     }
 
     function handleDrop(e) {
       const dt = e.dataTransfer;
       const files = dt.files;
-      
-      // Проверяем, что это файл, а не что-то другое
       if (files.length > 0) {
         handleFiles(files);
       }
@@ -275,174 +305,241 @@
     function handleFiles(files) {
         const file = files[0];
         if (!file) return;
-
-        // Эмулируем событие change на fileInput для переиспользования логики
         fileInput.files = files;
         fileInput.dispatchEvent(new Event('change'));
     }
-
+    
     // ===============================
-    // СУЩЕСТВУЮЩАЯ ЛОГИКА
+    // ФУНКЦИИ УВЕДОМЛЕНИЯ
     // ===============================
+    function showToast(message, count = null) {
+        toastChannelCount.classList.add('hidden');
+        toastNotification.classList.remove('bg-green-600', 'bg-red-600'); 
+        
+        if (count !== null) {
+            toastChannelCount.textContent = count;
+            toastNotification.innerHTML = `Плейлист загружен. Каналов: <span class="font-bold">${count}</span>`;
+            toastNotification.classList.add('bg-green-600'); 
+        } else {
+            toastNotification.textContent = message;
+            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста')) {
+                 toastNotification.classList.add('bg-red-600'); 
+            } else {
+                 toastNotification.classList.add('bg-green-600');
+            }
+        }
+        
+        toastNotification.classList.remove('hidden');
+        toastNotification.classList.add('animate-fade-in');
 
+        setTimeout(() => {
+            toastNotification.classList.add('hidden');
+            toastNotification.classList.remove('animate-fade-in');
+        }, 3000);
+    }
+    
+    // ===============================
+    // ОБРАБОТЧИКИ СОБЫТИЙ
+    // ===============================
     uploadBtn.addEventListener('click', () => fileInput.click());
 
     fileInput.addEventListener('change', () => {
       const file = fileInput.files[0];
       if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const content = e.target.result;
-        processPlaylistContent(content);
-      };
-      reader.readAsText(file);
+    
+      globalLoader.classList.remove('hidden');
+    
+      setTimeout(() => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const content = e.target.result;
+          processPlaylistContent(content);
+        };
+        reader.readAsText(file);
+      }, 50);
     });
 
     loadUrlBtn.addEventListener('click', async () => {
       const url = urlInput.value.trim();
-      if (!url) {
-        alert('Пожалуйста, введите ссылку');
-        return;
-      }
-
-      loading.classList.remove('hidden');
-      loadUrlBtn.disabled = true;
-
-      try {
-        // Пробуем загрузить через CORS proxy чтобы обойти ограничения
-        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-        const response = await fetch(proxyUrl);
-        
-        if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status}`);
-        }
-        
-        const content = await response.text();
-        processPlaylistContent(content);
-      } catch (error) {
-        console.error('Ошибка загрузки:', error);
-        alert('Не удалось загрузить файл. Возможно, проблема с CORS или файл недоступен.');
-      } finally {
-        loading.classList.add('hidden');
-        loadUrlBtn.disabled = false;
-      }
+      await loadPlaylistFromUrl(url, loading, loadUrlBtn);
     });
+    
+    openUploadModalBtn.addEventListener('click', () => {
+        uploadModal.classList.remove('hidden');
+    });
+
+    uploadModalBtn.addEventListener('click', () => fileInput.click());
+    
+    loadUrlModalBtn.addEventListener('click', async () => {
+      const url = urlModalInput.value.trim();
+      await loadPlaylistFromUrl(url, loadingModal, loadUrlModalBtn);
+    });
+
+    closeUploadModal.addEventListener('click', () => {
+        uploadModal.classList.add('hidden');
+    });
+
+    async function loadPlaylistFromUrl(url, loadingElement, buttonElement) {
+        if (!url) {
+            showToast('Пожалуйста, введите ссылку');
+            return;
+        }
+
+        loadingElement.classList.remove('hidden');
+        buttonElement.disabled = true;
+
+        try {
+            const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+            const response = await fetch(proxyUrl);
+            
+            if (!response.ok) {
+                throw new Error(`Ошибка HTTP: ${response.status}`);
+            }
+            
+            loadingElement.classList.add('hidden');
+            const content = await response.text();
+
+            globalLoader.classList.remove('hidden');
+
+            setTimeout(() => {
+                processPlaylistContent(content);
+            }, 50);
+
+        } catch (error) {
+            console.error('Ошибка загрузки:', error);
+            showToast('Не удалось загрузить файл. Возможно, проблема с CORS или файл недоступен.');
+            loadingElement.classList.add('hidden');
+        } finally {
+            buttonElement.disabled = false;
+        }
+    }
 
     function processPlaylistContent(content) {
-      try {
         originalLines = content.split('\n');
-        parseChannels();
-        channelCount.textContent = channels.length;
-        modal.classList.remove('hidden');
-      } catch (error) {
-        alert('Ошибка обработки файла: ' + error.message);
-      }
-    }
+        
+        parseChannelsAsync()
+            .then(() => {
+                globalLoader.classList.add('hidden');
+                loadingModal.classList.add('hidden');
+                dropAreaModal.classList.remove('hidden');
+                uploadModal.classList.add('hidden');
 
-    dropdown.addEventListener('change', (e) => {
-      selectedServer = e.target.value;
-    });
+                mainScreen.classList.add('hidden');
+                editorScreen.classList.remove('hidden');
+                excludedCategories.clear(); 
+                renderCategoryFilter();
+                renderCategorySelect();
+                categorySelect.value = ""; 
+                updateCounter(channels.length); 
+                renderChannelList();
 
-    closeModal.addEventListener('click', () => {
-      modal.classList.add('hidden');
-    });
-
-    editBtn.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      mainScreen.classList.add('hidden');
-      editorScreen.classList.remove('hidden');
-      renderCategoryFilter(); // Рендерим фильтр категорий
-      updateCounter();
-      renderChannelList();
-    });
-
-    /**
-     * ИСПРАВЛЕННАЯ ФУНКЦИЯ: Парсит каналы, поддерживая как #EXTINF:...,group-title="CAT",NAME
-     * так и старую/нестандартную структуру с #EXTGRP:CATEGORY
-     */
-    function parseChannels() {
-      channels = [];
-      allCategories.clear(); 
-      
-      for (let i = 0; i < originalLines.length; i++) {
-        const line = originalLines[i].trim();
-
-        if (line.startsWith('#EXTINF')) {
-          const extinf = line;
-          
-          // 1. Извлекаем имя канала (после последней запятой)
-          const nameMatch = extinf.match(/,(.*)$/);
-          let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
-          
-          // 2. Ищем название группы (group-title) в EXTINF
-          let category = 'Без категории';
-          const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
-          if (groupTitleMatch) {
-              category = groupTitleMatch[1].trim();
-          }
-
-          let url = '';
-          let extgrp = '';
-          let urlIndex = i + 1;
-
-          // 3. Ищем EXTGRP и URL в следующих строках
-          while (urlIndex < originalLines.length) {
-            const nextLine = originalLines[urlIndex].trim();
-
-            if (nextLine.startsWith('#EXTGRP:')) {
-                // Если найден #EXTGRP, используем его для категории, если group-title не был найден
-                if (category === 'Без категории' || category === '') {
-                    category = nextLine.substring(8).trim(); // Пропускаем #EXTGRP:
-                }
-                extgrp = nextLine;
-            } else if (nextLine.startsWith('#') && !nextLine.startsWith('#EXTINF')) {
-                // Пропускаем другие комментарии, кроме #EXTINF
-            } else if (nextLine) {
-                // Нашли URL или начало следующей записи #EXTINF
-                if (!nextLine.startsWith('#EXTINF')) {
-                    url = nextLine;
-                }
-                break;
-            }
-            urlIndex++;
-          }
-          
-          // Убедимся, что мы правильно нашли конец блока (URL)
-          if (url) {
-            channels.push({
-              name,
-              extinf,
-              extgrp, 
-              url,
-              startIndex: i,
-              endIndex: urlIndex, // Конечный индекс, где находится URL
-              category, 
+                showToast('Плейлист загружен.', channels.length);
+            })
+            .catch(error => {
+                globalLoader.classList.add('hidden');
+                loadingModal.classList.add('hidden');
+                dropAreaModal.classList.remove('hidden');
+                showToast('Ошибка обработки файла: ' + error.message);
             });
-            allCategories.add(category);
-            
-            // Пропускаем все строки до следующей записи #EXTINF
-            i = urlIndex; 
-          }
-        }
-      }
-      channels.sort((a, b) => a.name.localeCompare(b.name));
     }
-    
-    // НОВАЯ ФУНКЦИЯ: Рендеринг списка категорий
+
+    function parseChannelsAsync() {
+        return new Promise((resolve, reject) => {
+            try {
+                channels = [];
+                allCategories.clear();
+                categoryChannelCounts = {};
+
+                const lines = originalLines;
+                const totalLines = lines.length;
+                let currentIndex = 0;
+                const chunkSize = 1000;
+
+                function processChunk() {
+                    const limit = Math.min(currentIndex + chunkSize, totalLines);
+
+                    for (let i = currentIndex; i < limit; i++) {
+                        const line = lines[i].trim();
+
+                        if (line.startsWith('#EXTINF')) {
+                            const extinf = line;
+                            const nameMatch = extinf.match(/,(.*)$/);
+                            let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
+                            
+                            let category = 'Без категории';
+                            const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
+                            if (groupTitleMatch) {
+                                category = groupTitleMatch[1].trim();
+                            }
+
+                            let url = '';
+                            let extgrp = '';
+                            let urlIndex = i + 1;
+
+                            while (urlIndex < lines.length) {
+                                const nextLine = lines[urlIndex].trim();
+                                if (nextLine.startsWith('#EXTGRP:')) {
+                                    if (category === 'Без категории' || category === '') {
+                                        category = nextLine.substring(8).trim();
+                                    }
+                                    extgrp = nextLine;
+                                } else if (nextLine && !nextLine.startsWith('#')) {
+                                    url = nextLine;
+                                    break;
+                                } else if (nextLine.startsWith('#EXTINF')) {
+                                    break; 
+                                }
+                                urlIndex++;
+                            }
+
+                            if (url) {
+                                channels.push({
+                                    name, extinf, extgrp, url,
+                                    startIndex: i,
+                                    endIndex: urlIndex,
+                                    category,
+                                    isFavorite: false,
+                                });
+                                allCategories.add(category);
+                                categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
+                                i = urlIndex;
+                            }
+                        }
+                    }
+
+                    currentIndex = limit;
+
+                    if (currentIndex < totalLines) {
+                        setTimeout(processChunk, 0);
+                    } else {
+                        channels.sort((a, b) => a.name.localeCompare(b.name));
+                        resolve();
+                    }
+                }
+
+                processChunk();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    function getFavoriteCount() { 
+        return channels.filter(c => c.isFavorite).length;
+    }
+
     function renderCategoryFilter() {
       categoryFilter.innerHTML = '';
       const sortedCategories = Array.from(allCategories).sort();
+
+      const favoriteCount = getFavoriteCount(); 
       
-      // Создаем объект для подсчета каналов по категориям
-      const categoryCounts = channels.reduce((acc, channel) => {
-        acc[channel.category] = (acc[channel.category] || 0) + 1;
-        return acc;
-      }, {});
+      if (favoriteCount > 0 || excludedCategories.has(FAVORITE_CATEGORY)) {
+          sortedCategories.unshift(FAVORITE_CATEGORY);
+          categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
+      }
 
       sortedCategories.forEach(category => {
-        const count = categoryCounts[category] || 0; // Получаем количество каналов
-        
         const container = document.createElement('label');
         container.className = 'flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 transition text-sm';
 
@@ -458,58 +555,55 @@
           } else {
             excludedCategories.delete(category);
           }
-          renderChannelList(searchInput.value); // Обновляем список каналов при изменении фильтра
-          updateCounter(); // Обновляем счетчик
+          renderChannelList(searchInput.value); 
         });
 
-        // ИЗМЕНЕНИЕ: Используем div и innerHTML для поддержки жирного красного текста
-        const span = document.createElement('div');
+        const span = document.createElement('span');
+        const count = categoryChannelCounts[category] || 0;
         span.className = 'text-gray-800 truncate max-w-[150px]';
-        // Изменено на font-extrabold и **text-sm** (было text-lg)
-        span.innerHTML = `${category} (<span class="font-extrabold text-red-600 text-sm">${count}</span>)`; 
+        span.innerHTML = `${category} (<span class="text-red-600 font-bold">${count}</span>)`;
 
         container.appendChild(checkbox);
         container.appendChild(span);
         categoryFilter.appendChild(container);
       });
     }
+    
+    function renderCategorySelect() {
+        categorySelect.innerHTML = '<option value="">Все категории</option>';
+        const sortedCategories = Array.from(allCategories).sort();
+        
+        const favoriteCount = getFavoriteCount(); 
+        
+        if (favoriteCount > 0) { 
+             sortedCategories.unshift(FAVORITE_CATEGORY);
+             categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
+        }
+
+        sortedCategories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            const count = categoryChannelCounts[category] || 0;
+            option.textContent = `${category} (${count})`;
+            categorySelect.appendChild(option);
+        });
+    }
+
+    categorySelect.addEventListener('change', () => {
+        renderChannelList(searchInput.value);
+    });
 
     function downloadSingleChannel(entry) {
-      let channelUrl = entry.url;
-      const newKey = keyInput.value.trim();
+      let playlistContent = `#EXTM3U\n`;
       
-      const iptvIndex = channelUrl.indexOf('/iptv/');
-
-      if (channelUrl && !channelUrl.startsWith('#') && iptvIndex !== -1) {
-          let afterIptv = channelUrl.substring(iptvIndex + 6); // +6 чтобы пропустить "/iptv/"
-
-          // 1. Замена ключа, если он введен
-          if (newKey) {
-              // Ключ находится между /iptv/ и следующим /
-              const firstSlashAfterIptv = afterIptv.indexOf('/');
-              if (firstSlashAfterIptv !== -1) {
-                  const afterKey = afterIptv.substring(firstSlashAfterIptv);
-                  afterIptv = newKey + afterKey;
-              }
-          }
-
-          // 2. Формирование начала ссылки (сервер)
-          let newStart = '';
-          if (selectedServer) {
-              newStart = selectedServer;
-          } else {
-              newStart = channelUrl.substring(0, iptvIndex + 6); // Включая /iptv/
-          }
-
-          channelUrl = newStart + afterIptv;
-      }
+      let extinfLine = entry.extinf;
       
-      // ИСПОЛЬЗУЕМ EXTINF, EXTGRP (если есть) и URL
-      let playlistContent = `#EXTM3U\n${entry.extinf}\n`;
+      playlistContent += `${extinfLine}\n`;
+      
       if (entry.extgrp) {
         playlistContent += `${entry.extgrp}\n`;
       }
-      playlistContent += `${channelUrl}`;
+      playlistContent += `${entry.url}`;
 
       const blob = new Blob([playlistContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -521,71 +615,89 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
+
+    function toggleFavorite(entry) {
+        entry.isFavorite = !entry.isFavorite; 
+
+        renderCategoryFilter();
+        renderCategorySelect();
+        renderChannelList(searchInput.value);
+        
+        const action = entry.isFavorite ? 'добавлен в' : 'удален из';
+        showToast(`Канал "${entry.name}" ${action} избранного.`);
+    }
     
-    // ИСПРАВЛЕННАЯ ФУНКЦИЯ: Учитываем исключенные категории и моб. адаптацию
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
       
-      // Определяем, является ли экран мобильным (<= 640px)
-      // Media Query List для проверки ширины экрана
-      // Важно: matchMedia не требует слушателей, чтобы получить текущее состояние
       const isMobile = window.matchMedia('(max-width: 640px)').matches;
-      // Устанавливаем текст кнопки
       const downloadButtonText = isMobile ? 'Скачать' : 'Скачать канал';
       
-      // Фильтрация по поиску и исключенным категориям
-      const filteredChannels = channels
-        .filter(entry => !excludedCategories.has(entry.category))
-        .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()));
+      const selectedCategory = categorySelect.value; 
+      
+      let filteredChannels = channels;
+
+      // 1. Исключаем категории, отмеченные в чекбоксах
+      filteredChannels = filteredChannels.filter(entry => !excludedCategories.has(entry.category));
+
+      // 2. Применяем фильтр "ИЗБРАННОЕ"
+      if (selectedCategory === FAVORITE_CATEGORY) {
+          filteredChannels = filteredChannels.filter(entry => entry.isFavorite);
+      } else if (excludedCategories.has(FAVORITE_CATEGORY)) {
+          filteredChannels = filteredChannels.filter(entry => !entry.isFavorite);
+      }
+
+      // 3. Применяем фильтр по имени и обычной категории
+      filteredChannels = filteredChannels
+        .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
+        .filter(entry => !selectedCategory || selectedCategory === FAVORITE_CATEGORY || entry.category === selectedCategory);
+
+        
+      updateCounter(filteredChannels.length); 
         
       filteredChannels.forEach((entry) => {
           const item = document.createElement('div');
-          // Добавляем класс channel-item для адаптивного CSS
           item.className = 'channel-item flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow'; 
 
           const name = document.createElement('span');
-          // Добавляем класс channel-name для адаптивного CSS
           name.className = 'channel-name text-black font-medium truncate max-w-[40%]'; 
           name.textContent = entry.name;
           
           const categoryBadge = document.createElement('span');
-          // Добавляем класс channel-category-badge для адаптивного CSS
           categoryBadge.className = 'channel-category-badge bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
           categoryBadge.textContent = entry.category;
 
+          const favBtn = document.createElement('button');
+          const starColor = entry.isFavorite ? 'text-yellow-500 hover:text-yellow-400' : 'text-gray-400 hover:text-yellow-500';
+          favBtn.className = `channel-favorite-btn ${starColor} font-semibold text-xl px-2 py-1 transition flex-shrink-0`;
+          favBtn.innerHTML = '★'; 
+          favBtn.title = entry.isFavorite ? 'Удалить из избранного' : 'Добавить в избранное';
+          favBtn.onclick = () => toggleFavorite(entry);
+
+
           const downloadBtn = document.createElement('button');
-          // Добавляем класс channel-download-btn для адаптивного CSS.
           downloadBtn.className = 'channel-download-btn bg-green-600 hover:bg-green-500 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
-          downloadBtn.textContent = downloadButtonText; // Устанавливаем правильный текст
+          downloadBtn.textContent = downloadButtonText;
           downloadBtn.onclick = () => downloadSingleChannel(entry);
 
           const delBtn = document.createElement('button');
-          // Добавляем класс channel-delete-btn для адаптивного CSS
           delBtn.className = 'channel-delete-btn text-red-600 hover:text-red-500 font-semibold text-sm';
           delBtn.textContent = 'Удалить';
           delBtn.onclick = () => {
-            // Рассчитываем количество строк для удаления: от startIndex до endIndex включительно
+            const linesToDelete = (entry.endIndex - entry.startIndex) + 1;
+            originalLines.splice(entry.startIndex, linesToDelete);
             
-            // Находим все строки между #EXTINF и URL
-            let linesToDelete = 0;
-            const lines = originalLines.slice(entry.startIndex, entry.endIndex + 1);
-            linesToDelete = lines.length;
-
-            if (linesToDelete > 0) {
-              originalLines.splice(entry.startIndex, linesToDelete);
-            }
-            
-            parseChannels(); // Перепарсируем, чтобы обновить индексы у всех оставшихся
-            renderCategoryFilter(); // Обновляем список категорий
-            updateCounter();
-            renderChannelList(searchInput.value);
+            parseChannelsSync(); 
+            renderCategoryFilter();
+            renderCategorySelect(); 
+            renderChannelList(searchInput.value); 
           };
 
           const buttonContainer = document.createElement('div');
-          // Добавляем класс channel-buttons-container для адаптивного CSS
           buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
           
           buttonContainer.appendChild(categoryBadge); 
+          buttonContainer.appendChild(favBtn); 
           buttonContainer.appendChild(downloadBtn);
           buttonContainer.appendChild(delBtn);
 
@@ -594,123 +706,275 @@
           channelList.appendChild(item);
         });
     }
-    
-    // ОБНОВЛЕННАЯ ФУНКЦИЯ: Считает только неисключенные каналы
-    function updateCounter() {
-      const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category)).length;
-      channelCounter.textContent = remainingChannels;
+
+    function parseChannelsSync() {
+      // 1. Сохраняем текущие статусы избранного перед очисткой
+      const tempFavoriteMap = {};
+      channels.forEach(c => {
+        if (c.isFavorite) {
+            tempFavoriteMap[c.url + c.name] = true; 
+        }
+      });
+        
+      channels = [];
+      allCategories.clear();
+      categoryChannelCounts = {};
+      for (let i = 0; i < originalLines.length; i++) {
+        const line = originalLines[i].trim();
+        if (line.startsWith('#EXTINF')) {
+          const extinf = line;
+          const nameMatch = extinf.match(/,(.*)$/);
+          let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
+          let category = 'Без категории';
+          const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
+          if (groupTitleMatch) {
+            category = groupTitleMatch[1].trim();
+          }
+          let url = '';
+          let extgrp = '';
+          let urlIndex = i + 1;
+          while (urlIndex < originalLines.length) {
+            const nextLine = originalLines[urlIndex].trim();
+            if (nextLine.startsWith('#EXTGRP:')) {
+              if (category === 'Без категории' || category === '') {
+                category = nextLine.substring(8).trim();
+              }
+              extgrp = nextLine;
+            } else if (nextLine && !nextLine.startsWith('#')) {
+              url = nextLine;
+              break;
+            } else if (nextLine.startsWith('#EXTINF')) {
+              break;
+            }
+            urlIndex++;
+          }
+          if (url) {
+            const key = url + name;
+            const isFav = tempFavoriteMap[key] || false; 
+
+            channels.push({
+              name, extinf, extgrp, url,
+              startIndex: i,
+              endIndex: urlIndex,
+              category,
+              isFavorite: isFav, 
+            });
+            allCategories.add(category);
+            categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
+            i = urlIndex;
+          }
+        }
+      }
+      channels.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    function updateCounter(filteredCount = null) {
+      if (filteredCount !== null) {
+          channelCounter.textContent = filteredCount;
+      } else {
+          let remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
+          
+          if (excludedCategories.has(FAVORITE_CATEGORY)) { 
+              remainingChannels = remainingChannels.filter(entry => !entry.isFavorite);
+          }
+          
+          channelCounter.textContent = remainingChannels.length;
+      }
     }
 
     searchInput.addEventListener('input', () => {
       renderChannelList(searchInput.value);
     });
 
-    // НОВАЯ ФУНКЦИЯ: Удаление дубликатов каналов по названию
     function removeDuplicates() {
         const uniqueNames = new Set();
         const linesToRemove = [];
         let removedCount = 0;
 
-        // Идем по каналам с конца, чтобы splice не ломал индексы
-        // Мы хотим сохранить ПЕРВЫЙ найденный канал с уникальным именем и удалить все последующие.
         for (let i = channels.length - 1; i >= 0; i--) {
             const channel = channels[i];
-            // Имя канала для сравнения (обрезаем и приводим к нижнему регистру)
             const nameKey = channel.name.trim().toLowerCase(); 
 
             if (uniqueNames.has(nameKey)) {
-                // Это дубликат, добавляем его строки для удаления
-                
-                // Находим все строки, относящиеся к этому каналу
-                let linesToDelete = 0;
-                const lines = originalLines.slice(channel.startIndex, channel.endIndex + 1);
-                linesToDelete = lines.length;
-
+                const linesToDelete = (channel.endIndex - channel.startIndex) + 1;
                 linesToRemove.push({
                     startIndex: channel.startIndex,
                     count: linesToDelete
                 });
                 removedCount++;
             } else {
-                // Первый раз встречаем это имя, добавляем в Set
                 uniqueNames.add(nameKey);
             }
         }
         
-        // Сортируем по убыванию startIndex для корректного удаления
         linesToRemove.sort((a, b) => b.startIndex - a.startIndex);
         
-        // Удаляем строки из originalLines
         linesToRemove.forEach(item => {
             originalLines.splice(item.startIndex, item.count);
         });
         
         if (removedCount > 0) {
-            parseChannels(); // Перепарсируем, чтобы обновить индексы и список
-            renderCategoryFilter(); // Обновляем список категорий
-            updateCounter();
-            renderChannelList(searchInput.value);
-            alert(`Удалено ${removedCount} дубликатов каналов.`);
+            parseChannelsSync();
+            renderCategoryFilter();
+            renderCategorySelect(); 
+            renderChannelList(searchInput.value); 
+            showToast(`Удалено ${removedCount} дубликатов каналов.`); 
         } else {
-            alert('Дубликаты каналов не найдены.');
+            showToast('Дубликаты каналов не найдены.'); 
         }
     }
     
-    removeDuplicatesBtn.addEventListener('click', removeDuplicates); // Подключаем новую функцию
+    removeDuplicatesBtn.addEventListener('click', removeDuplicates);
+    
+    // =======================================================
+    // !!! НОВАЯ ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION !!!
+    // =======================================================
 
-    saveBtn.addEventListener('click', () => {
-      // 1. Фильтруем каналы, оставляя только те, которые не исключены по категории
-      const remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
-      
-      // 2. Генерируем новый плейлист на основе этих каналов
-      let modifiedLines = ['#EXTM3U']; // Начинаем с заголовка
-      
-      remainingChannels.forEach(entry => {
-        // Добавляем #EXTINF
-        modifiedLines.push(entry.extinf);
-
-        // Добавляем #EXTGRP, если он был, чтобы сохранить структуру плейлиста
-        if (entry.extgrp) {
-            modifiedLines.push(entry.extgrp);
-        }
+    async function uploadPlaylistToGitHub(content, count) {
+        // Netlify Function будет доступна по пути /.netlify/functions/имя-файла
+        const uploadUrl = '/.netlify/functions/save-playlist'; 
         
-        let line = entry.url;
-        const newKey = keyInput.value.trim();
+        // Показываем модальное окно с текстом "Идет сохранение..." и глобальный лоадер
+        saveModal.classList.remove('hidden'); 
+        globalLoader.classList.remove('hidden');
         
-        // Логика замены ключа и/или сервера (как было ранее)
-        if (line && !line.startsWith('#')) {
-          const iptvIndex = line.indexOf('/iptv/');
-          
-          if (iptvIndex !== -1) {
-            let afterIptv = line.substring(iptvIndex + 6);
+        try {
+            const response = await fetch(uploadUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    // Отправляем имя файла с количеством каналов
+                    filename: `playlist_${count}.m3u`, 
+                    fileContent: content, 
+                }),
+            });
             
-            if (newKey) {
-              const firstSlashAfterIptv = afterIptv.indexOf('/');
-              if (firstSlashAfterIptv !== -1) {
-                const afterKey = afterIptv.substring(firstSlashAfterIptv);
-                afterIptv = newKey + afterKey;
-              }
+            if (!response.ok) {
+                // Пытаемся получить детали ошибки от сервера
+                const errorData = await response.json();
+                throw new Error(errorData.details || errorData.error || 'Unknown API Error');
             }
             
-            let newStart = selectedServer || line.substring(0, iptvIndex + 6);
-            line = newStart + afterIptv;
-          }
+            saveModal.classList.add('hidden'); // Закрываем модальное окно
+            showToast('Плейлист успешно сохранен на GitHub!', null);
+            
+        } catch (error) {
+            console.error('Ошибка сохранения:', error);
+            saveModal.classList.add('hidden'); // Закрываем модальное окно в случае ошибки
+            showToast(`Ошибка: Не удалось сохранить плейлист. ${error.message}`, null);
+        } finally {
+            globalLoader.classList.add('hidden'); // Скрыть лоадер
         }
-        modifiedLines.push(line);
+    }
+
+
+    // =======================================================
+    // !!! ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ !!!
+    // =======================================================
+    saveBtn.addEventListener('click', () => {
+      
+      // Определяем, какие каналы должны быть включены в основной список
+      const includedChannels = channels.filter(entry => {
+        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
+        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
+        const isFavorite = entry.isFavorite;
+
+        if (isFavorite) {
+            return !isFavoriteCategoryExcluded;
+        }
+        
+        return !isNormalCategoryExcluded;
       });
       
-      editedContent = modifiedLines.join('\n');
-      finalFileName.textContent = `ФАЙЛ ${remainingChannels.length} КАНАЛОВ`;
-      saveModal.classList.remove('hidden');
+      // Отдельно выделяем избранные каналы
+      const favoriteChannels = includedChannels.filter(c => c.isFavorite);
+
+      let modifiedLines = ['#EXTM3U'];
+      
+      // 1. ДОБАВЛЯЕМ ДОПОЛНИТЕЛЬНУЮ КАТЕГОРИЮ ДЛЯ ИЗБРАННЫХ КАНАЛОВ В НАЧАЛО
+      if (favoriteChannels.length > 0) {
+        modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
+        
+        favoriteChannels.forEach(entry => {
+          let favExtinf = entry.extinf;
+          
+          favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
+          
+          if (!favExtinf.includes('group-title=')) {
+              favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
+          }
+          
+          modifiedLines.push(favExtinf);
+          modifiedLines.push(entry.url);
+        });
+        
+        modifiedLines.push('\n');
+      }
+      
+      // 2. Формируем ОСНОВНОЙ СПИСОК каналов
+      const groupedChannels = {};
+      includedChannels.forEach(entry => {
+          const cat = entry.category || 'Без категории';
+          if (!groupedChannels[cat]) {
+              groupedChannels[cat] = [];
+          }
+          groupedChannels[cat].push(entry);
+      });
+      
+      const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
+      
+      sortedCategories.forEach(cat => {
+          if (cat !== 'Без категории') {
+             modifiedLines.push(`#EXTGRP:${cat}`);
+          }
+
+          groupedChannels[cat].forEach(entry => {
+              if (entry.isFavorite) {
+                   return; 
+              }
+
+              modifiedLines.push(entry.extinf);
+              if (entry.extgrp) {
+                  modifiedLines.push(entry.extgrp);
+              }
+              modifiedLines.push(entry.url);
+          });
+      });
+      
+      const editedContent = modifiedLines.join('\n');
+      const finalChannelCount = includedChannels.length; 
+      
+      // !!! ВЫЗОВ НОВОЙ ФУНКЦИИ: Отправка на Netlify Function
+      uploadPlaylistToGitHub(editedContent, finalChannelCount);
+      
     });
 
+    // =======================================================
+    // !!! УДАЛЕННЫЕ/ОТКЛЮЧЕННЫЕ ОБРАБОТЧИКИ СКАЧИВАНИЯ !!!
+    // =======================================================
+
+    /*
     downloadBtn.addEventListener('click', () => {
       const blob = new Blob([editedContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      // Используем количество оставшихся каналов для имени файла
-      const remainingCount = channels.filter(entry => !excludedCategories.has(entry.category)).length; 
+      
+      const remainingChannels = channels.filter(entry => {
+        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
+        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
+        const isFavorite = entry.isFavorite;
+
+        if (isFavorite) {
+            return !isFavoriteCategoryExcluded;
+        }
+        
+        return !isNormalCategoryExcluded;
+      });
+      
+      const remainingCount = remainingChannels.length; 
       a.download = `playlist_${remainingCount}.m3u`;
       document.body.appendChild(a);
       a.click();
@@ -721,6 +985,7 @@
     closeSaveModal.addEventListener('click', () => {
       saveModal.classList.add('hidden');
     });
+    */
   </script>
 </body>
 </html>
