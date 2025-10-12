@@ -24,10 +24,7 @@
     }
 
     /* Стили для Drag and Drop */
-    .drag-over {
-      border: 2px dashed #000;
-      background-color: #f3f4f6; /* bg-gray-100 */
-    }
+    /* УДАЛЕНО: .drag-over {} */
 
     /* Мобильная адаптация для списка каналов */
     @media (max-width: 640px) { /* sm breakpoint по умолчанию в Tailwind */
@@ -83,7 +80,7 @@
 
   <div id="mainScreen" class="text-center w-full max-w-md">
     
-    <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition border-dashed border-gray-300 hover:border-black">
+    <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
         
         <button id="uploadBtn"
           class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-4/5 mx-auto mb-4">
@@ -91,7 +88,7 @@
         </button>
         <input type="file" id="fileInput" accept="*/*" class="hidden">
         
-        <div class="my-4 text-gray-600">или перетащите сюда</div>
+        <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
         
         <div class="flex flex-col gap-3 w-4/5 mx-auto mb-4">
           <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
@@ -153,8 +150,8 @@
       <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
         </div>
     </div>
-    <div class="text-center mb-4 text-lg font-semibold text-black">
-      Осталось каналов: <span id="channelCounter">0</span>
+    <div class="text-center mb-4 text-xl font-bold text-red-600">
+      ВСЕГО КАНАЛОВ: <span id="channelCounter">0</span>
     </div>
 
     <div id="channelList" class="space-y-2"></div>
@@ -165,13 +162,13 @@
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
       <h2 class="text-xl font-semibold mb-6 text-gray-800">Загрузка нового плейлиста</h2>
 
-      <div id="dropAreaModal" class="p-4 rounded-2xl border-2 border-transparent transition border-dashed border-gray-300 hover:border-black">
+      <div id="dropAreaModal" class="p-4 rounded-2xl border-2 border-transparent transition">
           <button id="uploadModalBtn"
             class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4">
             ЗАГРУЗИТЬ ФАЙЛ
           </button>
           
-          <div class="my-4 text-gray-600">или перетащите сюда</div>
+          <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
           
           <div class="flex flex-col gap-3 w-full mx-auto mb-4">
             <input type="text" id="urlModalInput" placeholder="Введите ссылку на m3u файл"
@@ -266,24 +263,24 @@
     let categoryChannelCounts = {}; 
     
     // ===============================
-    // ЛОГИКА DRAG AND DROP
+    // ЛОГИКА DRAG AND DROP - УДАЛЕНА ИЗ КОДА
     // ===============================
     const dragDropAreas = [dropArea, dropAreaModal];
 
     dragDropAreas.forEach(area => {
         if (area) {
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                area.addEventListener(eventName, preventDefaults, false);
+                area.removeEventListener(eventName, preventDefaults, false);
             });
-            document.body.addEventListener('dragover', preventDefaults, false); 
-            document.body.addEventListener('drop', preventDefaults, false);
+            document.body.removeEventListener('dragover', preventDefaults, false); 
+            document.body.removeEventListener('drop', preventDefaults, false);
             ['dragenter', 'dragover'].forEach(eventName => {
-                area.addEventListener(eventName, highlight, false);
+                area.removeEventListener(eventName, highlight, false);
             });
             ['dragleave', 'drop'].forEach(eventName => {
-                area.addEventListener(eventName, unhighlight, false);
+                area.removeEventListener(eventName, unhighlight, false);
             });
-            area.addEventListener('drop', handleDrop, false);
+            area.removeEventListener('drop', handleDrop, false);
         }
     });
 
@@ -293,11 +290,11 @@
     }
 
     function highlight(e) {
-      e.currentTarget.classList.add('drag-over');
+      // e.currentTarget.classList.add('drag-over'); // Удалено применение стиля
     }
 
     function unhighlight(e) {
-      e.currentTarget.classList.remove('drag-over');
+      // e.currentTarget.classList.remove('drag-over'); // Удалено снятие стиля
     }
 
     function handleDrop(e) {
