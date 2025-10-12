@@ -6,11 +6,10 @@
   <title>Редактировать Плейлист</title>
   <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Подключение Firebase SDK через CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth-compat.js"></script>
   <style>
-    /* Добавляем стили для прокрутки категорий */
+    /* Добавляем стилы для прокрутки категорий */
     #categoryFilter {
       max-height: 200px;
       overflow-y: auto;
@@ -68,23 +67,14 @@
       #editorScreen .sm\\:text-left {
           text-align: center; /* Центрируем заголовок */
       }
-      #editorScreen .sm\\:w-auto {
-          width: 100%; /* Кнопки на всю ширину */
-          justify-content: center;
-          margin-top: 0.5rem; /* Отступ сверху для кнопок */
+      .auth-input {
+          @apply w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner mb-4;
       }
-    }
-    /* Дополнительные стили для экрана аутентификации */
-    .auth-input {
-      @apply w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner mb-4;
     }
   </style>
 </head>
 <body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
 
-  <!-- ============================================== -->
-  <!-- 1. ЭКРАН АУТЕНТИФИКАЦИИ (НОВЫЙ) -->
-  <!-- ============================================== -->
   <div id="authScreen" class="text-center w-full max-w-md hidden">
       <h1 class="text-3xl font-bold mb-8 text-gray-800">Вход / Регистрация</h1>
       
@@ -113,10 +103,6 @@
       </div>
   </div>
 
-  <!-- ============================================== -->
-  <!-- 2. ЭКРАН ЗАГРУЗКИ ПЛЕЙЛИСТА (mainScreen) -->
-  <!-- Этот экран показывается ТОЛЬКО после входа -->
-  <!-- ============================================== -->
   <div id="mainScreen" class="text-center w-full max-w-md hidden">
     
     <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
@@ -146,9 +132,6 @@
 
     </div>
 
-  <!-- ============================================== -->
-  <!-- 3. ЭКРАН РЕДАКТОРА (editorScreen) -->
-  <!-- ============================================== -->
   <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
       <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">
@@ -245,7 +228,6 @@
   <div id="saveModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
-      <!-- Назначение модального окна восстановлено для локального скачивания -->
       <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
       <button id="downloadBtn"
         class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
@@ -289,7 +271,7 @@
     let currentUser = null; // Глобальная переменная для хранения текущего пользователя
 
     // =======================================================
-    // 2. ССЫЛКИ НА ЭЛЕМЕНТЫ (ВКЛЮЧАЯ НОВЫЕ АУТЕНТИФИКАЦИОННЫЕ)
+    // 2. ССЫЛКИ НА ЭЛЕМЕНТЫ (ВКЛЮЧАЯ АУТЕНТИФИКАЦИОННЫЕ)
     // =======================================================
     const authScreen = document.getElementById('authScreen');
     const authEmail = document.getElementById('authEmail');
@@ -338,7 +320,7 @@
     let channels = [];
     let allCategories = new Set();
     let excludedCategories = new Set(); 
-    let editedContent = ''; // Переменная для хранения контента плейлиста для скачивания
+    let editedContent = ''; 
     let categoryChannelCounts = {}; 
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
@@ -386,18 +368,18 @@
         }
     });
 
-    // Обработчик входа через Google
+    // Используем signInWithRedirect вместо signInWithPopup
     googleSignInBtn.addEventListener('click', async () => {
         const provider = new GoogleAuthProvider();
         try {
-            await auth.signInWithPopup(provider);
-            showToast('Вход через Google успешен!');
+            // Запускаем перенаправление
+            await auth.signInWithRedirect(provider);
         } catch (error) {
             console.error(error);
             showToast(`Ошибка Google входа: ${error.message}`);
         }
     });
-    
+
     // Обработчик выхода
     logoutBtn.addEventListener('click', async () => {
         try {
@@ -409,19 +391,30 @@
         }
     });
 
+    // Обработка ответа после перенаправления (для Google)
+    auth.getRedirectResult().then((result) => {
+        if (result.user) {
+            showToast('Вход через Google успешен!');
+        }
+    }).catch((error) => {
+        if (error) {
+             console.error("Ошибка при возврате с Google:", error);
+             showToast(`Ошибка Google входа: ${error.message}`);
+        }
+    });
+
+
     // Слушатель состояния аутентификации
     auth.onAuthStateChanged(user => {
         currentUser = user;
         if (user) {
             // Пользователь вошел
             authScreen.classList.add('hidden');
-            mainScreen.classList.remove('hidden');
             
-            // Отображение имени пользователя
             const displayName = user.displayName || user.email || 'Пользователь';
             userNameDisplay.textContent = displayName;
             
-            // Если редактор был открыт, не скрывать его
+            // Если редактор открыт, оставляем его, иначе показываем mainScreen
             if (editorScreen.classList.contains('hidden')) {
                 mainScreen.classList.remove('hidden');
             } else {
@@ -912,7 +905,7 @@
     }
     
     // =======================================================
-    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (С ПРОВЕРКОЙ АУТЕНТИФИКАЦИИ)
+    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (БЕЗ ТОСТА УСПЕХА)
     // =======================================================
     async function uploadPlaylistToGitHub(content, count) {
         if (!currentUser) {
@@ -923,8 +916,6 @@
         const uploadUrl = '/.netlify/functions/save-playlist'; 
         
         try {
-            // Получаем токен ID от Firebase для верификации на сервере (если она настроена)
-            // Даже если верификация на сервере не настроена, это хорошая практика
             const idToken = await currentUser.getIdToken(true); 
 
             const now = new Date();
@@ -942,7 +933,6 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Отправляем токен для верификации
                     'Authorization': `Bearer ${idToken}` 
                 },
                 body: JSON.stringify({
@@ -956,7 +946,7 @@
                 throw new Error(errorData.details || errorData.error || 'Unknown API Error');
             }
             
-            showToast('Плейлист успешно сохранен на GitHub!', null); // Возвращаем тост об успехе
+            // !!! УДАЛЕНО: showToast('Плейлист успешно сохранен на GitHub!', null);
             
         } catch (error) {
             console.error('Ошибка сохранения:', error);
