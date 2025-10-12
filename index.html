@@ -74,13 +74,13 @@
     }
   </style>
 </head>
-<!-- ИЗМЕНЕНИЕ: Скрываем body, чтобы избежать "мерцания" -->
-<body class="bg-white text-black min-h-screen flex items-center justify-center px-4 hidden">
+<!-- ИЗМЕНЕНИЕ: Убрали класс hidden с body -->
+<body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
 
   <!-- ============================================== -->
-  <!-- 1. ЭКРАН АУТЕНТИФИКАЦИИ (УДАЛЕН КЛАСС hidden) -->
+  <!-- 1. ЭКРАН АУТЕНТИФИКАЦИИ (ДОБАВЛЕН КЛАСС hidden) -->
   <!-- ============================================== -->
-  <div id="authScreen" class="text-center w-full max-w-md">
+  <div id="authScreen" class="text-center w-full max-w-md hidden">
       <h1 class="text-3xl font-bold mb-8 text-gray-800">Вход / Регистрация</h1>
       
       <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
@@ -109,9 +109,9 @@
   </div>
 
   <!-- ============================================== -->
-  <!-- 2. ЭКРАН ЗАГРУЗКИ ПЛЕЙЛИСТА (УДАЛЕН КЛАСС hidden) -->
+  <!-- 2. ЭКРАН ЗАГРУЗКИ ПЛЕЙЛИСТА (ДОБАВЛЕН КЛАСС hidden) -->
   <!-- ============================================== -->
-  <div id="mainScreen" class="text-center w-full max-w-md">
+  <div id="mainScreen" class="text-center w-full max-w-md hidden">
     
     <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
         
@@ -141,9 +141,9 @@
     </div>
 
   <!-- ============================================== -->
-  <!-- 3. ЭКРАН РЕДАКТОРА (УДАЛЕН КЛАСС hidden) -->
+  <!-- 3. ЭКРАН РЕДАКТОРА (ДОБАВЛЕН КЛАСС hidden) -->
   <!-- ============================================== -->
-  <div id="editorScreen" class="w-full max-w-7xl mx-auto py-6 px-4">
+  <div id="editorScreen" class="w-full max-w-7xl mx-auto py-6 px-4 hidden">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
       <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">
           РЕДАКТОР КАНАЛОВ (<span id="userNameDisplay">Гость</span>)
