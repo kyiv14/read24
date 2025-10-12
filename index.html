@@ -287,7 +287,6 @@
     const GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
     
     let currentUser = null; // Глобальная переменная для хранения текущего пользователя
-    let isInitialAuthCheckComplete = false; // Флаг для первого запуска
 
     // =======================================================
     // 2. ССЫЛКИ НА ЭЛЕМЕНТЫ (ВКЛЮЧАЯ АУТЕНТИФИКАЦИОННЫЕ)
@@ -437,6 +436,7 @@
         }
     });
 
+
     // Слушатель состояния аутентификации
     auth.onAuthStateChanged(user => {
         currentUser = user;
@@ -445,16 +445,24 @@
     });
 
     // Обработка ответа после перенаправления (для Google) - Запускается ПЕРВОЙ
-    // Эту логику мы обернем в асинхронную IIFE, чтобы она выполнилась немедленно и до onAuthStateChanged
+    // Мы обернем это в IIFE, чтобы гарантировать выполнение перед onAuthStateChanged
     (async () => {
         try {
+            // Ждем завершения обработки редиректа
             const result = await auth.getRedirectResult();
+            
+            // Если был результат редиректа, onAuthStateChanged будет вызван сразу после этого,
+            // и switchScreens(user) будет вызван с правильным состоянием.
             if (result.user) {
-                // Если был результат редиректа, onAuthStateChanged будет вызван сразу после этого
                 showToast('Вход через Google успешен!');
             }
         } catch (error) {
-            if (error) {
+            // ИЗМЕНЕНИЕ: Если ошибка связана с неподдерживаемой средой, игнорируем ее, 
+            // чтобы приложение не падало в iframe (например, в нашей среде чата).
+            if (error.code && error.code === 'auth/operation-not-supported-in-this-environment') {
+                 console.warn("Предупреждение: Google Redirect Result не поддерживается в этой среде (iframe/file://).");
+                 // Пропускаем ошибку, полагаясь на onAuthStateChanged для дальнейшей обработки
+            } else if (error) {
                  console.error("Ошибка при возврате с Google:", error);
                  showToast(`Ошибка Google входа: ${error.message}`);
             }
