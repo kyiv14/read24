@@ -965,59 +965,13 @@
         <div id="uploadScreen" class="text-center w-full max-w-md mx-auto py-20 hidden"></div>
 
         <div id="channelEditor" class="w-full hidden"> 
-            <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
-                <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
-                <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
-                    <button id="openUploadModalBtn"
-                        class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base">
-                        ЗАГРУЗИТЬ ПЛЕЙЛИСТ
-                    </button>
-                    <button id="removeDuplicatesBtn"
-                        class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base hidden">
-                        УДАЛИТЬ ДУБЛИ
-                    </button>
-                    <button id="saveBtn"
-                        class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition text-sm sm:text-base hidden">
-                        СОХРАНИТЬ
-                    </button>
-                </div>
+            <div class="text-center py-20">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Перенаправление...</h2>
+                <p class="text-gray-600">Если перенаправление не произошло, нажмите <a href="https://read24.netlify.app/test/" class="text-blue-600 hover:underline">сюда</a>.</p>
             </div>
             
-            <div id="editorContent" class="flex flex-col md:flex-row gap-6 hidden">
-                
-                <div id="filterPanel" class="w-full md:w-2/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
-                    <div class="mb-2">
-                        <input type="text" id="searchInput" placeholder="Поиск канала..."
-                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
-                    </div>
-
-                    <div class="mb-4">
-                        <h3 class="text-md font-semibold mb-2 аtext-gray-800">Выбрать категорию для просмотра</h3>
-                        <select id="categorySelect"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
-                            <option value="">Все категории</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
-                        <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
-                            </div>
-                    </div>
-                    
-                    <div class="text-center mb-4 text-xl font-bold text-red-600">
-                        КАНАЛОВ В СПИСКЕ: <span id="channelCounter">0</span>
-                    </div>
-                </div>
-                
-                <div id="listPanel" class="w-full md:w-3/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
-                    <div id="channelList" class="space-y-2"></div>
-                </div>
-            </div>
-            
-            <div id="editorPlaceholder" class="text-center py-20 bg-gray-50 rounded-xl mt-4 hidden">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Начните редактирование!</h2>
-                <p class="text-gray-600">Нажмите кнопку **"ЗАГРУЗИТЬ ПЛЕЙЛИСТ"**, чтобы импортировать файл или ссылку.</p>
-            </div>
+            <div id="editorContent" class="hidden"></div>
+            <div id="editorPlaceholder" class="hidden"></div>
         </div>
     </div>
 
@@ -1194,30 +1148,30 @@
         
         let userId = 'guest';
 
+        // Константы для перенаправления
+        const EDITOR_URL = 'https://read24.netlify.app/test/';
+        const LOGOUT_URL = 'https://read24.netlify.app/end/';
+
         // Переменные для переключения экранов
         const mainScreen = document.getElementById('mainScreen');
         const editorScreen = document.getElementById('editorScreen');
         const logoutBtn = document.getElementById('logoutBtn');
         const openRegisterFromLogin = document.getElementById('openRegisterFromLogin'); 
-
-        // Модальное окно Регистрации
         const registrationModal = document.getElementById('registrationModal');
         const registrationFormElement = document.getElementById('registrationFormElement');
         const loginLink = document.getElementById('loginLink');
         const closeRegisterModal = document.getElementById('closeRegisterModal');
         const registerGoogleBtn = document.getElementById('registerGoogleBtn');
 
-        const REDIRECT_URL = 'https://read24.netlify.app/test/';
-        
-        // --- НОВАЯ ФУНКЦИЯ ПЕРЕНАПРАВЛЕНИЯ ---
-        function redirectToEditor() {
-            window.location.href = REDIRECT_URL;
+        // --- ФУНКЦИИ ПЕРЕНАПРАВЛЕНИЯ ---
+        function redirectTo(url) {
+            window.location.href = url;
         }
 
         // Кнопки для открытия модалки
         document.getElementById('openRegisterFromLogin').addEventListener('click', (e) => { e.preventDefault(); registrationModal.classList.remove('hidden'); });
         document.getElementById('openRegisterFromNav').addEventListener('click', (e) => { e.preventDefault(); registrationModal.classList.remove('hidden'); });
-        document.getElementById('openRegisterFromMobile').addEventListener('click', (e) => { e.preventDefault(); registrationModal.classList.remove('hidden'); mobileMenu.style.display = 'none'; menuToggle.querySelector('i').className = 'fas fa-bars'; });
+        document.getElementById('openRegisterFromMobile').addEventListener('click', (e) => { e.preventDefault(); registrationModal.classList.remove('hidden'); /* Дополнительная логика меню */ });
         document.getElementById('openRegisterFromHero').addEventListener('click', (e) => { e.preventDefault(); registrationModal.classList.remove('hidden'); });
         document.getElementById('openRegisterFromComp').addEventListener('click', (e) => { e.preventDefault(); registrationModal.classList.remove('hidden'); });
 
@@ -1235,26 +1189,41 @@
             const isAuthenticated = user && !user.isAnonymous;
 
             if (isAuthenticated) {
-                // Если вошли: показываем ВЫЙТИ, скрываем ВОЙТИ, скрываем лэндинг
+                // Если вошли:
                 logoutBtn.classList.remove('hidden'); 
                 openRegisterFromLogin.classList.add('hidden'); 
-                mainScreen.classList.add('hidden');
-                editorScreen.classList.remove('hidden'); // Показываем экран редактора (хотя и перенаправим)
-                document.body.style.paddingTop = '60px'; // Устанавливаем отступ для фиксированной шапки
                 userId = user.uid;
                 
-                // Проверяем, нужно ли перенаправлять
-                if (window.location.href !== REDIRECT_URL) {
-                    redirectToEditor();
+                // Перенаправляем, если мы на главной странице (чтобы избежать циклического редиректа)
+                if (window.location.href !== EDITOR_URL) {
+                    redirectTo(EDITOR_URL);
                 }
+                
+                // Блок ниже - заглушка, которая должна сработать, если редирект не произошел (например, на тестовой странице)
+                mainScreen.classList.add('hidden');
+                editorScreen.classList.remove('hidden');
+                document.body.style.paddingTop = '60px'; 
+
             } else {
-                // Если не вошли: показываем ВОЙТИ, скрываем ВЫЙТИ, показываем лэндинг
+                // Если не вошли (гость):
                 logoutBtn.classList.add('hidden');
                 openRegisterFromLogin.classList.remove('hidden'); 
-                mainScreen.classList.remove('hidden');
-                editorScreen.classList.add('hidden');
-                document.body.style.paddingTop = '0';
                 userId = 'guest';
+                
+                // Если мы на странице, требующей авторизации, перенаправляем на главную,
+                // но поскольку у нас редирект на внешнюю страницу, это просто обновит UI на текущей странице,
+                // если только мы не находимся на странице выхода.
+                if (window.location.href === LOGOUT_URL) {
+                    // Ничего не делаем, остаемся на LOGOUT_URL
+                } else if (window.location.href.startsWith(EDITOR_URL)) {
+                    // Если пользователь вышел, находясь на странице редактора (EDITOR_URL),
+                    // то мы просто не обновляем UI, так как произойдет редирект на LOGOUT_URL (см. handleLogout)
+                } else {
+                    // Обновляем UI до состояния лэндинга
+                    mainScreen.classList.remove('hidden');
+                    editorScreen.classList.add('hidden');
+                    document.body.style.paddingTop = '0';
+                }
             }
         }
 
@@ -1269,7 +1238,7 @@
                 await signInWithEmailAndPassword(auth, email, password);
                 showToast("Вход успешен! Добро пожаловать.");
                 registrationModal.classList.add('hidden');
-                redirectToEditor(); // <--- ПЕРЕНАПРАВЛЕНИЕ
+                redirectTo(EDITOR_URL); // <--- ПЕРЕНАПРАВЛЕНИЕ
                 return true;
             } catch (error) {
                 let errorMessage = "Ошибка входа. Неверный Email или пароль.";
@@ -1302,7 +1271,7 @@
                 await createUserWithEmailAndPassword(auth, email, password);
                 showToast("Регистрация успешна! Вы вошли в систему.");
                 registrationModal.classList.add('hidden');
-                redirectToEditor(); // <--- ПЕРЕНАПРАВЛЕНИЕ
+                redirectTo(EDITOR_URL); // <--- ПЕРЕНАПРАВЛЕНИЕ
             } catch (error) {
                 if (error.code === 'auth/email-already-in-use') {
                     showToast("Email уже зарегистрирован. Попытка входа...");
@@ -1331,7 +1300,7 @@
                 await signInWithPopup(auth, provider);
                 showToast("Вход через Google успешен!");
                 registrationModal.classList.add('hidden');
-                redirectToEditor(); // <--- ПЕРЕНАПРАВЛЕНИЕ
+                redirectTo(EDITOR_URL); // <--- ПЕРЕНАПРАВЛЕНИЕ
             } catch (error) {
                 let errorMessage = "Ошибка входа через Google.";
                 if (error.code === 'auth/popup-closed-by-user') {
@@ -1347,11 +1316,12 @@
         async function handleLogout() {
             try {
                 await signOut(auth);
-                // После выхода, очищаем каналы и возвращаемся на главный экран
+                // Очистка данных
                 channels = []; 
                 originalLines = [];
                 showToast("Вы успешно вышли из аккаунта.");
-                // Не нужно перенаправлять, onAuthStateChanged обновит UI до состояния mainScreen
+                // ПЕРЕНАПРАВЛЕНИЕ ПОСЛЕ ВЫХОДА
+                redirectTo(LOGOUT_URL); 
             } catch (error) {
                 console.error("Logout error:", error.message);
                 showToast("Ошибка при выходе.");
@@ -1363,6 +1333,7 @@
         // =======================================================
         registrationFormElement.addEventListener('submit', handleEmailRegistration);
         registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
+        // Обработчик для кнопки "ВЫЙТИ"
         document.getElementById('logoutBtn').addEventListener('click', handleLogout); 
         closeRegisterModal.addEventListener('click', () => { registrationModal.classList.add('hidden'); });
         
@@ -1381,25 +1352,49 @@
 
 
         // =======================================================
-        // ЛОГИКА РЕДАКТОРА (Оставлена для совместимости, но фактически не используется на этой странице)
+        // ЛОГИКА РЕДАКТОРА (Оставлена как заглушки)
         // =======================================================
         const uploadBtn = document.getElementById('uploadBtn');
         const fileInput = document.getElementById('fileInput');
-        // ... (остальные переменные и функции редактора) ...
-        
+        const uploadModal = document.getElementById('uploadModal');
+        const openUploadModalBtn = document.getElementById('openUploadModalBtn');
+        const closeUploadModal = document.getElementById('closeUploadModal');
+        const uploadModalBtn = document.getElementById('uploadModalBtn');
+        const dynamicTextElement = document.getElementById('dynamic-text');
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
         let originalLines = [];
         let channels = [];
-        let allCategories = new Set();
-        let excludedCategories = new Set(); 
-        let editedContent = ''; 
-        let categoryChannelCounts = {}; 
-        
-        const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
-        const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
-        
-        // Заглушки для функций, которые требуются, но не влияют на перенаправление
-        function showToast(message, count = null) { /* ... */ }
-        function parseChannelsAsync() { return new Promise(resolve => resolve()); }
+
+        function showToast(message, count = null) { 
+            const toastNotification = document.getElementById('toastNotification');
+            const toastChannelCount = document.getElementById('toastChannelCount');
+            
+            toastChannelCount.classList.add('hidden');
+            toastNotification.classList.remove('bg-green-600', 'bg-red-600'); 
+            
+            if (count !== null) {
+                toastChannelCount.textContent = count;
+                toastNotification.innerHTML = `Плейлист загружен. Каналов: <span class="font-bold">${count}</span>`;
+                toastNotification.classList.add('bg-green-600'); 
+            } else {
+                toastNotification.textContent = message;
+                if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Email') || message.includes('Пароль') || message.includes('Неверный')) {
+                    toastNotification.classList.add('bg-red-600'); 
+                } else {
+                    toastNotification.classList.add('bg-green-600');
+                }
+            }
+            
+            toastNotification.classList.remove('hidden');
+            toastNotification.classList.add('animate-fade-in');
+
+            setTimeout(() => {
+                toastNotification.classList.add('hidden');
+                toastNotification.classList.remove('animate-fade-in');
+            }, 3000);
+        }
         
         // -----------------------
         // LENDING PAGE ANIMATION & MENU 
@@ -1412,29 +1407,25 @@
             "полного контроля."
         ];
 
-        const dynamicTextElement = document.getElementById('dynamic-text');
-        
         let phraseIndex = 0;
         const transitionTime = 300;
         const displayTime = 2000;
 
         function changePhrase() {
-            if(mainScreen.classList.contains('hidden')) return; 
+            if(mainScreen && mainScreen.classList.contains('hidden')) return; 
 
-            dynamicTextElement.style.opacity = '0'; 
+            if (dynamicTextElement) {
+                dynamicTextElement.style.opacity = '0'; 
 
-            setTimeout(() => {
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                dynamicTextElement.textContent = phrases[phraseIndex];
-                dynamicTextElement.style.opacity = '1'; 
-            }, transitionTime);
+                setTimeout(() => {
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    dynamicTextElement.textContent = phrases[phraseIndex];
+                    dynamicTextElement.style.opacity = '1'; 
+                }, transitionTime);
+            }
         }
 
         setInterval(changePhrase, displayTime + transitionTime);
-
-
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
 
         if (menuToggle && mobileMenu) {
             menuToggle.addEventListener('click', () => {
