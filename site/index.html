@@ -148,7 +148,6 @@
             text-align: center;
         }
         
-        /* Добавляем заголовок секции для структуры */
         .section-subtitle {
             font-size: 18px;
             font-weight: 600;
@@ -170,7 +169,7 @@
         .features-grid {
             display: flex;
             justify-content: center;
-            gap: 30px; /* Уменьшаем отступ для Desktop */
+            gap: 30px; 
             max-width: 1000px;
             margin: 0 auto;
             flex-wrap: wrap;
@@ -178,11 +177,11 @@
 
         .feature-item {
             flex-basis: 300px; 
-            padding: 30px; /* Большой padding для Desktop */
+            padding: 30px; 
             text-align: center;
-            background-color: #ffffff;
+            background-color: #ffffff; 
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Легкая тень для эффекта "карточки" */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
             transition: transform 0.3s ease;
         }
         
@@ -313,7 +312,7 @@
                 padding: 12px 30px; 
             }
             
-            /* МОБИЛЬНЫЙ ВИД БЛОКА ПРЕИМУЩЕСТВ (Чистый и минимальный) */
+            /* МОБИЛЬНЫЙ ВИД БЛОКА ПРЕИМУЩЕСТВ (Карточки) */
             .features-section {
                 padding-top: 40px; 
                 padding-bottom: 40px; 
@@ -328,26 +327,28 @@
 
             .features-grid {
                 flex-direction: column;
-                gap: 0; /* Полностью убираем отступ между элементами */
+                gap: 10px; /* Отступ между карточками 10px */
             }
             
             .feature-item {
-                /* Убираем тень и скругление, делаем блок-строкой */
-                background-color: transparent; 
-                box-shadow: none; 
-                border-radius: 0;
+                /* Стили карточки */
+                background-color: #ffffff; 
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); 
+                border-radius: 12px;
+                border-bottom: none; 
                 transform: none;
                 
-                /* Установка минимального отступа, как вы просили: 1px сверху, 0px снизу */
-                padding: 1px 10px 0 10px; 
-                border-bottom: 1px solid #e0e0e0; /* Разделитель для наглядности */
-            }
+                /* Минимальный внутренний отступ */
+                padding: 15px; 
 
-            .feature-item:last-child {
-                border-bottom: none;
+                /* НОВЫЕ СТИЛИ ДЛЯ ВЕРТИКАЛЬНОГО ЦЕНТРИРОВАНИЯ */
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; /* Центрируем содержимое по вертикали */
+                height: 140px; /* Фиксированная высота для демонстрации центрирования */
             }
             
-            /* Сброс всех margin/padding у дочерних элементов для контроля */
+            /* ЖЕСТКИЙ СБРОС ВСЕХ ВЕРТИКАЛЬНЫХ ОТСТУПОВ У ДОЧЕРНИХ ЭЛЕМЕНТОВ */
             .feature-item i, 
             .feature-item h3, 
             .feature-item p {
@@ -358,11 +359,11 @@
 
             /* Восстанавливаем минимальные интервалы внутри элемента */
             .feature-item i {
-                margin-top: 4px; /* Отступ иконки от верхнего края (4px) */
-                margin-bottom: 4px; /* Отступ от иконки до заголовка */
+                margin-top: 5px; 
+                margin-bottom: 8px; 
             }
             .feature-item h3 {
-                margin-bottom: 4px; /* Отступ от заголовка до текста */
+                margin-bottom: 5px; 
             }
         }
         
