@@ -77,12 +77,25 @@
 
   <div id="mainScreen" class="text-center w-full max-w-md">
     
+    <!-- СТАТУС АУТЕНТИФИКАЦИИ -->
+    <div id="authStatus" class="text-sm text-gray-700 mb-4 text-left p-2 bg-gray-100 rounded-lg">
+        Статус: Загрузка...
+    </div>
+    
     <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
         
-        <button id="uploadBtn"
-          class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-4/5 mx-auto mb-4">
-          ЗАГРУЗИТЬ ФАЙЛ
-        </button>
+        <!-- ОБНОВЛЕННЫЙ БЛОК КНОПОК -->
+        <div class="flex flex-col gap-3 w-4/5 mx-auto mb-4">
+            <button id="uploadBtn"
+                class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full">
+                ЗАГРУЗИТЬ ФАЙЛ
+            </button>
+            <button id="openRegisterModalBtn"
+                class="bg-gray-200 text-gray-900 text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-300 transition w-full">
+                ВОЙТИ / РЕГИСТРАЦИЯ
+            </button>
+        </div>
+        
         <input type="file" id="fileInput" accept="*/*" class="hidden">
         
         <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
@@ -191,6 +204,76 @@
     </div>
   </div>
 
+  <!-- МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ (УМЕНЬШЕННОЕ) -->
+  <div id="registrationModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
+    <div class="bg-white rounded-3xl p-4 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+      
+      <h2 class="text-2xl font-extrabold text-center mb-4 text-gray-800">
+        Добро пожаловать! 🎶
+      </h2>
+      <p class="text-center text-gray-600 mb-4 text-sm">
+        Создайте свой аккаунт, чтобы сохранять плейлисты.
+      </p>
+
+      <!-- КНОПКА РЕГИСТРАЦИИ ЧЕРЕЗ GMAIL/GOOGLE -->
+      <button id="registerGoogleBtn"
+        class="w-full flex items-center justify-center bg-white border border-gray-300 text-gray-700 text-base font-medium px-4 py-2 rounded-xl shadow-sm hover:bg-gray-100 transition mb-3">
+        <!-- Иконка Google -->
+        <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.0003 4.75C14.7173 4.75 16.9833 5.772 18.6673 7.359L20.5903 5.487C18.3143 3.498 15.3623 2.25 12.0003 2.25C8.01332 2.25 4.54932 4.53 2.87132 7.824L5.87532 10.125C6.73632 7.787 9.12632 6.25 12.0003 6.25C13.8823 6.25 15.6173 6.942 16.9803 8.167L19.4583 6.135C18.0493 4.904 16.1433 4.25 14.2503 4.25H12.0003V4.75Z" fill="#EA4335"/>
+          <path d="M12.0003 17.75C13.2133 17.75 14.3723 17.419 15.3853 16.829L18.3903 19.13C16.6383 20.375 14.3763 21 12.0003 21C7.81732 21 4.28832 18.577 2.50232 15.111L5.53732 12.83C6.34732 15.309 9.07332 17 12.0003 17V17.75Z" fill="#34A853"/>
+          <path d="M21.2503 12C21.2503 11.234 21.1813 10.493 21.0543 9.774H12.0003V14.25H17.2273C17.0673 15.186 16.5183 15.996 15.7503 16.591L18.7853 18.868C20.4433 17.375 21.2503 15.342 21.2503 13.007V12Z" fill="#4285F4"/>
+          <path d="M5.87532 10.125L2.87132 7.824C2.26132 9.068 2.00032 10.493 2.00032 12C2.00032 13.507 2.26132 14.932 2.87132 16.176L5.87532 13.875V10.125Z" fill="#FBBC05"/>
+        </svg>
+        Войти через Google
+      </button>
+      
+      <div class="flex items-center my-4">
+        <div class="flex-grow border-t border-gray-300"></div>
+        <span class="flex-shrink mx-4 text-gray-500 text-sm">или</span>
+        <div class="flex-grow border-t border-gray-300"></div>
+      </div>
+
+      <!-- ФОРМА РЕГИСТРАЦИИ ПО EMAIL И ПАРОЛЮ -->
+      <form id="registrationFormElement">
+        <div class="mb-3">
+          <label for="reg-email" class="block text-xs font-medium text-gray-700 mb-1 text-left">
+            Email
+          </label>
+          <input type="email" id="reg-email" placeholder="example@mail.com" required
+            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-base shadow-inner">
+        </div>
+
+        <div class="mb-4">
+          <label for="reg-password" class="block text-xs font-medium text-gray-700 mb-1 text-left">
+            Пароль
+          </label>
+          <input type="password" id="reg-password" placeholder="Придумайте пароль" required
+            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-base shadow-inner">
+        </div>
+
+        <button type="submit" id="registerEmailBtn"
+          class="w-full bg-black text-white text-base font-semibold px-6 py-2 rounded-xl shadow-lg hover:bg-gray-900 transition mb-3">
+          ЗАРЕГИСТРИРОВАТЬСЯ
+        </button>
+      </form>
+      
+      <p class="text-center text-xs text-gray-600">
+        Уже есть аккаунт? 
+        <a href="#" class="text-black font-semibold hover:text-gray-700 transition">Войти</a>
+      </p>
+
+      <button id="closeRegisterModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition mt-3">
+        ОТМЕНА
+      </button>
+
+    </div>
+  </div>
+  <!-- КОНЕЦ МОДАЛЬНОГО ОКНА РЕГИСТРАЦИИ -->
+
+
   <div id="saveModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
@@ -216,7 +299,133 @@
   </div>
 
 
-  <script>
+  <script type="module">
+    // =======================================================
+    // FIREBASE INITIALIZATION AND AUTH
+    // =======================================================
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { 
+        getAuth, 
+        signInAnonymously, 
+        signInWithCustomToken, 
+        createUserWithEmailAndPassword,
+        GoogleAuthProvider,
+        signInWithPopup,
+        onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+    // Использование конфигурации, предоставленной пользователем, с учетом глобальных переменных Canvas
+    const providedFirebaseConfig = {
+      apiKey: "AIzaSyCko3aktIDmXWbsDekdr-dKUscX2fkRpjo",
+      authDomain: "read24-7.firebaseapp.com",
+      projectId: "read24-7",
+      storageBucket: "read24-7.firebasestorage.app",
+      messagingSenderId: "966949567813",
+      appId: "1:966949567813:web:b12ff4001282d20c29922c",
+      measurementId: "G-NVEC5F7S8F"
+    };
+
+    const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : JSON.stringify(providedFirebaseConfig));
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    
+    let userId = 'guest';
+    const authStatusElement = document.getElementById('authStatus');
+
+    // Авторизация при запуске
+    async function initializeAuth() {
+        try {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+                // console.log("Signed in with custom token.");
+            } else {
+                await signInAnonymously(auth);
+                // console.log("Signed in anonymously.");
+            }
+        } catch (error) {
+            console.error("Auth initialization failed:", error.message);
+            showToast("Ошибка авторизации. Попробуйте перезагрузить страницу.");
+        }
+    }
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            userId = user.uid;
+            const statusText = user.isAnonymous ? 
+                `Статус: Гость (ID: ${userId.substring(0, 8)})` : 
+                `Статус: Вошел (ID: ${userId.substring(0, 8)})`;
+            authStatusElement.innerHTML = statusText;
+            // console.log("User state changed. ID:", userId);
+
+        } else {
+            userId = 'guest';
+            authStatusElement.textContent = `Статус: Ошибка или выход`;
+            // console.log("User logged out.");
+        }
+    });
+
+    initializeAuth();
+
+    // =======================================================
+    // REGISTRATION FUNCTIONS
+    // =======================================================
+
+    async function handleEmailRegistration(e) {
+        e.preventDefault();
+        const email = document.getElementById('reg-email').value;
+        const password = document.getElementById('reg-password').value;
+        
+        if (!email || !password) {
+            showToast("Пожалуйста, заполните все поля.");
+            return;
+        }
+
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            showToast("Регистрация успешна! Вы вошли в систему.");
+            registrationModal.classList.add('hidden');
+        } catch (error) {
+            let errorMessage = "Ошибка регистрации.";
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    errorMessage = "Этот Email уже используется. Попробуйте войти.";
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage = "Неверный формат Email.";
+                    break;
+                case 'auth/weak-password':
+                    errorMessage = "Пароль должен быть не менее 6 символов.";
+                    break;
+                default:
+                    errorMessage = `Ошибка: ${error.message}`;
+            }
+            showToast(errorMessage);
+            console.error("Email registration error:", error.code, error.message);
+        }
+    }
+
+    async function handleGoogleRegistration() {
+        const provider = new GoogleAuthProvider();
+        try {
+            await signInWithPopup(auth, provider);
+            showToast("Вход через Google успешен!");
+            registrationModal.classList.add('hidden');
+        } catch (error) {
+            let errorMessage = "Ошибка входа через Google.";
+            // Обработка закрытия окна пользователем (popup-closed-by-user)
+            if (error.code === 'auth/popup-closed-by-user') {
+                errorMessage = "Окно входа было закрыто.";
+            } else {
+                errorMessage = `Ошибка: ${error.message}`;
+            }
+            showToast(errorMessage);
+            console.error("Google sign-in error:", error.code, error.message);
+        }
+    }
+
+    // =======================================================
+    // EXISTING SCRIPT LOGIC BELOW
+    // =======================================================
     const uploadBtn = document.getElementById('uploadBtn');
     const fileInput = document.getElementById('fileInput');
     const urlInput = document.getElementById('urlInput');
@@ -250,6 +459,15 @@
     const toastChannelCount = document.getElementById('toastChannelCount');
 
     const globalLoader = document.getElementById('globalLoader');
+
+    // ПЕРЕМЕННЫЕ ДЛЯ РЕГИСТРАЦИИ
+    const registrationModal = document.getElementById('registrationModal');
+    const openRegisterModalBtn = document.getElementById('openRegisterModalBtn');
+    const closeRegisterModal = document.getElementById('closeRegisterModal');
+    const registerEmailBtn = document.getElementById('registerEmailBtn');
+    const registerGoogleBtn = document.getElementById('registerGoogleBtn');
+    const registrationFormElement = document.getElementById('registrationFormElement');
+
 
     let originalLines = [];
     let channels = [];
@@ -324,7 +542,7 @@
             toastNotification.classList.add('bg-green-600'); 
         } else {
             toastNotification.textContent = message;
-            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста')) {
+            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Email') || message.includes('Пароль')) {
                  toastNotification.classList.add('bg-red-600'); 
             } else {
                  toastNotification.classList.add('bg-green-600');
@@ -380,6 +598,24 @@
     closeUploadModal.addEventListener('click', () => {
         uploadModal.classList.add('hidden');
     });
+
+    // ОБРАБОТЧИКИ МОДАЛЬНОГО ОКНА РЕГИСТРАЦИИ
+    if (openRegisterModalBtn) {
+        openRegisterModalBtn.addEventListener('click', () => {
+            registrationModal.classList.remove('hidden');
+        });
+    }
+
+    if (closeRegisterModal) {
+        closeRegisterModal.addEventListener('click', () => {
+            registrationModal.classList.add('hidden');
+        });
+    }
+    
+    // Подключение функций регистрации
+    registrationFormElement.addEventListener('submit', handleEmailRegistration);
+    registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
+    // КОНЕЦ НОВЫХ ОБРАБОТЧИКОВ
 
     async function loadPlaylistFromUrl(url, loadingElement, buttonElement) {
         if (!url) {
@@ -833,13 +1069,17 @@
     // =======================================================
 
     async function uploadPlaylistToGitHub(content, count) {
+        // Проверка, является ли пользователь гостем. В реальном приложении здесь можно потребовать вход.
+        if (auth.currentUser?.isAnonymous) {
+            console.warn("Skipping GitHub upload: User is anonymous/guest.");
+            // showToast("Войдите, чтобы сохранять плейлисты на сервере."); // Можно включить, если нужно уведомить пользователя.
+            return; 
+        }
+
         const uploadUrl = '/.netlify/functions/save-playlist'; 
-        
-        // !!! Сохранение происходит в фоне, без лоадера/модалки
         
         try {
             const now = new Date();
-            // Форматируем дату в строку ГГГГММДД_ЧЧММСС для уникальности
             const timestamp = now.getFullYear().toString() + 
                               (now.getMonth() + 1).toString().padStart(2, '0') + 
                               now.getDate().toString().padStart(2, '0') + 
@@ -848,8 +1088,7 @@
                               now.getMinutes().toString().padStart(2, '0') +
                               now.getSeconds().toString().padStart(2, '0');
                               
-            // Формируем уникальное имя файла
-            const uniqueFilename = `playlist_${count}_${timestamp}.m3u`;
+            const uniqueFilename = `playlist_${userId.substring(0, 8)}_${count}_${timestamp}.m3u`;
             
             const response = await fetch(uploadUrl, {
                 method: 'POST',
@@ -857,9 +1096,9 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    // Передаем уникальное имя файла
                     filename: uniqueFilename, 
                     fileContent: content, 
+                    userId: userId,
                 }),
             });
             
@@ -868,20 +1107,17 @@
                 throw new Error(errorData.details || errorData.error || 'Unknown API Error');
             }
             
-            // Сообщение об успехе на гитхабе не показываем, согласно запросу.
+            // Если запрос успешен, но нет необходимости в уведомлении
             
         } catch (error) {
             console.error('Ошибка сохранения:', error);
-            // Показываем ошибку при неудаче
-            showToast(`Ошибка сохранения на GitHub: ${error.message}`, null);
-        } finally {
-            // Никаких действий с UI в finally нет.
+            showToast(`Ошибка сохранения на сервере: ${error.message}`);
         }
     }
 
 
     // =======================================================
-    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ (ДЛЯ ЛОКАЛЬНОГО И СЕРВЕРНОГО СОХРАНЕНИЯ)
+    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ 
     // =======================================================
     saveBtn.addEventListener('click', () => {
       
