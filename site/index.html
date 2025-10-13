@@ -157,14 +157,14 @@
 
         .feature-item {
             flex-basis: 300px; 
-            padding: 20px;
+            padding: 20px; /* Desktop padding */
             text-align: center;
         }
 
         .feature-item i {
             font-size: var(--icon-size);
             color: var(--primary-color);
-            margin-bottom: 15px; /* Desktop: 15px */
+            margin-bottom: 15px;
         }
 
         .feature-item h3 {
@@ -172,15 +172,15 @@
             font-weight: 600;
             color: #000;
             margin-top: 0;
-            margin-bottom: 10px; /* Desktop: 10px */
+            margin-bottom: 10px; 
         }
 
         .feature-item p {
             font-size: 15px;
             color: var(--secondary-text-color);
             line-height: 1.6;
-            margin-top: 0; /* Desktop: 0 */
-            margin-bottom: 0; /* Desktop: 0 */
+            margin-top: 0;
+            margin-bottom: 0;
         }
 
         /* -------------------------------------------
@@ -287,20 +287,25 @@
             /* Преимущества: уменьшаем горизонтальный разрыв */
             .features-grid {
                 flex-direction: column;
-                gap: 10px; 
+                gap: 10px; /* Расстояние между элементами сетки */
             }
             
-            /* ИЗМЕНЕНИЕ: Убираем отступы для минимального вертикального расстояния */
+            /* ИЗМЕНЕНИЕ: Уменьшаем внутренние отступы всего блока преимущества */
+            .feature-item {
+                padding: 10px; /* Уменьшаем вертикальный padding с 20px до 10px */
+            }
+            
+            /* Минимальные вертикальные отступы между элементами внутри блока */
             .feature-item i {
-                margin-bottom: 4px; /* Уменьшаем отступ после иконки */
+                margin-bottom: 4px; 
             }
             .feature-item h3 {
-                margin-bottom: 4px; /* Уменьшаем отступ после заголовка */
-                margin-top: 4px;    /* Добавляем минимальный отступ перед заголовком */
+                margin-bottom: 4px; 
+                margin-top: 4px;
             }
             .feature-item p {
-                margin-top: 0; /* Удаляем отступ перед текстом */
-                margin-bottom: 0; /* Удаляем отступ после текста */
+                margin-top: 0; 
+                margin-bottom: 0; 
             }
         }
         
