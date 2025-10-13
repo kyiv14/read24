@@ -93,7 +93,12 @@
     details[open] summary::after { transform: rotate(180deg); }
     details p { font-size: 16px; color: var(--secondary-text-color); padding: 5px 0 15px 0; line-height: 1.6; }
     
-    /* МОБИЛЬНЫЕ СТИЛИ ГЛАВНОЙ СТРАНИЦЫ */
+    /* СТИЛИ РЕДАКТОРА */
+    #categoryFilter { max-height: 200px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 0.75rem; padding: 0.5rem; }
+    .sortable-channel { cursor: grab; touch-action: none; }
+    .sortable-ghost { opacity: 0.4; background-color: #f3f4f6; border: 2px dashed #9ca3af; border-radius: 0.75rem; }
+    
+    /* МОБИЛЬНЫЕ СТИЛИ */
     .menu-toggle, #mobile-menu { display: none; }
     @media (max-width: 768px) {
         .site-header { display: grid; grid-template-columns: 1fr auto 1fr; grid-template-areas: "logo actions menu-toggle"; }
@@ -102,33 +107,11 @@
         .header-actions { grid-area: actions; justify-self: center; }
         .menu-toggle { grid-area: menu-toggle; display: block; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-color); padding: 0; justify-self: end; }
         #mobile-menu { display: none; position: fixed; top: 52px; left: 0; width: 100%; height: 100vh; overflow-y: auto; background-color: #ffffff; border-bottom: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 10px 0; z-index: 90; }
-        #mobile-menu ul { list-style: none; padding: 0; margin: 0; }
-        #mobile-menu li { text-align: center; padding: 12px 20px; border-bottom: 1px solid #f5f5f5; }
-        #mobile-menu a { display: block; font-size: 16px; color: var(--text-color); text-decoration: none; padding: 0; }
         .hero-section { padding-top: 40px; padding-bottom: 60px; padding-left: 20px; padding-right: 20px; }
-        .hero-title { font-size: 28px; }
-        #dynamic-text { min-width: 150px; }
-        .features-section { padding-top: 40px; padding-bottom: 40px; padding-left: 20px; padding-right: 20px; }
-        .section-title { font-size: 28px; margin-bottom: 30px; }
-        .features-grid { flex-direction: column; gap: 10px; }
-        .feature-item { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; justify-content: center; height: 140px; }
-        .process-section { padding-top: 40px; padding-bottom: 40px; padding-left: 20px; padding-right: 20px; }
-        .steps-grid { flex-direction: column; gap: 10px; }
-        .step-item { padding: 20px; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); border-radius: 12px; display: flex; flex-direction: column; justify-content: center; min-height: 120px; flex-basis: auto; max-width: 100%; }
-        .comparison-section { padding-top: 40px; padding-bottom: 40px; padding-left: 0; padding-right: 0; }
-        .comparison-table { display: block; overflow-x: auto; width: 100%; border-radius: 0; box-shadow: none; }
-        .comparison-table table { width: 100%; min-width: 550px; border-radius: 0; }
+        .features-section { padding: 40px 20px; }
+        .process-section { padding: 40px 20px; }
+        .comparison-section { padding: 40px 0; }
         .faq-section { padding: 40px 20px; }
-    }
-
-
-    /* СТИЛИ ЭКРАНОВ РЕДАКТОРА (INDEX2.HTML) */
-    
-    /* Скрываем главный контент при загрузке, пока не определен экран */
-    #editorContainer, #landingPageContainer {
-        width: 100%;
-        max-width: 100%;
-        transition: opacity 0.5s;
     }
   </style>
 </head>
@@ -372,7 +355,7 @@
   </div>
   <div id="editorContainer" class="w-full hidden">
     
-    <div id="mainScreen" class="text-center w-full max-w-md"> 
+    <div id="mainScreen" class="text-center w-full max-w-md hidden"> 
       
       <div id="unauthenticatedMessage" class="w-full max-w-xs mx-auto mb-8 hidden">
           <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Добро пожаловать!</h2>
@@ -646,21 +629,20 @@
     function showScreen(screenId) {
         document.getElementById('landingPageContainer').classList.add('hidden');
         document.getElementById('editorContainer').classList.add('hidden');
+        document.getElementById('mainScreen').classList.add('hidden'); // Скрываем все экраны
 
         if (screenId === 'landing') {
             document.getElementById('landingPageContainer').classList.remove('hidden');
             // Включаем навигацию главной страницы, если она активна
-            document.getElementById('landingNav').style.display = 'block';
+            document.getElementById('landingNav').style.display = 'flex';
             document.getElementById('logoutBtn').classList.add('hidden');
         } else if (screenId === 'editor') {
             document.getElementById('editorContainer').classList.remove('hidden');
+            document.getElementById('editorScreen').classList.remove('hidden');
+            
             // Скрываем навигацию главной страницы
             document.getElementById('landingNav').style.display = 'none';
             document.getElementById('logoutBtn').classList.remove('hidden');
-            
-            // Важно: в режиме редактора показываем только #editorScreen, а не #mainScreen
-            document.getElementById('mainScreen').classList.add('hidden');
-            document.getElementById('editorScreen').classList.remove('hidden');
         }
     }
 
@@ -688,17 +670,14 @@
             // Пользователь не вошел или гость: показываем ГЛАВНУЮ СТРАНИЦУ
             showScreen('landing');
             userId = 'guest';
-            // Показываем кнопки входа на главной странице
+            // Показываем кнопки входа
             document.querySelector('.header-actions a').classList.remove('hidden');
-            document.getElementById('landingNav').style.display = 'flex';
-
         } else {
             // Пользователь вошел: СРАЗУ ПОКАЗЫВАЕМ ЭКРАН РЕДАКТОРА
             showScreen('editor');
             userId = user.uid; // Обновляем ID пользователя
-            // Скрываем кнопки входа на главной странице, чтобы не дублировать
+            // Скрываем кнопки входа
             document.querySelector('.header-actions a').classList.add('hidden');
-            document.getElementById('landingNav').style.display = 'none';
         }
     });
 
@@ -714,7 +693,7 @@
             await signInWithEmailAndPassword(auth, email, password);
             showToast("Вход успешен! Добро пожаловать.");
             registrationModal.classList.add('hidden');
-            // После входа onAuthStateChanged переключит на экран редактора
+            // onAuthStateChanged переключит на экран редактора
             return true;
         } catch (error) {
             let errorMessage = "Ошибка входа. Неверный Email или пароль.";
@@ -749,7 +728,7 @@
             await createUserWithEmailAndPassword(auth, email, password);
             showToast("Регистрация успешна! Вы вошли в систему.");
             registrationModal.classList.add('hidden');
-            // После регистрации onAuthStateChanged переключит на экран редактора
+            // onAuthStateChanged переключит на экран редактора
         } catch (error) {
             // Если Email уже используется, пробуем войти
             if (error.code === 'auth/email-already-in-use') {
@@ -779,6 +758,7 @@
             await signInWithPopup(auth, provider);
             showToast("Вход через Google успешен!");
             registrationModal.classList.add('hidden');
+            // onAuthStateChanged переключит на экран редактора
         } catch (error) {
             let errorMessage = "Ошибка входа через Google.";
             // Обработка закрытия окна пользователем (popup-closed-by-user)
@@ -951,16 +931,11 @@
     // ===============================
     // ОБРАБОТЧИКИ СОБЫТИЙ
     // =======================================================
-    // --- Обработчики из mainScreen, которые теперь нужно вызвать через модалку ---
+    // uploadBtn и loadUrlBtn теперь используются только для перехода из mainScreen в editorScreen
     uploadBtn.addEventListener('click', () => {
         fileInput.click();
     });
-    loadUrlBtn.addEventListener('click', async () => {
-      const url = urlInput.value.trim();
-      await loadPlaylistFromUrl(url, loading, loadUrlBtn);
-    });
-    // -----------------------------------------------------------------------------
-    
+
     // Обработчик fileInput остается прежним
     fileInput.addEventListener('change', () => {
       const file = fileInput.files[0];
@@ -980,6 +955,10 @@
       }, 50);
     });
 
+    loadUrlBtn.addEventListener('click', async () => {
+      const url = urlInput.value.trim();
+      await loadPlaylistFromUrl(url, loading, loadUrlBtn);
+    });
     
     openUploadModalBtn.addEventListener('click', () => {
         uploadModal.classList.remove('hidden');
@@ -1010,34 +989,6 @@
             showToast("Ошибка копирования. Попробуйте вручную.");
         });
     });
-
-
-    // --- ОБРАБОТЧИКИ НА ГЛАВНОЙ СТРАНИЦЕ (Для открытия модалки) ---
-    // Навигационная кнопка "Регистрация"
-    document.getElementById('navRegisterBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        registrationModal.classList.remove('hidden');
-    });
-    
-    // Кнопка "Попробовать"
-    document.getElementById('heroRegisterBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        registrationModal.classList.remove('hidden');
-    });
-    
-    // Кнопка "Регистрация" в секции сравнения
-    document.getElementById('comparisonRegisterBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        registrationModal.classList.remove('hidden');
-    });
-    
-    // Кнопка "Войти" в шапке
-    document.querySelector('.header-actions a').addEventListener('click', (e) => {
-        e.preventDefault();
-        registrationModal.classList.remove('hidden');
-        // Опционально: можно автоматически переключить модалку на форму входа
-    });
-    // --- КОНЕЦ ОБРАБОТЧИКОВ ГЛАВНОЙ СТРАНИЦЫ ---
 
 
     // ОБРАБОТЧИКИ МОДАЛЬНОГО ОКНА РЕГИСТРАЦИИ
@@ -1910,7 +1861,7 @@
     document.querySelectorAll('#landingPageContainer a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             // Пропускаем кнопки регистрации, так как они открывают модалку
-            if (this.id.endsWith('RegisterBtn')) return;
+            if (this.id.endsWith('RegisterBtn') || this.id.includes('Register')) return;
             
             e.preventDefault();
 
