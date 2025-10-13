@@ -25,7 +25,7 @@
         }
 
         /* -------------------------------------------
-           ОБЩИЕ СТИЛИ ШАПКИ (Для Desktop)
+           ОБЩИЕ СТИЛЫ (Desktop)
            ------------------------------------------- */
         .site-header {
             display: flex;
@@ -33,8 +33,6 @@
             align-items: center;
             padding: 12px 40px;
             background-color: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -53,10 +51,7 @@
         }
 
         /* --- Навигация Desktop --- */
-        .main-nav {
-            display: block; 
-        }
-
+        .main-nav { display: block; }
         .main-nav ul {
             list-style: none;
             margin: 0;
@@ -118,7 +113,7 @@
             border-color: var(--primary-hover-color);
         }
 
-        /* --- Секция Героя --- */
+        /* --- Секция Героя (Desktop) --- */
         .hero-section {
             display: flex;
             flex-direction: column;
@@ -129,7 +124,7 @@
         }
 
         .hero-title {
-            font-size: 48px; /* Размер для Desktop */
+            font-size: 48px; 
             font-weight: 700;
             color: #000;
             max-width: 800px;
@@ -154,7 +149,7 @@
         .features-grid {
             display: flex;
             justify-content: center;
-            gap: 40px; 
+            gap: 40px; /* Desktop gap */
             max-width: 1000px;
             margin: 0 auto;
             flex-wrap: wrap;
@@ -169,7 +164,7 @@
         .feature-item i {
             font-size: var(--icon-size);
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 15px; /* Desktop: 15px */
         }
 
         .feature-item h3 {
@@ -177,17 +172,19 @@
             font-weight: 600;
             color: #000;
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 10px; /* Desktop: 10px */
         }
 
         .feature-item p {
             font-size: 15px;
             color: var(--secondary-text-color);
             line-height: 1.6;
+            margin-top: 0; /* Desktop: 0 */
+            margin-bottom: 0; /* Desktop: 0 */
         }
 
         /* -------------------------------------------
-           МОБИЛЬНЫЕ СТИЛИ (Media Query)
+           МОБИЛЬНЫЕ СТИЛЫ (Media Query)
            ------------------------------------------- */
         
         .menu-toggle, #mobile-menu {
@@ -204,20 +201,9 @@
                 grid-template-areas: "logo actions menu-toggle";
             }
 
-            .main-nav {
-                display: none;
-            }
-
-            .logo {
-                grid-area: logo;
-                justify-self: start;
-            }
-
-            .header-actions {
-                grid-area: actions;
-                justify-self: center; 
-            }
-
+            .main-nav { display: none; }
+            .logo { grid-area: logo; justify-self: start; }
+            .header-actions { grid-area: actions; justify-self: center; }
             .menu-toggle {
                 grid-area: menu-toggle;
                 display: block;
@@ -251,7 +237,7 @@
             }
 
             #mobile-menu li {
-                text-align: left;
+                text-align: center; 
                 padding: 12px 20px;
                 border-bottom: 1px solid #f5f5f5;
             }
@@ -263,22 +249,58 @@
                 text-decoration: none;
                 padding: 0; 
             }
+            
+            /* Ширина кнопки Регистрация в меню 60% */
+            #mobile-menu .nav-button.primary {
+                width: 60%; 
+                display: inline-block; 
+                box-sizing: border-box; 
+                font-size: 17px; 
+                padding-top: 12px;
+                padding-bottom: 12px;
+                padding-left: 20px; 
+                padding-right: 20px;
+                color: #ffffff;
+                margin-top: 10px; 
+            }
 
-            /* Заголовок: Уменьшаем размер шрифта */
+            /* Расстояние от шапки до заголовка 40px */
             .hero-section {
-                padding: 80px 20px 60px;
+                padding-top: 40px; 
+                padding-bottom: 60px;
+                padding-left: 20px;
+                padding-right: 20px;
             }
             .hero-title {
-                font-size: 28px; /* УМЕНЬШЕННЫЙ ШРИФТ ДЛЯ MOBILE */
+                font-size: 28px; 
             }
             #dynamic-text {
                 min-width: 150px; 
             }
 
-            /* Преимущества в столбец */
+            /* УВЕЛИЧИВАЕМ ШРИФТ КНОПКИ "Начать бесплатно" */
+            .hero-section .nav-button.primary {
+                font-size: 17px; 
+                padding: 12px 30px; 
+            }
+
+            /* Преимущества: уменьшаем горизонтальный разрыв */
             .features-grid {
                 flex-direction: column;
-                gap: 20px;
+                gap: 10px; 
+            }
+            
+            /* ИЗМЕНЕНИЕ: Убираем отступы для минимального вертикального расстояния */
+            .feature-item i {
+                margin-bottom: 4px; /* Уменьшаем отступ после иконки */
+            }
+            .feature-item h3 {
+                margin-bottom: 4px; /* Уменьшаем отступ после заголовка */
+                margin-top: 4px;    /* Добавляем минимальный отступ перед заголовком */
+            }
+            .feature-item p {
+                margin-top: 0; /* Удаляем отступ перед текстом */
+                margin-bottom: 0; /* Удаляем отступ после текста */
             }
         }
         
