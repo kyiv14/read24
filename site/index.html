@@ -140,7 +140,7 @@
         }
 
         /* -------------------------------------------
-           ПЕРЕДЕЛАННЫЕ СТИЛЫ ПРЕИМУЩЕСТВ (Desktop)
+           СТИЛЫ ПРЕИМУЩЕСТВ (Desktop)
            ------------------------------------------- */
         .features-section {
             padding: 80px 40px; 
@@ -195,7 +195,7 @@
             margin-bottom: 20px;
         }
 
-        /* ОБНОВЛЕНИЕ: Заголовки преимуществ 20px */
+        /* Заголовки преимуществ 20px */
         .feature-item h3 {
             font-size: 20px; 
             font-weight: 600;
@@ -204,7 +204,7 @@
             margin-bottom: 10px; 
         }
 
-        /* ОБНОВЛЕНИЕ: Текст преимуществ 18px */
+        /* Текст преимуществ 18px */
         .feature-item p {
             font-size: 18px; 
             color: var(--secondary-text-color);
@@ -246,13 +246,15 @@
                 justify-self: end;
             }
             
-            /* --- ВЫПАДАЮЩЕЕ МОБИЛЬНОЕ МЕНЮ --- */
+            /* --- ВЫПАДАЮЩЕЕ МОБИЛЬНОЕ МЕНЮ (ИСПРАВЛЕНО) --- */
             #mobile-menu {
                 display: none; 
-                position: absolute;
-                top: 55px; 
+                position: fixed; /* <-- ИЗМЕНЕНИЕ: Используем fixed для фиксации при прокрутке */
+                top: 52px; /* <-- ИЗМЕНЕНИЕ: Точное позиционирование под шапкой (10px+32px+10px) */
                 left: 0;
                 width: 100%;
+                height: 100vh; /* <-- ИЗМЕНЕНИЕ: Занимаем всю высоту экрана */
+                overflow-y: auto; /* <-- ИЗМЕНЕНИЕ: Разрешаем прокрутку, если контента много */
                 background-color: #ffffff;
                 border-bottom: 1px solid var(--border-color);
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -365,13 +367,13 @@
                 margin-bottom: 8px; 
             }
 
-            /* ОБНОВЛЕНИЕ: Заголовки h3 -> 20px в моб версии */
+            /* Заголовки h3 -> 20px в моб версии */
             .feature-item h3 {
                 font-size: 20px; 
                 margin-bottom: 5px; 
             }
 
-            /* ОБНОВЛЕНИЕ: Текст p -> 18px в моб версии */
+            /* Текст p -> 18px в моб версии */
             .feature-item p {
                 font-size: 18px; 
             }
