@@ -875,7 +875,7 @@
                                 <td class="feature">Синхронизация между устройствами</td>
                                 <td class="icon-no"><i class="fas fa-times"></i></td>
                                 <td class="icon-yes"><i class="fas fa-check"></i></td>
-                            </tr>
+                            </deltr>
                         </tbody>
                     </table>
                 </div>
@@ -962,43 +962,7 @@
 
     <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
         
-        <div id="uploadScreen" class="text-center w-full max-w-md mx-auto py-20 hidden"> 
-            
-            <div id="welcomeMessage" class="w-full max-w-xs mx-auto mb-8">
-                <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Загрузка плейлиста</h2>
-                <p class="text-gray-600 mb-8">Вы вошли в систему. Загрузите плейлист, чтобы начать редактирование.</p>
-            </div>
-
-            <input type="file" id="fileInput" accept="*/*" class="hidden">
-
-            <div id="uploadFunctionality" class="w-full"> 
-                
-                <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
-                    
-                    <button id="uploadBtn"
-                        class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4">
-                        ЗАГРУЗИТЬ ФАЙЛ
-                    </button>
-                    
-                    <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
-                    
-                    <div class="flex flex-col gap-3 w-full mx-auto mb-4">
-                        <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
-                        
-                        <button id="loadUrlBtn"
-                            class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
-                            ВПЕРЕД
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="loading" class="hidden text-blue-600 mb-4">
-                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
-                Загрузка файла...
-            </div>
-        </div>
+        <div id="uploadScreen" class="text-center w-full max-w-md mx-auto py-20 hidden"></div>
 
         <div id="channelEditor" class="w-full"> 
             <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
@@ -1050,7 +1014,7 @@
                 </div>
             </div>
             
-            <div id="editorPlaceholder" class="text-center py-20 bg-gray-50 rounded-xl mt-4">
+            <div id="editorPlaceholder" class="text-center py-20 bg-gray-50 rounded-xl mt-4 hidden">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">Начните редактирование!</h2>
                 <p class="text-gray-600">Нажмите кнопку **"ЗАГРУЗИТЬ ПЛЕЙЛИСТ"**, чтобы импортировать файл или ссылку.</p>
             </div>
@@ -1262,32 +1226,33 @@
             }
         }
 
-        // --- ОБНОВЛЕННАЯ ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ ---
+        // --- ИСПРАВЛЕННАЯ ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ ---
         function switchToScreen(screenId) {
             mainScreen.classList.add('hidden');
             editorScreen.classList.add('hidden');
             uploadScreen.classList.add('hidden');
             channelEditor.classList.add('hidden');
+            editorContent.classList.add('hidden'); // Скрываем контент редактора по умолчанию
+            editorPlaceholder.classList.add('hidden'); // Скрываем плейсхолдер по умолчанию
             
             document.getElementById('removeDuplicatesBtn').classList.add('hidden');
             document.getElementById('saveBtn').classList.add('hidden');
 
             if (screenId === 'main') {
                 mainScreen.classList.remove('hidden');
-                document.body.style.paddingTop = '0'; // Сброс для лэндинга
+                document.body.style.paddingTop = '0'; 
             } else if (screenId === 'editor_base') {
                 // После авторизации, но без загруженного плейлиста
                 editorScreen.classList.remove('hidden');
                 channelEditor.classList.remove('hidden');
-                editorContent.classList.add('hidden');
-                editorPlaceholder.classList.remove('hidden');
+                editorPlaceholder.classList.remove('hidden'); // ПОКАЗЫВАЕМ ПЛЕЙСХОЛДЕР
                 document.body.style.paddingTop = '60px'; 
             } else if (screenId === 'editor_loaded') {
                 // После загрузки плейлиста
                 editorScreen.classList.remove('hidden');
                 channelEditor.classList.remove('hidden');
-                editorContent.classList.remove('hidden');
-                editorPlaceholder.classList.add('hidden');
+                editorContent.classList.remove('hidden'); // ПОКАЗЫВАЕМ КОНТЕНТ РЕДАКТОРА
+                editorPlaceholder.classList.add('hidden'); 
                 document.getElementById('removeDuplicatesBtn').classList.remove('hidden');
                 document.getElementById('saveBtn').classList.remove('hidden');
                 document.body.style.paddingTop = '60px'; 
@@ -1309,14 +1274,14 @@
                 if (channels.length > 0) {
                      switchToScreen('editor_loaded');
                 } else {
-                    switchToScreen('editor_base');
+                    switchToScreen('editor_base'); // Впервые после авторизации
                 }
 
                 logoutBtn.classList.remove('hidden');
                 document.getElementById('openRegisterFromLogin').classList.add('hidden');
             }
         });
-        // --- КОНЕЦ ОБНОВЛЕННОЙ ЛОГИКИ ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ ---
+        // --- КОНЕЦ ИСПРАВЛЕННОЙ ЛОГИКИ ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ ---
 
         initializeAuth();
 
@@ -1548,7 +1513,6 @@
         // -----------------------
         // FILE/URL LOADING HANDLERS
         // -----------------------
-        // uploadBtn и loadUrlBtn удалены из HTML, т.к. они были на старом "экране загрузки"
         
         fileInput.addEventListener('change', () => {
           const file = fileInput.files[0];
