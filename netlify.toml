@@ -1,8 +1,8 @@
 # netlify.toml
 
 [build]
-  # Указывает Netlify, где искать файлы функций (предполагая, что это папка netlify/functions)
-  functions = "netlify/functions"
+  # ИСПРАВЛЕНО: Указываем Netlify, что функции находятся в папке 'functions' в корне
+  functions = "functions" 
   
 # Правило перенаправления для динамической ссылки
 [[redirects]]
