@@ -77,32 +77,56 @@
 
   <div id="mainScreen" class="text-center w-full max-w-md">
     
-    <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
-        
-        <button id="uploadBtn"
-          class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-4/5 mx-auto mb-4">
-          ЗАГРУЗИТЬ ФАЙЛ
+    <div id="unauthenticatedMessage" class="w-full max-w-xs mx-auto mb-8 hidden">
+        <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Добро пожаловать!</h2>
+        <p class="text-gray-600 mb-8">Чтобы получить доступ к редактору и сохранять плейлисты, пожалуйста, войдите или зарегистрируйтесь.</p>
+    </div>
+
+    <div id="authButtonContainer" class="flex flex-col gap-3 w-4/5 mx-auto mb-8 hidden">
+        <button id="openRegisterModalBtn"
+            class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full">
+            ВОЙТИ / РЕГИСТРАЦИЯ
         </button>
-        <input type="file" id="fileInput" accept="*/*" class="hidden">
+    </div>
+
+    <input type="file" id="fileInput" accept="*/*" class="hidden">
+
+    <div id="uploadFunctionality" class="hidden">
         
-        <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
+        <div class="flex flex-col gap-3 w-4/5 mx-auto mb-6">
+            <button id="logoutBtn"
+                class="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-red-700 transition w-full">
+                ВЫЙТИ ИЗ АККАУНТА
+            </button>
+        </div>
         
-        <div class="flex flex-col gap-3 w-4/5 mx-auto mb-4">
-          <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
-            class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
-          
-          <button id="loadUrlBtn"
-            class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
-            ВПЕРЕД
-          </button>
+        <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
+            
+            <button id="uploadBtn"
+                class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4">
+                ЗАГРУЗИТЬ ФАЙЛ
+            </button>
+            
+            <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
+            
+            <div class="flex flex-col gap-3 w-full mx-auto mb-4">
+              <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
+                class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
+              
+              <button id="loadUrlBtn"
+                class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
+                ВПЕРЕД
+              </button>
+            </div>
         </div>
     </div>
+    
     <div id="loading" class="hidden text-blue-600 mb-4">
       <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
       Загрузка файла...
     </div>
 
-    </div>
+  </div>
 
   <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
@@ -191,15 +215,80 @@
     </div>
   </div>
 
+  <div id="registrationModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
+    <div class="bg-white rounded-3xl p-4 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+      
+      <h2 class="text-2xl font-extrabold text-center mb-4 text-gray-800">
+        Добро пожаловать! 🎶
+      </h2>
+      <p class="text-center text-gray-600 mb-4 text-sm">
+        Создайте свой аккаунт, чтобы сохранять плейлисты.
+      </p>
+
+      <button id="registerGoogleBtn"
+        class="w-full flex items-center justify-center bg-white border border-gray-300 text-gray-700 text-base font-medium px-4 py-2 rounded-xl shadow-sm hover:bg-gray-100 transition mb-3">
+        <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.0003 4.75C14.7173 4.75 16.9833 5.772 18.6673 7.359L20.5903 5.487C18.3143 3.498 15.3623 2.25 12.0003 2.25C8.01332 2.25 4.54932 4.53 2.87132 7.824L5.87532 10.125C6.73632 7.787 9.12632 6.25 12.0003 6.25C13.8823 6.25 15.6173 6.942 16.9803 8.167L19.4583 6.135C18.0493 4.904 16.1433 4.25 14.2503 4.25H12.0003V4.75Z" fill="#EA4335"/>
+          <path d="M12.0003 17.75C13.2133 17.75 14.3723 17.419 15.3853 16.829L18.3903 19.13C16.6383 20.375 14.3763 21 12.0003 21C7.81732 21 4.28832 18.577 2.50232 15.111L5.53732 12.83C6.34732 15.309 9.07332 17 12.0003 17V17.75Z" fill="#34A853"/>
+          <path d="M21.2503 12C21.2503 11.234 21.1813 10.493 21.0543 9.774H12.0003V14.25H17.2273C17.0673 15.186 16.5183 15.996 15.7503 16.591L18.7853 18.868C20.4433 17.375 21.2503 15.342 21.2503 13.007V12Z" fill="#4285F4"/>
+          <path d="M5.87532 10.125L2.87132 7.824C2.26132 9.068 2.00032 10.493 2.00032 12C2.00032 13.507 2.26132 14.932 2.87132 16.176L5.87532 13.875V10.125Z" fill="#FBBC05"/>
+        </svg>
+        Войти через Google
+      </button>
+      
+      <div class="flex items-center my-4">
+        <div class="flex-grow border-t border-gray-300"></div>
+        <span class="flex-shrink mx-4 text-gray-500 text-sm">или</span>
+        <div class="flex-grow border-t border-gray-300"></div>
+      </div>
+
+      <form id="registrationFormElement">
+        <div class="mb-3">
+          <label for="reg-email" class="block text-xs font-medium text-gray-700 mb-1 text-left">
+            Email
+          </label>
+          <input type="email" id="reg-email" placeholder="example@mail.com" required
+            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-base shadow-inner">
+        </div>
+
+        <div class="mb-4">
+          <label for="reg-password" class="block text-xs font-medium text-gray-700 mb-1 text-left">
+            Пароль
+          </label>
+          <input type="password" id="reg-password" placeholder="Придумайте пароль" required
+            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-base shadow-inner">
+        </div>
+
+        <button type="submit" id="registerEmailBtn"
+          class="w-full bg-black text-white text-base font-semibold px-6 py-2 rounded-xl shadow-lg hover:bg-gray-900 transition mb-3">
+          ЗАРЕГИСТРИРОВАТЬСЯ
+        </button>
+      </form>
+      
+      <p class="text-center text-xs text-gray-600">
+        Уже есть аккаунт? 
+        <a href="#" id="loginLink" class="text-black font-semibold hover:text-gray-700 transition">Войти</a>
+      </p>
+
+      <button id="closeRegisterModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition mt-3">
+        ОТМЕНА
+      </button>
+
+    </div>
+  </div>
   <div id="saveModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
-      <h2 class="text-2xl font-bold mb-6">Идет сохранение на GitHub...</h2>
-      <button id="downloadBtn" class="w-full bg-gray-400 text-white font-medium py-2 rounded-xl transition mb-2 hidden">
-        СКАЧАТЬ (Не используется)
+      <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
+      <button id="downloadBtn"
+        class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
+        СКАЧАТЬ
       </button>
-      <button id="closeSaveModal" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition hidden">
-        ЗАКРЫТЬ (Не используется)
+      <button id="closeSaveModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
+        ЗАКРЫТЬ
       </button>
     </div>
   </div>
@@ -214,7 +303,178 @@
   </div>
 
 
-  <script>
+  <script type="module">
+    // =======================================================
+    // FIREBASE INITIALIZATION AND AUTH
+    // =======================================================
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { 
+        getAuth, 
+        signInAnonymously, 
+        signInWithCustomToken, 
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword, // Импортируем функцию для входа
+        GoogleAuthProvider,
+        signInWithPopup,
+        signOut,
+        onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+    // Использование конфигурации, предоставленной пользователем, с учетом глобальных переменных Canvas
+    const providedFirebaseConfig = {
+      apiKey: "AIzaSyCko3aktIDmXWbsDekdr-dKUscX2fkRpjo",
+      authDomain: "read24-7.firebaseapp.com",
+      projectId: "read24-7",
+      storageBucket: "read24-7.firebasestorage.app",
+      messagingSenderId: "966949567813",
+      appId: "1:966949567813:web:b12ff4001282d20c29922c",
+      measurementId: "G-NVEC5F7S8F"
+    };
+
+    const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : JSON.stringify(providedFirebaseConfig));
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    
+    let userId = 'guest';
+
+    // Авторизация при запуске
+    async function initializeAuth() {
+        try {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+                // console.log("Signed in with custom token.");
+            } else {
+                await signInAnonymously(auth);
+                // console.log("Signed in anonymously.");
+            }
+        } catch (error) {
+            console.error("Auth initialization failed:", error.message);
+        }
+    }
+
+    onAuthStateChanged(auth, (user) => {
+        const isAuthenticated = user && !user.isAnonymous;
+        
+        // 1. Скрываем/показываем контейнер аутентификации
+        if (!isAuthenticated) {
+            // Пользователь не вошел или гость
+            unauthenticatedMessage.classList.remove('hidden');
+            authButtonContainer.classList.remove('hidden');
+            uploadFunctionality.classList.add('hidden');
+            // Если гость, убедимся, что экран редактора не показан
+            editorScreen.classList.add('hidden');
+            mainScreen.classList.remove('hidden');
+        } else {
+            // Пользователь вошел (зарегистрирован)
+            unauthenticatedMessage.classList.add('hidden');
+            authButtonContainer.classList.add('hidden');
+            uploadFunctionality.classList.remove('hidden');
+            userId = user.uid; // Обновляем ID пользователя
+        }
+    });
+
+    initializeAuth();
+
+    // =======================================================
+    // REGISTRATION AND LOGOUT FUNCTIONS
+    // =======================================================
+    
+    // Новая функция для обработки входа по Email/Паролю
+    async function handleEmailSignIn(email, password) {
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            showToast("Вход успешен! Добро пожаловать.");
+            registrationModal.classList.add('hidden');
+            return true;
+        } catch (error) {
+            let errorMessage = "Ошибка входа. Неверный Email или пароль.";
+            if (error.code === 'auth/user-not-found') {
+                errorMessage = "Пользователь с таким Email не найден.";
+            } else if (error.code === 'auth/wrong-password') {
+                errorMessage = "Неверный пароль.";
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = "Неверный формат Email.";
+            } else {
+                errorMessage = `Ошибка: ${error.message}`;
+            }
+            showToast(errorMessage);
+            console.error("Email sign-in error:", error.code, error.message);
+            return false;
+        }
+    }
+
+    // Обновленная функция для регистрации/входа
+    async function handleEmailRegistration(e) {
+        e.preventDefault();
+        const email = document.getElementById('reg-email').value;
+        const password = document.getElementById('reg-password').value;
+        
+        if (!email || !password) {
+            showToast("Пожалуйста, заполните все поля.");
+            return;
+        }
+
+        try {
+            // Попытка регистрации нового пользователя
+            await createUserWithEmailAndPassword(auth, email, password);
+            showToast("Регистрация успешна! Вы вошли в систему.");
+            registrationModal.classList.add('hidden');
+        } catch (error) {
+            // Если Email уже используется, пробуем войти
+            if (error.code === 'auth/email-already-in-use') {
+                showToast("Email уже зарегистрирован. Попытка входа...");
+                await handleEmailSignIn(email, password);
+            } else {
+                let errorMessage = "Ошибка регистрации.";
+                switch (error.code) {
+                    case 'auth/invalid-email':
+                        errorMessage = "Неверный формат Email.";
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = "Пароль должен быть не менее 6 символов.";
+                        break;
+                    default:
+                        errorMessage = `Ошибка: ${error.message}`;
+                }
+                showToast(errorMessage);
+                console.error("Email registration error:", error.code, error.message);
+            }
+        }
+    }
+
+    async function handleGoogleRegistration() {
+        const provider = new GoogleAuthProvider();
+        try {
+            await signInWithPopup(auth, provider);
+            showToast("Вход через Google успешен!");
+            registrationModal.classList.add('hidden');
+        } catch (error) {
+            let errorMessage = "Ошибка входа через Google.";
+            // Обработка закрытия окна пользователем (popup-closed-by-user)
+            if (error.code === 'auth/popup-closed-by-user') {
+                errorMessage = "Окно входа было закрыто.";
+            } else {
+                errorMessage = `Ошибка: ${error.message}`;
+            }
+            showToast(errorMessage);
+            console.error("Google sign-in error:", error.code, error.message);
+        }
+    }
+    
+    async function handleLogout() {
+        try {
+            await signOut(auth);
+            // После signOut onAuthStateChanged обновит UI для состояния "Гость"
+            showToast("Вы успешно вышли из аккаунта.");
+        } catch (error) {
+            console.error("Logout error:", error.message);
+            showToast("Ошибка при выходе.");
+        }
+    }
+
+    // =======================================================
+    // EXISTING SCRIPT LOGIC BELOW
+    // =======================================================
     const uploadBtn = document.getElementById('uploadBtn');
     const fileInput = document.getElementById('fileInput');
     const urlInput = document.getElementById('urlInput');
@@ -249,11 +509,26 @@
 
     const globalLoader = document.getElementById('globalLoader');
 
+    // ПЕРЕМЕННЫЕ ДЛЯ РЕГИСТРАЦИИ/АУТЕНТИФИКАЦИИ
+    const registrationModal = document.getElementById('registrationModal');
+    const openRegisterModalBtn = document.getElementById('openRegisterModalBtn');
+    const closeRegisterModal = document.getElementById('closeRegisterModal');
+    const registerEmailBtn = document.getElementById('registerEmailBtn');
+    const registerGoogleBtn = document.getElementById('registerGoogleBtn');
+    const registrationFormElement = document.getElementById('registrationFormElement');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const loginLink = document.getElementById('loginLink'); // Получаем ссылку "Войти"
+    
+    const unauthenticatedMessage = document.getElementById('unauthenticatedMessage');
+    const uploadFunctionality = document.getElementById('uploadFunctionality');
+    const authButtonContainer = document.getElementById('authButtonContainer');
+
+
     let originalLines = [];
     let channels = [];
     let allCategories = new Set();
     let excludedCategories = new Set(); 
-    let editedContent = '';
+    let editedContent = ''; // Переменная для хранения контента плейлиста для скачивания
     let categoryChannelCounts = {}; 
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
@@ -322,7 +597,7 @@
             toastNotification.classList.add('bg-green-600'); 
         } else {
             toastNotification.textContent = message;
-            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста')) {
+            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Email') || message.includes('Пароль') || message.includes('Неверный')) {
                  toastNotification.classList.add('bg-red-600'); 
             } else {
                  toastNotification.classList.add('bg-green-600');
@@ -378,6 +653,41 @@
     closeUploadModal.addEventListener('click', () => {
         uploadModal.classList.add('hidden');
     });
+
+    // ОБРАБОТЧИКИ МОДАЛЬНОГО ОКНА РЕГИСТРАЦИИ
+    if (openRegisterModalBtn) {
+        openRegisterModalBtn.addEventListener('click', () => {
+            registrationModal.classList.remove('hidden');
+        });
+    }
+
+    if (closeRegisterModal) {
+        closeRegisterModal.addEventListener('click', () => {
+            registrationModal.classList.add('hidden');
+        });
+    }
+    
+    // Добавляем обработчик для ссылки "Войти"
+    if (loginLink) {
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Вместо регистрации, сразу вызываем вход, используя данные из формы
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            if (email && password) {
+                handleEmailSignIn(email, password);
+            } else {
+                showToast("Пожалуйста, введите Email и пароль для входа.");
+            }
+        });
+    }
+
+    // Подключение функций регистрации и выхода
+    // При сабмите формы мы теперь используем универсальную функцию, которая пробует Регистрацию -> Вход
+    registrationFormElement.addEventListener('submit', handleEmailRegistration);
+    registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
+    logoutBtn.addEventListener('click', handleLogout);
+    // КОНЕЦ НОВЫХ ОБРАБОТЧИКОВ
 
     async function loadPlaylistFromUrl(url, loadingElement, buttonElement) {
         if (!url) {
@@ -664,7 +974,8 @@
           name.textContent = entry.name;
           
           const categoryBadge = document.createElement('span');
-          categoryBadge.className = 'channel-category-badge bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
+          // ОБНОВЛЕНО: Используем max-w-[] для ограничения и truncate для многоточия
+          categoryBadge.className = 'channel-category-badge bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg max-w-[120px] text-center flex-shrink-0 truncate overflow-hidden';
           categoryBadge.textContent = entry.category;
 
           const favBtn = document.createElement('button');
@@ -827,55 +1138,62 @@
     removeDuplicatesBtn.addEventListener('click', removeDuplicates);
     
     // =======================================================
-    // !!! НОВАЯ ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION !!!
+    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (БЕЗ ЛОАДЕРА/ЗАТЕМНЕНИЯ)
     // =======================================================
 
     async function uploadPlaylistToGitHub(content, count) {
-        // Netlify Function будет доступна по пути /.netlify/functions/имя-файла
+        // Проверка, является ли пользователь гостем. В реальном приложении здесь можно потребовать вход.
+        if (auth.currentUser?.isAnonymous) {
+            console.warn("Skipping GitHub upload: User is anonymous/guest.");
+            // showToast("Войдите, чтобы сохранять плейлисты на сервере."); // Можно включить, если нужно уведомить пользователя.
+            return; 
+        }
+
         const uploadUrl = '/.netlify/functions/save-playlist'; 
         
-        // Показываем модальное окно с текстом "Идет сохранение..." и глобальный лоадер
-        saveModal.classList.remove('hidden'); 
-        globalLoader.classList.remove('hidden');
-        
         try {
+            const now = new Date();
+            const timestamp = now.getFullYear().toString() + 
+                              (now.getMonth() + 1).toString().padStart(2, '0') + 
+                              now.getDate().toString().padStart(2, '0') + 
+                              '_' +
+                              now.getHours().toString().padStart(2, '0') +
+                              now.getMinutes().toString().padStart(2, '0') +
+                              now.getSeconds().toString().padStart(2, '0');
+                              
+            const uniqueFilename = `playlist_${userId.substring(0, 8)}_${count}_${timestamp}.m3u`;
+            
             const response = await fetch(uploadUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    // Отправляем имя файла с количеством каналов
-                    filename: `playlist_${count}.m3u`, 
+                    filename: uniqueFilename, 
                     fileContent: content, 
+                    userId: userId,
                 }),
             });
             
             if (!response.ok) {
-                // Пытаемся получить детали ошибки от сервера
                 const errorData = await response.json();
                 throw new Error(errorData.details || errorData.error || 'Unknown API Error');
             }
             
-            saveModal.classList.add('hidden'); // Закрываем модальное окно
-            showToast('Плейлист успешно сохранен на GitHub!', null);
+            // Если запрос успешен, но нет необходимости в уведомлении
             
         } catch (error) {
             console.error('Ошибка сохранения:', error);
-            saveModal.classList.add('hidden'); // Закрываем модальное окно в случае ошибки
-            showToast(`Ошибка: Не удалось сохранить плейлист. ${error.message}`, null);
-        } finally {
-            globalLoader.classList.add('hidden'); // Скрыть лоадер
+            showToast(`Ошибка сохранения на сервере: ${error.message}`);
         }
     }
 
 
     // =======================================================
-    // !!! ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ !!!
+    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ 
     // =======================================================
     saveBtn.addEventListener('click', () => {
       
-      // Определяем, какие каналы должны быть включены в основной список
       const includedChannels = channels.filter(entry => {
         const isNormalCategoryExcluded = excludedCategories.has(entry.category);
         const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
@@ -888,7 +1206,6 @@
         return !isNormalCategoryExcluded;
       });
       
-      // Отдельно выделяем избранные каналы
       const favoriteChannels = includedChannels.filter(c => c.isFavorite);
 
       let modifiedLines = ['#EXTM3U'];
@@ -943,19 +1260,21 @@
           });
       });
       
-      const editedContent = modifiedLines.join('\n');
+      // Сохраняем контент в глобальную переменную для локального скачивания
+      editedContent = modifiedLines.join('\n');
       const finalChannelCount = includedChannels.length; 
       
-      // !!! ВЫЗОВ НОВОЙ ФУНКЦИИ: Отправка на Netlify Function
+      // 1. ЗАПУСК СОХРАНЕНИЯ НА GITHUB В ФОНОВОМ РЕЖИМЕ
       uploadPlaylistToGitHub(editedContent, finalChannelCount);
       
+      // 2. ПОКАЗ МОДАЛКИ ДЛЯ ЛОКАЛЬНОГО СКАЧИВАНИЯ
+      finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
+      saveModal.classList.remove('hidden');
     });
 
     // =======================================================
-    // !!! УДАЛЕННЫЕ/ОТКЛЮЧЕННЫЕ ОБРАБОТЧИКИ СКАЧИВАНИЯ !!!
+    // ВОССТАНОВЛЕННЫЕ ОБРАБОТЧИКИ ЛОКАЛЬНОГО СКАЧИВАНИЯ
     // =======================================================
-
-    /*
     downloadBtn.addEventListener('click', () => {
       const blob = new Blob([editedContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -975,7 +1294,8 @@
       });
       
       const remainingCount = remainingChannels.length; 
-      a.download = `playlist_${remainingCount}.m3u`;
+      // Имя файла для локального скачивания можно сделать проще
+      a.download = `playlist_${remainingCount}.m3u`; 
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -985,7 +1305,7 @@
     closeSaveModal.addEventListener('click', () => {
       saveModal.classList.add('hidden');
     });
-    */
+    
   </script>
 </body>
 </html>
