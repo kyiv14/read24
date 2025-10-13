@@ -1202,7 +1202,7 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const editorContent = document.getElementById('editorContent');
         const editorPlaceholder = document.getElementById('editorPlaceholder');
-        const openRegisterFromLogin = document.getElementById('openRegisterFromLogin'); // Получаем элемент
+        const openRegisterFromLogin = document.getElementById('openRegisterFromLogin'); 
 
         // Модальное окно Регистрации
         const registrationModal = document.getElementById('registrationModal');
@@ -1230,9 +1230,9 @@
 
         // --- ИСПРАВЛЕННАЯ ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ ---
         function switchToScreen(screenId) {
+            // 1. Скрываем все
             mainScreen.classList.add('hidden');
             editorScreen.classList.add('hidden');
-            uploadScreen.classList.add('hidden');
             channelEditor.classList.add('hidden'); 
             editorContent.classList.add('hidden'); 
             editorPlaceholder.classList.add('hidden'); 
@@ -1241,20 +1241,20 @@
             document.getElementById('saveBtn').classList.add('hidden');
 
             if (screenId === 'main') {
+                // 2. Показываем лэндинг
                 mainScreen.classList.remove('hidden');
                 document.body.style.paddingTop = '0'; 
             } else if (screenId === 'editor_base') {
-                // После авторизации, но без загруженного плейлиста
+                // 2. Показываем базовый редактор (только шапка и плейсхолдер)
                 editorScreen.classList.remove('hidden');
-                channelEditor.classList.remove('hidden'); // СДЕЛАТЬ ВИДИМЫМ
+                channelEditor.classList.remove('hidden'); 
                 editorPlaceholder.classList.remove('hidden'); 
                 document.body.style.paddingTop = '60px'; 
             } else if (screenId === 'editor_loaded') {
-                // После загрузки плейлиста
+                // 2. Показываем загруженный редактор (весь функционал)
                 editorScreen.classList.remove('hidden');
-                channelEditor.classList.remove('hidden'); // СДЕЛАТЬ ВИДИМЫМ
+                channelEditor.classList.remove('hidden'); 
                 editorContent.classList.remove('hidden'); 
-                editorPlaceholder.classList.add('hidden'); 
                 document.getElementById('removeDuplicatesBtn').classList.remove('hidden');
                 document.getElementById('saveBtn').classList.remove('hidden');
                 document.body.style.paddingTop = '60px'; 
@@ -1265,22 +1265,22 @@
             const isAuthenticated = user && !user.isAnonymous;
             
             if (!isAuthenticated) {
-                // Гость: показываем Лэндинг
+                // Гость: показываем Лэндинг и Войти
                 switchToScreen('main');
                 logoutBtn.classList.add('hidden');
-                openRegisterFromLogin.classList.remove('hidden'); // Показываем Войти
+                openRegisterFromLogin.classList.remove('hidden'); 
                 userId = 'guest';
             } else {
-                // Пользователь вошел: СРАЗУ показываем основной экран редактора
+                // Пользователь вошел: показываем Редактор и ВЫЙТИ
                 userId = user.uid; 
                 if (channels.length > 0) {
                      switchToScreen('editor_loaded');
                 } else {
-                    switchToScreen('editor_base'); // Впервые после авторизации
+                    switchToScreen('editor_base'); 
                 }
 
-                logoutBtn.classList.remove('hidden'); // Показываем Выйти
-                openRegisterFromLogin.classList.add('hidden'); // Скрываем Войти
+                logoutBtn.classList.remove('hidden'); 
+                openRegisterFromLogin.classList.add('hidden'); 
             }
         });
         // --- КОНЕЦ ИСПРАВЛЕННОЙ ЛОГИКИ ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ ---
