@@ -18,16 +18,41 @@
             --icon-size: 36px;
         }
 
-        /* Базовый сброс и шрифт */
+        /* Базовый сброс, шрифт и АНИМАЦИИ */
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             color: var(--text-color);
+            scroll-behavior: smooth; /* Плавный скролл по всему сайту */
         }
 
         /* -------------------------------------------
            ОБЩИЕ СТИЛЫ (Desktop)
            ------------------------------------------- */
+        
+        /* Keyframes для анимации появления */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Применяем анимацию к основным секциям (скрываем по умолчанию, чтобы потом показать через JS) */
+        main section {
+            opacity: 0; /* Скрываем по умолчанию */
+        }
+        
+        /* Класс, который JS будет добавлять для активации анимации */
+        .animated {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+
         .site-header {
             display: flex;
             justify-content: space-between;
@@ -127,6 +152,8 @@
             text-align: center;
             padding: 120px 20px 80px; 
             background-color: #ffffff; 
+            opacity: 1 !important; /* Делаем видимым сразу */
+            animation: none !important;
         }
 
         .hero-title {
@@ -188,11 +215,12 @@
             background-color: #ffffff; 
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Добавляем box-shadow для анимации */
         }
         
         .feature-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px); /* Увеличиваем подъем */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Добавляем тень для 3D эффекта */
         }
 
         .feature-item i {
@@ -244,6 +272,11 @@
             max-width: 470px; /* Ограничиваем максимальную ширину */
             padding: 20px;
             text-align: center; /* Центрируем контент пункта */
+            transition: transform 0.3s ease; /* Анимация для шагов */
+        }
+
+        .step-item:hover {
+            transform: translateY(-5px);
         }
 
         .step-item .step-number {
@@ -294,6 +327,11 @@
             background-color: #ffffff;
             border-radius: 12px;
             overflow: hidden; /* Для корректного отображения border-radius */
+            transition: transform 0.3s ease;
+        }
+
+        .comparison-table:hover {
+            transform: scale(1.01);
         }
 
         .comparison-table table {
@@ -329,6 +367,12 @@
             color: var(--primary-color);
         }
 
+        /* Добавляем отступы для кнопки "Регистрация" в блоке сравнения */
+        .comparison-section .nav-button.primary {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
         /* -------------------------------------------
            СТИЛЫ БЛОКА "FAQ" (Новый)
            ------------------------------------------- */
@@ -344,43 +388,16 @@
             text-align: left;
         }
 
-        /* Стилизация аккордеона (FAQ item) */
-        .faq-item {
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-        }
-
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-color);
-            padding: 15px 0;
-            cursor: pointer;
-        }
-
-        .faq-question:hover {
-            color: var(--primary-color);
-        }
-
-        .faq-answer {
-            font-size: 16px;
-            color: var(--secondary-text-color);
-            padding: 0 0 15px 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-        }
-        
-        /* Стили для открытого ответа (через JS или хак с чекбоксом) */
-        /* Поскольку мы не используем JS, мы сделаем это статичным стилем для демонстрации или будем использовать <details> */
+        /* Стили для открытого ответа (используем <details>) */
         details {
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 10px;
             padding-bottom: 10px;
+            transition: background-color 0.3s ease; /* Анимация для FAQ */
+        }
+        
+        details:hover {
+            background-color: #fcfcfc;
         }
 
         details summary {
@@ -836,7 +853,10 @@
             <p style="font-size: 16px; color: var(--secondary-text-color); margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto; padding: 0 20px;">
                 Для получения максимального удобства и доступа ко всем продвинутым функциям редактирования плейлистов, рекомендуем пройти **быструю регистрацию**.
             </p>
-        </section>
+            <a href="#registration" class="nav-button primary">
+                Регистрация
+            </a>
+            </section>
         <section id="faq" class="faq-section">
             <p class="section-subtitle">Спросите нас</p>
             <h2 class="section-title">Частые вопросы</h2>
@@ -959,6 +979,30 @@
                 });
             });
         }
+        
+        // 3. Анимация появления при скролле (Intersection Observer)
+        const sections = document.querySelectorAll('main section');
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                // Игнорируем hero-section
+                if (entry.target.id === 'hero-section') return;
+                
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    observer.unobserve(entry.target); // Прекращаем наблюдение после анимации
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.2 // Секция появится, когда 20% ее будет видно
+        });
+
+        sections.forEach(section => {
+            if (section.id !== 'hero-section') {
+                observer.observe(section);
+            }
+        });
     </script>
 
 </body>
