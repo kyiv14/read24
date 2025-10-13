@@ -389,7 +389,7 @@
         }
     }
 
-    // ВОССТАНОВЛЕНА ЛОГИКА ДЛЯ ОБЯЗАТЕЛЬНОЙ АУТЕНТИФИКАЦИИ
+    // ВОССТАНОВЛЕНА ЛОГИКА ДЛЯ АУТЕНТИФИКАЦИИ С ПЕРЕХОДОМ В РЕДАКТОР
     onAuthStateChanged(auth, (user) => {
         const isAuthenticated = user && !user.isAnonymous;
         
@@ -398,18 +398,18 @@
             // Пользователь не вошел или гость: показываем экран входа
             unauthenticatedMessage.classList.remove('hidden');
             authButtonContainer.classList.remove('hidden');
-            uploadFunctionality.classList.add('hidden'); // Функционал загрузки скрыт, пока не вошел
+            uploadFunctionality.classList.add('hidden');
             editorScreen.classList.add('hidden');
             mainScreen.classList.remove('hidden');
             logoutBtn.classList.add('hidden');
             userId = 'guest';
         } else {
-            // Пользователь вошел: показываем функционал загрузки
+            // Пользователь вошел: СРАЗУ ПОКАЗЫВАЕМ ЭКРАН РЕДАКТОРА
             unauthenticatedMessage.classList.add('hidden');
             authButtonContainer.classList.add('hidden');
-            uploadFunctionality.classList.remove('hidden');
-            mainScreen.classList.remove('hidden'); // Оставляем mainScreen для загрузки файла
-            editorScreen.classList.add('hidden');
+            uploadFunctionality.classList.add('hidden'); // Скрываем формы загрузки
+            mainScreen.classList.add('hidden'); 
+            editorScreen.classList.remove('hidden'); // Показываем редактор
             logoutBtn.classList.remove('hidden');
             userId = user.uid; // Обновляем ID пользователя
         }
