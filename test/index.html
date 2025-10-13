@@ -294,7 +294,11 @@
       <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
 
       <div id="dynamicLinkContainer" class="mb-6 p-4 bg-gray-100 rounded-xl text-left">
-          <h3 class="text-sm font-bold text-gray-800 mb-2">Ваша Динамическая Ссылка (Автообновление)</h3>
+          <h3 class="text-sm font-bold text-gray-800 mb-2">Ваша Короткая Динамическая Ссылка</h3>
+          <div id="shortLinkLoader" class="text-center text-blue-600 mb-2 hidden">
+              <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mx-auto mb-1"></div>
+              Сокращаю...
+          </div>
           <input type="text" id="dynamicPlaylistLink" readonly
             class="w-full text-sm font-mono p-2 border border-gray-300 rounded-lg bg-white truncate">
           <button id="copyLinkBtn"
@@ -551,6 +555,7 @@
     // Элементы для динамической ссылки
     const dynamicPlaylistLink = document.getElementById('dynamicPlaylistLink');
     const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const shortLinkLoader = document.getElementById('shortLinkLoader');
 
 
     let originalLines = [];
@@ -1291,12 +1296,33 @@
     removeDuplicatesBtn.addEventListener('click', removeDuplicates);
     
     // =======================================================
-    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (СЕРВЕРНОЕ СОХРАНЕНИЕ)
+    // ФУНКЦИИ СЕРВЕРНОГО СОХРАНЕНИЯ И СОКРАЩЕНИЯ ССЫЛКИ
     // =======================================================
 
+    async function shortenDynamicLink(longUrl) {
+        const apiUrl = `https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}`;
+        
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            
+            if (data.shorturl) {
+                return data.shorturl;
+            } else {
+                console.error('is.gd Error:', data.errormessage || 'Unknown error');
+                showToast(`Ошибка сокращения ссылки: ${data.errormessage || 'Сбой API.'}`);
+                return longUrl; // Вернуть длинную ссылку в случае ошибки
+            }
+        } catch (error) {
+            console.error('Fetch Error:', error);
+            showToast('⚠️ Ошибка соединения с is.gd.');
+            return longUrl; // Вернуть длинную ссылку в случае сбоя сети
+        }
+    }
+
     async function uploadPlaylistToGitHub(content, count, persistentUserId) {
-        // Проверка: теперь аутентификация обязательна, так что эта проверка не сработает
-        if (userId === 'guest') {
+        // Проверка: теперь аутентификация обязательна
+        if (auth.currentUser?.isAnonymous) {
             console.error("Attempted server upload as guest. This should not happen.");
             showToast("Ошибка: Сохранение на сервере требует входа.");
             return; 
@@ -1336,9 +1362,9 @@
 
 
     // =======================================================
-    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ 
+    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ (АСИНХРОННЫЙ)
     // =======================================================
-    saveBtn.addEventListener('click', () => {
+    saveBtn.addEventListener('click', async () => {
       
       // Проверка аутентификации перед сохранением
       if (auth.currentUser?.isAnonymous) {
@@ -1347,7 +1373,7 @@
           return;
       }
       
-      // Логика формирования плейлиста для сохранения
+      // 1. Формирование плейлиста (оставлено без изменений)
       const includedChannels = channels.filter(entry => {
         const isNormalCategoryExcluded = excludedCategories.has(entry.category);
         const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
@@ -1364,7 +1390,6 @@
 
       let modifiedLines = ['#EXTM3U'];
       
-      // 1. ДОБАВЛЯЕМ ДОПОЛНИТЕЛЬНУЮ КАТЕГОРИЮ ДЛЯ ИЗБРАННЫХ КАНАЛОВ В НАЧАЛО
       if (favoriteChannels.length > 0) {
         modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
         
@@ -1384,7 +1409,6 @@
         modifiedLines.push('\n');
       }
       
-      // 2. Формируем ОСНОВНОЙ СПИСОК каналов, ГРУППИРУЯ ИХ ПО КАТЕГОРИЯМ
       const groupedChannels = {};
       includedChannels.forEach(entry => {
           if (entry.isFavorite) return;
@@ -1393,7 +1417,6 @@
           if (!groupedChannels[cat]) {
               groupedChannels[cat] = [];
           }
-          // Используем push, так как порядок в массиве channels теперь важен
           groupedChannels[cat].push(entry);
       });
       
@@ -1413,25 +1436,32 @@
           });
       });
       
-      // Сохраняем контент в глобальную переменную для локального скачивания
       editedContent = modifiedLines.join('\n');
       const finalChannelCount = includedChannels.length; 
       
-      // --- КОД ДЛЯ ДИНАМИЧЕСКОЙ ССЫЛКИ ---
-      // Используем фактический userId, так как мы требуем входа
+      // 2. Формирование ДЛИННОЙ динамической ссылки
       const persistentUserId = userId; 
-      // Примечание: "/api/playlist/" - это путь к вашей Netlify Function для чтения
-      const dynamicLink = `https://read24.netlify.app/api/playlist/${persistentUserId}/latest.m3u`;
+      const longDynamicLink = `https://read24.netlify.app/api/playlist/${persistentUserId}/latest.m3u`;
       
-      dynamicPlaylistLink.value = dynamicLink;
-      // --- КОНЕЦ КОДА ---
+      // 3. ЗАПУСК СОКРАЩЕНИЯ И ОБНОВЛЕНИЯ UI
       
-      // 1. ЗАПУСК СОХРАНЕНИЯ НА GITHUB В ФОНОВОМ РЕЖИМЕ (для авторизованных)
+      // Показываем модальное окно и лоадер
+      finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
+      dynamicPlaylistLink.value = "Загрузка...";
+      shortLinkLoader.classList.remove('hidden');
+      saveModal.classList.remove('hidden');
+      
+      // Асинхронно сокращаем ссылку
+      const shortLink = await shortenDynamicLink(longDynamicLink);
+      
+      // 4. Обновляем UI и запускаем сохранение на сервере
+      shortLinkLoader.classList.add('hidden');
+      dynamicPlaylistLink.value = shortLink;
+      
+      // Запускаем сохранение на GitHub в фоне (включает ожидание)
       uploadPlaylistToGitHub(editedContent, finalChannelCount, persistentUserId); 
       
-      // 2. ПОКАЗ МОДАЛКИ ДЛЯ ЛОКАЛЬНОГО СКАЧИВАНИЯ
-      finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
-      saveModal.classList.remove('hidden');
+      // Локальное скачивание всегда доступно сразу
     });
 
     // =======================================================
