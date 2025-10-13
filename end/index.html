@@ -13,8 +13,8 @@
     <style>
         /* Определение цветов (КРАСНЫЙ АКЦЕНТ) */
         :root {
-            --primary-color: #FF0000;      /* Ярко-красный (Акцент) */
-            --primary-hover-color: #CC0000; /* Темно-красный (Наведение) */
+            --primary-color: #FF0000;
+            --primary-hover-color: #CC0000;
             --text-color: #333;
             --secondary-text-color: #555;
             --background-light: #f9f9f9;
@@ -663,7 +663,7 @@
           border-radius: 0.75rem;
         }
 
-        /* Общие стили для экрана редактора, чтобы скрыть лэндинг */
+        /* Общие стилы для экрана редактора, чтобы скрыть лэндинг */
         #editorScreen {
             display: none;
             width: 100%; 
@@ -1247,14 +1247,15 @@
             } else if (screenId === 'editor_base') {
                 // 2. Показываем базовый редактор (только шапка и плейсхолдер)
                 editorScreen.classList.remove('hidden');
-                channelEditor.classList.remove('hidden'); 
+                channelEditor.classList.remove('hidden'); // СДЕЛАТЬ ВИДИМЫМ
                 editorPlaceholder.classList.remove('hidden'); 
                 document.body.style.paddingTop = '60px'; 
             } else if (screenId === 'editor_loaded') {
                 // 2. Показываем загруженный редактор (весь функционал)
                 editorScreen.classList.remove('hidden');
-                channelEditor.classList.remove('hidden'); 
+                channelEditor.classList.remove('hidden'); // СДЕЛАТЬ ВИДИМЫМ
                 editorContent.classList.remove('hidden'); 
+                editorPlaceholder.classList.add('hidden'); 
                 document.getElementById('removeDuplicatesBtn').classList.remove('hidden');
                 document.getElementById('saveBtn').classList.remove('hidden');
                 document.body.style.paddingTop = '60px'; 
@@ -1273,6 +1274,7 @@
             } else {
                 // Пользователь вошел: показываем Редактор и ВЫЙТИ
                 userId = user.uid; 
+                // Проверяем, был ли уже загружен плейлист
                 if (channels.length > 0) {
                      switchToScreen('editor_loaded');
                 } else {
