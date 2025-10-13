@@ -141,7 +141,7 @@
 
         /* --- Секция Преимуществ --- */
         .features-section {
-            padding: 80px 40px;
+            padding: 80px 40px; /* Desktop: 80px сверху/снизу */
             background-color: var(--background-light);
             text-align: center;
         }
@@ -284,18 +284,24 @@
                 padding: 12px 30px; 
             }
 
+            /* ИЗМЕНЕНИЕ: Секция Преимуществ - уменьшаем внешний вертикальный padding */
+            .features-section {
+                padding-top: 40px; 
+                padding-bottom: 40px; 
+                padding-left: 20px; /* Уменьшаем горизонтальный padding, чтобы не было слишком много воздуха */
+                padding-right: 20px;
+            }
+
             /* Преимущества: уменьшаем горизонтальный разрыв */
             .features-grid {
                 flex-direction: column;
-                gap: 10px; /* Расстояние между элементами сетки */
+                gap: 10px; /* Расстояние между элементами сетки (10px) */
             }
             
-            /* ИЗМЕНЕНИЕ: Уменьшаем внутренние отступы всего блока преимущества */
+            /* Минимальные вертикальные отступы внутри каждого блока */
             .feature-item {
-                padding: 10px; /* Уменьшаем вертикальный padding с 20px до 10px */
+                padding: 10px; /* Уменьшаем внутренний вертикальный padding */
             }
-            
-            /* Минимальные вертикальные отступы между элементами внутри блока */
             .feature-item i {
                 margin-bottom: 4px; 
             }
