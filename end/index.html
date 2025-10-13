@@ -962,7 +962,7 @@
 
     <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
         
-        <div id="uploadScreen" class="text-center w-full max-w-md mx-auto py-20"> 
+        <div id="uploadScreen" class="text-center w-full max-w-md mx-auto py-20 hidden"> 
             
             <div id="welcomeMessage" class="w-full max-w-xs mx-auto mb-8">
                 <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Загрузка плейлиста</h2>
@@ -1000,7 +1000,7 @@
             </div>
         </div>
 
-        <div id="channelEditor" class="w-full hidden">
+        <div id="channelEditor" class="w-full"> 
             <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
                 <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
                 <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
@@ -1009,17 +1009,17 @@
                         ЗАГРУЗИТЬ ПЛЕЙЛИСТ
                     </button>
                     <button id="removeDuplicatesBtn"
-                        class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
+                        class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base hidden">
                         УДАЛИТЬ ДУБЛИ
                     </button>
                     <button id="saveBtn"
-                        class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition text-sm sm:text-base">
+                        class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition text-sm sm:text-base hidden">
                         СОХРАНИТЬ
                     </button>
                 </div>
             </div>
             
-            <div class="flex flex-col md:flex-row gap-6">
+            <div id="editorContent" class="flex flex-col md:flex-row gap-6 hidden">
                 
                 <div id="filterPanel" class="w-full md:w-2/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
                     <div class="mb-2">
@@ -1048,6 +1048,11 @@
                 <div id="listPanel" class="w-full md:w-3/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
                     <div id="channelList" class="space-y-2"></div>
                 </div>
+            </div>
+            
+            <div id="editorPlaceholder" class="text-center py-20 bg-gray-50 rounded-xl mt-4">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Начните редактирование!</h2>
+                <p class="text-gray-600">Нажмите кнопку **"ЗАГРУЗИТЬ ПЛЕЙЛИСТ"**, чтобы импортировать файл или ссылку.</p>
             </div>
         </div>
     </div>
@@ -1199,7 +1204,6 @@
         import { 
             getAuth, 
             signInAnonymously, 
-            signInWithCustomToken, 
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword, 
             GoogleAuthProvider,
@@ -1231,6 +1235,8 @@
         const uploadScreen = document.getElementById('uploadScreen');
         const channelEditor = document.getElementById('channelEditor');
         const logoutBtn = document.getElementById('logoutBtn');
+        const editorContent = document.getElementById('editorContent');
+        const editorPlaceholder = document.getElementById('editorPlaceholder');
 
         // Модальное окно Регистрации
         const registrationModal = document.getElementById('registrationModal');
@@ -1238,7 +1244,7 @@
         const loginLink = document.getElementById('loginLink');
         const closeRegisterModal = document.getElementById('closeRegisterModal');
         const registerGoogleBtn = document.getElementById('registerGoogleBtn');
-
+        
         // Кнопки для открытия модалки
         document.getElementById('openRegisterFromLogin').addEventListener('click', (e) => { e.preventDefault(); registrationModal.classList.remove('hidden'); });
         document.getElementById('openRegisterFromNav').addEventListener('click', (e) => { e.preventDefault(); registrationModal.classList.remove('hidden'); });
@@ -1256,23 +1262,35 @@
             }
         }
 
+        // --- ОБНОВЛЕННАЯ ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ ---
         function switchToScreen(screenId) {
             mainScreen.classList.add('hidden');
             editorScreen.classList.add('hidden');
             uploadScreen.classList.add('hidden');
             channelEditor.classList.add('hidden');
             
+            document.getElementById('removeDuplicatesBtn').classList.add('hidden');
+            document.getElementById('saveBtn').classList.add('hidden');
+
             if (screenId === 'main') {
                 mainScreen.classList.remove('hidden');
                 document.body.style.paddingTop = '0'; // Сброс для лэндинга
-            } else if (screenId === 'upload') {
-                editorScreen.classList.remove('hidden');
-                uploadScreen.classList.remove('hidden');
-                document.body.style.paddingTop = '60px'; // Отступ для фиксированной шапки
-            } else if (screenId === 'editor') {
+            } else if (screenId === 'editor_base') {
+                // После авторизации, но без загруженного плейлиста
                 editorScreen.classList.remove('hidden');
                 channelEditor.classList.remove('hidden');
-                document.body.style.paddingTop = '60px';
+                editorContent.classList.add('hidden');
+                editorPlaceholder.classList.remove('hidden');
+                document.body.style.paddingTop = '60px'; 
+            } else if (screenId === 'editor_loaded') {
+                // После загрузки плейлиста
+                editorScreen.classList.remove('hidden');
+                channelEditor.classList.remove('hidden');
+                editorContent.classList.remove('hidden');
+                editorPlaceholder.classList.add('hidden');
+                document.getElementById('removeDuplicatesBtn').classList.remove('hidden');
+                document.getElementById('saveBtn').classList.remove('hidden');
+                document.body.style.paddingTop = '60px'; 
             }
         }
 
@@ -1286,17 +1304,19 @@
                 document.getElementById('openRegisterFromLogin').classList.remove('hidden');
                 userId = 'guest';
             } else {
-                // Пользователь вошел: показываем экран Загрузки
-                switchToScreen('upload');
+                // Пользователь вошел: СРАЗУ показываем основной экран редактора
+                userId = user.uid; 
+                if (channels.length > 0) {
+                     switchToScreen('editor_loaded');
+                } else {
+                    switchToScreen('editor_base');
+                }
+
                 logoutBtn.classList.remove('hidden');
                 document.getElementById('openRegisterFromLogin').classList.add('hidden');
-                userId = user.uid; 
-                // Если каналы уже есть, показываем редактор, иначе - загрузку
-                if (channels.length > 0) {
-                     switchToScreen('editor');
-                }
             }
         });
+        // --- КОНЕЦ ОБНОВЛЕННОЙ ЛОГИКИ ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ ---
 
         initializeAuth();
 
@@ -1465,7 +1485,7 @@
         // -----------------------
         // DRAG AND DROP HANDLERS (for file input)
         // -----------------------
-        const dragDropAreas = [dropArea, dropAreaModal];
+        const dragDropAreas = [dropAreaModal]; // Только модалка, т.к. на основном экране нет дроп-зоны
 
         function preventDefaults(e) {
             e.preventDefault();
@@ -1479,7 +1499,7 @@
             fileInput.dispatchEvent(new Event('change'));
         }
         
-        // D&D Event listeners setup (Simplified logic from index2)
+        // D&D Event listeners setup 
         dragDropAreas.forEach(area => {
             if (area) {
                 ['dragenter', 'dragover'].forEach(eventName => {
@@ -1528,8 +1548,8 @@
         // -----------------------
         // FILE/URL LOADING HANDLERS
         // -----------------------
-        uploadBtn.addEventListener('click', () => { fileInput.click(); });
-
+        // uploadBtn и loadUrlBtn удалены из HTML, т.к. они были на старом "экране загрузки"
+        
         fileInput.addEventListener('change', () => {
           const file = fileInput.files[0];
           if (!file) { return; }
@@ -1544,11 +1564,6 @@
             };
             reader.readAsText(file);
           }, 50);
-        });
-
-        loadUrlBtn.addEventListener('click', async () => {
-          const url = urlInput.value.trim();
-          await loadPlaylistFromUrl(url, loading, loadUrlBtn);
         });
         
         openUploadModalBtn.addEventListener('click', () => {
@@ -1623,8 +1638,8 @@
                     dropAreaModal.classList.remove('hidden');
                     uploadModal.classList.add('hidden');
 
-                    // Переключаем на экран редактора
-                    switchToScreen('editor');
+                    // Переключаем на экран редактора с загруженным плейлистом
+                    switchToScreen('editor_loaded');
                     
                     excludedCategories.clear(); 
                     renderCategoryFilter();
@@ -1643,7 +1658,8 @@
                     dropAreaModal.classList.remove('hidden');
                     showToast('Ошибка обработки файла: ' + error.message);
                     
-                    switchToScreen('upload');
+                    // Если была ошибка, остаемся на базовом экране редактора
+                    switchToScreen('editor_base');
                 });
         }
         
@@ -2291,6 +2307,9 @@
         const displayTime = 2000;
 
         function changePhrase() {
+            // Запускаем только на экране лэндинга
+            if(mainScreen.classList.contains('hidden')) return; 
+
             dynamicTextElement.style.opacity = '0'; 
 
             setTimeout(() => {
