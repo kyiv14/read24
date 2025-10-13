@@ -329,6 +329,99 @@
             color: var(--primary-color);
         }
 
+        /* -------------------------------------------
+           СТИЛЫ БЛОКА "FAQ" (Новый)
+           ------------------------------------------- */
+        .faq-section {
+            padding: 80px 40px;
+            background-color: #ffffff; 
+            text-align: center;
+        }
+        
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        /* Стилизация аккордеона (FAQ item) */
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+            padding: 15px 0;
+            cursor: pointer;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-color);
+        }
+
+        .faq-answer {
+            font-size: 16px;
+            color: var(--secondary-text-color);
+            padding: 0 0 15px 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        
+        /* Стили для открытого ответа (через JS или хак с чекбоксом) */
+        /* Поскольку мы не используем JS, мы сделаем это статичным стилем для демонстрации или будем использовать <details> */
+        details {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+        details summary {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+            padding: 15px 0;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        details summary:hover {
+            color: var(--primary-color);
+        }
+
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details p {
+            font-size: 16px;
+            color: var(--secondary-text-color);
+            padding: 5px 0 15px 0;
+            line-height: 1.6;
+        }
+        
+        details summary::after {
+            content: "\f078"; /* fa-chevron-down */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
 
         /* -------------------------------------------
            МОБИЛЬНЫЕ СТИЛЫ (Media Query)
@@ -570,6 +663,17 @@
                 text-align: left;
                 padding-left: 20px; /* Добавляем отступ для "Возможности" */
             }
+
+            /* МОБИЛЬНЫЙ ВИД БЛОКА "FAQ" */
+            .faq-section {
+                padding: 40px 20px;
+            }
+            details summary {
+                font-size: 17px;
+            }
+            details p {
+                font-size: 15px;
+            }
         }
         
     </style>
@@ -732,6 +836,77 @@
             <p style="font-size: 16px; color: var(--secondary-text-color); margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto; padding: 0 20px;">
                 Для получения максимального удобства и доступа ко всем продвинутым функциям редактирования плейлистов, рекомендуем пройти **быструю регистрацию**.
             </p>
+        </section>
+        <section id="faq" class="faq-section">
+            <p class="section-subtitle">Спросите нас</p>
+            <h2 class="section-title">Частые вопросы</h2>
+            
+            <div class="faq-container">
+
+                <details>
+                    <summary>
+                        Какие форматы плейлистов поддерживает ваш редактор?
+                    </summary>
+                    <p>
+                        Наш редактор поддерживает наиболее популярные форматы, включая **M3U, M3U8** и **TXT** (для простых списков ссылок). Мы постоянно работаем над добавлением поддержки других распространенных форматов.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Могу ли я объединить несколько плейлистов в один?
+                    </summary>
+                    <p>
+                        Да, это одна из ключевых возможностей нашего сервиса! Вы можете легко импортировать несколько файлов или ссылок, а затем объединить их в одну централизованную библиотеку.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Что такое "Динамическая ссылка на плейлист" и как она работает?
+                    </summary>
+                    <p>
+                        Динамическая ссылка (доступна после регистрации) — это постоянный URL вашего плейлиста. Когда вы вносите изменения в список через наш редактор, плейлист по этой ссылке **автоматически обновляется** на всех ваших устройствах (Smart TV, плееры и т.д.).
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Безопасно ли загружать мой плейлист?
+                    </summary>
+                    <p>
+                        Абсолютно. Мы гарантируем полную конфиденциальность и не храним личные данные или содержимое ваших плейлистов, если вы сами не решите сохранить их в личном кабинете. Даже в этом случае они защищены.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Могу ли я изменить порядок каналов/ссылок?
+                    </summary>
+                    <p>
+                        Да. Наш редактор имеет интуитивно понятный интерфейс **Drag-and-Drop (перетаскивание)**, который позволяет легко менять порядок элементов в списке простым движением мыши или касанием.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Нужно ли регистрироваться, чтобы просто отредактировать один плейлист?
+                    </summary>
+                    <p>
+                        Нет, для **единоразового редактирования** и скачивания файла регистрация не требуется. Однако, чтобы сохранить плейлисты в облаке и получить динамическую ссылку для автообновления, регистрация необходима.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Работает ли ваш редактор на мобильных устройствах?
+                    </summary>
+                    <p>
+                        Да, наш сервис полностью адаптирован и корректно работает на всех современных устройствах, включая смартфоны, планшеты и настольные компьютеры.
+                    </p>
+                </details>
+
+            </div>
         </section>
         </main>
 
