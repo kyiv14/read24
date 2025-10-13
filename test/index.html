@@ -94,13 +94,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex justify-between items-center">
       <a href="/" class="flex items-center space-x-2">
         <img src="https://read24.netlify.app/icon1.ico" alt="Логотип" class="h-8 w-8">
-        <span class="text-xl font-bold text-gray-800 hidden sm:inline">Редактор</span>
+        <span class="text-xl font-bold text-gray-800 hidden sm:inline"></span>
       </a>
 
       <div class="flex items-center">
         <button id="logoutBtn"
           class="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-red-700 transition hidden">
-          ВЫЙТИ ИЗ АККАУНТА
+          ВЫЙТИ
         </button>
       </div>
     </div>
@@ -582,7 +582,7 @@
 
     // ===============================
     // ЛОГИКА DRAG AND DROP
-    // ===============================
+    // =======================================================
     const dragDropAreas = [dropArea, dropAreaModal];
 
     dragDropAreas.forEach(area => {
@@ -632,7 +632,7 @@
     
     // ===============================
     // ФУНКЦИИ УВЕДОМЛЕНИЯ
-    // ===============================
+    // =======================================================
     function showToast(message, count = null) {
         toastChannelCount.classList.add('hidden');
         toastNotification.classList.remove('bg-green-600', 'bg-red-600'); 
@@ -661,7 +661,7 @@
     
     // ===============================
     // ОБРАБОТЧИКИ СОБЫТИЙ
-    // ===============================
+    // =======================================================
     uploadBtn.addEventListener('click', () => {
         // Мы уже на mainScreen, просто вызываем fileInput
         fileInput.click();
@@ -755,7 +755,6 @@
     registrationFormElement.addEventListener('submit', handleEmailRegistration);
     registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
     // Кнопка ВЫЙТИ теперь находится в шапке и ее обработчик остается здесь
-    // logoutBtn.addEventListener('click', handleLogout); 
     document.getElementById('logoutBtn').addEventListener('click', handleLogout); 
     // КОНЕЦ НОВЫХ ОБРАБОТЧИКОВ
 
@@ -1212,7 +1211,7 @@
           let extgrp = '';
           let urlIndex = i + 1;
           while (urlIndex < originalLines.length) {
-            const nextLine = originalLines[urlIndex].trim();
+            const nextLine = lines[urlIndex].trim();
             if (nextLine.startsWith('#EXTGRP:')) {
               if (category === 'Без категории' || category === '') {
                 category = nextLine.substring(8).trim();
