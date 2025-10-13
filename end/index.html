@@ -50,7 +50,6 @@
             }
         }
         
-        /* УБРАНО: opacity: 0; чтобы лэндинг сразу был виден */
         main section {
             opacity: 1; 
         }
@@ -965,7 +964,7 @@
         
         <div id="uploadScreen" class="text-center w-full max-w-md mx-auto py-20 hidden"></div>
 
-        <div id="channelEditor" class="w-full"> 
+        <div id="channelEditor" class="w-full hidden"> 
             <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
                 <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
                 <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
@@ -1232,7 +1231,7 @@
             mainScreen.classList.add('hidden');
             editorScreen.classList.add('hidden');
             uploadScreen.classList.add('hidden');
-            channelEditor.classList.add('hidden');
+            channelEditor.classList.add('hidden'); // Устанавливаем по умолчанию
             editorContent.classList.add('hidden'); 
             editorPlaceholder.classList.add('hidden'); 
             
@@ -1245,14 +1244,14 @@
             } else if (screenId === 'editor_base') {
                 // После авторизации, но без загруженного плейлиста
                 editorScreen.classList.remove('hidden');
-                channelEditor.classList.remove('hidden');
-                editorPlaceholder.classList.remove('hidden'); // ПОКАЗЫВАЕМ ПЛЕЙСХОЛДЕР
+                channelEditor.classList.remove('hidden'); // СДЕЛАТЬ ВИДИМЫМ
+                editorPlaceholder.classList.remove('hidden'); 
                 document.body.style.paddingTop = '60px'; 
             } else if (screenId === 'editor_loaded') {
                 // После загрузки плейлиста
                 editorScreen.classList.remove('hidden');
-                channelEditor.classList.remove('hidden');
-                editorContent.classList.remove('hidden'); // ПОКАЗЫВАЕМ КОНТЕНТ РЕДАКТОРА
+                channelEditor.classList.remove('hidden'); // СДЕЛАТЬ ВИДИМЫМ
+                editorContent.classList.remove('hidden'); 
                 editorPlaceholder.classList.add('hidden'); 
                 document.getElementById('removeDuplicatesBtn').classList.remove('hidden');
                 document.getElementById('saveBtn').classList.remove('hidden');
