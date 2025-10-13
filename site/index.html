@@ -139,17 +139,38 @@
             transition: opacity 0.3s ease;
         }
 
-        /* --- Секция Преимуществ --- */
+        /* -------------------------------------------
+           ПЕРЕДЕЛАННЫЕ СТИЛЫ ПРЕИМУЩЕСТВ (Desktop)
+           ------------------------------------------- */
         .features-section {
-            padding: 80px 40px; /* Desktop: 80px сверху/снизу */
+            padding: 80px 40px; 
             background-color: var(--background-light);
             text-align: center;
         }
+        
+        /* Добавляем заголовок секции для структуры */
+        .section-subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #000;
+            margin-top: 0;
+            margin-bottom: 50px;
+        }
+
 
         .features-grid {
             display: flex;
             justify-content: center;
-            gap: 40px; /* Desktop gap */
+            gap: 30px; /* Уменьшаем отступ для Desktop */
             max-width: 1000px;
             margin: 0 auto;
             flex-wrap: wrap;
@@ -157,14 +178,22 @@
 
         .feature-item {
             flex-basis: 300px; 
-            padding: 20px; /* Desktop padding */
+            padding: 30px; /* Большой padding для Desktop */
             text-align: center;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Легкая тень для эффекта "карточки" */
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
         }
 
         .feature-item i {
             font-size: var(--icon-size);
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .feature-item h3 {
@@ -283,42 +312,57 @@
                 font-size: 17px; 
                 padding: 12px 30px; 
             }
-
-            /* ИЗМЕНЕНИЕ: Секция Преимуществ - уменьшаем внешний вертикальный padding */
+            
+            /* МОБИЛЬНЫЙ ВИД БЛОКА ПРЕИМУЩЕСТВ (Чистый и минимальный) */
             .features-section {
                 padding-top: 40px; 
                 padding-bottom: 40px; 
-                padding-left: 20px; /* Уменьшаем горизонтальный padding, чтобы не было слишком много воздуха */
+                padding-left: 20px;
                 padding-right: 20px;
             }
+            
+            .section-title {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
 
-            /* Преимущества: делаем разрыв минимальным (0px) */
             .features-grid {
                 flex-direction: column;
-                gap: 0; 
+                gap: 0; /* Полностью убираем отступ между элементами */
             }
             
-            /* Минимальные вертикальные отступы внутри каждого блока */
             .feature-item {
-                /* Установлен: 1px сверху, 10px слева/справа, 0px снизу */
+                /* Убираем тень и скругление, делаем блок-строкой */
+                background-color: transparent; 
+                box-shadow: none; 
+                border-radius: 0;
+                transform: none;
+                
+                /* Установка минимального отступа, как вы просили: 1px сверху, 0px снизу */
                 padding: 1px 10px 0 10px; 
                 border-bottom: 1px solid #e0e0e0; /* Разделитель для наглядности */
             }
-            
-            /* Убираем разделитель у последнего элемента */
+
             .feature-item:last-child {
                 border-bottom: none;
             }
+            
+            /* Сброс всех margin/padding у дочерних элементов для контроля */
+            .feature-item i, 
+            .feature-item h3, 
+            .feature-item p {
+                margin: 0; 
+                padding: 0; 
+                display: block; 
+            }
 
-            /* ИСПРАВЛЕНИЕ: Сбрасываем все внешние отступы внутренних элементов */
+            /* Восстанавливаем минимальные интервалы внутри элемента */
             .feature-item i {
-                margin: 4px 0 0 0; /* 4px сверху, 0 по бокам и снизу */
+                margin-top: 4px; /* Отступ иконки от верхнего края (4px) */
+                margin-bottom: 4px; /* Отступ от иконки до заголовка */
             }
             .feature-item h3 {
-                margin: 0; /* Сброс всех отступов */
-            }
-            .feature-item p {
-                margin: 0; /* Сброс всех отступов */
+                margin-bottom: 4px; /* Отступ от заголовка до текста */
             }
         }
         
@@ -379,6 +423,8 @@
         </section>
 
         <section id="advantages" class="features-section">
+            <p class="section-subtitle">Почему мы?</p>
+            <h2 class="section-title">Возможности для ваших плейлистов</h2>
             <div class="features-grid">
                 
                 <div class="feature-item">
