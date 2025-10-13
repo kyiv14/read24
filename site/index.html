@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шапка и заголовок сайта с мобильным меню</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Определение цветов (КРАСНЫЙ АКЦЕНТ) */
+        :root {
+            --primary-color: #FF0000;      /* Ярко-красный (Акцент) */
+            --primary-hover-color: #CC0000; /* Темно-красный (Наведение) */
+            --text-color: #333;
+            --secondary-text-color: #555;
+            --background-light: #f9f9f9;
+            --border-color: #eaeaef;
+            --icon-size: 36px;
+        }
+
+        /* Базовый сброс и шрифт */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            color: var(--text-color);
+        }
+
+        /* -------------------------------------------
+           ОБЩИЕ СТИЛИ ШАПКИ (Для Desktop)
+           ------------------------------------------- */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* --- Логотип --- */
+        .logo a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 32px;
+            width: auto;
+        }
+
+        /* --- Навигация Desktop --- */
+        .main-nav {
+            display: block; 
+        }
+
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--secondary-text-color);
+            font-size: 15px;
+            font-weight: 400;
+            padding: 5px 0;
+            transition: color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .main-nav a:hover {
+            color: #000;
+        }
+
+        /* --- Кнопки (Общие стили) --- */
+        .nav-button {
+            display: inline-block;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .nav-button.primary {
+            padding-left: 24px; 
+            padding-right: 24px;
+            background-color: var(--primary-color); 
+            color: #ffffff;
+            border: none;
+        }
+
+        .nav-button.primary:hover {
+            background-color: var(--primary-hover-color);
+        }
+
+        .nav-button.secondary {
+            padding-left: 16px; 
+            padding-right: 16px;
+            background-color: transparent; 
+            color: var(--primary-color); 
+            border: 1px solid var(--primary-color); 
+        }
+
+        .nav-button.secondary:hover {
+            background-color: #f0f0f5; 
+            color: var(--primary-hover-color);
+            border-color: var(--primary-hover-color);
+        }
+
+        /* --- Секция Героя --- */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 120px 20px 80px; 
+            background-color: #ffffff; 
+        }
+
+        .hero-title {
+            font-size: 48px; /* Размер для Desktop */
+            font-weight: 700;
+            color: #000;
+            max-width: 800px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        #dynamic-text {
+            color: var(--primary-color); 
+            display: inline-block;
+            min-width: 250px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- Секция Преимуществ --- */
+        .features-section {
+            padding: 80px 40px;
+            background-color: var(--background-light);
+            text-align: center;
+        }
+
+        .features-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px; 
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            flex-basis: 300px; 
+            padding: 20px;
+            text-align: center;
+        }
+
+        .feature-item i {
+            font-size: var(--icon-size);
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .feature-item h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 15px;
+            color: var(--secondary-text-color);
+            line-height: 1.6;
+        }
+
+        /* -------------------------------------------
+           МОБИЛЬНЫЕ СТИЛИ (Media Query)
+           ------------------------------------------- */
+        
+        .menu-toggle, #mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            
+            /* Шапка: Лого - Центр - Гамбургер */
+            .site-header {
+                padding: 10px 20px; 
+                display: grid;
+                grid-template-columns: 1fr auto 1fr; 
+                grid-template-areas: "logo actions menu-toggle";
+            }
+
+            .main-nav {
+                display: none;
+            }
+
+            .logo {
+                grid-area: logo;
+                justify-self: start;
+            }
+
+            .header-actions {
+                grid-area: actions;
+                justify-self: center; 
+            }
+
+            .menu-toggle {
+                grid-area: menu-toggle;
+                display: block;
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: var(--text-color);
+                padding: 0;
+                justify-self: end;
+            }
+            
+            /* --- ВЫПАДАЮЩЕЕ МОБИЛЬНОЕ МЕНЮ --- */
+            #mobile-menu {
+                display: none; 
+                position: absolute;
+                top: 55px; 
+                left: 0;
+                width: 100%;
+                background-color: #ffffff;
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 10px 0;
+                z-index: 90;
+            }
+
+            #mobile-menu ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            #mobile-menu li {
+                text-align: left;
+                padding: 12px 20px;
+                border-bottom: 1px solid #f5f5f5;
+            }
+            
+            #mobile-menu a {
+                display: block;
+                font-size: 16px;
+                color: var(--text-color);
+                text-decoration: none;
+                padding: 0; 
+            }
+
+            /* Заголовок: Уменьшаем размер шрифта */
+            .hero-section {
+                padding: 80px 20px 60px;
+            }
+            .hero-title {
+                font-size: 28px; /* УМЕНЬШЕННЫЙ ШРИФТ ДЛЯ MOBILE */
+            }
+            #dynamic-text {
+                min-width: 150px; 
+            }
+
+            /* Преимущества в столбец */
+            .features-grid {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        
+        <div class="logo">
+            <a href="/">
+                <img src="https://read24.netlify.app/icon1.ico" alt="Логотип сайта">
+            </a>
+        </div>
+        
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#advantages">Преимущества</a></li>
+                <li><a href="#how-to-watch">Как смотреть</a></li>
+                <li><a href="#faq">Частые вопросы</a></li>
+                <li><a href="#registration" class="nav-button primary">Регистрация</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <a href="#login" class="nav-button secondary">Войти</a>
+        </div>
+        
+        <button class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <nav id="mobile-menu">
+        <ul>
+            <li><a href="#advantages">Преимущества</a></li>
+            <li><a href="#how-to-watch">Как смотреть</a></li>
+            <li><a href="#faq">Частые вопросы</a></li>
+            <li>
+                <a href="#registration" class="nav-button primary">Регистрация</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="hero-section">
+            <h1 class="hero-title">
+                Редактируйте любые плейлисты для 
+                <strong id="dynamic-text">вашего удобства.</strong>
+            </h1>
+            
+            <p style="font-size: 18px; color: #666; max-width: 600px; margin-bottom: 30px;">
+                Получите полный контроль над вашими медиатеками, объединяя источники и настраивая порядок просмотра.
+            </p>
+            <a href="#start" class="nav-button primary" style="font-size: 16px; padding: 12px 30px;">
+                Начать бесплатно
+            </a>
+        </section>
+
+        <section id="advantages" class="features-section">
+            <div class="features-grid">
+                
+                <div class="feature-item">
+                    <i class="fas fa-sliders-h"></i> 
+                    <h3>Полный контроль</h3>
+                    <p>Настраивайте порядок воспроизведения, удаляйте ненужное и добавляйте новый контент в вашу библиотеку за секунды.</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-tablet-alt"></i>
+                    <h3>Просмотр без границ</h3>
+                    <p>Смотрите ваши плейлисты на любом устройстве: от мобильного телефона до Smart TV. Всегда синхронизировано.</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-link"></i>
+                    <h3>Единая библиотека</h3>
+                    <p>Объединяйте медиафайлы из разных источников в одно централизованное и удобное место для доступа.</p>
+                </div>
+
+            </div>
+        </section>
+        
+        <div style="padding: 50px 40px; text-align: center;">
+            <p>Ниже будет располагаться остальной контент страницы...</p>
+        </div>
+    </main>
+
+    <script>
+        // 1. Динамический текст в заголовке
+        const phrases = [
+            "вашего удобства.",
+            "любых устройств.",
+            "быстрого доступа.",
+            "идеального порядка.",
+            "полного контроля."
+        ];
+
+        const dynamicTextElement = document.getElementById('dynamic-text');
+        
+        let phraseIndex = 0;
+        const transitionTime = 300;
+        const displayTime = 2000;
+
+        function changePhrase() {
+            dynamicTextElement.style.opacity = '0'; 
+
+            setTimeout(() => {
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                dynamicTextElement.textContent = phrases[phraseIndex];
+                dynamicTextElement.style.opacity = '1'; 
+            }, transitionTime);
+        }
+
+        setInterval(changePhrase, displayTime + transitionTime);
+
+
+        // 2. Логика Гамбургер-меню (ТОЛЬКО ДЛЯ MOBILE)
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => {
+                const isExpanded = mobileMenu.style.display === 'block';
+                mobileMenu.style.display = isExpanded ? 'none' : 'block';
+                // Смена иконки гамбургера на крестик
+                menuToggle.querySelector('i').className = isExpanded ? 'fas fa-bars' : 'fas fa-times';
+            });
+            
+            // Закрытие меню при клике на ссылку
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.style.display = 'none';
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>
