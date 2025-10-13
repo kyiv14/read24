@@ -78,13 +78,13 @@
   <div id="mainScreen" class="text-center w-full max-w-md">
     
     <!-- СООБЩЕНИЕ ДЛЯ НЕАВТОРИЗОВАННЫХ -->
-    <div id="unauthenticatedMessage" class="w-full max-w-xs mx-auto mb-8">
+    <div id="unauthenticatedMessage" class="w-full max-w-xs mx-auto mb-8 hidden">
         <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Добро пожаловать!</h2>
         <p class="text-gray-600 mb-8">Чтобы получить доступ к редактору и сохранять плейлисты, пожалуйста, войдите или зарегистрируйтесь.</p>
     </div>
 
     <!-- КНОПКА АУТЕНТИФИКАЦИИ -->
-    <div class="flex flex-col gap-3 w-4/5 mx-auto mb-8">
+    <div id="authButtonContainer" class="flex flex-col gap-3 w-4/5 mx-auto mb-8 hidden">
         <button id="openRegisterModalBtn"
             class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full">
             ВОЙТИ / РЕГИСТРАЦИЯ
@@ -356,24 +356,20 @@
     onAuthStateChanged(auth, (user) => {
         const isAuthenticated = user && !user.isAnonymous;
         
-        // Управление видимостью функционала загрузки
-        if (isAuthenticated) {
-            userId = user.uid;
-            // 1. Скрываем сообщение для неавторизованных
-            unauthenticatedMessage.classList.add('hidden');
-            // 2. Показываем функционал загрузки плейлиста
-            uploadFunctionality.classList.remove('hidden');
-            
-        } else {
-            // Если гость или вышел
-            userId = 'guest';
-            // 1. Показываем сообщение для неавторизованных
+        // 1. Скрываем/показываем контейнер аутентификации
+        if (!isAuthenticated) {
+            // Пользователь не вошел или гость
             unauthenticatedMessage.classList.remove('hidden');
-            // 2. Скрываем функционал загрузки плейлиста
+            authButtonContainer.classList.remove('hidden');
             uploadFunctionality.classList.add('hidden');
-            // 3. Если пользователь вышел, возвращаем на главный экран (если был в редакторе)
+            // Если гость, убедимся, что экран редактора не показан
             editorScreen.classList.add('hidden');
             mainScreen.classList.remove('hidden');
+        } else {
+            // Пользователь вошел (зарегистрирован)
+            unauthenticatedMessage.classList.add('hidden');
+            authButtonContainer.classList.add('hidden');
+            uploadFunctionality.classList.remove('hidden');
         }
     });
 
@@ -483,6 +479,7 @@
     
     const unauthenticatedMessage = document.getElementById('unauthenticatedMessage');
     const uploadFunctionality = document.getElementById('uploadFunctionality');
+    const authButtonContainer = document.getElementById('authButtonContainer');
 
 
     let originalLines = [];
