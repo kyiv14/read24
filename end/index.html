@@ -27,7 +27,7 @@
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             color: var(--text-color);
-            scroll-behavior: smooth; /* Плавный скролл по всему сайту */
+            scroll-behavior: smooth; 
             padding-top: 0; 
             min-height: 100vh;
             display: block;
@@ -1088,6 +1088,7 @@
     
     <div id="uploadModal"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-50">
+        <input type="file" id="fileInput" accept="*/*" class="hidden">
         <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
             <h2 class="text-xl font-semibold mb-6 text-gray-800">Загрузка нового плейлиста</h2>
 
@@ -1201,6 +1202,7 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const editorContent = document.getElementById('editorContent');
         const editorPlaceholder = document.getElementById('editorPlaceholder');
+        const openRegisterFromLogin = document.getElementById('openRegisterFromLogin'); // Получаем элемент
 
         // Модальное окно Регистрации
         const registrationModal = document.getElementById('registrationModal');
@@ -1231,7 +1233,7 @@
             mainScreen.classList.add('hidden');
             editorScreen.classList.add('hidden');
             uploadScreen.classList.add('hidden');
-            channelEditor.classList.add('hidden'); // Устанавливаем по умолчанию
+            channelEditor.classList.add('hidden'); 
             editorContent.classList.add('hidden'); 
             editorPlaceholder.classList.add('hidden'); 
             
@@ -1266,7 +1268,7 @@
                 // Гость: показываем Лэндинг
                 switchToScreen('main');
                 logoutBtn.classList.add('hidden');
-                document.getElementById('openRegisterFromLogin').classList.remove('hidden');
+                openRegisterFromLogin.classList.remove('hidden'); // Показываем Войти
                 userId = 'guest';
             } else {
                 // Пользователь вошел: СРАЗУ показываем основной экран редактора
@@ -1277,8 +1279,8 @@
                     switchToScreen('editor_base'); // Впервые после авторизации
                 }
 
-                logoutBtn.classList.remove('hidden');
-                document.getElementById('openRegisterFromLogin').classList.add('hidden');
+                logoutBtn.classList.remove('hidden'); // Показываем Выйти
+                openRegisterFromLogin.classList.add('hidden'); // Скрываем Войти
             }
         });
         // --- КОНЕЦ ИСПРАВЛЕННОЙ ЛОГИКИ ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ ---
