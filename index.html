@@ -77,45 +77,51 @@
 
   <div id="mainScreen" class="text-center w-full max-w-md">
     
-    <!-- СТАТУС АУТЕНТИФИКАЦИИ -->
-    <div id="authStatus" class="text-sm text-gray-700 mb-4 text-left p-2 bg-gray-100 rounded-lg">
-        Статус: Загрузка...
+    <!-- СООБЩЕНИЕ ДЛЯ НЕАВТОРИЗОВАННЫХ -->
+    <div id="unauthenticatedMessage" class="w-full max-w-xs mx-auto mb-8">
+        <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Добро пожаловать!</h2>
+        <p class="text-gray-600 mb-8">Чтобы получить доступ к редактору и сохранять плейлисты, пожалуйста, войдите или зарегистрируйтесь.</p>
     </div>
-    
-    <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
-        
-        <!-- ОБНОВЛЕННЫЙ БЛОК КНОПОК -->
-        <div class="flex flex-col gap-3 w-4/5 mx-auto mb-4">
+
+    <!-- КНОПКА АУТЕНТИФИКАЦИИ -->
+    <div class="flex flex-col gap-3 w-4/5 mx-auto mb-8">
+        <button id="openRegisterModalBtn"
+            class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full">
+            ВОЙТИ / РЕГИСТРАЦИЯ
+        </button>
+    </div>
+
+    <input type="file" id="fileInput" accept="*/*" class="hidden">
+
+    <!-- ФУНКЦИОНАЛ ЗАГРУЗКИ (ПО УМОЛЧАНИЮ СКРЫТ) -->
+    <div id="uploadFunctionality" class="hidden">
+        <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
+            
             <button id="uploadBtn"
-                class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full">
+                class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4">
                 ЗАГРУЗИТЬ ФАЙЛ
             </button>
-            <button id="openRegisterModalBtn"
-                class="bg-gray-200 text-gray-900 text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-300 transition w-full">
-                ВОЙТИ / РЕГИСТРАЦИЯ
-            </button>
-        </div>
-        
-        <input type="file" id="fileInput" accept="*/*" class="hidden">
-        
-        <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
-        
-        <div class="flex flex-col gap-3 w-4/5 mx-auto mb-4">
-          <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
-            class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
-          
-          <button id="loadUrlBtn"
-            class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
-            ВПЕРЕД
-          </button>
+            
+            <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
+            
+            <div class="flex flex-col gap-3 w-full mx-auto mb-4">
+              <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
+                class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
+              
+              <button id="loadUrlBtn"
+                class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
+                ВПЕРЕД
+              </button>
+            </div>
         </div>
     </div>
+    
     <div id="loading" class="hidden text-blue-600 mb-4">
       <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
       Загрузка файла...
     </div>
 
-    </div>
+  </div>
 
   <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
@@ -330,7 +336,6 @@
     const auth = getAuth(app);
     
     let userId = 'guest';
-    const authStatusElement = document.getElementById('authStatus');
 
     // Авторизация при запуске
     async function initializeAuth() {
@@ -349,18 +354,26 @@
     }
 
     onAuthStateChanged(auth, (user) => {
-        if (user) {
+        const isAuthenticated = user && !user.isAnonymous;
+        
+        // Управление видимостью функционала загрузки
+        if (isAuthenticated) {
             userId = user.uid;
-            const statusText = user.isAnonymous ? 
-                `Статус: Гость (ID: ${userId.substring(0, 8)})` : 
-                `Статус: Вошел (ID: ${userId.substring(0, 8)})`;
-            authStatusElement.innerHTML = statusText;
-            // console.log("User state changed. ID:", userId);
-
+            // 1. Скрываем сообщение для неавторизованных
+            unauthenticatedMessage.classList.add('hidden');
+            // 2. Показываем функционал загрузки плейлиста
+            uploadFunctionality.classList.remove('hidden');
+            
         } else {
+            // Если гость или вышел
             userId = 'guest';
-            authStatusElement.textContent = `Статус: Ошибка или выход`;
-            // console.log("User logged out.");
+            // 1. Показываем сообщение для неавторизованных
+            unauthenticatedMessage.classList.remove('hidden');
+            // 2. Скрываем функционал загрузки плейлиста
+            uploadFunctionality.classList.add('hidden');
+            // 3. Если пользователь вышел, возвращаем на главный экран (если был в редакторе)
+            editorScreen.classList.add('hidden');
+            mainScreen.classList.remove('hidden');
         }
     });
 
@@ -460,13 +473,16 @@
 
     const globalLoader = document.getElementById('globalLoader');
 
-    // ПЕРЕМЕННЫЕ ДЛЯ РЕГИСТРАЦИИ
+    // ПЕРЕМЕННЫЕ ДЛЯ РЕГИСТРАЦИИ (обновлены для новой HTML-структуры)
     const registrationModal = document.getElementById('registrationModal');
     const openRegisterModalBtn = document.getElementById('openRegisterModalBtn');
     const closeRegisterModal = document.getElementById('closeRegisterModal');
     const registerEmailBtn = document.getElementById('registerEmailBtn');
     const registerGoogleBtn = document.getElementById('registerGoogleBtn');
     const registrationFormElement = document.getElementById('registrationFormElement');
+    
+    const unauthenticatedMessage = document.getElementById('unauthenticatedMessage');
+    const uploadFunctionality = document.getElementById('uploadFunctionality');
 
 
     let originalLines = [];
