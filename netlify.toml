@@ -1,3 +1,15 @@
+# netlify.toml
+
 [build]
-  # Указываем, что функции находятся в папке 'functions'
-  functions = "functions"
+  # Указывает Netlify, где искать файлы функций (предполагая, что это папка netlify/functions)
+  functions = "netlify/functions"
+  
+# Правило перенаправления для динамической ссылки
+[[redirects]]
+  # Путь, который будет вводить пользователь (https://read24.netlify.app/api/playlist/...)
+  from = "/api/playlist/*"
+  # Путь к вашей функции, которая будет обрабатывать запрос
+  to = "/.netlify/functions/get-playlist"
+  # Статус 200 (OK) + force=true: URL в браузере не меняется, но вызывается функция
+  status = 200
+  force = true
