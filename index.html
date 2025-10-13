@@ -83,7 +83,7 @@
         <p class="text-gray-600 mb-8">Чтобы получить доступ к редактору и сохранять плейлисты, пожалуйста, войдите или зарегистрируйтесь.</p>
     </div>
 
-    <!-- КНОПКА АУТЕНТИФИКАЦИИ -->
+    <!-- КНОПКА АУТЕНТИФИКАЦИИ (Для гостей) -->
     <div id="authButtonContainer" class="flex flex-col gap-3 w-4/5 mx-auto mb-8 hidden">
         <button id="openRegisterModalBtn"
             class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full">
@@ -93,8 +93,17 @@
 
     <input type="file" id="fileInput" accept="*/*" class="hidden">
 
-    <!-- ФУНКЦИОНАЛ ЗАГРУЗКИ (ПО УМОЛЧАНИЮ СКРЫТ) -->
+    <!-- ФУНКЦИОНАЛ ЗАГРУЗКИ (Для авторизованных) -->
     <div id="uploadFunctionality" class="hidden">
+        
+        <!-- КНОПКА ВЫХОДА, ВИДНА ТОЛЬКО ЗАРЕГИСТРИРОВАННЫМ -->
+        <div class="flex flex-col gap-3 w-4/5 mx-auto mb-6">
+            <button id="logoutBtn"
+                class="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-red-700 transition w-full">
+                ВЫЙТИ ИЗ АККАУНТА
+            </button>
+        </div>
+        
         <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
             
             <button id="uploadBtn"
@@ -317,6 +326,7 @@
         createUserWithEmailAndPassword,
         GoogleAuthProvider,
         signInWithPopup,
+        signOut, // Импортируем функцию выхода
         onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
@@ -376,7 +386,7 @@
     initializeAuth();
 
     // =======================================================
-    // REGISTRATION FUNCTIONS
+    // REGISTRATION AND LOGOUT FUNCTIONS
     // =======================================================
 
     async function handleEmailRegistration(e) {
@@ -431,6 +441,17 @@
             console.error("Google sign-in error:", error.code, error.message);
         }
     }
+    
+    async function handleLogout() {
+        try {
+            await signOut(auth);
+            // После signOut onAuthStateChanged обновит UI для состояния "Гость"
+            showToast("Вы успешно вышли из аккаунта.");
+        } catch (error) {
+            console.error("Logout error:", error.message);
+            showToast("Ошибка при выходе.");
+        }
+    }
 
     // =======================================================
     // EXISTING SCRIPT LOGIC BELOW
@@ -469,13 +490,14 @@
 
     const globalLoader = document.getElementById('globalLoader');
 
-    // ПЕРЕМЕННЫЕ ДЛЯ РЕГИСТРАЦИИ (обновлены для новой HTML-структуры)
+    // ПЕРЕМЕННЫЕ ДЛЯ РЕГИСТРАЦИИ/АУТЕНТИФИКАЦИИ
     const registrationModal = document.getElementById('registrationModal');
     const openRegisterModalBtn = document.getElementById('openRegisterModalBtn');
     const closeRegisterModal = document.getElementById('closeRegisterModal');
     const registerEmailBtn = document.getElementById('registerEmailBtn');
     const registerGoogleBtn = document.getElementById('registerGoogleBtn');
     const registrationFormElement = document.getElementById('registrationFormElement');
+    const logoutBtn = document.getElementById('logoutBtn');
     
     const unauthenticatedMessage = document.getElementById('unauthenticatedMessage');
     const uploadFunctionality = document.getElementById('uploadFunctionality');
@@ -625,9 +647,10 @@
         });
     }
     
-    // Подключение функций регистрации
+    // Подключение функций регистрации и выхода
     registrationFormElement.addEventListener('submit', handleEmailRegistration);
     registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
+    logoutBtn.addEventListener('click', handleLogout);
     // КОНЕЦ НОВЫХ ОБРАБОТЧИКОВ
 
     async function loadPlaylistFromUrl(url, loadingElement, buttonElement) {
