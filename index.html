@@ -276,7 +276,7 @@
       
       <p class="text-center text-xs text-gray-600">
         Уже есть аккаунт? 
-        <a href="#" class="text-black font-semibold hover:text-gray-700 transition">Войти</a>
+        <a href="#" id="loginLink" class="text-black font-semibold hover:text-gray-700 transition">Войти</a>
       </p>
 
       <button id="closeRegisterModal"
@@ -324,9 +324,10 @@
         signInAnonymously, 
         signInWithCustomToken, 
         createUserWithEmailAndPassword,
+        signInWithEmailAndPassword, // Импортируем функцию для входа
         GoogleAuthProvider,
         signInWithPopup,
-        signOut, // Импортируем функцию выхода
+        signOut,
         onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
@@ -359,7 +360,6 @@
             }
         } catch (error) {
             console.error("Auth initialization failed:", error.message);
-            // УДАЛЯЕМ showToast("Ошибка авторизации. Попробуйте перезагрузить страницу.");
         }
     }
 
@@ -380,6 +380,7 @@
             unauthenticatedMessage.classList.add('hidden');
             authButtonContainer.classList.add('hidden');
             uploadFunctionality.classList.remove('hidden');
+            userId = user.uid; // Обновляем ID пользователя
         }
     });
 
@@ -388,7 +389,32 @@
     // =======================================================
     // REGISTRATION AND LOGOUT FUNCTIONS
     // =======================================================
+    
+    // Новая функция для обработки входа по Email/Паролю
+    async function handleEmailSignIn(email, password) {
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            showToast("Вход успешен! Добро пожаловать.");
+            registrationModal.classList.add('hidden');
+            return true;
+        } catch (error) {
+            let errorMessage = "Ошибка входа. Неверный Email или пароль.";
+            if (error.code === 'auth/user-not-found') {
+                errorMessage = "Пользователь с таким Email не найден.";
+            } else if (error.code === 'auth/wrong-password') {
+                errorMessage = "Неверный пароль.";
+            } else if (error.code === 'auth/invalid-email') {
+                errorMessage = "Неверный формат Email.";
+            } else {
+                errorMessage = `Ошибка: ${error.message}`;
+            }
+            showToast(errorMessage);
+            console.error("Email sign-in error:", error.code, error.message);
+            return false;
+        }
+    }
 
+    // Обновленная функция для регистрации/входа
     async function handleEmailRegistration(e) {
         e.preventDefault();
         const email = document.getElementById('reg-email').value;
@@ -400,26 +426,30 @@
         }
 
         try {
+            // Попытка регистрации нового пользователя
             await createUserWithEmailAndPassword(auth, email, password);
             showToast("Регистрация успешна! Вы вошли в систему.");
             registrationModal.classList.add('hidden');
         } catch (error) {
-            let errorMessage = "Ошибка регистрации.";
-            switch (error.code) {
-                case 'auth/email-already-in-use':
-                    errorMessage = "Этот Email уже используется. Попробуйте войти.";
-                    break;
-                case 'auth/invalid-email':
-                    errorMessage = "Неверный формат Email.";
-                    break;
-                case 'auth/weak-password':
-                    errorMessage = "Пароль должен быть не менее 6 символов.";
-                    break;
-                default:
-                    errorMessage = `Ошибка: ${error.message}`;
+            // Если Email уже используется, пробуем войти
+            if (error.code === 'auth/email-already-in-use') {
+                showToast("Email уже зарегистрирован. Попытка входа...");
+                await handleEmailSignIn(email, password);
+            } else {
+                let errorMessage = "Ошибка регистрации.";
+                switch (error.code) {
+                    case 'auth/invalid-email':
+                        errorMessage = "Неверный формат Email.";
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = "Пароль должен быть не менее 6 символов.";
+                        break;
+                    default:
+                        errorMessage = `Ошибка: ${error.message}`;
+                }
+                showToast(errorMessage);
+                console.error("Email registration error:", error.code, error.message);
             }
-            showToast(errorMessage);
-            console.error("Email registration error:", error.code, error.message);
         }
     }
 
@@ -498,6 +528,7 @@
     const registerGoogleBtn = document.getElementById('registerGoogleBtn');
     const registrationFormElement = document.getElementById('registrationFormElement');
     const logoutBtn = document.getElementById('logoutBtn');
+    const loginLink = document.getElementById('loginLink'); // Получаем ссылку "Войти"
     
     const unauthenticatedMessage = document.getElementById('unauthenticatedMessage');
     const uploadFunctionality = document.getElementById('uploadFunctionality');
@@ -577,7 +608,7 @@
             toastNotification.classList.add('bg-green-600'); 
         } else {
             toastNotification.textContent = message;
-            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Email') || message.includes('Пароль')) {
+            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Email') || message.includes('Пароль') || message.includes('Неверный')) {
                  toastNotification.classList.add('bg-red-600'); 
             } else {
                  toastNotification.classList.add('bg-green-600');
@@ -647,7 +678,23 @@
         });
     }
     
+    // Добавляем обработчик для ссылки "Войти"
+    if (loginLink) {
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Вместо регистрации, сразу вызываем вход, используя данные из формы
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            if (email && password) {
+                handleEmailSignIn(email, password);
+            } else {
+                showToast("Пожалуйста, введите Email и пароль для входа.");
+            }
+        });
+    }
+
     // Подключение функций регистрации и выхода
+    // При сабмите формы мы теперь используем универсальную функцию, которая пробует Регистрацию -> Вход
     registrationFormElement.addEventListener('submit', handleEmailRegistration);
     registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
     logoutBtn.addEventListener('click', handleLogout);
