@@ -33,7 +33,7 @@
     }
     /* КОНЕЦ НОВОГО CSS */
 
-    /* НОВЫЕ СТИЛЫ ДЛЯ БЛОКА "КАК ЭТО РАБОТАЕТ" */
+    /* НОВЫЕ СТИЛИ ДЛЯ БЛОКА "КАК ЭТО РАБОТАЕТ" */
     @keyframes step-fade-in {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -272,6 +272,19 @@
         width: 1.5rem; /* h-6 */
         height: 1.5rem; /* w-6 */
         object-fit: contain;
+    }
+
+    /* СТИЛИ ДЛЯ КВАДРАТНОГО МОДАЛЬНОГО ОКНА РЕГИСТРАЦИИ */
+    .square-modal-content {
+        aspect-ratio: 1 / 1; /* Делаем окно квадратным */
+        max-width: 400px;
+        width: 90%;
+        padding: 1.5rem;
+        position: relative; /* Для позиционирования кнопки закрытия */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Центрируем контент */
+        align-items: center;
     }
 
   </style>
@@ -764,17 +777,24 @@
 
   <div id="registrationModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
-    <div class="bg-white rounded-3xl p-4 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+    <div class="bg-white rounded-3xl shadow-xl animate-fade-in text-center text-black square-modal-content">
       
+      <button id="closeRegisterModal"
+        class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition p-1 rounded-full hover:bg-gray-100">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
       <h2 class="text-2xl font-extrabold text-center mb-4 text-gray-800">
-        Добро пожаловать! 🎶
+        Добро пожаловать!
       </h2>
-      <p class="text-center text-gray-600 mb-4 text-sm">
+      <p class="text-center text-gray-600 mb-8 text-sm">
         Создайте свой аккаунт, чтобы сохранять плейлисты.
       </p>
 
       <button id="registerGoogleBtn"
-        class="w-full flex items-center justify-center bg-white border border-gray-300 text-gray-700 text-base font-medium px-4 py-2 rounded-xl shadow-sm hover:bg-gray-100 transition mb-3">
+        class="w-full flex items-center justify-center bg-white border border-gray-300 text-gray-700 text-base font-medium px-4 py-3 rounded-xl shadow-sm hover:bg-gray-100 transition mb-3">
         <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12.0003 4.75C14.7173 4.75 16.9833 5.772 18.6673 7.359L20.5903 5.487C18.3143 3.498 15.3623 2.25 12.0003 2.25C8.01332 2.25 4.54932 4.53 2.87132 7.824L5.87532 10.125C6.73632 7.787 9.12632 6.25 12.0003 6.25C13.8823 6.25 15.6173 6.942 16.9803 8.167L19.4583 6.135C18.0493 4.904 16.1433 4.25 14.2503 4.25H12.0003V4.75Z" fill="#EA4335"/>
           <path d="M12.0003 17.75C13.2133 17.75 14.3723 17.419 15.3853 16.829L18.3903 19.13C16.6383 20.375 14.3763 21 12.0003 21C7.81732 21 4.28832 18.577 2.50232 15.111L5.53732 12.83C6.34732 15.309 9.07332 17 12.0003 17V17.75Z" fill="#34A853"/>
@@ -784,46 +804,7 @@
         Войти через Google
       </button>
       
-      <div class="flex items-center my-4">
-        <div class="flex-grow border-t border-gray-300"></div>
-        <span class="flex-shrink mx-4 text-gray-500 text-sm">или</span>
-        <div class="flex-grow border-t border-gray-300"></div>
       </div>
-
-      <form id="registrationFormElement">
-        <div class="mb-3">
-          <label for="reg-email" class="block text-xs font-medium text-gray-700 mb-1 text-left">
-            Email
-          </label>
-          <input type="email" id="reg-email" placeholder="example@mail.com" required
-            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-base shadow-inner">
-        </div>
-
-        <div class="mb-4">
-          <label for="reg-password" class="block text-xs font-medium text-gray-700 mb-1 text-left">
-            Пароль
-          </label>
-          <input type="password" id="reg-password" placeholder="Придумайте пароль" required
-            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-base shadow-inner">
-        </div>
-
-        <button type="submit" id="registerEmailBtn"
-          class="w-full bg-black text-white text-base font-semibold px-6 py-2 rounded-xl shadow-lg hover:bg-gray-900 transition mb-3">
-          ЗАРЕГИСТРИРОВАТЬСЯ
-        </button>
-      </form>
-      
-      <p class="text-center text-xs text-gray-600">
-        Уже есть аккаунт? 
-        <a href="#" id="loginLink" class="text-black font-semibold hover:text-gray-700 transition">Войти</a>
-      </p>
-
-      <button id="closeRegisterModal"
-        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition mt-3">
-        ОТМЕНА
-      </button>
-
-    </div>
   </div>
   <div id="saveModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
@@ -971,68 +952,22 @@
     // REGISTRATION AND LOGOUT FUNCTIONS
     // =======================================================
     
-    // Новая функция для обработки входа по Email/Паролю
+    // УДАЛЕНА handleEmailSignIn
     async function handleEmailSignIn(email, password) {
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            showToast("Вход успешен! Добро пожаловать.");
-            registrationModal.classList.add('hidden');
-            return true;
-        } catch (error) {
-            let errorMessage = "Ошибка входа. Неверный Email или пароль.";
-            if (error.code === 'auth/user-not-found') {
-                errorMessage = "Пользователь с таким Email не найден.";
-            } else if (error.code === 'auth/wrong-password') {
-                errorMessage = "Неверный пароль.";
-            } else if (error.code === 'auth/invalid-email') {
-                errorMessage = "Неверный формат Email.";
-            } else {
-                errorMessage = `Ошибка: ${error.message}`;
-            }
-            showToast(errorMessage);
-            console.error("Email sign-in error:", error.code, error.message);
-            return false;
-        }
+        // Логика удалена, оставил заглушку для совместимости с кодом
+        console.warn("Email sign-in is disabled. Use Google sign-in.");
+        showToast("Вход по Email/Паролю отключен. Используйте Google.");
+        return false;
     }
 
-    // Обновленная функция для регистрации/входа
+    // УДАЛЕНА handleEmailRegistration
     async function handleEmailRegistration(e) {
         e.preventDefault();
-        const email = document.getElementById('reg-email').value;
-        const password = document.getElementById('reg-password').value;
-        
-        if (!email || !password) {
-            showToast("Пожалуйста, заполните все поля.");
-            return;
-        }
-
-        try {
-            // Попытка регистрации нового пользователя
-            await createUserWithEmailAndPassword(auth, email, password);
-            showToast("Регистрация успешна! Вы вошли в систему.");
-            registrationModal.classList.add('hidden');
-        } catch (error) {
-            // Если Email уже используется, пробуем войти
-            if (error.code === 'auth/email-already-in-use') {
-                showToast("Email уже зарегистрирован. Попытка входа...");
-                await handleEmailSignIn(email, password);
-            } else {
-                let errorMessage = "Ошибка регистрации.";
-                switch (error.code) {
-                    case 'auth/invalid-email':
-                        errorMessage = "Неверный формат Email.";
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage = "Пароль должен быть не менее 6 символов.";
-                        break;
-                    default:
-                        errorMessage = `Ошибка: ${error.message}`;
-                }
-                showToast(errorMessage);
-                console.error("Email registration error:", error.code, error.message);
-            }
-        }
+        // Логика удалена, оставил заглушку для совместимости с кодом
+        console.warn("Email registration is disabled. Use Google sign-in.");
+        showToast("Регистрация по Email/Паролю отключена. Используйте Google.");
     }
+
 
     async function handleGoogleRegistration() {
         const provider = new GoogleAuthProvider();
@@ -1106,7 +1041,7 @@
     // Используем новую кнопку в шапке
     const openRegisterModalBtnHeader = document.getElementById('openRegisterModalBtnHeader'); 
     const openRegisterModalBtn = openRegisterModalBtnHeader; // Переназначаем, чтобы не менять все обработчики
-    const closeRegisterModal = document.getElementById('closeRegisterModal');
+    // const closeRegisterModal = document.getElementById('closeRegisterModal'); // УДАЛЕНО
     const registerEmailBtn = document.getElementById('registerEmailBtn');
     const registerGoogleBtn = document.getElementById('registerGoogleBtn');
     const registrationFormElement = document.getElementById('registrationFormElement');
@@ -1138,6 +1073,9 @@
     const knowledgeBaseLink = document.getElementById('knowledgeBaseLink'); // Ссылка на Базу знаний
     const freePlaylistsLink = document.getElementById('freePlaylistsLink'); // Ссылка на Бесплатные плейлисты
     // КОНЕЦ НОВЫХ ПЕРЕМЕННЫХ
+    
+    // НОВАЯ ПЕРЕМЕННАЯ ДЛЯ КРЕСТИКА
+    const closeRegisterModalIcon = document.getElementById('closeRegisterModal');
 
     let originalLines = [];
     let channels = [];
@@ -1329,29 +1267,30 @@
         });
     }
 
-    if (closeRegisterModal) {
-        closeRegisterModal.addEventListener('click', () => {
+    if (closeRegisterModalIcon) {
+        closeRegisterModalIcon.addEventListener('click', () => {
             registrationModal.classList.add('hidden');
         });
     }
     
-    // Добавляем обработчик для ссылки "Войти"
+    // Добавляем обработчик для ссылки "Войти" (Теперь он просто показывает модальное окно Google)
     if (loginLink) {
         loginLink.addEventListener('click', (e) => {
             e.preventDefault();
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            if (email && password) {
-                handleEmailSignIn(email, password);
-            } else {
-                showToast("Пожалуйста, введите Email и пароль для входа.");
-            }
+            handleGoogleRegistration(); // Перенаправляем на Google
         });
     }
 
     // Подключение функций регистрации и выхода
-    registrationFormElement.addEventListener('submit', handleEmailRegistration);
-    registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
+    // Заглушки, так как формы по Email нет
+    if (registrationFormElement) {
+        registrationFormElement.addEventListener('submit', handleEmailRegistration);
+    }
+    
+    if (registerGoogleBtn) {
+        registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
+    }
+    
     document.getElementById('logoutBtn').addEventListener('click', handleLogout); 
     
     // НОВЫЙ ОБРАБОТЧИК: Кнопка Регистрация в таблице
