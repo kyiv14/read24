@@ -98,6 +98,11 @@
       </a>
 
       <div class="flex items-center">
+        <button id="openRegisterModalBtnHeader" 
+            class="bg-black text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-gray-900 transition">
+            ВОЙТИ / РЕГИСТРАЦИЯ
+        </button>
+
         <button id="logoutBtn"
           class="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-red-700 transition hidden">
           ВЫЙТИ
@@ -107,17 +112,8 @@
   </header>
   <div id="mainScreen" class="text-center w-full max-w-md"> 
     
-    <div id="unauthenticatedMessage" class="w-full max-w-xs mx-auto mb-8">
-        <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Добро пожаловать!</h2>
-        <p class="text-gray-600 mb-8">Чтобы получить доступ к редактору и сохранять плейлисты, пожалуйста, войдите или зарегистрируйтесь.</p>
-    </div>
-
-    <div id="authButtonContainer" class="flex flex-col gap-3 w-4/5 mx-auto mb-8">
-        <button id="openRegisterModalBtn"
-            class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full">
-            ВОЙТИ / РЕГИСТРАЦИЯ
-        </button>
-    </div>
+    <div id="unauthenticatedMessage" class="hidden"></div>
+    <div id="authButtonContainer" class="hidden"></div>
 
     <input type="file" id="fileInput" accept="*/*" class="hidden">
 
@@ -395,23 +391,30 @@
         
         // 1. Скрываем/показываем контейнеры
         if (!isAuthenticated) {
-            // Пользователь не вошел или гость: показываем экран входа
-            unauthenticatedMessage.classList.remove('hidden');
-            authButtonContainer.classList.remove('hidden');
-            uploadFunctionality.classList.add('hidden');
+            // Гость:
+            // Скрываем все лишнее
+            unauthenticatedMessage.classList.add('hidden'); 
+            authButtonContainer.classList.add('hidden');
             editorScreen.classList.add('hidden');
+            // Показываем главный экран, но без функционала загрузки
             mainScreen.classList.remove('hidden');
+            uploadFunctionality.classList.add('hidden'); // УБРАНО
+            
+            // Управление кнопками в шапке
+            openRegisterModalBtn.classList.remove('hidden'); // Показываем "ВОЙТИ / РЕГИСТРАЦИЯ"
             logoutBtn.classList.add('hidden');
             userId = 'guest';
         } else {
-            // Пользователь вошел: СРАЗУ ПОКАЗЫВАЕМ ЭКРАН РЕДАКТОРА
-            unauthenticatedMessage.classList.add('hidden');
-            authButtonContainer.classList.add('hidden');
-            uploadFunctionality.classList.add('hidden'); // Скрываем формы загрузки
+            // Пользователь вошел:
+            // Скрываем главный экран и все его компоненты
             mainScreen.classList.add('hidden'); 
-            editorScreen.classList.remove('hidden'); // Показываем редактор
-            logoutBtn.classList.remove('hidden');
-            userId = user.uid; // Обновляем ID пользователя
+            // Показываем редактор
+            editorScreen.classList.remove('hidden');
+            
+            // Управление кнопками в шапке
+            openRegisterModalBtn.classList.add('hidden'); // Скрываем "ВОЙТИ / РЕГИСТРАЦИЯ"
+            logoutBtn.classList.remove('hidden'); // Показываем "ВЫЙТИ"
+            userId = user.uid; 
         }
     });
 
@@ -553,7 +556,9 @@
 
     // ПЕРЕМЕННЫЕ ДЛЯ РЕГИСТРАЦИИ/АУТЕНТИФИКАЦИИ
     const registrationModal = document.getElementById('registrationModal');
-    const openRegisterModalBtn = document.getElementById('openRegisterModalBtn');
+    // Используем новую кнопку в шапке
+    const openRegisterModalBtnHeader = document.getElementById('openRegisterModalBtnHeader'); 
+    const openRegisterModalBtn = openRegisterModalBtnHeader; // Переназначаем, чтобы не менять все обработчики
     const closeRegisterModal = document.getElementById('closeRegisterModal');
     const registerEmailBtn = document.getElementById('registerEmailBtn');
     const registerGoogleBtn = document.getElementById('registerGoogleBtn');
@@ -662,10 +667,7 @@
     // ===============================
     // ОБРАБОТЧИКИ СОБЫТИЙ
     // =======================================================
-    uploadBtn.addEventListener('click', () => {
-        // Мы уже на mainScreen, просто вызываем fileInput
-        fileInput.click();
-    });
+    // uploadBtn.addEventListener('click', ...); - удален
 
     // Обработчик fileInput остается прежним
     fileInput.addEventListener('change', () => {
@@ -687,10 +689,7 @@
       }, 50);
     });
 
-    loadUrlBtn.addEventListener('click', async () => {
-      const url = urlInput.value.trim();
-      await loadPlaylistFromUrl(url, loading, loadUrlBtn);
-    });
+    // loadUrlBtn.addEventListener('click', ...); - удален
     
     openUploadModalBtn.addEventListener('click', () => {
         // Открываем модальное окно для загрузки из редактора
