@@ -851,7 +851,7 @@
           </button>
       </div>
 
-      <div class="mb-4">
+      <div id="formatSelectContainer" class="mb-4">
         <label for="formatSelect" class="text-sm font-bold text-gray-800 block mb-2 text-left">Формат скачивания:</label>
         <select id="formatSelect"
             class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
@@ -860,6 +860,11 @@
             <option value="txt">TXT (всё содержимое)</option>
         </select>
       </div>
+      
+      <p id="guestFormatMessage" class="mb-4 text-sm font-bold text-gray-800 hidden text-left">
+         Формат скачивания для неавторизованных: **M3U (стандартный)**
+      </p>
+
       <button id="downloadBtn"
         class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
         СКАЧАТЬ ЛОКАЛЬНО
@@ -1102,6 +1107,11 @@
     const dynamicPlaylistLink = document.getElementById('dynamicPlaylistLink');
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const shortLinkLoader = document.getElementById('shortLinkLoader');
+    
+    // Элементы для выбора формата
+    const formatSelectContainer = document.getElementById('formatSelectContainer');
+    const guestFormatMessage = document.getElementById('guestFormatMessage');
+
 
     // НОВЫЕ ПЕРЕМЕННЫЕ
     const heroBlock = document.getElementById('heroBlock'); 
@@ -1994,7 +2004,7 @@
           let extgrp = '';
           let urlIndex = i + 1;
           while (urlIndex < originalLines.length) {
-            const nextLine = lines[urlIndex].trim(); // ИСПРАВЛЕНО: было lines[urlIndex].trim()
+            const nextLine = originalLines[urlIndex].trim(); // ИСПРАВЛЕНО: было lines[urlIndex].trim()
             if (nextLine.startsWith('#EXTGRP:')) {
               if (category === 'Без категории' || category === '') {
                 category = nextLine.substring(8).trim();
@@ -2159,7 +2169,7 @@
     }
 
     // =======================================================
-    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ПЕРЕНЕСЕНО В ОТДЕЛЬНУЮ ФУНКЦИЮ)
+    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ОБНОВЛЕНО ДЛЯ TXT)
     // =======================================================
     function generatePlaylistContent(format) {
         const includedChannels = channels.filter(entry => {
@@ -2174,10 +2184,9 @@
             return !isNormalCategoryExcluded;
         });
         
-        // 1. Для TXT теперь возвращаем все содержимое
-        // 2. Для M3U и M3U8 возвращаем то же самое, но с заголовком #EXTM3U
-        
         let modifiedLines = [];
+        
+        // Добавляем заголовок #EXTM3U, если это не TXT
         if (format !== 'txt') {
              modifiedLines.push(`#EXTM3U`);
         }
@@ -2193,13 +2202,17 @@
             favoriteChannels.forEach(entry => {
                 let favExtinf = entry.extinf;
                 
+                // Форматирование EXTINF для избранного, если это не TXT
                 if (format !== 'txt') {
-                    // Форматирование EXTINF для избранного, если это не TXT
                     favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
                     if (!favExtinf.includes('group-title=')) {
                         favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
                     }
                     modifiedLines.push(favExtinf);
+                } else {
+                     // Для TXT просто добавляем оригинальные теги
+                     if (entry.extinf) modifiedLines.push(entry.extinf);
+                     if (entry.extgrp) modifiedLines.push(entry.extgrp);
                 }
                 
                 modifiedLines.push(entry.url);
@@ -2207,6 +2220,9 @@
             
             if (format !== 'txt') {
                 modifiedLines.push('');
+            } else {
+                // Если TXT, добавляем разделитель после группы избранного (если она есть)
+                if (favoriteChannels.length > 0) modifiedLines.push('');
             }
         }
         
@@ -2224,23 +2240,48 @@
         const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
         
         sortedCategories.forEach(cat => {
-            if (cat !== 'Без категории' && format !== 'txt') {
-               modifiedLines.push(`#EXTGRP:${cat}`);
+            // Добавляем EXTGRP
+            if (cat !== 'Без категории') {
+                // Если это не TXT, используем EXTGRP для группировки
+                if (format !== 'txt') {
+                    modifiedLines.push(`#EXTGRP:${cat}`);
+                } else {
+                     // Для TXT добавляем EXTGRP (если он не был в самом EXTINF)
+                     // Примечание: Для TXT мы добавляем EXTGRP только для категории.
+                     modifiedLines.push(`#EXTGRP:${cat}`);
+                }
             }
 
             groupedChannels[cat].forEach(entry => {
-                if (format !== 'txt') {
+                // Добавляем EXTINF
+                if (entry.extinf) {
                     modifiedLines.push(entry.extinf);
-                    if (entry.extgrp) {
-                        modifiedLines.push(entry.extgrp);
-                    }
                 }
+                // Для TXT добавляем EXTGRP (если он был в оригинале и не был добавлен выше)
+                if (format === 'txt' && entry.extgrp && cat === 'Без категории') {
+                    // Если у канала есть extgrp, но он в 'Без категории', мы его добавляем.
+                    modifiedLines.push(entry.extgrp);
+                }
+                
+                // Добавляем URL
                 modifiedLines.push(entry.url);
             });
+            
+            // Добавляем пустую строку после категории (только если это не самый конец)
+            // (Простой способ избежать двойной пустой строки в конце)
+             if (format !== 'txt' || cat !== sortedCategories[sortedCategories.length - 1]) {
+                 modifiedLines.push('');
+             }
         });
+        
+        // Удаляем последнюю пустую строку, если она есть
+        if (modifiedLines.length > 0 && modifiedLines[modifiedLines.length - 1] === '') {
+            modifiedLines.pop();
+        }
         
         return modifiedLines.join('\n');
     }
+
 
     // =======================================================
     // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ (АСИНХРОННЫЙ)
@@ -2257,9 +2298,11 @@
       // 2. УПРАВЛЕНИЕ ДЛЯ ГОСТЯ
       if (isAnonymousUser) {
           finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
-          // Скрываем контейнер динамической ссылки и сразу показываем модалку для локального скачивания
+          // Скрываем контейнер динамической ссылки и выбор формата
           document.getElementById('dynamicLinkContainer').classList.add('hidden');
-          document.getElementById('formatSelect').value = 'm3u'; // Сброс формата
+          formatSelectContainer.classList.add('hidden');
+          guestFormatMessage.classList.remove('hidden'); // Показываем сообщение о формате M3U
+          
           saveModal.classList.remove('hidden');
           return;
       }
@@ -2268,7 +2311,11 @@
       const persistentUserId = userId; 
       const longDynamicLink = `https://read24.netlify.app/api/playlist/${persistentUserId}/latest.m3u`;
       
+      // Показываем элементы для авторизованного пользователя
       document.getElementById('dynamicLinkContainer').classList.remove('hidden');
+      formatSelectContainer.classList.remove('hidden');
+      guestFormatMessage.classList.add('hidden');
+      
       finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
       dynamicPlaylistLink.value = "Сокращаю ссылку...";
       shortLinkLoader.classList.remove('hidden');
@@ -2291,7 +2338,8 @@
     // =======================================================
     downloadBtn.addEventListener('click', () => {
         
-      const selectedFormat = formatSelect.value;
+      // Гость скачивает только в M3U, авторизованный выбирает
+      const selectedFormat = isAnonymousUser ? 'm3u' : formatSelect.value;
       const contentToDownload = generatePlaylistContent(selectedFormat);
 
       // Определение MIME-типа и расширения файла
