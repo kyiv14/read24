@@ -257,6 +257,15 @@
         max-height: 300px; /* Достаточно для плавного открытия */
         padding-bottom: 1rem;
     }
+    
+    /* Стили для Базы знаний */
+    .article-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .article-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 25px -5px rgba(239, 68, 68, 0.15); /* red-500 shadow */
+    }
 
   </style>
 </head>
@@ -275,7 +284,9 @@
         <a href="#howItWorksBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Как редактировать</a>
         <a href="#comparisonBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Сравнение</a>
         <a href="#faqBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Частые вопросы</a>
-      </nav>
+        <a href="/free-playlists" id="freePlaylistsLink" class="menu-link text-gray-600 hover:text-red-600 transition">Бесплатные плейлисты</a>
+        <a href="#knowledgeBaseBlock" id="knowledgeBaseLink" class="menu-link text-gray-600 hover:text-red-600 transition">База знаний</a>
+        </nav>
 
       <div class="flex items-center space-x-4 auth-container flex-shrink-0">
         
@@ -297,6 +308,7 @@
       </div>
     </div>
   </header>
+  
   <div id="mainScreen" class="text-center w-full max-w-6xl"> 
     
     <div id="heroBlock" class="animate-fade-in mb-8 w-full max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[calc(100vh-60px)]"> 
@@ -316,6 +328,7 @@
             Попробовать
         </button>
     </div>
+    
     <div id="whyUsBlock" class="w-full max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-[calc(100vh-60px)]">
         <span class="text-red-600 font-bold text-sm uppercase tracking-wider block mb-2">ПОЧЕМУ МЫ?</span>
         <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-800 mb-10">
@@ -407,6 +420,7 @@
                 </div>
         </div>
     </div>
+    
     <div id="comparisonBlock" class="w-full max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-[calc(100vh-60px)] bg-gray-50">
         <span class="text-red-600 font-bold text-sm uppercase tracking-wider block mb-2">ВЫБЕРИТЕ СВОЙ ПУТЬ</span>
         <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-800 mb-10">
@@ -449,7 +463,9 @@
 
             <div class="comparison-card border-red-600">
                 <h3 class="text-2xl font-bold text-red-600 mb-2 text-left">С регистрацией</h3>
-                <p class="text-sm text-gray-500 mb-6 text-left">Полный доступ ко всем функциям и облаку.</p> <div class="flex-grow">
+                <p class="text-sm text-gray-500 mb-6 text-left">Полный доступ ко всем функциям и облаку.</p>
+
+                <div class="flex-grow">
                     <div class="comparison-feature">
                         <span>Единоразовое редактирование плейлиста</span>
                         <span class="text-green-600 font-extrabold text-xl">✔</span>
@@ -482,6 +498,7 @@
             Для получения максимального удобства и доступа ко всем продвинутым функциям редактирования плейлистов, рекомендуем пройти **"быструю регистрацию"**.
         </p>
     </div>
+    
     <div id="faqBlock" class="w-full max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-[calc(100vh-60px)]">
         <span class="text-red-600 font-bold text-sm uppercase tracking-wider block mb-2">СПРОСИТЕ НАС</span>
         <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-800 mb-10">
@@ -566,6 +583,77 @@
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <div id="knowledgeBaseBlock" class="w-full max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center min-h-[calc(100vh-60px)]">
+        <span class="text-red-600 font-bold text-sm uppercase tracking-wider block mb-2">ПОЛЕЗНАЯ ИНФОРМАЦИЯ</span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-800 mb-10">
+            База знаний IPTV и Плейлистов
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl text-left">
+            
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Что такое IPTV и как оно работает?</h3>
+                <p class="text-gray-600 text-sm">Подробное объяснение технологии Internet Protocol Television, ее преимуществ перед кабельным ТВ и принципов работы.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#IPTV_База</span>
+            </a>
+
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Форматы плейлистов M3U и M3U8: различия и использование.</h3>
+                <p class="text-gray-600 text-sm">Разбор двух наиболее популярных форматов плейлистов, включая их структуру и расширения, такие как #EXTINF.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#M3U_Гайд</span>
+            </a>
+
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Как выбрать лучший IPTV-плеер для вашего устройства.</h3>
+                <p class="text-gray-600 text-sm">Обзор и сравнение популярных приложений для Smart TV, Android, iOS и ПК, поддерживающих плейлисты M3U.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#Плееры_Обзор</span>
+            </a>
+
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Решение проблем: почему плейлист не загружается или каналы не работают.</h3>
+                <p class="text-gray-600 text-sm">Пошаговое руководство по диагностике и исправлению распространенных ошибок, связанных с нерабочими ссылками и блокировками.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#Troubleshooting</span>
+            </a>
+
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Структура IPTV плейлиста: #EXTINF и атрибуты group-title.</h3>
+                <p class="text-gray-600 text-sm">Углубленное изучение обязательных и необязательных тегов в плейлисте, влияющих на сортировку и отображение категорий.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#EXTINF_Секреты</span>
+            </a>
+
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Как объединить плейлисты из разных источников в один.</h3>
+                <p class="text-gray-600 text-sm">Практический гайд по консолидации нескольких M3U файлов для создания единой, упорядоченной медиатеки.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#Слияние_Гайд</span>
+            </a>
+            
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Что такое динамическая ссылка на плейлист и почему она удобна.</h3>
+                <p class="text-gray-600 text-sm">Объяснение преимущества постоянного URL, который автоматически обновляется при редактировании плейлиста на сервере.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#Динамика</span>
+            </a>
+            
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Синхронизация IPTV на разных устройствах: пошаговая инструкция.</h3>
+                <p class="text-gray-600 text-sm">Как обеспечить бесшовный просмотр любимых каналов и настроек на телефоне, планшете и Smart TV.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#Синхронизация</span>
+            </a>
+
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Как удалять дубликаты каналов в плейлисте и зачем это нужно.</h3>
+                <p class="text-gray-600 text-sm">Советы по очистке плейлиста от повторяющихся ссылок для повышения стабильности и удобства использования.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#Очистка_Дубликатов</span>
+            </a>
+            
+            <a href="#" class="article-card block bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 hover:text-red-600 transition">Облачное хранение плейлистов: преимущества и безопасность.</h3>
+                <p class="text-gray-600 text-sm">Почему хранить плейлисты онлайн удобнее, чем локально, и как обеспечить безопасность ваших данных.</p>
+                <span class="text-xs text-red-500 font-semibold mt-3 block">#Облако_Безопасность</span>
+            </a>
+            
         </div>
     </div>
     <div id="unauthenticatedMessage" class="hidden"></div>
@@ -855,6 +943,8 @@
             if (faqBlock) { 
                  faqBlock.classList.remove('hidden');
             }
+            //knowledgeBaseBlock.classList.remove('hidden'); // УДАЛЕНО: База знаний теперь видима по умолчанию
+            
         } else {
             // Пользователь вошел:
             // Скрываем главный экран и все его компоненты
@@ -1030,6 +1120,7 @@
     const howItWorksBlock = document.getElementById('howItWorksBlock'); 
     const comparisonBlock = document.getElementById('comparisonBlock');
     const faqBlock = document.getElementById('faqBlock');
+    const knowledgeBaseBlock = document.getElementById('knowledgeBaseBlock'); // Новый блок
     const goToWhyUsBtn = document.getElementById('goToWhyUsBtn'); 
     const startEditingBtn = document.getElementById('startEditingBtn'); 
     const registerNowBtn = document.getElementById('registerNowBtn'); 
@@ -1038,6 +1129,8 @@
     const dynamicTitlePart = document.getElementById('dynamicTitlePart');
     const menuButton = document.getElementById('menuButton'); // Кнопка гамбургера
     const siteMenu = document.getElementById('siteMenu'); // Мобильное меню
+    const knowledgeBaseLink = document.getElementById('knowledgeBaseLink'); // Ссылка на Базу знаний
+    const freePlaylistsLink = document.getElementById('freePlaylistsLink'); // Ссылка на Бесплатные плейлисты
     // КОНЕЦ НОВЫХ ПЕРЕМЕННЫХ
 
     let originalLines = [];
@@ -1299,6 +1392,17 @@
         });
     }
 
+    // УДАЛЕНА ЛОГИКА showKnowledgeBase, теперь это просто прокрутка по якорю.
+    
+    // Обработчик для "Бесплатные плейлисты" (пока просто прокручивает наверх, так как блока нет)
+    if (freePlaylistsLink) {
+        freePlaylistsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Здесь может быть переход на отдельную страницу или открытие модального окна
+            console.log("Клик по 'Бесплатные плейлисты'.");
+        });
+    }
+    
     // ОБРАБОТЧИКИ КНОПОК НА ГЛАВНОЙ СТРАНИЦЕ (без действия)
     if (goToWhyUsBtn) {
         goToWhyUsBtn.addEventListener('click', (e) => {
@@ -1346,7 +1450,7 @@
             }
 
             const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-            const response = await fetch(proxyUrl);
+            const response = await fetch(proxy.Url);
             
             if (!response.ok) {
                 throw new Error(`Ошибка HTTP: ${response.status}`);
