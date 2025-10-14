@@ -1,1321 +1,1009 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Редактировать Плейлист</title>
-  <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Добавляем стили для прокрутки категорий */
-    #categoryFilter {
-      max-height: 200px;
-      overflow-y: auto;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.75rem; /* rounded-xl */
-      padding: 0.5rem; /* p-2 */
-    }
-    @keyframes fade-in {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      animation: fade-in 0.3s ease-out;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактор плейлистов m3u</title>
+    <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Определение цветов (КРАСНЫЙ АКЦЕНТ) */
+        :root {
+            --primary-color: #FF0000;      /* Ярко-красный (Акцент) */
+            --primary-hover-color: #CC0000; /* Темно-красный (Наведение) */
+            --text-color: #333;
+            --secondary-text-color: #555;
+            --background-light: #f9f9f9;
+            --border-color: #eaeaef;
+            --icon-size: 36px;
+        }
 
-    /* Мобильная адаптация для списка каналов */
-    @media (max-width: 640px) { /* sm breakpoint по умолчанию в Tailwind */
-      .channel-item {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0.75rem 1rem; /* Увеличим отступы */
-      }
-      .channel-name {
-        max-width: 100% !important; /* На всю ширину */
-        margin-bottom: 0.5rem;
-        font-size: 24px; /* Размер 24px */
-        font-weight: 900; /* Максимально жирный шрифт */
-      }
-      .channel-buttons-container {
-        display: flex; /* Снова делаем flex для кнопок */
-        flex-direction: row; /* Горизонтальное расположение кнопок */
-        justify-content: space-between;
-        width: 100%; /* Занимает всю ширину */
-      }
-      .channel-category-badge {
-        margin-right: 0.5rem; /* Отступ справа от категории */
-        text-align: left;
-        width: auto !important; /* Убираем фиксированную ширину */
-        flex-grow: 1; /* Чтобы заняла доступное место */
-      }
-      .channel-download-btn, .channel-delete-btn, .channel-favorite-btn { /* ДОБАВЛЕН .channel-favorite-btn */
-          flex-shrink: 0;
-      }
-      
-      /* НОВЫЕ СТИЛЫ ДЛЯ МОБИЛЬНОЙ АДАПТАЦИИ ЭКРАНА РЕДАКТОРА */
-      #editorScreen .sm\\:justify-between {
-          justify-content: center; /* Центрируем заголовок на мобильных */
-      }
-      #editorScreen .sm\\:items-center {
-          align-items: center; 
-      }
-      #editorScreen .sm\\:flex-row {
-          flex-direction: column; /* Размещаем заголовок и кнопки вертикально */
-      }
-      #editorScreen .sm\\:text-left {
-          text-align: center; /* Центрируем заголовок */
-      }
-      #editorScreen .sm\\:w-auto {
-          width: 100%; /* Кнопки на всю ширину */
-          justify-content: center;
-          margin-top: 0.5rem; /* Отступ сверху для кнопок */
-      }
-    }
-  </style>
+        /* Базовый сброс, шрифт и АНИМАЦИИ */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            color: var(--text-color);
+            scroll-behavior: smooth; /* Плавный скролл по всему сайту */
+        }
+
+        /* -------------------------------------------
+           ОБЩИЕ СТИЛЫ (Desktop)
+           ------------------------------------------- */
+        
+        /* Keyframes для анимации появления */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Применяем анимацию к основным секциям (скрываем по умолчанию, чтобы потом показать через JS) */
+        main section {
+            opacity: 0; /* Скрываем по умолчанию */
+        }
+        
+        /* Класс, который JS будет добавлять для активации анимации */
+        .animated {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+            background-color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* --- Логотип --- */
+        .logo a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 32px;
+            width: auto;
+        }
+
+        /* --- Навигация Desktop --- */
+        .main-nav { display: block; }
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--secondary-text-color);
+            font-size: 15px;
+            font-weight: 400;
+            padding: 5px 0;
+            transition: color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .main-nav a:hover {
+            color: #000;
+        }
+        
+        /* ИСПРАВЛЕНИЕ: Переопределяем цвет при наведении для кнопки "Регистрация" в навигации */
+        .main-nav a.nav-button.primary:hover {
+            color: #ffffff; /* Белый цвет текста при наведении */
+        }
+
+        /* --- Кнопки (Общие стилы) --- */
+        .nav-button {
+            display: inline-block;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .nav-button.primary {
+            padding-left: 24px; 
+            padding-right: 24px;
+            background-color: var(--primary-color); 
+            color: #ffffff;
+            border: none;
+        }
+
+        .nav-button.primary:hover {
+            background-color: var(--primary-hover-color);
+        }
+
+        .nav-button.secondary {
+            padding-left: 16px; 
+            padding-right: 16px;
+            background-color: transparent; 
+            color: var(--primary-color); 
+            border: 1px solid var(--primary-color); 
+        }
+
+        .nav-button.secondary:hover {
+            background-color: #f0f0f5; 
+            color: var(--primary-hover-color);
+            border-color: var(--primary-hover-color);
+        }
+
+        /* --- Секция Героя (Desktop) --- */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 120px 20px 80px; 
+            background-color: #ffffff; 
+            opacity: 1 !important; /* Делаем видимым сразу */
+            animation: none !important;
+        }
+
+        .hero-title {
+            font-size: 48px; 
+            font-weight: 700;
+            color: #000;
+            max-width: 800px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        #dynamic-text {
+            color: var(--primary-color); 
+            display: inline-block;
+            min-width: 250px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* -------------------------------------------
+           СТИЛЫ ПРЕИМУЩЕСТВ (Desktop)
+           ------------------------------------------- */
+        .features-section {
+            padding: 80px 40px; 
+            background-color: var(--background-light);
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #000;
+            margin-top: 0;
+            margin-bottom: 50px;
+        }
+
+
+        .features-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px; 
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            flex-basis: 300px; 
+            padding: 30px; 
+            text-align: center;
+            background-color: #ffffff; 
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Добавляем box-shadow для анимации */
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-8px); /* Увеличиваем подъем */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Добавляем тень для 3D эффекта */
+        }
+
+        .feature-item i {
+            font-size: var(--icon-size);
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Заголовки преимуществ 20px */
+        .feature-item h3 {
+            font-size: 20px; 
+            font-weight: 600;
+            color: #000;
+            margin-top: 0;
+            margin-bottom: 10px; 
+        }
+
+        /* Текст преимуществ 18px */
+        .feature-item p {
+            font-size: 18px; 
+            color: var(--secondary-text-color);
+            line-height: 1.6;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        
+        /* -------------------------------------------
+           СТИЛЫ БЛОКА "КАК РЕДАКТИРОВАТЬ" (Desktop)
+           ------------------------------------------- */
+        .process-section {
+            padding: 80px 40px; 
+            background-color: #ffffff; 
+            text-align: center;
+        }
+        
+        .steps-grid {
+            display: flex;
+            justify-content: center;
+            /* Изменено: Используем flex-wrap и gap для раскладки по 2 в ряд */
+            gap: 40px 30px; /* Вертикальный и горизонтальный гап */
+            max-width: 1000px; 
+            margin: 0 auto;
+            flex-wrap: wrap; 
+        }
+
+        .step-item {
+            /* Изменено: Устанавливаем ширину для двух элементов в ряду */
+            flex-basis: calc(50% - 30px); /* 50% минус половина горизонтального гапа (15px * 2) */
+            max-width: 470px; /* Ограничиваем максимальную ширину */
+            padding: 20px;
+            text-align: center; /* Центрируем контент пункта */
+            transition: transform 0.3s ease; /* Анимация для шагов */
+        }
+
+        .step-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-item .step-number {
+            display: block; 
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            background-color: var(--primary-color);
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            border-radius: 50%;
+            text-align: center;
+            margin: 0 auto 20px auto; /* Центрируем номер на десктопе */
+        }
+
+        .step-item h3 {
+            font-size: 22px; 
+            font-weight: 600;
+            color: #000;
+            margin-top: 0;
+            margin-bottom: 10px;
+            text-align: center; /* Центрируем заголовок на десктопе */
+        }
+
+        .step-item p {
+            font-size: 16px; 
+            color: var(--secondary-text-color);
+            line-height: 1.6;
+            text-align: center; /* Центрируем текст на десктопе */
+        }
+
+        /* -------------------------------------------
+           СТИЛЫ БЛОКА "СРАВНЕНИЕ" (Desktop)
+           ------------------------------------------- */
+        .comparison-section {
+            padding: 80px 40px; 
+            background-color: var(--background-light);
+            text-align: center;
+        }
+
+        .comparison-table {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden; /* Для корректного отображения border-radius */
+            transition: transform 0.3s ease;
+        }
+
+        .comparison-table:hover {
+            transform: scale(1.01);
+        }
+
+        .comparison-table table {
+            width: 100%; /* Убеждаемся, что внутренняя таблица занимает 100% ширины контейнера */
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .comparison-table th {
+            background-color: #f0f0f5;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 17px;
+        }
+
+        .comparison-table .feature {
+            text-align: left;
+            font-weight: 500;
+            width: 35%;
+        }
+
+        .comparison-table .icon-yes {
+            color: green;
+            font-weight: bold;
+        }
+
+        .comparison-table .icon-no {
+            color: var(--primary-color);
+        }
+
+        /* Добавляем отступы для кнопки "Регистрация" в блоке сравнения */
+        .comparison-section .nav-button.primary {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* -------------------------------------------
+           СТИЛЫ БЛОКА "FAQ" (Новый)
+           ------------------------------------------- */
+        .faq-section {
+            padding: 80px 40px;
+            background-color: #ffffff; 
+            text-align: center;
+        }
+        
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        /* Стили для открытого ответа (используем <details>) */
+        details {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            transition: background-color 0.3s ease; /* Анимация для FAQ */
+        }
+        
+        details:hover {
+            background-color: #fcfcfc;
+        }
+
+        details summary {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+            padding: 15px 0;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        details summary:hover {
+            color: var(--primary-color);
+        }
+
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details p {
+            font-size: 16px;
+            color: var(--secondary-text-color);
+            padding: 5px 0 15px 0;
+            line-height: 1.6;
+        }
+        
+        details summary::after {
+            content: "\f078"; /* fa-chevron-down */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+
+        /* -------------------------------------------
+           МОБИЛЬНЫЕ СТИЛЫ (Media Query)
+           ------------------------------------------- */
+        
+        .menu-toggle, #mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            
+            /* Шапка: Лого - Центр - Гамбургер */
+            .site-header {
+                padding: 10px 20px; 
+                display: grid;
+                grid-template-columns: 1fr auto 1fr; 
+                grid-template-areas: "logo actions menu-toggle";
+            }
+
+            .main-nav { display: none; }
+            .logo { grid-area: logo; justify-self: start; }
+            .header-actions { grid-area: actions; justify-self: center; }
+            .menu-toggle {
+                grid-area: menu-toggle;
+                display: block;
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: var(--text-color);
+                padding: 0;
+                justify-self: end;
+            }
+            
+            /* --- ВЫПАДАЮЩЕЕ МОБИЛЬНОЕ МЕНЮ (ИСПРАВЛЕНО) --- */
+            #mobile-menu {
+                display: none; 
+                position: fixed; 
+                top: 52px; 
+                left: 0;
+                width: 100%;
+                height: 100vh; 
+                overflow-y: auto; 
+                background-color: #ffffff;
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 10px 0;
+                z-index: 90;
+            }
+
+            #mobile-menu ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            #mobile-menu li {
+                text-align: center; 
+                padding: 12px 20px;
+                border-bottom: 1px solid #f5f5f5;
+            }
+            
+            #mobile-menu a {
+                display: block;
+                font-size: 16px;
+                color: var(--text-color);
+                text-decoration: none;
+                padding: 0; 
+            }
+            
+            /* Ширина кнопки Регистрация в меню 60% */
+            #mobile-menu .nav-button.primary {
+                width: 60%; 
+                display: inline-block; 
+                box-sizing: border-box; 
+                font-size: 17px; 
+                padding-top: 12px;
+                padding-bottom: 12px;
+                padding-left: 20px; 
+                padding-right: 20px;
+                color: #ffffff;
+                margin-top: 10px; 
+            }
+
+            /* Расстояние от шапки до заголовка 40px */
+            .hero-section {
+                padding-top: 40px; 
+                padding-bottom: 60px;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .hero-title {
+                font-size: 28px; 
+            }
+            #dynamic-text {
+                min-width: 150px; 
+            }
+
+            /* УВЕЛИЧИВАЕМ ШРИФТ КНОПКИ "Попробовать" */
+            .hero-section .nav-button.primary {
+                font-size: 17px; 
+                padding: 12px 30px; 
+            }
+            
+            /* МОБИЛЬНЫЙ ВИД БЛОКА ПРЕИМУЩЕСТВ (Карточки) */
+            .features-section {
+                padding-top: 40px; 
+                padding-bottom: 40px; 
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+
+            .features-grid {
+                flex-direction: column;
+                gap: 10px; 
+            }
+            
+            .feature-item {
+                /* Стили карточки */
+                background-color: #ffffff; 
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); 
+                border-radius: 12px;
+                border-bottom: none; 
+                transform: none;
+                
+                /* Минимальный внутренний отступ */
+                padding: 15px; 
+
+                /* НОВЫЕ СТИЛЫ ДЛЯ ВЕРТИКАЛЬНОГО ЦЕНТРИРОВАНИЯ */
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; 
+                height: 140px; 
+            }
+            
+            /* ЖЕСТКИЙ СБРОС ВСЕХ ВЕРТИКАЛЬНЫХ ОТСТУПОВ У ДОЧЕРНИХ ЭЛЕМЕНТОВ */
+            .feature-item i, 
+            .feature-item h3, 
+            .feature-item p {
+                margin: 0; 
+                padding: 0; 
+                display: block; 
+            }
+
+            /* Восстанавливаем минимальные интервалы внутри элемента */
+            .feature-item i {
+                margin-top: 5px; 
+                margin-bottom: 8px; 
+            }
+
+            /* Заголовки h3 -> 20px в моб версии */
+            .feature-item h3 {
+                font-size: 20px; 
+                margin-bottom: 5px; 
+            }
+
+            /* Текст p -> 18px в моб версии */
+            .feature-item p {
+                font-size: 18px; 
+            }
+
+            /* МОБИЛЬНЫЙ ВИД БЛОКА "КАК РЕДАКТИРОВАТЬ" */
+            .process-section {
+                padding-top: 40px; 
+                padding-bottom: 40px; 
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+            .steps-grid {
+                flex-direction: column;
+                gap: 10px; /* Уменьшаем расстояние между пунктами до 10px */
+            }
+            
+            .step-item {
+                /* Контейнер для каждого шага */
+                padding: 20px;
+                text-align: center;
+                background-color: #ffffff; 
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); 
+                border-radius: 12px;
+                
+                /* Центрирование контента по вертикали */
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center;
+                min-height: 120px; /* Минимальная высота контейнера */
+                
+                /* Сброс ширины для мобильной версии */
+                flex-basis: auto; 
+                max-width: 100%;
+            }
+            
+            .step-item .step-number {
+                margin: 0 auto 15px auto; /* Центрируем номер шага */
+            }
+            
+            .step-item h3 {
+                text-align: center; 
+            }
+            
+            .step-item p {
+                text-align: center; 
+            }
+
+            /* МОБИЛЬНЫЙ ВИД БЛОКА "СРАВНЕНИЕ" (Таблица) */
+            .comparison-section {
+                padding-top: 40px;
+                padding-bottom: 40px;
+                padding-left: 0; /* Удаляем горизонтальный padding для мобильной прокрутки */
+                padding-right: 0;
+            }
+
+            .comparison-table {
+                display: block;
+                overflow-x: auto; /* Обязательная прокрутка по горизонтали */
+                width: 100%;
+                border-radius: 0; /* Убираем border-radius для полной ширины */
+                box-shadow: none; /* Убираем тень */
+            }
+            
+            .comparison-table table {
+                width: 100%;
+                min-width: 550px; /* Увеличиваем минимальную ширину для лучшей читаемости */
+                border-radius: 0;
+            }
+
+            .comparison-table th, .comparison-table td {
+                padding: 12px 10px; /* Уменьшаем отступы */
+                font-size: 15px; /* Уменьшаем шрифт */
+            }
+            
+            .comparison-table .feature {
+                text-align: left;
+                padding-left: 20px; /* Добавляем отступ для "Возможности" */
+            }
+
+            /* МОБИЛЬНЫЙ ВИД БЛОКА "FAQ" */
+            .faq-section {
+                padding: 40px 20px;
+            }
+            details summary {
+                font-size: 17px;
+            }
+            details p {
+                font-size: 15px;
+            }
+        }
+        
+    </style>
 </head>
-<body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
+<body>
 
-  <div id="mainScreen" class="text-center w-full max-w-md">
-    
-    <!-- СООБЩЕНИЕ ДЛЯ НЕАВТОРИЗОВАННЫХ -->
-    <div id="unauthenticatedMessage" class="w-full max-w-xs mx-auto mb-8 hidden">
-        <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Добро пожаловать!</h2>
-        <p class="text-gray-600 mb-8">Чтобы получить доступ к редактору и сохранять плейлисты, пожалуйста, войдите или зарегистрируйтесь.</p>
-    </div>
-
-    <!-- КНОПКА АУТЕНТИФИКАЦИИ (Для гостей) -->
-    <div id="authButtonContainer" class="flex flex-col gap-3 w-4/5 mx-auto mb-8 hidden">
-        <button id="openRegisterModalBtn"
-            class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full">
-            ВОЙТИ / РЕГИСТРАЦИЯ
-        </button>
-    </div>
-
-    <input type="file" id="fileInput" accept="*/*" class="hidden">
-
-    <!-- ФУНКЦИОНАЛ ЗАГРУЗКИ (Для авторизованных) -->
-    <div id="uploadFunctionality" class="hidden">
+    <header class="site-header">
         
-        <!-- КНОПКА ВЫХОДА, ВИДНА ТОЛЬКО ЗАРЕГИСТРИРОВАННЫМ -->
-        <div class="flex flex-col gap-3 w-4/5 mx-auto mb-6">
-            <button id="logoutBtn"
-                class="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-red-700 transition w-full">
-                ВЫЙТИ ИЗ АККАУНТА
-            </button>
+        <div class="logo">
+            <a href="https://read24.netlify.app/site/"> 
+                <img src="https://read24.netlify.app/icon1.ico" alt="Логотип сайта">
+            </a>
         </div>
         
-        <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#advantages">Преимущества</a></li>
+                <li><a href="#how-to-edit">Как редактировать</a></li>
+                <li><a href="#comparison">Сравнение</a></li> 
+                <li><a href="#faq">Частые вопросы</a></li>
+                <li><a href="#registration" class="nav-button primary">Регистрация</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <a href="#login" class="nav-button secondary">Войти</a>
+        </div>
+        
+        <button class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <nav id="mobile-menu">
+        <ul>
+            <li><a href="#advantages">Преимущества</a></li>
+            <li><a href="#how-to-edit">Как редактировать</a></li>
+            <li><a href="#comparison">Сравнение</a></li> 
+            <li><a href="#faq">Частые вопросы</a></li>
+            <li>
+                <a href="#registration" class="nav-button primary">Регистрация</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="hero-section">
+            <h1 class="hero-title">
+                Редактируйте любые плейлисты для 
+                <strong id="dynamic-text">вашего удобства.</strong>
+            </h1>
             
-            <button id="uploadBtn"
-                class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4">
-                ЗАГРУЗИТЬ ФАЙЛ
-            </button>
-            
-            <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
-            
-            <div class="flex flex-col gap-3 w-full mx-auto mb-4">
-              <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
-                class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
-              
-              <button id="loadUrlBtn"
-                class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
-                ВПЕРЕД
-              </button>
+            <p style="font-size: 18px; color: #666; max-width: 600px; margin-bottom: 30px;">
+                Получите полный контроль над вашими медиатеками, объединяя источники и настраивая порядок просмотра.
+            </p>
+            <a href="#start" class="nav-button primary" style="font-size: 16px; padding: 12px 30px;">
+                Попробовать
+            </a>
+        </section>
+
+        <section id="advantages" class="features-section">
+            <p class="section-subtitle">Почему мы?</p>
+            <h2 class="section-title">Возможности для ваших плейлистов</h2>
+            <div class="features-grid">
+                
+                <div class="feature-item">
+                    <i class="fas fa-sliders-h"></i> 
+                    <h3>Полный контроль</h3>
+                    <p>Настраивайте порядок воспроизведения, удаляйте ненужное и добавляйте новый контент в вашу библиотеку за секунды.</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-tablet-alt"></i>
+                    <h3>Просмотр без границ</h3>
+                    <p>Смотрите ваши плейлисты на любом устройстве: от мобильного телефона до Smart TV. Всегда синхронизировано.</p>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-link"></i>
+                    <h3>Единая библиотека</h3>
+                    <p>Объединяйте медиафайлы из разных источников в одно централизованное и удобное место для доступа.</p>
+                </div>
+
             </div>
-        </div>
-    </div>
-    
-    <div id="loading" class="hidden text-blue-600 mb-4">
-      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
-      Загрузка файла...
-    </div>
+        </section>
+        
+        <section id="how-to-edit" class="process-section">
+            <p class="section-subtitle">Как это работает</p>
+            <h2 class="section-title">Процесс Редактирования: Начните за 4 Шага</h2>
+            <div class="steps-grid">
+                
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <h3>Регистрация</h3>
+                    <p>Быстро создайте личный кабинет, чтобы получить доступ ко всем инструментам редактирования и облачному хранилищу.</p>
+                </div>
+                
+                <div class="step-item">
+                    <span class="step-number">2</span>
+                    <h3>Загрузите плейлист</h3>
+                    <p>Импортируйте файл .m3u, .m3u8, или другой поддерживаемый формат, используя прямую ссылку или загрузку с устройства.</p>
+                </div>
 
-  </div>
+                <div class="step-item">
+                    <span class="step-number">3</span>
+                    <h3>Отредактируйте список</h3>
+                    <p>Используйте удобный drag-and-drop интерфейс для изменения порядка, удаления или добавления новых каналов/ссылок.</p>
+                </div>
 
-  <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
-    <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
-      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
-      <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
-        <button id="openUploadModalBtn"
-          class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base">
-          ЗАГРУЗИТЬ ПЛЕЙЛИСТ
-        </button>
-        <button id="removeDuplicatesBtn"
-          class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
-          УДАЛИТЬ ДУБЛИ
-        </button>
-        <button id="saveBtn"
-          class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition text-sm sm:text-base">
-          СОХРАНИТЬ
-        </button>
-      </div>
-    </div>
-    
-    <div class="flex flex-col md:flex-row gap-6">
-      
-      <div id="filterPanel" class="w-full md:w-2/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
-        <div class="mb-2">
-          <input type="text" id="searchInput" placeholder="Поиск канала..."
-            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
-        </div>
+                <div class="step-item">
+                    <span class="step-number">4</span>
+                    <h3>Сохраните и используйте</h3>
+                    <p>Сохраните изменения. Вы получите новую ссылку, которая будет автоматически обновляться, или скачаете готовый файл.</p>
+                </div>
 
-        <div class="mb-4">
-          <h3 class="text-md font-semibold mb-2 аtext-gray-800">Выбрать категорию для просмотра</h3>
-          <select id="categorySelect"
-              class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
-              <option value="">Все категории</option>
-          </select>
-        </div>
-        <div class="mb-4">
-          <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
-          <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
             </div>
-        </div>
-        
-        <div class="text-center mb-4 text-xl font-bold text-red-600">
-          КАНАЛОВ В СПИСКЕ: <span id="channelCounter">0</span>
-        </div>
-      </div>
-      
-      <div id="listPanel" class="w-full md:w-3/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
-        <div id="channelList" class="space-y-2"></div>
-      </div>
-    </div>
-    
-  </div>
-  
-  <div id="uploadModal"
-    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
-    <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
-      <h2 class="text-xl font-semibold mb-6 text-gray-800">Загрузка нового плейлиста</h2>
-
-      <div id="dropAreaModal" class="p-4 rounded-2xl border-2 border-transparent transition">
-          <button id="uploadModalBtn"
-            class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4">
-            ЗАГРУЗИТЬ ФАЙЛ
-          </button>
-          
-          <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
-          
-          <div class="flex flex-col gap-3 w-full mx-auto mb-4">
-            <input type="text" id="urlModalInput" placeholder="Введите ссылку на m3u файл"
-              class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
+        </section>
+        <section id="comparison" class="comparison-section">
+            <p class="section-subtitle">Выберите свой путь</p>
+            <h2 class="section-title">Сравнение Доступов: С регистрацией vs Без неё</h2>
             
-            <button id="loadUrlModalBtn"
-              class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
-              ВПЕРЕД
-            </button>
-          </div>
-      </div>
-      <div id="loadingModal" class="hidden text-blue-600 mt-4">
-        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
-        Загрузка файла...
-      </div>
-
-      <button id="closeUploadModal"
-        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition mt-4">
-        ОТМЕНА
-      </button>
-    </div>
-  </div>
-
-  <!-- МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ (УМЕНЬШЕННОЕ) -->
-  <div id="registrationModal"
-    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
-    <div class="bg-white rounded-3xl p-4 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
-      
-      <h2 class="text-2xl font-extrabold text-center mb-4 text-gray-800">
-        Добро пожаловать! 🎶
-      </h2>
-      <p class="text-center text-gray-600 mb-4 text-sm">
-        Создайте свой аккаунт, чтобы сохранять плейлисты.
-      </p>
-
-      <!-- КНОПКА РЕГИСТРАЦИИ ЧЕРЕЗ GMAIL/GOOGLE -->
-      <button id="registerGoogleBtn"
-        class="w-full flex items-center justify-center bg-white border border-gray-300 text-gray-700 text-base font-medium px-4 py-2 rounded-xl shadow-sm hover:bg-gray-100 transition mb-3">
-        <!-- Иконка Google -->
-        <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12.0003 4.75C14.7173 4.75 16.9833 5.772 18.6673 7.359L20.5903 5.487C18.3143 3.498 15.3623 2.25 12.0003 2.25C8.01332 2.25 4.54932 4.53 2.87132 7.824L5.87532 10.125C6.73632 7.787 9.12632 6.25 12.0003 6.25C13.8823 6.25 15.6173 6.942 16.9803 8.167L19.4583 6.135C18.0493 4.904 16.1433 4.25 14.2503 4.25H12.0003V4.75Z" fill="#EA4335"/>
-          <path d="M12.0003 17.75C13.2133 17.75 14.3723 17.419 15.3853 16.829L18.3903 19.13C16.6383 20.375 14.3763 21 12.0003 21C7.81732 21 4.28832 18.577 2.50232 15.111L5.53732 12.83C6.34732 15.309 9.07332 17 12.0003 17V17.75Z" fill="#34A853"/>
-          <path d="M21.2503 12C21.2503 11.234 21.1813 10.493 21.0543 9.774H12.0003V14.25H17.2273C17.0673 15.186 16.5183 15.996 15.7503 16.591L18.7853 18.868C20.4433 17.375 21.2503 15.342 21.2503 13.007V12Z" fill="#4285F4"/>
-          <path d="M5.87532 10.125L2.87132 7.824C2.26132 9.068 2.00032 10.493 2.00032 12C2.00032 13.507 2.26132 14.932 2.87132 16.176L5.87532 13.875V10.125Z" fill="#FBBC05"/>
-        </svg>
-        Войти через Google
-      </button>
-      
-      <div class="flex items-center my-4">
-        <div class="flex-grow border-t border-gray-300"></div>
-        <span class="flex-shrink mx-4 text-gray-500 text-sm">или</span>
-        <div class="flex-grow border-t border-gray-300"></div>
-      </div>
-
-      <!-- ФОРМА РЕГИСТРАЦИИ ПО EMAIL И ПАРОЛЮ -->
-      <form id="registrationFormElement">
-        <div class="mb-3">
-          <label for="reg-email" class="block text-xs font-medium text-gray-700 mb-1 text-left">
-            Email
-          </label>
-          <input type="email" id="reg-email" placeholder="example@mail.com" required
-            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-base shadow-inner">
-        </div>
-
-        <div class="mb-4">
-          <label for="reg-password" class="block text-xs font-medium text-gray-700 mb-1 text-left">
-            Пароль
-          </label>
-          <input type="password" id="reg-password" placeholder="Придумайте пароль" required
-            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-base shadow-inner">
-        </div>
-
-        <button type="submit" id="registerEmailBtn"
-          class="w-full bg-black text-white text-base font-semibold px-6 py-2 rounded-xl shadow-lg hover:bg-gray-900 transition mb-3">
-          ЗАРЕГИСТРИРОВАТЬСЯ
-        </button>
-      </form>
-      
-      <p class="text-center text-xs text-gray-600">
-        Уже есть аккаунт? 
-        <a href="#" id="loginLink" class="text-black font-semibold hover:text-gray-700 transition">Войти</a>
-      </p>
-
-      <button id="closeRegisterModal"
-        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition mt-3">
-        ОТМЕНА
-      </button>
-
-    </div>
-  </div>
-  <!-- КОНЕЦ МОДАЛЬНОГО ОКНА РЕГИСТРАЦИИ -->
-
-
-  <div id="saveModal"
-    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
-    <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
-      <h2 id="finalFileName" class="text-2xl font-bold mb-6">ФАЙЛ 0 КАНАЛОВ</h2>
-      <button id="downloadBtn"
-        class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
-        СКАЧАТЬ
-      </button>
-      <button id="closeSaveModal"
-        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
-        ЗАКРЫТЬ
-      </button>
-    </div>
-  </div>
-  
-  <div id="toastNotification" class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-xl shadow-lg hidden animate-fade-in z-50">
-    Плейлист загружен. Каналов: <span id="toastChannelCount" class="font-bold">0</span>
-  </div>
-
-  <div id="globalLoader" class="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-50">
-    <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-white mb-4"></div>
-    <p class="text-white text-xl font-semibold">Обработка плейлиста...</p>
-  </div>
-
-
-  <script type="module">
-    // =======================================================
-    // FIREBASE INITIALIZATION AND AUTH
-    // =======================================================
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { 
-        getAuth, 
-        signInAnonymously, 
-        signInWithCustomToken, 
-        createUserWithEmailAndPassword,
-        signInWithEmailAndPassword, // Импортируем функцию для входа
-        GoogleAuthProvider,
-        signInWithPopup,
-        signOut,
-        onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-    // Использование конфигурации, предоставленной пользователем, с учетом глобальных переменных Canvas
-    const providedFirebaseConfig = {
-      apiKey: "AIzaSyCko3aktIDmXWbsDekdr-dKUscX2fkRpjo",
-      authDomain: "read24-7.firebaseapp.com",
-      projectId: "read24-7",
-      storageBucket: "read24-7.firebasestorage.app",
-      messagingSenderId: "966949567813",
-      appId: "1:966949567813:web:b12ff4001282d20c29922c",
-      measurementId: "G-NVEC5F7S8F"
-    };
-
-    const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : JSON.stringify(providedFirebaseConfig));
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    
-    let userId = 'guest';
-
-    // Авторизация при запуске
-    async function initializeAuth() {
-        try {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-                // console.log("Signed in with custom token.");
-            } else {
-                await signInAnonymously(auth);
-                // console.log("Signed in anonymously.");
-            }
-        } catch (error) {
-            console.error("Auth initialization failed:", error.message);
-        }
-    }
-
-    onAuthStateChanged(auth, (user) => {
-        const isAuthenticated = user && !user.isAnonymous;
-        
-        // 1. Скрываем/показываем контейнер аутентификации
-        if (!isAuthenticated) {
-            // Пользователь не вошел или гость
-            unauthenticatedMessage.classList.remove('hidden');
-            authButtonContainer.classList.remove('hidden');
-            uploadFunctionality.classList.add('hidden');
-            // Если гость, убедимся, что экран редактора не показан
-            editorScreen.classList.add('hidden');
-            mainScreen.classList.remove('hidden');
-        } else {
-            // Пользователь вошел (зарегистрирован)
-            unauthenticatedMessage.classList.add('hidden');
-            authButtonContainer.classList.add('hidden');
-            uploadFunctionality.classList.remove('hidden');
-            userId = user.uid; // Обновляем ID пользователя
-        }
-    });
-
-    initializeAuth();
-
-    // =======================================================
-    // REGISTRATION AND LOGOUT FUNCTIONS
-    // =======================================================
-    
-    // Новая функция для обработки входа по Email/Паролю
-    async function handleEmailSignIn(email, password) {
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            showToast("Вход успешен! Добро пожаловать.");
-            registrationModal.classList.add('hidden');
-            return true;
-        } catch (error) {
-            let errorMessage = "Ошибка входа. Неверный Email или пароль.";
-            if (error.code === 'auth/user-not-found') {
-                errorMessage = "Пользователь с таким Email не найден.";
-            } else if (error.code === 'auth/wrong-password') {
-                errorMessage = "Неверный пароль.";
-            } else if (error.code === 'auth/invalid-email') {
-                errorMessage = "Неверный формат Email.";
-            } else {
-                errorMessage = `Ошибка: ${error.message}`;
-            }
-            showToast(errorMessage);
-            console.error("Email sign-in error:", error.code, error.message);
-            return false;
-        }
-    }
-
-    // Обновленная функция для регистрации/входа
-    async function handleEmailRegistration(e) {
-        e.preventDefault();
-        const email = document.getElementById('reg-email').value;
-        const password = document.getElementById('reg-password').value;
-        
-        if (!email || !password) {
-            showToast("Пожалуйста, заполните все поля.");
-            return;
-        }
-
-        try {
-            // Попытка регистрации нового пользователя
-            await createUserWithEmailAndPassword(auth, email, password);
-            showToast("Регистрация успешна! Вы вошли в систему.");
-            registrationModal.classList.add('hidden');
-        } catch (error) {
-            // Если Email уже используется, пробуем войти
-            if (error.code === 'auth/email-already-in-use') {
-                showToast("Email уже зарегистрирован. Попытка входа...");
-                await handleEmailSignIn(email, password);
-            } else {
-                let errorMessage = "Ошибка регистрации.";
-                switch (error.code) {
-                    case 'auth/invalid-email':
-                        errorMessage = "Неверный формат Email.";
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage = "Пароль должен быть не менее 6 символов.";
-                        break;
-                    default:
-                        errorMessage = `Ошибка: ${error.message}`;
-                }
-                showToast(errorMessage);
-                console.error("Email registration error:", error.code, error.message);
-            }
-        }
-    }
-
-    async function handleGoogleRegistration() {
-        const provider = new GoogleAuthProvider();
-        try {
-            await signInWithPopup(auth, provider);
-            showToast("Вход через Google успешен!");
-            registrationModal.classList.add('hidden');
-        } catch (error) {
-            let errorMessage = "Ошибка входа через Google.";
-            // Обработка закрытия окна пользователем (popup-closed-by-user)
-            if (error.code === 'auth/popup-closed-by-user') {
-                errorMessage = "Окно входа было закрыто.";
-            } else {
-                errorMessage = `Ошибка: ${error.message}`;
-            }
-            showToast(errorMessage);
-            console.error("Google sign-in error:", error.code, error.message);
-        }
-    }
-    
-    async function handleLogout() {
-        try {
-            await signOut(auth);
-            // После signOut onAuthStateChanged обновит UI для состояния "Гость"
-            showToast("Вы успешно вышли из аккаунта.");
-        } catch (error) {
-            console.error("Logout error:", error.message);
-            showToast("Ошибка при выходе.");
-        }
-    }
-
-    // =======================================================
-    // EXISTING SCRIPT LOGIC BELOW
-    // =======================================================
-    const uploadBtn = document.getElementById('uploadBtn');
-    const fileInput = document.getElementById('fileInput');
-    const urlInput = document.getElementById('urlInput');
-    const loadUrlBtn = document.getElementById('loadUrlBtn');
-    const loading = document.getElementById('loading');
-    const saveModal = document.getElementById('saveModal');
-    const channelCounter = document.getElementById('channelCounter');
-    const finalFileName = document.getElementById('finalFileName');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const closeSaveModal = document.getElementById('closeSaveModal');
-    const mainScreen = document.getElementById('mainScreen');
-    const editorScreen = document.getElementById('editorScreen');
-    const channelList = document.getElementById('channelList');
-    const saveBtn = document.getElementById('saveBtn');
-    const searchInput = document.getElementById('searchInput');
-    const categoryFilter = document.getElementById('categoryFilter'); 
-    const removeDuplicatesBtn = document.getElementById('removeDuplicatesBtn'); 
-    const dropArea = document.getElementById('dropArea');
-    const categorySelect = document.getElementById('categorySelect'); 
-    
-    const uploadModal = document.getElementById('uploadModal');
-    const openUploadModalBtn = document.getElementById('openUploadModalBtn');
-    const closeUploadModal = document.getElementById('closeUploadModal');
-    const uploadModalBtn = document.getElementById('uploadModalBtn');
-    const urlModalInput = document.getElementById('urlModalInput');
-    const loadUrlModalBtn = document.getElementById('loadUrlModalBtn');
-    const loadingModal = document.getElementById('loadingModal');
-    const dropAreaModal = document.getElementById('dropAreaModal'); 
-    
-    const toastNotification = document.getElementById('toastNotification');
-    const toastChannelCount = document.getElementById('toastChannelCount');
-
-    const globalLoader = document.getElementById('globalLoader');
-
-    // ПЕРЕМЕННЫЕ ДЛЯ РЕГИСТРАЦИИ/АУТЕНТИФИКАЦИИ
-    const registrationModal = document.getElementById('registrationModal');
-    const openRegisterModalBtn = document.getElementById('openRegisterModalBtn');
-    const closeRegisterModal = document.getElementById('closeRegisterModal');
-    const registerEmailBtn = document.getElementById('registerEmailBtn');
-    const registerGoogleBtn = document.getElementById('registerGoogleBtn');
-    const registrationFormElement = document.getElementById('registrationFormElement');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const loginLink = document.getElementById('loginLink'); // Получаем ссылку "Войти"
-    
-    const unauthenticatedMessage = document.getElementById('unauthenticatedMessage');
-    const uploadFunctionality = document.getElementById('uploadFunctionality');
-    const authButtonContainer = document.getElementById('authButtonContainer');
-
-
-    let originalLines = [];
-    let channels = [];
-    let allCategories = new Set();
-    let excludedCategories = new Set(); 
-    let editedContent = ''; // Переменная для хранения контента плейлиста для скачивания
-    let categoryChannelCounts = {}; 
-    
-    const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
-    const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
-
-    // ===============================
-    // ЛОГИКА DRAG AND DROP
-    // ===============================
-    const dragDropAreas = [dropArea, dropAreaModal];
-
-    dragDropAreas.forEach(area => {
-        if (area) {
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                area.removeEventListener(eventName, preventDefaults, false);
-            });
-            document.body.removeEventListener('dragover', preventDefaults, false); 
-            document.body.removeEventListener('drop', preventDefaults, false);
-            ['dragenter', 'dragover'].forEach(eventName => {
-                area.removeEventListener(eventName, highlight, false);
-            });
-            ['dragleave', 'drop'].forEach(eventName => {
-                area.removeEventListener(eventName, unhighlight, false);
-            });
-            area.removeEventListener('drop', handleDrop, false);
-        }
-    });
-
-    function preventDefaults(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    function highlight(e) {
-      // e.currentTarget.classList.add('drag-over'); 
-    }
-
-    function unhighlight(e) {
-      // e.currentTarget.classList.remove('drag-over'); 
-    }
-
-    function handleDrop(e) {
-      const dt = e.dataTransfer;
-      const files = dt.files;
-      if (files.length > 0) {
-        handleFiles(files);
-      }
-    }
-
-    function handleFiles(files) {
-        const file = files[0];
-        if (!file) return;
-        fileInput.files = files;
-        fileInput.dispatchEvent(new Event('change'));
-    }
-    
-    // ===============================
-    // ФУНКЦИИ УВЕДОМЛЕНИЯ
-    // ===============================
-    function showToast(message, count = null) {
-        toastChannelCount.classList.add('hidden');
-        toastNotification.classList.remove('bg-green-600', 'bg-red-600'); 
-        
-        if (count !== null) {
-            toastChannelCount.textContent = count;
-            toastNotification.innerHTML = `Плейлист загружен. Каналов: <span class="font-bold">${count}</span>`;
-            toastNotification.classList.add('bg-green-600'); 
-        } else {
-            toastNotification.textContent = message;
-            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Email') || message.includes('Пароль') || message.includes('Неверный')) {
-                 toastNotification.classList.add('bg-red-600'); 
-            } else {
-                 toastNotification.classList.add('bg-green-600');
-            }
-        }
-        
-        toastNotification.classList.remove('hidden');
-        toastNotification.classList.add('animate-fade-in');
-
-        setTimeout(() => {
-            toastNotification.classList.add('hidden');
-            toastNotification.classList.remove('animate-fade-in');
-        }, 3000);
-    }
-    
-    // ===============================
-    // ОБРАБОТЧИКИ СОБЫТИЙ
-    // ===============================
-    uploadBtn.addEventListener('click', () => fileInput.click());
-
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
-      if (!file) return;
-    
-      globalLoader.classList.remove('hidden');
-    
-      setTimeout(() => {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const content = e.target.result;
-          processPlaylistContent(content);
-        };
-        reader.readAsText(file);
-      }, 50);
-    });
-
-    loadUrlBtn.addEventListener('click', async () => {
-      const url = urlInput.value.trim();
-      await loadPlaylistFromUrl(url, loading, loadUrlBtn);
-    });
-    
-    openUploadModalBtn.addEventListener('click', () => {
-        uploadModal.classList.remove('hidden');
-    });
-
-    uploadModalBtn.addEventListener('click', () => fileInput.click());
-    
-    loadUrlModalBtn.addEventListener('click', async () => {
-      const url = urlModalInput.value.trim();
-      await loadPlaylistFromUrl(url, loadingModal, loadUrlModalBtn);
-    });
-
-    closeUploadModal.addEventListener('click', () => {
-        uploadModal.classList.add('hidden');
-    });
-
-    // ОБРАБОТЧИКИ МОДАЛЬНОГО ОКНА РЕГИСТРАЦИИ
-    if (openRegisterModalBtn) {
-        openRegisterModalBtn.addEventListener('click', () => {
-            registrationModal.classList.remove('hidden');
-        });
-    }
-
-    if (closeRegisterModal) {
-        closeRegisterModal.addEventListener('click', () => {
-            registrationModal.classList.add('hidden');
-        });
-    }
-    
-    // Добавляем обработчик для ссылки "Войти"
-    if (loginLink) {
-        loginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            // Вместо регистрации, сразу вызываем вход, используя данные из формы
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            if (email && password) {
-                handleEmailSignIn(email, password);
-            } else {
-                showToast("Пожалуйста, введите Email и пароль для входа.");
-            }
-        });
-    }
-
-    // Подключение функций регистрации и выхода
-    // При сабмите формы мы теперь используем универсальную функцию, которая пробует Регистрацию -> Вход
-    registrationFormElement.addEventListener('submit', handleEmailRegistration);
-    registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
-    logoutBtn.addEventListener('click', handleLogout);
-    // КОНЕЦ НОВЫХ ОБРАБОТЧИКОВ
-
-    async function loadPlaylistFromUrl(url, loadingElement, buttonElement) {
-        if (!url) {
-            showToast('Пожалуйста, введите ссылку');
-            return;
-        }
-
-        loadingElement.classList.remove('hidden');
-        buttonElement.disabled = true;
-
-        try {
-            const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-            const response = await fetch(proxyUrl);
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="feature">Возможность</th>
+                            <th>Без регистрации</th>
+                            <th>С регистрацией</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature">Единоразовое редактирование плейлиста</td>
+                            <td class="icon-yes"><i class="fas fa-check"></i></td>
+                            <td class="icon-yes"><i class="fas fa-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Сохранение плейлиста в облаке</td>
+                            <td class="icon-no"><i class="fas fa-times"></i></td>
+                            <td class="icon-yes"><i class="fas fa-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Динамическая ссылка на плейлист (автообновление)</td>
+                            <td class="icon-no"><i class="fas fa-times"></i></td>
+                            <td class="icon-yes"><i class="fas fa-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Доступ к истории изменений</td>
+                            <td class="icon-no"><i class="fas fa-times"></i></td>
+                            <td class="icon-yes"><i class="fas fa-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Синхронизация между устройствами</td>
+                            <td class="icon-no"><i class="fas fa-times"></i></td>
+                            <td class="icon-yes"><i class="fas fa-check"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size: 16px; color: var(--secondary-text-color); margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto; padding: 0 20px;">
+                Для получения максимального удобства и доступа ко всем продвинутым функциям редактирования плейлистов, рекомендуем пройти **быструю регистрацию**.
+            </p>
+            <a href="#registration" class="nav-button primary">
+                Регистрация
+            </a>
+            </section>
+        <section id="faq" class="faq-section">
+            <p class="section-subtitle">Спросите нас</p>
+            <h2 class="section-title">Частые вопросы</h2>
             
-            if (!response.ok) {
-                throw new Error(`Ошибка HTTP: ${response.status}`);
-            }
-            
-            loadingElement.classList.add('hidden');
-            const content = await response.text();
+            <div class="faq-container">
 
-            globalLoader.classList.remove('hidden');
+                <details>
+                    <summary>
+                        Какие форматы плейлистов поддерживает ваш редактор?
+                    </summary>
+                    <p>
+                        Наш редактор поддерживает наиболее популярные форматы, включая **M3U, M3U8** и **TXT** (для простых списков ссылок). Мы постоянно работаем над добавлением поддержки других распространенных форматов.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Могу ли я объединить несколько плейлистов в один?
+                    </summary>
+                    <p>
+                        Да, это одна из ключевых возможностей нашего сервиса! Вы можете легко импортировать несколько файлов или ссылок, а затем объединить их в одну централизованную библиотеку.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Что такое "Динамическая ссылка на плейлист" и как она работает?
+                    </summary>
+                    <p>
+                        Динамическая ссылка (доступна после регистрации) — это постоянный URL вашего плейлиста. Когда вы вносите изменения в список через наш редактор, плейлист по этой ссылке **автоматически обновляется** на всех ваших устройствах (Smart TV, плееры и т.д.).
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Безопасно ли загружать мой плейлист?
+                    </summary>
+                    <p>
+                        Абсолютно. Мы гарантируем полную конфиденциальность и не храним личные данные или содержимое ваших плейлистов, если вы сами не решите сохранить их в личном кабинете. Даже в этом случае они защищены.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Могу ли я изменить порядок каналов/ссылок?
+                    </summary>
+                    <p>
+                        Да. Наш редактор имеет интуитивно понятный интерфейс **Drag-and-Drop (перетаскивание)**, который позволяет легко менять порядок элементов в списке простым движением мыши или касанием.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Нужно ли регистрироваться, чтобы просто отредактировать один плейлист?
+                    </summary>
+                    <p>
+                        Нет, для **единоразового редактирования** и скачивания файла регистрация не требуется. Однако, чтобы сохранить плейлисты в облаке и получить динамическую ссылку для автообновления, регистрация необходима.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>
+                        Работает ли ваш редактор на мобильных устройствах?
+                    </summary>
+                    <p>
+                        Да, наш сервис полностью адаптирован и корректно работает на всех современных устройствах, включая смартфоны, планшеты и настольные компьютеры.
+                    </p>
+                </details>
+
+            </div>
+        </section>
+        </main>
+
+    <script>
+        // 1. Динамический текст в заголовке
+        const phrases = [
+            "вашего удобства.",
+            "любых устройств.",
+            "быстрого доступа.",
+            "идеального порядка.",
+            "полного контроля."
+        ];
+
+        const dynamicTextElement = document.getElementById('dynamic-text');
+        
+        let phraseIndex = 0;
+        const transitionTime = 300;
+        const displayTime = 2000;
+
+        function changePhrase() {
+            dynamicTextElement.style.opacity = '0'; 
 
             setTimeout(() => {
-                processPlaylistContent(content);
-            }, 50);
-
-        } catch (error) {
-            console.error('Ошибка загрузки:', error);
-            showToast('Не удалось загрузить файл. Возможно, проблема с CORS или файл недоступен.');
-            loadingElement.classList.add('hidden');
-        } finally {
-            buttonElement.disabled = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                dynamicTextElement.textContent = phrases[phraseIndex];
+                dynamicTextElement.style.opacity = '1'; 
+            }, transitionTime);
         }
-    }
 
-    function processPlaylistContent(content) {
-        originalLines = content.split('\n');
-        
-        parseChannelsAsync()
-            .then(() => {
-                globalLoader.classList.add('hidden');
-                loadingModal.classList.add('hidden');
-                dropAreaModal.classList.remove('hidden');
-                uploadModal.classList.add('hidden');
+        setInterval(changePhrase, displayTime + transitionTime);
 
-                mainScreen.classList.add('hidden');
-                editorScreen.classList.remove('hidden');
-                excludedCategories.clear(); 
-                renderCategoryFilter();
-                renderCategorySelect();
-                categorySelect.value = ""; 
-                updateCounter(channels.length); 
-                renderChannelList();
 
-                showToast('Плейлист загружен.', channels.length);
-            })
-            .catch(error => {
-                globalLoader.classList.add('hidden');
-                loadingModal.classList.add('hidden');
-                dropAreaModal.classList.remove('hidden');
-                showToast('Ошибка обработки файла: ' + error.message);
+        // 2. Логика Гамбургер-меню (ТОЛЬКО ДЛЯ MOBILE)
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => {
+                const isExpanded = mobileMenu.style.display === 'block';
+                mobileMenu.style.display = isExpanded ? 'none' : 'block';
+                // Смена иконки гамбургера на крестик
+                menuToggle.querySelector('i').className = isExpanded ? 'fas fa-bars' : 'fas fa-times';
             });
-    }
-
-    function parseChannelsAsync() {
-        return new Promise((resolve, reject) => {
-            try {
-                channels = [];
-                allCategories.clear();
-                categoryChannelCounts = {};
-
-                const lines = originalLines;
-                const totalLines = lines.length;
-                let currentIndex = 0;
-                const chunkSize = 1000;
-
-                function processChunk() {
-                    const limit = Math.min(currentIndex + chunkSize, totalLines);
-
-                    for (let i = currentIndex; i < limit; i++) {
-                        const line = lines[i].trim();
-
-                        if (line.startsWith('#EXTINF')) {
-                            const extinf = line;
-                            const nameMatch = extinf.match(/,(.*)$/);
-                            let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
-                            
-                            let category = 'Без категории';
-                            const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
-                            if (groupTitleMatch) {
-                                category = groupTitleMatch[1].trim();
-                            }
-
-                            let url = '';
-                            let extgrp = '';
-                            let urlIndex = i + 1;
-
-                            while (urlIndex < lines.length) {
-                                const nextLine = lines[urlIndex].trim();
-                                if (nextLine.startsWith('#EXTGRP:')) {
-                                    if (category === 'Без категории' || category === '') {
-                                        category = nextLine.substring(8).trim();
-                                    }
-                                    extgrp = nextLine;
-                                } else if (nextLine && !nextLine.startsWith('#')) {
-                                    url = nextLine;
-                                    break;
-                                } else if (nextLine.startsWith('#EXTINF')) {
-                                    break; 
-                                }
-                                urlIndex++;
-                            }
-
-                            if (url) {
-                                channels.push({
-                                    name, extinf, extgrp, url,
-                                    startIndex: i,
-                                    endIndex: urlIndex,
-                                    category,
-                                    isFavorite: false,
-                                });
-                                allCategories.add(category);
-                                categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
-                                i = urlIndex;
-                            }
-                        }
-                    }
-
-                    currentIndex = limit;
-
-                    if (currentIndex < totalLines) {
-                        setTimeout(processChunk, 0);
-                    } else {
-                        channels.sort((a, b) => a.name.localeCompare(b.name));
-                        resolve();
-                    }
-                }
-
-                processChunk();
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
-
-    function getFavoriteCount() { 
-        return channels.filter(c => c.isFavorite).length;
-    }
-
-    function renderCategoryFilter() {
-      categoryFilter.innerHTML = '';
-      const sortedCategories = Array.from(allCategories).sort();
-
-      const favoriteCount = getFavoriteCount(); 
-      
-      if (favoriteCount > 0 || excludedCategories.has(FAVORITE_CATEGORY)) {
-          sortedCategories.unshift(FAVORITE_CATEGORY);
-          categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
-      }
-
-      sortedCategories.forEach(category => {
-        const container = document.createElement('label');
-        container.className = 'flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 transition text-sm';
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'form-checkbox h-4 w-4 text-black rounded border-gray-300 focus:ring-0';
-        checkbox.value = category;
-        checkbox.checked = excludedCategories.has(category);
-        
-        checkbox.addEventListener('change', (e) => {
-          if (e.target.checked) {
-            excludedCategories.add(category);
-          } else {
-            excludedCategories.delete(category);
-          }
-          renderChannelList(searchInput.value); 
-        });
-
-        const span = document.createElement('span');
-        const count = categoryChannelCounts[category] || 0;
-        span.className = 'text-gray-800 truncate max-w-[150px]';
-        span.innerHTML = `${category} (<span class="text-red-600 font-bold">${count}</span>)`;
-
-        container.appendChild(checkbox);
-        container.appendChild(span);
-        categoryFilter.appendChild(container);
-      });
-    }
-    
-    function renderCategorySelect() {
-        categorySelect.innerHTML = '<option value="">Все категории</option>';
-        const sortedCategories = Array.from(allCategories).sort();
-        
-        const favoriteCount = getFavoriteCount(); 
-        
-        if (favoriteCount > 0) { 
-             sortedCategories.unshift(FAVORITE_CATEGORY);
-             categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
-        }
-
-        sortedCategories.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category;
-            const count = categoryChannelCounts[category] || 0;
-            option.textContent = `${category} (${count})`;
-            categorySelect.appendChild(option);
-        });
-    }
-
-    categorySelect.addEventListener('change', () => {
-        renderChannelList(searchInput.value);
-    });
-
-    function downloadSingleChannel(entry) {
-      let playlistContent = `#EXTM3U\n`;
-      
-      let extinfLine = entry.extinf;
-      
-      playlistContent += `${extinfLine}\n`;
-      
-      if (entry.extgrp) {
-        playlistContent += `${entry.extgrp}\n`;
-      }
-      playlistContent += `${entry.url}`;
-
-      const blob = new Blob([playlistContent], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${entry.name.replace(/[^a-zA-Z0-9а-яА-Я]/g, '_')}.m3u`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    function toggleFavorite(entry) {
-        entry.isFavorite = !entry.isFavorite; 
-
-        renderCategoryFilter();
-        renderCategorySelect();
-        renderChannelList(searchInput.value);
-        
-        const action = entry.isFavorite ? 'добавлен в' : 'удален из';
-        showToast(`Канал "${entry.name}" ${action} избранного.`);
-    }
-    
-    function renderChannelList(filter = '') {
-      channelList.innerHTML = '';
-      
-      const isMobile = window.matchMedia('(max-width: 640px)').matches;
-      const downloadButtonText = isMobile ? 'Скачать' : 'Скачать канал';
-      
-      const selectedCategory = categorySelect.value; 
-      
-      let filteredChannels = channels;
-
-      // 1. Исключаем категории, отмеченные в чекбоксах
-      filteredChannels = filteredChannels.filter(entry => !excludedCategories.has(entry.category));
-
-      // 2. Применяем фильтр "ИЗБРАННОЕ"
-      if (selectedCategory === FAVORITE_CATEGORY) {
-          filteredChannels = filteredChannels.filter(entry => entry.isFavorite);
-      } else if (excludedCategories.has(FAVORITE_CATEGORY)) {
-          filteredChannels = filteredChannels.filter(entry => !entry.isFavorite);
-      }
-
-      // 3. Применяем фильтр по имени и обычной категории
-      filteredChannels = filteredChannels
-        .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
-        .filter(entry => !selectedCategory || selectedCategory === FAVORITE_CATEGORY || entry.category === selectedCategory);
-
-        
-      updateCounter(filteredChannels.length); 
-        
-      filteredChannels.forEach((entry) => {
-          const item = document.createElement('div');
-          item.className = 'channel-item flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow'; 
-
-          const name = document.createElement('span');
-          name.className = 'channel-name text-black font-medium truncate max-w-[40%]'; 
-          name.textContent = entry.name;
-          
-          const categoryBadge = document.createElement('span');
-          categoryBadge.className = 'channel-category-badge bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-lg w-28 text-center flex-shrink-0 truncate';
-          categoryBadge.textContent = entry.category;
-
-          const favBtn = document.createElement('button');
-          const starColor = entry.isFavorite ? 'text-yellow-500 hover:text-yellow-400' : 'text-gray-400 hover:text-yellow-500';
-          favBtn.className = `channel-favorite-btn ${starColor} font-semibold text-xl px-2 py-1 transition flex-shrink-0`;
-          favBtn.innerHTML = '★'; 
-          favBtn.title = entry.isFavorite ? 'Удалить из избранного' : 'Добавить в избранное';
-          favBtn.onclick = () => toggleFavorite(entry);
-
-
-          const downloadBtn = document.createElement('button');
-          downloadBtn.className = 'channel-download-btn bg-green-600 hover:bg-green-500 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
-          downloadBtn.textContent = downloadButtonText;
-          downloadBtn.onclick = () => downloadSingleChannel(entry);
-
-          const delBtn = document.createElement('button');
-          delBtn.className = 'channel-delete-btn text-red-600 hover:text-red-500 font-semibold text-sm';
-          delBtn.textContent = 'Удалить';
-          delBtn.onclick = () => {
-            const linesToDelete = (entry.endIndex - entry.startIndex) + 1;
-            originalLines.splice(entry.startIndex, linesToDelete);
             
-            parseChannelsSync(); 
-            renderCategoryFilter();
-            renderCategorySelect(); 
-            renderChannelList(searchInput.value); 
-          };
-
-          const buttonContainer = document.createElement('div');
-          buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
-          
-          buttonContainer.appendChild(categoryBadge); 
-          buttonContainer.appendChild(favBtn); 
-          buttonContainer.appendChild(downloadBtn);
-          buttonContainer.appendChild(delBtn);
-
-          item.appendChild(name);
-          item.appendChild(buttonContainer);
-          channelList.appendChild(item);
-        });
-    }
-
-    function parseChannelsSync() {
-      // 1. Сохраняем текущие статусы избранного перед очисткой
-      const tempFavoriteMap = {};
-      channels.forEach(c => {
-        if (c.isFavorite) {
-            tempFavoriteMap[c.url + c.name] = true; 
-        }
-      });
-        
-      channels = [];
-      allCategories.clear();
-      categoryChannelCounts = {};
-      for (let i = 0; i < originalLines.length; i++) {
-        const line = originalLines[i].trim();
-        if (line.startsWith('#EXTINF')) {
-          const extinf = line;
-          const nameMatch = extinf.match(/,(.*)$/);
-          let name = nameMatch ? nameMatch[1].trim() : 'Неизвестный канал';
-          let category = 'Без категории';
-          const groupTitleMatch = extinf.match(/group-title="([^"]*)"/i);
-          if (groupTitleMatch) {
-            category = groupTitleMatch[1].trim();
-          }
-          let url = '';
-          let extgrp = '';
-          let urlIndex = i + 1;
-          while (urlIndex < originalLines.length) {
-            const nextLine = originalLines[urlIndex].trim();
-            if (nextLine.startsWith('#EXTGRP:')) {
-              if (category === 'Без категории' || category === '') {
-                category = nextLine.substring(8).trim();
-              }
-              extgrp = nextLine;
-            } else if (nextLine && !nextLine.startsWith('#')) {
-              url = nextLine;
-              break;
-            } else if (nextLine.startsWith('#EXTINF')) {
-              break;
-            }
-            urlIndex++;
-          }
-          if (url) {
-            const key = url + name;
-            const isFav = tempFavoriteMap[key] || false; 
-
-            channels.push({
-              name, extinf, extgrp, url,
-              startIndex: i,
-              endIndex: urlIndex,
-              category,
-              isFavorite: isFav, 
-            });
-            allCategories.add(category);
-            categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
-            i = urlIndex;
-          }
-        }
-      }
-      channels.sort((a, b) => a.name.localeCompare(b.name));
-    }
-
-    function updateCounter(filteredCount = null) {
-      if (filteredCount !== null) {
-          channelCounter.textContent = filteredCount;
-      } else {
-          let remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
-          
-          if (excludedCategories.has(FAVORITE_CATEGORY)) { 
-              remainingChannels = remainingChannels.filter(entry => !entry.isFavorite);
-          }
-          
-          channelCounter.textContent = remainingChannels.length;
-      }
-    }
-
-    searchInput.addEventListener('input', () => {
-      renderChannelList(searchInput.value);
-    });
-
-    function removeDuplicates() {
-        const uniqueNames = new Set();
-        const linesToRemove = [];
-        let removedCount = 0;
-
-        for (let i = channels.length - 1; i >= 0; i--) {
-            const channel = channels[i];
-            const nameKey = channel.name.trim().toLowerCase(); 
-
-            if (uniqueNames.has(nameKey)) {
-                const linesToDelete = (channel.endIndex - channel.startIndex) + 1;
-                linesToRemove.push({
-                    startIndex: channel.startIndex,
-                    count: linesToDelete
+            // Закрытие меню при клике на ссылку
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.style.display = 'none';
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
                 });
-                removedCount++;
-            } else {
-                uniqueNames.add(nameKey);
-            }
-        }
-        
-        linesToRemove.sort((a, b) => b.startIndex - a.startIndex);
-        
-        linesToRemove.forEach(item => {
-            originalLines.splice(item.startIndex, item.count);
-        });
-        
-        if (removedCount > 0) {
-            parseChannelsSync();
-            renderCategoryFilter();
-            renderCategorySelect(); 
-            renderChannelList(searchInput.value); 
-            showToast(`Удалено ${removedCount} дубликатов каналов.`); 
-        } else {
-            showToast('Дубликаты каналов не найдены.'); 
-        }
-    }
-    
-    removeDuplicatesBtn.addEventListener('click', removeDuplicates);
-    
-    // =======================================================
-    // ФУНКЦИЯ ДЛЯ ОБРАЩЕНИЯ К NETLIFY FUNCTION (БЕЗ ЛОАДЕРА/ЗАТЕМНЕНИЯ)
-    // =======================================================
-
-    async function uploadPlaylistToGitHub(content, count) {
-        // Проверка, является ли пользователь гостем. В реальном приложении здесь можно потребовать вход.
-        if (auth.currentUser?.isAnonymous) {
-            console.warn("Skipping GitHub upload: User is anonymous/guest.");
-            // showToast("Войдите, чтобы сохранять плейлисты на сервере."); // Можно включить, если нужно уведомить пользователя.
-            return; 
-        }
-
-        const uploadUrl = '/.netlify/functions/save-playlist'; 
-        
-        try {
-            const now = new Date();
-            const timestamp = now.getFullYear().toString() + 
-                              (now.getMonth() + 1).toString().padStart(2, '0') + 
-                              now.getDate().toString().padStart(2, '0') + 
-                              '_' +
-                              now.getHours().toString().padStart(2, '0') +
-                              now.getMinutes().toString().padStart(2, '0') +
-                              now.getSeconds().toString().padStart(2, '0');
-                              
-            const uniqueFilename = `playlist_${userId.substring(0, 8)}_${count}_${timestamp}.m3u`;
-            
-            const response = await fetch(uploadUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    filename: uniqueFilename, 
-                    fileContent: content, 
-                    userId: userId,
-                }),
             });
-            
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.details || errorData.error || 'Unknown API Error');
-            }
-            
-            // Если запрос успешен, но нет необходимости в уведомлении
-            
-        } catch (error) {
-            console.error('Ошибка сохранения:', error);
-            showToast(`Ошибка сохранения на сервере: ${error.message}`);
-        }
-    }
-
-
-    // =======================================================
-    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ 
-    // =======================================================
-    saveBtn.addEventListener('click', () => {
-      
-      const includedChannels = channels.filter(entry => {
-        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
-        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
-        const isFavorite = entry.isFavorite;
-
-        if (isFavorite) {
-            return !isFavoriteCategoryExcluded;
         }
         
-        return !isNormalCategoryExcluded;
-      });
-      
-      const favoriteChannels = includedChannels.filter(c => c.isFavorite);
+        // 3. Анимация появления при скролле (Intersection Observer)
+        const sections = document.querySelectorAll('main section');
 
-      let modifiedLines = ['#EXTM3U'];
-      
-      // 1. ДОБАВЛЯЕМ ДОПОЛНИТЕЛЬНУЮ КАТЕГОРИЮ ДЛЯ ИЗБРАННЫХ КАНАЛОВ В НАЧАЛО
-      if (favoriteChannels.length > 0) {
-        modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
-        
-        favoriteChannels.forEach(entry => {
-          let favExtinf = entry.extinf;
-          
-          favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
-          
-          if (!favExtinf.includes('group-title=')) {
-              favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
-          }
-          
-          modifiedLines.push(favExtinf);
-          modifiedLines.push(entry.url);
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                // Игнорируем hero-section
+                if (entry.target.id === 'hero-section') return;
+                
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    observer.unobserve(entry.target); // Прекращаем наблюдение после анимации
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.2 // Секция появится, когда 20% ее будет видно
         });
-        
-        modifiedLines.push('\n');
-      }
-      
-      // 2. Формируем ОСНОВНОЙ СПИСОК каналов
-      const groupedChannels = {};
-      includedChannels.forEach(entry => {
-          const cat = entry.category || 'Без категории';
-          if (!groupedChannels[cat]) {
-              groupedChannels[cat] = [];
-          }
-          groupedChannels[cat].push(entry);
-      });
-      
-      const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
-      
-      sortedCategories.forEach(cat => {
-          if (cat !== 'Без категории') {
-             modifiedLines.push(`#EXTGRP:${cat}`);
-          }
 
-          groupedChannels[cat].forEach(entry => {
-              if (entry.isFavorite) {
-                   return; 
-              }
+        sections.forEach(section => {
+            if (section.id !== 'hero-section') {
+                observer.observe(section);
+            }
+        });
+    </script>
 
-              modifiedLines.push(entry.extinf);
-              if (entry.extgrp) {
-                  modifiedLines.push(entry.extgrp);
-              }
-              modifiedLines.push(entry.url);
-          });
-      });
-      
-      // Сохраняем контент в глобальную переменную для локального скачивания
-      editedContent = modifiedLines.join('\n');
-      const finalChannelCount = includedChannels.length; 
-      
-      // 1. ЗАПУСК СОХРАНЕНИЯ НА GITHUB В ФОНОВОМ РЕЖИМЕ
-      uploadPlaylistToGitHub(editedContent, finalChannelCount);
-      
-      // 2. ПОКАЗ МОДАЛКИ ДЛЯ ЛОКАЛЬНОГО СКАЧИВАНИЯ
-      finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
-      saveModal.classList.remove('hidden');
-    });
-
-    // =======================================================
-    // ВОССТАНОВЛЕННЫЕ ОБРАБОТЧИКИ ЛОКАЛЬНОГО СКАЧИВАНИЯ
-    // =======================================================
-    downloadBtn.addEventListener('click', () => {
-      const blob = new Blob([editedContent], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      
-      const remainingChannels = channels.filter(entry => {
-        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
-        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
-        const isFavorite = entry.isFavorite;
-
-        if (isFavorite) {
-            return !isFavoriteCategoryExcluded;
-        }
-        
-        return !isNormalCategoryExcluded;
-      });
-      
-      const remainingCount = remainingChannels.length; 
-      // Имя файла для локального скачивания можно сделать проще
-      a.download = `playlist_${remainingCount}.m3u`; 
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-
-    closeSaveModal.addEventListener('click', () => {
-      saveModal.classList.add('hidden');
-    });
-    
-  </script>
 </body>
 </html>
