@@ -294,6 +294,20 @@
     .logo-link:hover img {
         transform: scale(1.2); /* Увеличение на 20% при наведении */
     }
+    /* Стили для нумерации в списке */
+    .channel-number {
+        font-weight: 700;
+        color: #ef4444; /* red-500 */
+        margin-right: 0.75rem;
+        width: 20px; /* Фиксированная ширина */
+        text-align: right;
+    }
+    .channel-item-content {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        min-width: 0; /* Обеспечивает корректное сжатие Flex-элемента */
+    }
 
   </style>
 </head>
@@ -836,6 +850,16 @@
             КОПИРОВАТЬ ССЫЛКУ
           </button>
       </div>
+
+      <div class="mb-4">
+        <label for="formatSelect" class="text-sm font-bold text-gray-800 block mb-2 text-left">Формат скачивания:</label>
+        <select id="formatSelect"
+            class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
+            <option value="m3u">M3U (стандартный)</option>
+            <option value="m3u8">M3U8 (UTF-8, для плееров)</option>
+            <option value="txt">TXT (только ссылки)</option>
+        </select>
+      </div>
       <button id="downloadBtn"
         class="w-full bg-black text-white font-medium py-2 rounded-xl transition hover:bg-gray-800 mb-2">
         СКАЧАТЬ ЛОКАЛЬНО
@@ -947,7 +971,7 @@
             if (editorScreen.classList.contains('hidden') === false) {
                  openUploadModalBtn.classList.remove('hidden'); // Загрузка доступна
                  saveBtn.classList.remove('hidden'); // СОХРАНИТЬ ВИДНА
-                 guestLogoutBtn.classList.remove('hidden'); // *** ВЫХОД ВИДЕН ***
+                 guestLogoutBtn.classList.remove('hidden'); // ВЫХОД ВИДЕН
             }
             
         } else {
@@ -965,7 +989,7 @@
             // ПОЛНЫЙ ФУНКЦИОНАЛ ДЛЯ АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ
             openUploadModalBtn.classList.remove('hidden');
             saveBtn.classList.remove('hidden');
-            guestLogoutBtn.classList.add('hidden'); // *** ВЫХОД СКРЫТ ***
+            guestLogoutBtn.classList.add('hidden'); // ВЫХОД СКРЫТ
         }
     });
 
@@ -1044,6 +1068,7 @@
     const removeDuplicatesBtn = document.getElementById('removeDuplicatesBtn'); 
     const dropArea = document.getElementById('dropArea');
     const categorySelect = document.getElementById('categorySelect'); 
+    const formatSelect = document.getElementById('formatSelect'); // НОВЫЙ SELECT
     
     const uploadModal = document.getElementById('uploadModal');
     const openUploadModalBtn = document.getElementById('openUploadModalBtn');
@@ -1845,7 +1870,7 @@
 
       updateCounter(filteredChannels.length); 
         
-      filteredChannels.forEach((entry) => {
+      filteredChannels.forEach((entry, index) => {
           const item = document.createElement('div');
           // Если гость, то убираем класс sortable-channel
           const draggableClass = isAnonymousUser ? '' : 'sortable-channel';
@@ -1853,9 +1878,21 @@
           item.dataset.channelUrl = entry.url; // Используем URL как уникальный (хоть и не всегда) идентификатор
           item.dataset.channelName = entry.name; // Добавляем имя для более надежной идентификации
           
+          // *** НУМЕРАЦИЯ КАНАЛА ***
+          const contentWrapper = document.createElement('div');
+          contentWrapper.className = 'channel-item-content';
+
+          const number = document.createElement('span');
+          number.className = 'channel-number';
+          number.textContent = index + 1; // Нумерация с 1
+          
           const name = document.createElement('span');
           name.className = 'channel-name text-black font-medium truncate max-w-[60%] md:max-w-[70%]'; 
           name.textContent = entry.name;
+
+          contentWrapper.appendChild(number);
+          contentWrapper.appendChild(name);
+          // *** КОНЕЦ НУМЕРАЦИИ КАНАЛА ***
 
           const favBtn = document.createElement('button');
           const starColor = entry.isFavorite ? 'text-yellow-500 hover:text-yellow-400' : 'text-gray-400 hover:text-yellow-500';
@@ -1918,7 +1955,7 @@
           buttonContainer.appendChild(downloadBtn);
           buttonContainer.appendChild(delBtn);
 
-          item.appendChild(name);
+          item.appendChild(contentWrapper); // Добавляем обертку с нумерацией и именем
           item.appendChild(buttonContainer);
           channelList.appendChild(item);
         });
@@ -2121,89 +2158,102 @@
         }
     }
 
+    // =======================================================
+    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ПЕРЕНЕСЕНО В ОТДЕЛЬНУЮ ФУНКЦИЮ)
+    // =======================================================
+    function generatePlaylistContent(format) {
+        const includedChannels = channels.filter(entry => {
+            const isNormalCategoryExcluded = excludedCategories.has(entry.category);
+            const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
+            const isFavorite = entry.isFavorite;
+
+            if (isFavorite) {
+                return !isFavoriteCategoryExcluded;
+            }
+            
+            return !isNormalCategoryExcluded;
+        });
+        
+        if (format === 'txt') {
+            return includedChannels.map(c => c.url).join('\n');
+        }
+
+        const favoriteChannels = includedChannels.filter(c => c.isFavorite);
+        let modifiedLines = [`#EXTM3U`];
+        
+        if (favoriteChannels.length > 0 && !isAnonymousUser) {
+            modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
+            
+            favoriteChannels.forEach(entry => {
+                let favExtinf = entry.extinf;
+                
+                favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
+                
+                if (!favExtinf.includes('group-title=')) {
+                    favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
+                }
+                
+                modifiedLines.push(favExtinf);
+                modifiedLines.push(entry.url);
+            });
+            
+            modifiedLines.push('\n');
+        }
+        
+        const groupedChannels = {};
+        includedChannels.forEach(entry => {
+            if (entry.isFavorite && !isAnonymousUser) return;
+            
+            const cat = entry.category || 'Без категории';
+            if (!groupedChannels[cat]) {
+                groupedChannels[cat] = [];
+            }
+            groupedChannels[cat].push(entry);
+        });
+        
+        const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
+        
+        sortedCategories.forEach(cat => {
+            if (cat !== 'Без категории') {
+                modifiedLines.push(`#EXTGRP:${cat}`);
+            }
+
+            groupedChannels[cat].forEach(entry => {
+                modifiedLines.push(entry.extinf);
+                if (entry.extgrp) {
+                    modifiedLines.push(entry.extgrp);
+                }
+                modifiedLines.push(entry.url);
+            });
+        });
+        
+        return modifiedLines.join('\n');
+    }
 
     // =======================================================
     // ОБНОВЛЕННЫЙ ОБРАБОТЧИК КНОПКИ СОХРАНИТЬ (АСИНХРОННЫЙ)
     // =======================================================
     saveBtn.addEventListener('click', async () => {
       
-      // 1. Формирование плейлиста 
-      const includedChannels = channels.filter(entry => {
-        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
-        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
-        const isFavorite = entry.isFavorite;
+      // 1. Формирование контента для локального M3U (для передачи на сервер)
+      // Мы генерируем M3U8, так как он более универсален для серверного хранения
+      const contentForServer = generatePlaylistContent('m3u8');
+      editedContent = contentForServer;
+      
+      // Определяем количество каналов
+      const finalChannelCount = editedContent.split('#EXTINF').length - 1; 
 
-        if (isFavorite) {
-            return !isFavoriteCategoryExcluded;
-        }
-        
-        return !isNormalCategoryExcluded;
-      });
-      
-      const favoriteChannels = includedChannels.filter(c => c.isFavorite);
-
-      let modifiedLines = ['#EXTM3U'];
-      
-      if (favoriteChannels.length > 0 && !isAnonymousUser) { // Избранное и группировка для избранного только для авторизованных
-        modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
-        
-        favoriteChannels.forEach(entry => {
-          let favExtinf = entry.extinf;
-          
-          favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
-          
-          if (!favExtinf.includes('group-title=')) {
-              favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
-          }
-          
-          modifiedLines.push(favExtinf);
-          modifiedLines.push(entry.url);
-        });
-        
-        modifiedLines.push('\n');
-      }
-      
-      const groupedChannels = {};
-      includedChannels.forEach(entry => {
-          if (entry.isFavorite && !isAnonymousUser) return; // Пропускаем избранное, если оно было добавлено выше
-          
-          const cat = entry.category || 'Без категории';
-          if (!groupedChannels[cat]) {
-              groupedChannels[cat] = [];
-          }
-          groupedChannels[cat].push(entry);
-      });
-      
-      const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
-      
-      sortedCategories.forEach(cat => {
-          if (cat !== 'Без категории') {
-             modifiedLines.push(`#EXTGRP:${cat}`);
-          }
-
-          groupedChannels[cat].forEach(entry => {
-              modifiedLines.push(entry.extinf);
-              if (entry.extgrp) {
-                  modifiedLines.push(entry.extgrp);
-              }
-              modifiedLines.push(entry.url);
-          });
-      });
-      
-      editedContent = modifiedLines.join('\n');
-      const finalChannelCount = includedChannels.length; 
-      
-      
       // 2. УПРАВЛЕНИЕ ДЛЯ ГОСТЯ
       if (isAnonymousUser) {
           finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
           // Скрываем контейнер динамической ссылки и сразу показываем модалку для локального скачивания
           document.getElementById('dynamicLinkContainer').classList.add('hidden');
+          document.getElementById('formatSelect').value = 'm3u'; // Сброс формата
           saveModal.classList.remove('hidden');
           return;
       }
       
-      // 3. ЛОГИКА ДЛЯ АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ (остается без изменений)
+      // 3. ЛОГИКА ДЛЯ АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ 
       const persistentUserId = userId; 
       const longDynamicLink = `https://read24.netlify.app/api/playlist/${persistentUserId}/latest.m3u`;
       
@@ -2211,6 +2261,7 @@
       finalFileName.textContent = `ФАЙЛ ${finalChannelCount} КАНАЛОВ`;
       dynamicPlaylistLink.value = "Сокращаю ссылку...";
       shortLinkLoader.classList.remove('hidden');
+      document.getElementById('formatSelect').value = 'm3u'; // Сброс формата
       saveModal.classList.remove('hidden');
       
       // Асинхронно сокращаем ссылку
@@ -2221,36 +2272,32 @@
       dynamicPlaylistLink.value = shortLink;
       
       // Запускаем сохранение на GitHub в фоне (включает ожидание)
-      uploadPlaylistToGitHub(editedContent, finalChannelCount, persistentUserId); 
+      uploadPlaylistToGitHub(contentForServer, finalChannelCount, persistentUserId); 
     });
 
     // =======================================================
-    // ВОССТАНОВЛЕННЫЕ ОБРАБОТЧИКИ ЛОКАЛЬНОГО СКАЧИВАНИЯ
+    // ОБНОВЛЕННЫЙ ОБРАБОТЧИК ЛОКАЛЬНОГО СКАЧИВАНИЯ
     // =======================================================
     downloadBtn.addEventListener('click', () => {
         
-      // ЛОГИКА СКАЧИВАНИЯ
-      const blob = new Blob([editedContent], { type: 'text/plain;charset=utf-8' });
+      const selectedFormat = formatSelect.value;
+      const contentToDownload = generatePlaylistContent(selectedFormat);
+
+      const mimeType = selectedFormat === 'txt' ? 'text/plain;charset=utf-8' : `application/x-mpegurl;charset=utf-8`;
+      const fileExtension = selectedFormat;
+
+      const blob = new Blob([contentToDownload], { type: mimeType });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       
-      // Считаем каналы для имени файла
-      const remainingChannels = channels.filter(entry => {
-        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
-        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
-        const isFavorite = entry.isFavorite;
+      const finalChannelCount = contentToDownload.split('#EXTINF').length - 1; 
+      if (finalChannelCount < 0 && selectedFormat !== 'txt') { // Фикс для подсчета каналов
+           a.download = `playlist_0.${fileExtension}`; 
+      } else {
+           a.download = `playlist_${finalChannelCount}.${fileExtension}`; 
+      }
 
-        if (isFavorite) {
-            return !isFavoriteCategoryExcluded;
-        }
-        
-        return !isNormalCategoryExcluded;
-      });
-      
-      const remainingCount = remainingChannels.length; 
-      // Имя файла для локального скачивания
-      a.download = `playlist_${remainingCount}.m3u`; 
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
