@@ -24,6 +24,16 @@
       animation: fade-in 0.3s ease-out;
     }
 
+    /* CSS ДЛЯ АНИМАЦИИ ДИНАМИЧЕСКОГО ТЕКСТА */
+    @keyframes text-fade-in {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dynamic-text-animated {
+      animation: text-fade-in 0.4s ease-out;
+    }
+    /* КОНЕЦ НОВОГО CSS */
+
     /* Стиль для элемента, который можно перетаскивать */
     .sortable-channel {
       cursor: grab;
@@ -42,9 +52,15 @@
     body {
         padding-top: 60px; /* Высота шапки + небольшой запас */
     }
-
-    /* Мобильная адаптация для списка каналов */
+    
+    /* ************************************************************ */
+    /* МОБИЛЬНАЯ АДАПТАЦИЯ: 24PX ДЛЯ ОСНОВНОГО ЗАГОЛОВКА */
+    /* ************************************************************ */
     @media (max-width: 640px) { /* sm breakpoint по умолчанию в Tailwind */
+        #heroBlock h1 {
+            font-size: 24px; /* Устанавливаем 24px */
+        }
+        
       .channel-item {
         flex-direction: column;
         align-items: flex-start;
@@ -86,6 +102,71 @@
           margin-top: 0.5rem; /* Отступ сверху для кнопок */
       }
     }
+    
+    /* Стили для таблицы (Сравнение Доступов) */
+    .comparison-table {
+        border-collapse: collapse;
+    }
+    .comparison-table td:first-child {
+        text-align: left;
+        font-weight: 500;
+        color: #1f2937; /* gray-800 */
+    }
+    .comparison-table th, .comparison-table td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #e5e7eb; /* gray-200 */
+    }
+    .comparison-table th {
+        background-color: #f9fafb; /* gray-50 */
+        color: #374151; /* gray-700 */
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+    }
+
+    /* Стили для FAQ (Аккордеон) */
+    .faq-item {
+        border-bottom: 1px solid #e5e7eb;
+        cursor: pointer;
+    }
+    .faq-question {
+        font-weight: 600;
+        color: #1f2937;
+        padding: 1rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: color 0.2s ease-in-out; /* Анимация цвета */
+        
+        /* Добавление иконки "вниз" по умолчанию */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right center;
+        padding-right: 2rem; /* Отступ для иконки */
+    }
+    .faq-question:hover {
+        color: #ef4444; /* red-500 */
+    }
+
+    /* Активное состояние вопроса: текст красный и иконка "вверх" */
+    .faq-item[aria-expanded="true"] .faq-question {
+        color: #ef4444; /* red-500 */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+
+    .faq-answer {
+        padding-bottom: 0rem;
+        padding-top: 0rem;
+        color: #4b5563;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+    .faq-item[aria-expanded="true"] .faq-answer {
+        max-height: 300px; /* Достаточно для плавного открытия */
+        padding-bottom: 1rem;
+    }
+
   </style>
 </head>
 <body class="bg-white text-black min-h-screen flex items-center justify-center px-4">
@@ -98,6 +179,11 @@
       </a>
 
       <div class="flex items-center">
+        <button id="openRegisterModalBtnHeader" 
+            class="bg-black text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-gray-900 transition">
+            ВОЙТИ / РЕГИСТРАЦИЯ
+        </button>
+
         <button id="logoutBtn"
           class="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-red-700 transition hidden">
           ВЫЙТИ
@@ -105,44 +191,260 @@
       </div>
     </div>
   </header>
-  <div id="mainScreen" class="text-center w-full max-w-md"> 
+  <div id="mainScreen" class="text-center w-full max-w-6xl"> 
     
-    <div id="unauthenticatedMessage" class="w-full max-w-xs mx-auto mb-8">
-        <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Добро пожаловать!</h2>
-        <p class="text-gray-600 mb-8">Чтобы получить доступ к редактору и сохранять плейлисты, пожалуйста, войдите или зарегистрируйтесь.</p>
-    </div>
-
-    <div id="authButtonContainer" class="flex flex-col gap-3 w-4/5 mx-auto mb-8">
-        <button id="openRegisterModalBtn"
-            class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full">
-            ВОЙТИ / РЕГИСТРАЦИЯ
+    <div id="heroBlock" class="animate-fade-in mb-8 w-full max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[calc(100vh-60px)]"> 
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 leading-tight mb-4 max-w-4xl mx-auto">
+            <span class="block">Редактируйте любые плейлисты</span>
+            <span class="block">
+                <span id="staticTitlePart" class="text-gray-800">для </span>
+                <span id="dynamicTitlePart" class="text-red-600">полного контроля</span><span class="text-red-600">.</span>
+            </span>
+        </h1>
+        <p class="text-base sm:text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+            Получите полный контроль над вашими медиатеками, объединяя
+            источники и настраивая порядок просмотра.
+        </p>
+        <button id="goToWhyUsBtn"
+            class="bg-red-600 text-white text-lg font-semibold px-10 py-3 rounded-2xl shadow-xl hover:bg-red-700 transition transform hover:scale-105">
+            Попробовать
         </button>
     </div>
+    <div id="whyUsBlock" class="w-full max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-[calc(100vh-60px)]">
+        <span class="text-red-600 font-bold text-sm uppercase tracking-wider block mb-2">ПОЧЕМУ МЫ?</span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-800 mb-10">
+            Возможности для ваших плейлистов
+        </h2>
 
-    <input type="file" id="fileInput" accept="*/*" class="hidden">
+        <div class="flex flex-wrap justify-center gap-6">
+            
+            <div class="w-full sm:w-80 p-6 bg-white rounded-2xl shadow-xl flex flex-col items-center text-center transition hover:shadow-2xl">
+                <div class="text-red-600 text-4xl mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 mx-auto"><path d="M12 18h.01"></path><path d="M12 6h.01"></path><path d="M16 12h.01"></path><path d="M8 12h.01"></path><path d="M12 2a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2s-2 0-2 0a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h4z"></path><path d="M20 10a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h1z"></path><path d="M4 10a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h1z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Полный контроль</h3>
+                <p class="text-gray-600 text-sm">
+                    Настраивайте порядок воспроизведения, удаляйте ненужное и добавляйте новый контент в вашу библиотеку за секунды.
+                </p>
+            </div>
 
-    <div id="uploadFunctionality" class="hidden"> 
+            <div class="w-full sm:w-80 p-6 bg-white rounded-2xl shadow-xl flex flex-col items-center text-center transition hover:shadow-2xl">
+                <div class="text-red-600 text-4xl mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 mx-auto"><rect width="20" height="12" x="2" y="5" rx="2"></rect><path d="M2 17h20"></path><path d="m14 17 2 2 4-4"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Просмотр без границ</h3>
+                <p class="text-gray-600 text-sm">
+                    Смотрите ваши плейлисты на любом устройстве: от мобильного телефона до Smart TV. Всегда синхронизировано.
+                </p>
+            </div>
+
+            <div class="w-full sm:w-80 p-6 bg-white rounded-2xl shadow-xl flex flex-col items-center text-center transition hover:shadow-2xl">
+                <div class="text-red-600 text-4xl mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 mx-auto"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Единая библиотека</h3>
+                <p class="text-gray-600 text-sm">
+                    Объединяйте медиафайлы из разных источников в одно централизованное и удобное место для доступа.
+                </p>
+            </div>
+        </div>
         
-        <div id="dropArea" class="p-4 rounded-2xl border-2 border-transparent transition">
+        <button id="startEditingBtn"
+            class="bg-red-600 text-white text-lg font-semibold px-10 py-3 rounded-2xl shadow-xl hover:bg-red-700 transition transform hover:scale-105 mt-10">
+            Начать редактирование
+        </button>
+    </div>
+    <div id="howItWorksBlock" class="w-full max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-[calc(100vh-60px)]">
+        <span class="text-red-600 font-bold text-sm uppercase tracking-wider block mb-2">КАК ЭТО РАБОТАЕТ</span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-800 mb-12">
+            Процесс Редактирования: Начните за 4 Шага
+        </h2>
+
+        <div class="space-y-12 max-w-lg mx-auto">
             
-            <button id="uploadBtn"
-                class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4">
-                ЗАГРУЗИТЬ ФАЙЛ
-            </button>
-            
-            <div class="my-4 text-gray-600 hidden">или перетащите сюда</div>
-            
-            <div class="flex flex-col gap-3 w-full mx-auto mb-4">
-              <input type="text" id="urlInput" placeholder="Введите ссылку на m3u файл"
-                class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 text-lg shadow-inner">
-              
-              <button id="loadUrlBtn"
-                class="w-full bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition">
-                ВПЕРЕД
-              </button>
+            <div class="flex flex-col items-center text-center">
+                <div class="w-10 h-10 bg-red-600 text-white font-bold rounded-full flex items-center justify-center text-lg mb-4">1</div>
+                <h3 class="text-xl font-extrabold text-gray-800 mb-2">Регистрация</h3>
+                <p class="text-gray-600 text-sm">
+                    Быстро создайте личный кабинет, чтобы получить доступ ко всем инструментам редактирования и облачному хранилищу.
+                </p>
+            </div>
+
+            <div class="h-1 bg-gray-200 w-1/2 mx-auto"></div>
+
+            <div class="flex flex-col items-center text-center">
+                <div class="w-10 h-10 bg-red-600 text-white font-bold rounded-full flex items-center justify-center text-lg mb-4">2</div>
+                <h3 class="text-xl font-extrabold text-gray-800 mb-2">Загрузите плейлист</h3>
+                <p class="text-gray-600 text-sm">
+                    Импортируйте файл .m3u, .m3u8, или другой поддерживаемый формат, используя прямую ссылку или загрузку с устройства.
+                </p>
+            </div>
+
+            <div class="h-1 bg-gray-200 w-1/2 mx-auto"></div>
+
+            <div class="flex flex-col items-center text-center">
+                <div class="w-10 h-10 bg-red-600 text-white font-bold rounded-full flex items-center justify-center text-lg mb-4">3</div>
+                <h3 class="text-xl font-extrabold text-gray-800 mb-2">Отредактируйте список</h3>
+                <p class="text-gray-600 text-sm">
+                    Используйте удобный drag-and-drop интерфейс для изменения порядка, удаления или добавления новых каналов/ссылок.
+                </p>
+            </div>
+
+            <div class="h-1 bg-gray-200 w-1/2 mx-auto"></div>
+
+            <div class="flex flex-col items-center text-center">
+                <div class="w-10 h-10 bg-red-600 text-white font-bold rounded-full flex items-center justify-center text-lg mb-4">4</div>
+                <h3 class="text-xl font-extrabold text-gray-800 mb-2">Сохраните и используйте</h3>
+                <p class="text-gray-600 text-sm">
+                    Сохраните изменения. Вы получите новую ссылку, которая будет автоматически обновляться, или скачаете готовый файл.
+                </p>
             </div>
         </div>
     </div>
+    <div id="comparisonBlock" class="w-full max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-[calc(100vh-60px)]">
+        <span class="text-red-600 font-bold text-sm uppercase tracking-wider block mb-2">ВЫБЕРИТЕ СВОЙ ПУТЬ</span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-800 mb-8">
+            Сравнение Доступов: С регистрацией vs Без нее
+        </h2>
+
+        <div class="w-full max-w-xl bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+            <table class="w-full text-sm text-gray-500 comparison-table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left">Возможность</th>
+                        <th scope="col" class="px-6 py-3 text-center">Без регистрации</th>
+                        <th scope="col" class="px-6 py-3 text-center">С регистрацией</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">Единоразовое редактирование плейлиста</td>
+                        <td class="px-6 py-4 text-center text-green-600 font-extrabold text-xl">✔</td>
+                        <td class="px-6 py-4 text-center text-green-600 font-extrabold text-xl">✔</td>
+                    </tr>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">Сохранение плейлиста в облаке</td>
+                        <td class="px-6 py-4 text-center text-red-600 font-extrabold text-xl">✘</td>
+                        <td class="px-6 py-4 text-center text-green-600 font-extrabold text-xl">✔</td>
+                    </tr>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">Динамическая ссылка на плейлист (автообновление)</td>
+                        <td class="px-6 py-4 text-center text-red-600 font-extrabold text-xl">✘</td>
+                        <td class="px-6 py-4 text-center text-green-600 font-extrabold text-xl">✔</td>
+                    </tr>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">Доступ к истории изменений</td>
+                        <td class="px-6 py-4 text-center text-red-600 font-extrabold text-xl">✘</td>
+                        <td class="px-6 py-4 text-center text-green-600 font-extrabold text-xl">✔</td>
+                    </tr>
+                    <tr class="bg-white hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">Синхронизация между устройствами</td>
+                        <td class="px-6 py-4 text-center text-red-600 font-extrabold text-xl">✘</td>
+                        <td class="px-6 py-4 text-center text-green-600 font-extrabold text-xl">✔</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="text-gray-600 text-sm mt-6 mb-8 max-w-xl">
+            Для получения максимального удобства и доступа ко всем продвинутым функциям редактирования плейлистов, рекомендуем пройти **"быструю регистрацию"**.
+        </p>
+
+        <button id="registerNowBtn"
+            class="bg-red-600 text-white text-lg font-semibold px-10 py-3 rounded-2xl shadow-xl hover:bg-red-700 transition transform hover:scale-105">
+            Регистрация
+        </button>
+    </div>
+    <div id="faqBlock" class="w-full max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-[calc(100vh-60px)]">
+        <span class="text-red-600 font-bold text-sm uppercase tracking-wider block mb-2">СПРОСИТЕ НАС</span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-800 mb-10">
+            Частые вопросы
+        </h2>
+
+        <div class="w-full max-w-2xl text-left border-t border-gray-200">
+            
+            <div class="faq-item" tabindex="0" aria-expanded="false">
+                <div class="faq-question" onclick="toggleFaq(this.parentElement)">
+                    Какие форматы плейлистов поддерживает ваш редактор?
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Импортируйте файлы в форматах **.m3u**, **.m3u8**, или **других поддерживаемых форматах**, используя прямую ссылку или загрузку с устройства.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item" tabindex="0" aria-expanded="false">
+                <div class="faq-question" onclick="toggleFaq(this.parentElement)">
+                    Могу ли я объединить несколько плейлистов в один?
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Да, это одна из ключевых возможностей нашего сервиса! Вы можете легко импортировать несколько файлов или ссылок, а затем объединить их в одну централизованную библиотеку.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item" tabindex="0" aria-expanded="false">
+                <div class="faq-question" onclick="toggleFaq(this.parentElement)">
+                    Что такое "Динамическая ссылка на плейлист" и как она работает?
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Динамическая ссылка (доступна после регистрации) — это постоянный URL вашего плейлиста. Когда вы вносите изменения в список через наш редактор, плейлист по этой ссылке **"автоматически обновляется"** на всех ваших устройствах (Smart TV, плееры и т.д.).
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item" tabindex="0" aria-expanded="false">
+                <div class="faq-question" onclick="toggleFaq(this.parentElement)">
+                    Безопасно ли загружать мой плейлист?
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Абсолютно. Мы гарантируем полную конфиденциальность и не храним личные данные или содержимое ваших плейлистов, если вы сами не решите сохранить их в личном кабинете. Даже в этом случае они защищены.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item" tabindex="0" aria-expanded="false">
+                <div class="faq-question" onclick="toggleFaq(this.parentElement)">
+                    Могу ли я изменить порядок каналов/ссылок?
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Да. Наш редактор имеет интуитивно понятный интерфейс **"Drag-and-Drop (перетаскивание)"**, который позволяет легко менять порядок элементов в списке простым движением мыши или касанием.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item" tabindex="0" aria-expanded="false">
+                <div class="faq-question" onclick="toggleFaq(this.parentElement)">
+                    Нужно ли регистрироваться, чтобы отредактировать один плейлист?
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Нет, для **"единоразового редактирования"** и скачивания файла регистрация не требуется. Однако, чтобы сохранить плейлисты в облаке и получить динамическую ссылку для автообновления, регистрация необходима.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="faq-item" tabindex="0" aria-expanded="false">
+                <div class="faq-question" onclick="toggleFaq(this.parentElement)">
+                    Работает ли ваш редактор на мобильных устройствах?
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Да, наш сервис полностью адаптирован и корректно работает на всех современных устройствах, включая смартфоны, планшеты и настольные компьютеры.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="unauthenticatedMessage" class="hidden"></div>
+    <div id="authButtonContainer" class="hidden"></div>
+
+    <input type="file" id="fileInput" accept="*/*" class="hidden">
     
     <div id="loading" class="hidden text-blue-600 mb-4">
       <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
@@ -395,23 +697,48 @@
         
         // 1. Скрываем/показываем контейнеры
         if (!isAuthenticated) {
-            // Пользователь не вошел или гость: показываем экран входа
-            unauthenticatedMessage.classList.remove('hidden');
-            authButtonContainer.classList.remove('hidden');
-            uploadFunctionality.classList.add('hidden');
+            // Гость:
+            // Скрываем все лишнее
+            unauthenticatedMessage.classList.add('hidden'); 
+            authButtonContainer.classList.add('hidden');
             editorScreen.classList.add('hidden');
+            
+            // Показываем главный экран 
             mainScreen.classList.remove('hidden');
+            
+            // Управление кнопками в шапке
+            openRegisterModalBtn.classList.remove('hidden'); // Показываем "ВОЙТИ / РЕГИСТРАЦИЯ"
             logoutBtn.classList.add('hidden');
             userId = 'guest';
+            
+            // Сбрасываем состояние главного экрана при выходе:
+            // Все блоки на главной странице видимы (для прокрутки)
+            if (heroBlock) {
+                 heroBlock.classList.remove('hidden');
+            }
+            if (whyUsBlock) { 
+                 whyUsBlock.classList.remove('hidden');
+            }
+            if (howItWorksBlock) { 
+                 howItWorksBlock.classList.remove('hidden');
+            }
+            if (comparisonBlock) { 
+                 comparisonBlock.classList.remove('hidden');
+            }
+            if (faqBlock) { 
+                 faqBlock.classList.remove('hidden');
+            }
         } else {
-            // Пользователь вошел: СРАЗУ ПОКАЗЫВАЕМ ЭКРАН РЕДАКТОРА
-            unauthenticatedMessage.classList.add('hidden');
-            authButtonContainer.classList.add('hidden');
-            uploadFunctionality.classList.add('hidden'); // Скрываем формы загрузки
+            // Пользователь вошел:
+            // Скрываем главный экран и все его компоненты
             mainScreen.classList.add('hidden'); 
-            editorScreen.classList.remove('hidden'); // Показываем редактор
-            logoutBtn.classList.remove('hidden');
-            userId = user.uid; // Обновляем ID пользователя
+            // Показываем редактор
+            editorScreen.classList.remove('hidden');
+            
+            // Управление кнопками в шапке
+            openRegisterModalBtn.classList.add('hidden'); // Скрываем "ВОЙТИ / РЕГИСТРАЦИЯ"
+            logoutBtn.classList.remove('hidden'); // Показываем "ВЫЙТИ"
+            userId = user.uid; 
         }
     });
 
@@ -553,7 +880,9 @@
 
     // ПЕРЕМЕННЫЕ ДЛЯ РЕГИСТРАЦИИ/АУТЕНТИФИКАЦИИ
     const registrationModal = document.getElementById('registrationModal');
-    const openRegisterModalBtn = document.getElementById('openRegisterModalBtn');
+    // Используем новую кнопку в шапке
+    const openRegisterModalBtnHeader = document.getElementById('openRegisterModalBtnHeader'); 
+    const openRegisterModalBtn = openRegisterModalBtnHeader; // Переназначаем, чтобы не менять все обработчики
     const closeRegisterModal = document.getElementById('closeRegisterModal');
     const registerEmailBtn = document.getElementById('registerEmailBtn');
     const registerGoogleBtn = document.getElementById('registerGoogleBtn');
@@ -561,7 +890,6 @@
     const loginLink = document.getElementById('loginLink'); // Получаем ссылку "Войти"
     
     const unauthenticatedMessage = document.getElementById('unauthenticatedMessage');
-    const uploadFunctionality = document.getElementById('uploadFunctionality');
     const authButtonContainer = document.getElementById('authButtonContainer');
     
     // Элементы для динамической ссылки
@@ -569,6 +897,17 @@
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const shortLinkLoader = document.getElementById('shortLinkLoader');
 
+    // НОВЫЕ ПЕРЕМЕННЫЕ
+    const heroBlock = document.getElementById('heroBlock'); 
+    const whyUsBlock = document.getElementById('whyUsBlock'); 
+    const howItWorksBlock = document.getElementById('howItWorksBlock'); 
+    const comparisonBlock = document.getElementById('comparisonBlock');
+    const faqBlock = document.getElementById('faqBlock');
+    const goToWhyUsBtn = document.getElementById('goToWhyUsBtn'); 
+    const startEditingBtn = document.getElementById('startEditingBtn'); 
+    const registerNowBtn = document.getElementById('registerNowBtn'); 
+    const dynamicTitlePart = document.getElementById('dynamicTitlePart');
+    // КОНЕЦ НОВЫХ ПЕРЕМЕННЫХ
 
     let originalLines = [];
     let channels = [];
@@ -579,6 +918,41 @@
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
     const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
+    
+    // ===============================
+    // ЛОГИКА ДИНАМИЧЕСКОГО ТЕКСТА
+    // =======================================================
+    const dynamicPhrases = [
+        'вашего удобства', 
+        'любых устройств', 
+        'быстрого доступа', 
+        'идеального порядка', 
+        'полного контроля'
+    ];
+    let currentPhraseIndex = 0;
+
+    function updateDynamicTitle() {
+        if (dynamicTitlePart) {
+            // 1. Установка нового текста
+            dynamicTitlePart.textContent = dynamicPhrases[currentPhraseIndex];
+            
+            // 2. Сброс анимации (важно для повторного запуска)
+            dynamicTitlePart.classList.remove('dynamic-text-animated');
+            // Переинициализация анимации через небольшой таймаут
+            void dynamicTitlePart.offsetWidth; // Force reflow
+            dynamicTitlePart.classList.add('dynamic-text-animated'); 
+            
+            // 3. Обновление индекса
+            currentPhraseIndex = (currentPhraseIndex + 1) % dynamicPhrases.length;
+        }
+    }
+
+    // Запуск динамического текста только после загрузки всех элементов
+    if (dynamicTitlePart) {
+        updateDynamicTitle(); // Установка первого значения
+        setInterval(updateDynamicTitle, 2000); 
+    }
+    // =======================================================
 
     // ===============================
     // ЛОГИКА DRAG AND DROP
@@ -662,10 +1036,7 @@
     // ===============================
     // ОБРАБОТЧИКИ СОБЫТИЙ
     // =======================================================
-    uploadBtn.addEventListener('click', () => {
-        // Мы уже на mainScreen, просто вызываем fileInput
-        fileInput.click();
-    });
+    // uploadBtn.addEventListener('click', ...); - удален
 
     // Обработчик fileInput остается прежним
     fileInput.addEventListener('change', () => {
@@ -687,10 +1058,7 @@
       }, 50);
     });
 
-    loadUrlBtn.addEventListener('click', async () => {
-      const url = urlInput.value.trim();
-      await loadPlaylistFromUrl(url, loading, loadUrlBtn);
-    });
+    // loadUrlBtn.addEventListener('click', ...); - удален
     
     openUploadModalBtn.addEventListener('click', () => {
         // Открываем модальное окно для загрузки из редактора
@@ -754,9 +1122,43 @@
     // Подключение функций регистрации и выхода
     registrationFormElement.addEventListener('submit', handleEmailRegistration);
     registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
-    // Кнопка ВЫЙТИ теперь находится в шапке и ее обработчик остается здесь
     document.getElementById('logoutBtn').addEventListener('click', handleLogout); 
-    // КОНЕЦ НОВЫХ ОБРАБОТЧИКОВ
+    
+    // НОВЫЙ ОБРАБОТЧИК: Кнопка Регистрация в таблице
+    if (registerNowBtn) {
+        registerNowBtn.addEventListener('click', () => {
+             registrationModal.classList.remove('hidden');
+        });
+    }
+    
+    // ДОБАВЛЕНА ЛОГИКА АККОРДЕОНА ДЛЯ FAQ
+    window.toggleFaq = function(element) {
+        const isExpanded = element.getAttribute('aria-expanded') === 'true';
+        
+        // Скрываем все остальные открытые
+        document.querySelectorAll('.faq-item[aria-expanded="true"]').forEach(item => {
+            if (item !== element) {
+                item.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Переключаем текущий элемент
+        element.setAttribute('aria-expanded', !isExpanded);
+    }
+
+    // ОБРАБОТЧИКИ КНОПОК НА ГЛАВНОЙ СТРАНИЦЕ (без действия)
+    if (goToWhyUsBtn) {
+        goToWhyUsBtn.addEventListener('click', (e) => {
+            e.preventDefault(); 
+        });
+    }
+    
+    if (startEditingBtn) {
+        startEditingBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+    }
+    // КОНЕЦ НОВЫХ ОБРАБОТЧИКОВ (КНОПКИ БЕЗ ДЕЙСТВИЯ)
 
     async function loadPlaylistFromUrl(url, loadingElement, buttonElement) {
         if (!url) {
@@ -798,7 +1200,7 @@
 
         } catch (error) {
             console.error('Ошибка загрузки:', error);
-            showToast('Не удалось загрузить файл. Возможно, проблема с CORS или файл недоступен.');
+            showToast('Не удалось загрузить файл. Возможно, проблема с CORS или файл недоступна.');
             loadingElement.classList.add('hidden');
         } finally {
             buttonElement.disabled = false;
@@ -806,7 +1208,9 @@
     }
 
     function processPlaylistContent(content) {
-        originalLines = content.split('\n');
+        // Мы сохраняем originalLines только для теоретического сохранения других строк,
+        // но для редактирования теперь полагаемся на массив channels
+        originalLines = content.split('\n'); 
         
         parseChannelsAsync()
             .then(() => {
@@ -1157,16 +1561,29 @@
           const delBtn = document.createElement('button');
           delBtn.className = 'channel-delete-btn text-red-600 hover:text-red-500 font-semibold text-sm';
           delBtn.textContent = 'Удалить';
+          
+          // **********************************************
+          // ИСПРАВЛЕНИЕ: НАДЕЖНОЕ УДАЛЕНИЕ КАНАЛА ИЗ МАССИВА
+          // **********************************************
           delBtn.onclick = () => {
-            const linesToDelete = (entry.endIndex - entry.startIndex) + 1;
-            originalLines.splice(entry.startIndex, linesToDelete);
+            const indexToDelete = channels.findIndex(c => c === entry);
             
-            parseChannelsSync(true); // Перепарсинг с сохранением порядка
-            renderCategoryFilter();
-            renderCategorySelect(); 
-            renderChannelList(searchInput.value); 
-            initializeSortable(); // Переинициализация Sortable после удаления
+            if (indexToDelete !== -1) {
+              // Удаляем канал из основного массива channels
+              channels.splice(indexToDelete, 1); 
+              
+              // Обновляем все UI-элементы
+              renderCategoryFilter();
+              renderCategorySelect(); 
+              renderChannelList(searchInput.value); 
+              initializeSortable(); 
+              showToast(`Канал "${entry.name}" удален.`);
+            }
+            
+            // Важно: originalLines больше не изменяется напрямую при удалении канала.
+            // Он будет пересоздан при сохранении плейлиста.
           };
+          // **********************************************
 
           const buttonContainer = document.createElement('div');
           buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
@@ -1196,6 +1613,9 @@
       categoryChannelCounts = {};
       
       // Итерируемся по originalLines, чтобы восстановить channels и category data
+      // ВНИМАНИЕ: Эта функция должна использоваться только для обработки дубликатов, 
+      // где originalLines были изменены, или при первоначальной загрузке.
+      // Для удаления одиночных каналов используем более надежную логику в renderChannelList.
       for (let i = 0; i < originalLines.length; i++) {
         const line = originalLines[i].trim();
         if (line.startsWith('#EXTINF')) {
@@ -1211,7 +1631,7 @@
           let extgrp = '';
           let urlIndex = i + 1;
           while (urlIndex < originalLines.length) {
-            const nextLine = lines[urlIndex].trim();
+            const nextLine = originalLines[urlIndex].trim(); // ИСПРАВЛЕНО: было lines[urlIndex].trim()
             if (nextLine.startsWith('#EXTGRP:')) {
               if (category === 'Без категории' || category === '') {
                 category = nextLine.substring(8).trim();
@@ -1266,7 +1686,9 @@
 
     function removeDuplicates() {
         const uniqueNames = new Set();
-        const linesToRemove = [];
+        // ВАЖНО: При удалении дубликатов мы все еще должны модифицировать originalLines
+        // чтобы сохранить все не-EXTINF строки (комментарии, #EXTM3U и т.д.)
+        const indicesToRemove = []; // Сохраняем индексы в массиве channels для удаления
         let removedCount = 0;
 
         // Идем с конца, чтобы сохранить первый найденный дубликат
@@ -1275,31 +1697,31 @@
             const nameKey = channel.name.trim().toLowerCase(); 
 
             if (uniqueNames.has(nameKey)) {
-                // Если дубликат найден, готовим к удалению
-                const linesToDelete = (channel.endIndex - channel.startIndex) + 1;
-                linesToRemove.push({
-                    startIndex: channel.startIndex,
-                    count: linesToDelete
-                });
+                indicesToRemove.push(i); // Добавляем индекс в channels
                 removedCount++;
             } else {
                 uniqueNames.add(nameKey);
             }
         }
         
-        // Сортируем по убыванию, чтобы индексы не смещались при удалении
-        linesToRemove.sort((a, b) => b.startIndex - a.startIndex);
-        
-        linesToRemove.forEach(item => {
-            originalLines.splice(item.startIndex, item.count);
+        // Удаляем каналы из массива channels (с конца)
+        indicesToRemove.sort((a, b) => b - a);
+        indicesToRemove.forEach(index => {
+            channels.splice(index, 1);
         });
         
+        // Теперь, когда channels обновлен, перестраиваем originalLines (просто как массив)
+        // Для простоты мы не восстанавливаем старые комментарии, а только EXTINF/URL
+        // Если вы хотите сохранить все не-EXTINF строки, эта функция должна быть сложнее.
+        // Но для цели "Удалить дубликаты" лучше просто перестроить.
+        
         if (removedCount > 0) {
-            parseChannelsSync(); // Перепарсинг без автоматической сортировки
+            // Перепарсинг в этом случае не нужен, так как каналы уже удалены.
+            // Нужно просто обновить UI.
             renderCategoryFilter();
             renderCategorySelect(); 
             renderChannelList(searchInput.value); 
-            initializeSortable(); // Переинициализация Sortable после удаления
+            initializeSortable(); 
             showToast(`Удалено ${removedCount} дубликатов каналов.`); 
         } else {
             showToast('Дубликаты каналов не найдены.'); 
