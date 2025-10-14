@@ -1,16 +1,10 @@
 #EXTM3U
 #EXTGRP:✨ИЗБРАННОЕ✨
-#EXTINF:-1 group-title="✨ИЗБРАННОЕ✨",.Black
-http://91.194.191.241:8081/chid408/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="✨ИЗБРАННОЕ✨",.Red
-http://91.194.191.241:8081/chid85/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="✨ИЗБРАННОЕ✨",.Sci-Fi
-http://91.194.191.241:8081/chid77/tracks-v1a1/mono.m3u8
+#EXTINF:-1 group-title="✨ИЗБРАННОЕ✨",+O
+http://46.8.46.14/utv/index.m3u8
 
 
 #EXTGRP:03-09-25
-#EXTINF:-1 group-title="03-09-25",+O
-http://46.8.46.14/utv/index.m3u8
 #EXTINF:-1 group-title="03-09-25",КИНО ТВ HD
 http://46.8.46.14/kinotv/index.m3u8
 #EXTINF:-1 group-title="03-09-25",РОДНОЕ КИНО
@@ -544,273 +538,6 @@ http://87.246.54.249:8085/espressotv/index.m3u8
 http://87.246.54.249:8085/UDAR/index.m3u8
 #EXTINF:-1 group-title="KABELNET",VIA KINO
 http://87.246.54.249:8085/TV1000/index.m3u8
-#EXTGRP:KINO+📺
-#EXTINF:-1 group-title="KINO+📺",12 TV
-https://streaming.goodstream.cyou/live/7004.m3u8
-#EXTINF:-1 group-title="KINO+📺",Бел 3 HD
-https://edge50.dc.beltelecom.by/ngtrk/smil:belarus3.smil/chunklist_b5160000_sleng.m3u8
-#EXTINF:-1 group-title="KINO+📺",БОЛТ UA HD
-http://84.245.224.71/BoltHD/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺",Дом Кино HD
-https://streaming.thestream.cyou/live/44-req_offset_28000000-req_window_0-1k_v5.m3u8
-#EXTINF:-1 group-title="KINO+📺",Евро кино
-http://31.148.48.15/Evrokino/tracks-v1a1/mono.m3u8?token=iptv.org.ua
-#EXTINF:-1 group-title="KINO+📺",Затеряный Мир
-https://v2.catcast.tv/content/47781/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Иллюзион + SD
-http://93.125.121.61:8383/play/a01p
-#EXTINF:-1 group-title="KINO+📺",ИЛЛЮЗИОН+
-http://217.21.34.160:38003/illuzionplus/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Индийское Кино sd
-http://46.8.46.14/indiatv/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",К премьера HD
-http://95.85.109.219:7000/play/a085
-#EXTINF:-1 group-title="KINO+📺",Кино 1 International
-http://kino-1.catcast.tv/content/38617/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Кино Kомедия HD
-https://vod.splay.uz/live_splay/original/Kinokomediya/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺",Кино6
-http://185.57.68.33:80/255/playlist.m3u8
-#EXTINF:-1 group-title="KINO+📺",Киноман sd
-http://95.85.109.219:7000/play/a06a
-#EXTINF:-1 group-title="KINO+📺",Киномикс FULHD
-http://87.246.54.249:8085/Kinomiks/mpegts
-#EXTINF:-1 group-title="KINO+📺",КИНОСВИДАНИЕ
-http://46.8.46.14/kinosvid/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",КИНОСЕМЬЯ HD
-http://93.125.121.61:8383/play/Intelsat85k307
-#EXTINF:-1 group-title="KINO+📺",КИНОСЕРИЯ HD
-https://vod.splay.uz/live_splay/original/Kinoseriya/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",КИНОХИТ
-http://46.8.46.14/kinohit/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Кинохит FUL HD
-http://87.246.54.249:8085/KinoHit/mpegts
-#EXTINF:-1 group-title="KINO+📺",КиноCерия
-http://46.8.46.14/kinoseria/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Классика индийского кино
-https://autopilot.catcast.tv/content/41596/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",КП SD
-http://radio.tvs.by:8088/Kinopremiera/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",ЛЮБИМОЕ КИНО
-http://217.21.34.160:38007/lubimoekino/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",ЛЮБИМОЕ КИНО HD
-http://84.54.128.52:9090/play/a002/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",МИР СЕРИАЛА
-http://217.21.34.160:38007/mirseriala/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",МУЖСКОЕ КИНО
-http://213.252.199.137:8000/play/ch364_Muzhskoe_Kino/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Нове тв
-https://novoe.top/nove_tv.m3u8.jpg?m3u8
-#EXTINF:-1 group-title="KINO+📺",Ностальгия [R]
-http://31.148.48.15:80/Nostalgiya/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",НСТВ sd
-http://195.64.140.147:10054/54
-#EXTINF:-1 group-title="KINO+📺",Премьера HD
-http://158.101.222.193:88/georgia_play.php?id=kinopremyerahd
-#EXTINF:-1 group-title="KINO+📺",Ретро TV
-http://86.57.209.210/Retro/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Романтичное HD
-http://46.8.46.14/Romantichnoe_HD/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Сити Эдем - Кино Детектив
-https://autopilot.catcast.tv/content/41327/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Сити Эдем - Кино Комедия
-https://v2.catcast.tv/content/41331/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Сити Эдем - Кино Мистика
-https://autopilot.catcast.tv/content/40783/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Сити Эдем - Кино Новелла
-https://autopilot.catcast.tv/content/46209/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Сити Эдем - Кино Экшен
-https://autopilot.catcast.tv/content/41333/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",СТС SD
-https://streaming.goodstream.cyou/live/296.m3u8
-#EXTINF:-1 group-title="KINO+📺",ТВ 1000HD
-https://vod.splay.uz/live_splay/original/TV1000/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺",ТВ 21
-http://46.8.46.14/TV21/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Техно-24
-http://87.246.54.249:8085/24Tehno/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Фильмы - VHS TV
-https://autopilot.catcast.tv/content/47609/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Чародеи
-https://v2.catcast.tv/content/47783/index.m3u8
-#EXTINF:-1 group-title="KINO+📺", A1 720x576
-http://31.148.48.15/A1/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Amedia 1 kz
-http://sc.id-tv.kz/A1.m3u8
-#EXTINF:-1 group-title="KINO+📺",amedia2
-http://158.101.222.193:88/georgia_play.php?id=amedia2
-#EXTINF:-1 group-title="KINO+📺",black sd
-http://195.64.140.147:10087/87
-#EXTINF:-1 group-title="KINO+📺",CINEMA HD
-https://vod.splay.uz/live_splay/original/CinemaHD/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",CINEMA SD
-http://46.8.46.14/cinema/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Comedy CENTRAL
-http://46.8.46.14/paramountcomedy/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",dizi HD
-http://193.27.209.122/dizi/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Dom_Kino Премиум
-http://84.54.128.52:9090/play/a001/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Domashniy International
-https://cdn4.skygo.mn/live/disk1/Domashni/HLSv3-FTA/Domashni.m3u8
-#EXTINF:-1 group-title="KINO+📺",Eurokino
-http://46.8.46.14/eurokino/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",fenikspluskino
-http://158.101.222.193:88/georgia_play.php?id=fenikspluskino
-#EXTINF:-1 group-title="KINO+📺",friday
-http://158.101.222.193:88/georgia_play.php?id=friday
-#EXTINF:-1 group-title="KINO+📺",FX
-http://46.8.46.14/FOX/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",FX Life
-http://188.237.47.212:6008
-#EXTINF:-1 group-title="KINO+📺",Kineko
-http://31.148.48.15/Kineko/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Kinokhit
-http://213.252.199.137:8000/play/ch317_Kinokhit/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",kinokomediya
-http://158.101.222.193:88/georgia_play.php?id=kinokomediya
-#EXTINF:-1 group-title="KINO+📺",kinomiks
-http://158.101.222.193:88/georgia_play.php?id=kinomiks
-#EXTINF:-1 group-title="KINO+📺",Kinopremera
-http://213.252.199.137:8000/play/ch327_Kinopremera/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Kinosemya
-http://46.8.46.14/kinosemya/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Kinowood
-http://193.27.209.122/kinowood/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",KTV
-http://cdn-konultvazerbaijan.yayin.com.tr/konultvazerbaijan/konultvazerbaijan/playlist.m3u
-#EXTINF:-1 group-title="KINO+📺",Malder Мегахит
-https://autopilot.catcast.tv/content/47689/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",MGM
-https://autopilot.catcast.tv/content/44051/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",nashanovoekino
-http://158.101.222.193:88/georgia_play.php?id=nashanovoekino
-#EXTINF:-1 group-title="KINO+📺",nostalgy
-http://158.101.222.193:88/georgia_play.php?id=nostalgy
-#EXTINF:-1 group-title="KINO+📺",OTV (Латвия)
-http://84.245.224.71/OTV/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺",perec
-http://158.101.222.193:88/georgia_play.php?id=perec
-#EXTINF:-1 group-title="KINO+📺",Peretz International
-https://cdn4.skygo.mn/live/disk1/Che/HLSv3-FTA/Che.m3u8
-#EXTINF:-1 group-title="KINO+📺",Sci-Fi
-http://178.124.179.122:8088/Sci-Fi/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Sci-Fi hd
-http://188.237.47.212:6001
-#EXTINF:-1 group-title="KINO+📺",Star Cinema HD
-http://84.245.224.71/StarCinemaHD/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺",STS
-https://streaming.skynetconnect.online/live/296-req_offset_28000000-req_window_0-1k_v5.m3u8
-#EXTINF:-1 group-title="KINO+📺",STS International
-https://cdn4.skygo.mn/live/disk1/STS/HLSv3-FTA/STS.m3u8
-#EXTINF:-1 group-title="KINO+📺",STS Love
-http://194.143.148.28:8080/CTC_LOVE/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Super Baltic HD
-http://84.245.224.71/SuperBaltic/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺",Super+ Baltic HD
-http://84.245.224.71/SuperPlus/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺",Timeless Dizi Channel 720х576
-http://194.158.222.36:6086
-#EXTINF:-1 group-title="KINO+📺",TNT
-https://streaming.thestream.cyou/live/38-req_offset_28000000-req_window_0-1k_v5.m3u8
-#EXTINF:-1 group-title="KINO+📺",TNT International
-https://cdn4.skygo.mn/live/disk1/THT/HLSv3-FTA/THT.m3u8
-#EXTINF:-1 group-title="KINO+📺",TNT4 International
-https://cdn4.skygo.mn/live/disk1/TNT4/HLSv3-FTA/TNT4.m3u8
-#EXTINF:-1 group-title="KINO+📺",TV XXI sd
-http://93.125.121.61:8383/play/Intelsat85k507
-#EXTINF:-1 group-title="KINO+📺",TV-1 KG FHD Бишкек CITY
-http://212.2.225.30:1935/live/site.stream/playlist.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 10
-https://fl1001.bozztv.com/ushba-films-g/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 11
-https://fl1001.bozztv.com/ushba-films-h/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 12
-https://fl1001.bozztv.com/ushba-films-i/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 13
-https://fl1001.bozztv.com/ushba-films-j/index.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 14
-https://fl1001.bozztv.com/ushba-films-m/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 15
-https://fl1001.bozztv.com/ushba-films-p/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 16
-https://fl1001.bozztv.com/ushba-films-t/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 17
-https://fl1001.bozztv.com/ushba-films-yz/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 18
-https://fl1001.bozztv.com/ushba-films-n/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 19
-https://fl1001.bozztv.com/ushba-films-qr/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 20
-https://fl1001.bozztv.com/ushba-films-uv/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 21
-https://fl1001.bozztv.com/ushba-films-o/index.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 22
-https://fl1001.bozztv.com/ushba-films-s/index.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 23
-https://fl1001.bozztv.com/ushba-films-w/index.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 24
-https://fl1001.bozztv.com/ushba-rfilrms-0/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 25
-https://fl1001.bozztv.com/ushba-rfilrms-a/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 26
-https://fl1001.bozztv.com/ushba-rfilrms-b/index.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 27
-https://fl1001.bozztv.com/ushba-rfilrms-c/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 28
-https://fl1001.bozztv.com/ushba-rfilrms-d/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 29
-https://fl1001.bozztv.com/ushba-rfilrms-e/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 3
-https://fl1001.bozztv.com/ushba24/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 30
-https://fl1001.bozztv.com/ushba-rfilrms-g/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 31
-https://fl1001.bozztv.com/ushba-rfilrms-i/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 32
-https://fl1001.bozztv.com/ushba-rfilrms-k/index.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 33
-https://fl1001.bozztv.com/ushba-rfilrms-p/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 34
-https://fl1001.bozztv.com/ushba-rfilrms-v/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 35
-https://fl1001.bozztv.com/ushba-rfilrms-z/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 36
-https://fl1001.bozztv.com/ushba64/index.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 37
-https://fl1001.bozztv.com/ushba65/index.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 4
-https://fl1001.bozztv.com/ushba26/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 6
-https://fl1001.bozztv.com/ushba-films-c/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 7
-https://fl1001.bozztv.com/ushba-films-d/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 8
-https://fl1001.bozztv.com/ushba-films-e/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺", Usba Кинозал 9
-https://fl1001.bozztv.com/ushba-films-f/tracks-v1a1/mono.m3u8
-#EXTINF:-1 group-title="KINO+📺",V Kino
-http://87.246.54.249:8085/TV1000/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",V Kino COMEDY
-http://ukr.ukrainske.tv/493/keytvainua/video.m3u8
-#EXTINF:-1 group-title="KINO+📺",VIJU TV1000
-http://46.8.46.14/tv1000/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",viju TV1000 R Kino
-http://158.101.222.193:88/georgia_play.php?id=tv1000rukino
-#EXTINF:-1 group-title="KINO+📺",viju+ TV1000 Action
-http://46.8.46.14/actiontv/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",VIP Comedy
-http://93.125.121.61:8383/play/a00m
-#EXTINF:-1 group-title="KINO+📺",VIP Megahit
-http://93.125.121.61:8383/play/a038
-#EXTINF:-1 group-title="KINO+📺",VIP Premiere
-http://93.125.121.61:8383/play/a037
-#EXTINF:-1 group-title="KINO+📺",Vipcomedy
-http://46.8.46.14/vipcomedy/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",Vipmegahit HD
-http://46.8.46.14/vipmegahit/index.m3u8
-#EXTINF:-1 group-title="KINO+📺",zeetv
-http://158.101.222.193:88/georgia_play.php?id=zeetv
 #EXTGRP:OTT Pink 🇺🇦
 #EXTINF:-1 group-title="OTT Pink 🇺🇦" tvg-logo="http://ottpink.network/picons/1plus1hd.png",1+1 Марафон UA
 https://m3u8.ott.blue/watch/45/index.m3u8?geo=auto&token=94450098895765784220366841698509
@@ -854,6 +581,8 @@ http://158.101.222.193:88/georgia_play.php?id=mezzo
 #EXTINF:-1 group-title="Oracle Corporation_2",TV1000 Р кино
 http://158.101.222.193:88/georgia_play.php?id=tv1000rukino
 #EXTGRP:Peers-test-(VPN)
+#EXTINF:-1 catchup="append" catchup-days="7" catchup-source="&offset=${offset}" group-title="Peers-test-(VPN)" ,.black
+http://api.peers.tv/timeshift/sony_turbo/16/playlist.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhY2Nlc3MiLCJleHAiOjE3NjAwMzYxNTYsImlhdCI6MTc1OTk0OTc1NiwiY2lkIjo2LCJ1aWQiOjk1MjA0MjQ1NywicmVnIjpmYWxzZSwiaXAiOjM1ODU1NTI1NzksImFkdWx0IjpmYWxzZX0.M3xnoA_xEwK-rtVJW7dhHp6FgDvGFpDgKh_dEhQyLIc&offset=10
 #EXTINF:-1 catchup="append" catchup-days="7" catchup-source="&offset=${offset}" group-title="Peers-test-(VPN)" ,2x2 (+4)
 http://api.peers.tv/timeshift/2x2tv/16/playlist.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhY2Nlc3MiLCJleHAiOjE3NjAwMzYxNTYsImlhdCI6MTc1OTk0OTc1NiwiY2lkIjo2LCJ1aWQiOjk1MjA0MjQ1NywicmVnIjpmYWxzZSwiaXAiOjM1ODU1NTI1NzksImFkdWx0IjpmYWxzZX0.M3xnoA_xEwK-rtVJW7dhHp6FgDvGFpDgKh_dEhQyLIc&offset=10
 #EXTINF:-1 catchup="append" catchup-days="7" catchup-source="&offset=${offset}" group-title="Peers-test-(VPN)" ,Авто 24
@@ -1870,6 +1599,10 @@ https://ext.cdn.nashnet.tv/228.0.1.45/index.m3u8
 #EXTINF:-1 catchup="default" catchup-days="6" catchup-source="https://ext.cdn.nashnet.tv/228.0.2.45/${start}-${end}/index.m3u8" group-title="НашНет 🇺🇦" , UA:Перший
 https://ext.cdn.nashnet.tv/228.0.2.45/index.m3u8
 #EXTGRP:ТЕЛЕОС-1 (VPN)
+#EXTINF:-1 group-title="ТЕЛЕОС-1 (VPN)",.Red
+http://91.194.191.241:8081/chid85/tracks-v1a1/mono.m3u8
+#EXTINF:-1 group-title="ТЕЛЕОС-1 (VPN)",.Sci-Fi
+http://91.194.191.241:8081/chid77/tracks-v1a1/mono.m3u8
 #EXTINF:-1 group-title="ТЕЛЕОС-1 (VPN)",2х2
 http://91.194.191.241:8081/chid21/tracks-v1a1/mono.m3u8
 #EXTINF:-1 group-title="ТЕЛЕОС-1 (VPN)",8 Канал
