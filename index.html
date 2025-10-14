@@ -286,6 +286,14 @@
         justify-content: center; /* Центрируем контент */
         align-items: center;
     }
+    
+    /* СТИЛИ ДЛЯ ЛОГОТИПА */
+    .logo-link img {
+        transition: transform 0.2s ease-in-out;
+    }
+    .logo-link:hover img {
+        transform: scale(1.2); /* Увеличение на 20% при наведении */
+    }
 
   </style>
 </head>
@@ -294,7 +302,7 @@
   <header id="siteHeader" class="fixed top-0 left-0 w-full bg-white shadow-md z-30">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex justify-between items-center header-content">
       
-      <a href="/" class="flex items-center space-x-2 flex-shrink-0">
+      <a href="/" class="flex items-center space-x-2 flex-shrink-0 logo-link">
         <img src="https://read24.netlify.app/icon1.ico" alt="Логотип" class="h-8 w-8">
         <span class="text-xl font-bold text-gray-800 hidden sm:inline"></span>
       </a>
@@ -1999,7 +2007,7 @@
             }
             
             // Если запрос успешен, то плейлист обновлен по динамической ссылке
-            showToast(`Плейлист обновлен на сервере. (${count} каналов)`);
+            // showToast(`Плейлист обновлен на сервере. (${count} каналов)`); // УДАЛЕНО УВЕДОМЛЕНИЕ
             
         } catch (error) {
             console.error('Ошибка сохранения:', error);
