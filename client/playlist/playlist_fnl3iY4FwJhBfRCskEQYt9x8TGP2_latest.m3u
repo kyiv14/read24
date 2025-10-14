@@ -2039,10 +2039,10 @@ http://93.125.121.61:8383/play/a038
 #EXTINF:-1 group-title="ТЕСТ 03-09",viju+Premiere
 http://93.125.121.61:8383/play/a037
 #EXTGRP:Україна 🇺🇦
-#EXTINF:-1 group-title="Україна 🇺🇦",1 Городский Кривий Ріг
-https://cdn1.live-tv.cloud/1tvkr/1tvkr-abr-lq/playlist.m3u8
 #EXTINF:-1 group-title="Україна 🇺🇦",1 Городский Одеса HD
 http://91.194.79.46:8081/stream1/channel1/playlist.m3u8
+#EXTINF:-1 group-title="Україна 🇺🇦",1 Городский Кривий Ріг
+https://cdn1.live-tv.cloud/1tvkr/1tvkr-abr-lq/playlist.m3u8
 #EXTINF:-1 group-title="Україна 🇺🇦",1+1 Україна
 http://185.207.34.107:8000/play/1plus1
 #EXTINF:-1 group-title="Україна 🇺🇦",1+1 International
