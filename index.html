@@ -942,7 +942,7 @@
             // УПРАВЛЕНИЕ КНОПКАМИ В РЕДАКТОРЕ ДЛЯ ГОСТЯ
             if (editorScreen.classList.contains('hidden') === false) {
                  openUploadModalBtn.classList.remove('hidden'); // Загрузка доступна
-                 saveBtn.classList.remove('hidden'); // *** ИЗМЕНЕНИЕ: СОХРАНИТЬ ВИДНА ***
+                 saveBtn.classList.remove('hidden'); // СОХРАНИТЬ ВИДНА
             }
             
         } else {
@@ -1367,7 +1367,7 @@
     
     // *** ИЗМЕНЕННЫЙ ОБРАБОТЧИК: Кнопки "Начать редактирование" ***
     function handleStartEditing() {
-        // 1. Показываем модальное окно загрузки для гостя (потому что нет файла)
+        // 1. Показываем модальное окно загрузки
         uploadModal.classList.remove('hidden');
 
         // 2. Скрываем главный экран и показываем редактор
@@ -1481,7 +1481,7 @@
                 
                 // *** ПРОВЕРКА ДЛЯ УПРАВЛЕНИЯ КНОПКАМИ В РЕДАКТОРЕ ***
                 if (isAnonymousUser) {
-                    saveBtn.classList.remove('hidden'); // *** ИЗМЕНЕНИЕ: СОХРАНИТЬ ВИДНА ***
+                    saveBtn.classList.remove('hidden'); // СОХРАНИТЬ ВИДНА
                     openUploadModalBtn.classList.remove('hidden'); 
                 } else {
                     saveBtn.classList.remove('hidden');
@@ -1758,7 +1758,7 @@
     });
 
     function downloadSingleChannel(entry) {
-      // Для гостя доступно только локальное скачивание
+        
       if (isAnonymousUser && saveModal.classList.contains('hidden') === false) {
            saveModal.classList.add('hidden'); // Скрываем модалку сохранения, если она открыта
       }
@@ -1846,8 +1846,13 @@
           downloadBtn.textContent = downloadButtonText;
           downloadBtn.onclick = () => downloadSingleChannel(entry);
           
-          // Скрываем кнопку скачивания канала
-          downloadBtn.classList.add('hidden');
+          // *** ИЗМЕНЕНИЕ: ПОКАЗЫВАЕМ КНОПКУ "СКАЧАТЬ КАНАЛ" ТОЛЬКО ДЛЯ АВТОРИЗОВАННЫХ ***
+          if (isAnonymousUser) {
+              downloadBtn.classList.add('hidden');
+          } else {
+              downloadBtn.classList.remove('hidden');
+          }
+          // *** КОНЕЦ ИЗМЕНЕНИЯ ***
 
 
           const delBtn = document.createElement('button');
