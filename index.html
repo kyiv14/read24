@@ -712,7 +712,11 @@
           class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition text-sm sm:text-base">
           СОХРАНИТЬ
         </button>
-      </div>
+        <button id="guestLogoutBtn"
+          class="bg-gray-600 text-white px-5 py-2 rounded-xl hover:bg-gray-700 transition text-sm sm:text-base hidden">
+          ВЫЙТИ
+        </button>
+        </div>
     </div>
     
     <div class="flex flex-col md:flex-row gap-6">
@@ -943,6 +947,7 @@
             if (editorScreen.classList.contains('hidden') === false) {
                  openUploadModalBtn.classList.remove('hidden'); // Загрузка доступна
                  saveBtn.classList.remove('hidden'); // СОХРАНИТЬ ВИДНА
+                 guestLogoutBtn.classList.remove('hidden'); // *** ВЫХОД ВИДЕН ***
             }
             
         } else {
@@ -960,6 +965,7 @@
             // ПОЛНЫЙ ФУНКЦИОНАЛ ДЛЯ АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ
             openUploadModalBtn.classList.remove('hidden');
             saveBtn.classList.remove('hidden');
+            guestLogoutBtn.classList.add('hidden'); // *** ВЫХОД СКРЫТ ***
         }
     });
 
@@ -1089,6 +1095,8 @@
     const siteMenu = document.getElementById('siteMenu'); // Мобильное меню
     const knowledgeBaseLink = document.getElementById('knowledgeBaseLink'); // Ссылка на Базу знаний
     const freePlaylistsLink = document.getElementById('freePlaylistsLink'); // Ссылка на Бесплатные плейлисты
+    // *** НОВАЯ КНОПКА ВЫХОДА В РЕДАКТОРЕ ***
+    const guestLogoutBtn = document.getElementById('guestLogoutBtn'); 
     // КОНЕЦ НОВЫХ ПЕРЕМЕННЫХ
     
     // НОВАЯ ПЕРЕМЕННАЯ ДЛЯ КРЕСТИКА
@@ -1310,6 +1318,23 @@
     
     document.getElementById('logoutBtn').addEventListener('click', handleLogout); 
     
+    // *** НОВЫЙ ОБРАБОТЧИК ДЛЯ КНОПКИ ВЫХОДА В РЕДАКТОРЕ ***
+    if (guestLogoutBtn) {
+        guestLogoutBtn.addEventListener('click', () => {
+            // Принудительный сброс UI в состояние "Гость" и переход на главную
+            mainScreen.classList.remove('hidden');
+            editorScreen.classList.add('hidden');
+            // Очищаем список каналов, чтобы не показывать старые данные при следующем входе
+            channels = [];
+            channelList.innerHTML = '';
+            updateCounter(0);
+            renderCategoryFilter();
+            renderCategorySelect();
+            showToast("Выход из режима редактирования.");
+        });
+    }
+    // *** КОНЕЦ НОВОГО ОБРАБОТЧИКА ***
+    
     // НОВЫЙ ОБРАБОТЧИК: Кнопка Регистрация в таблице
     if (registerNowBtn) {
         registerNowBtn.addEventListener('click', () => {
@@ -1376,13 +1401,15 @@
         
         // 3. Настраиваем видимость кнопок в редакторе в зависимости от статуса
         if (isAnonymousUser) {
-             // Для гостя: СОХРАНИТЬ ВИДНА, ЗАГРУЗКА ВИДНА
-             saveBtn.classList.remove('hidden');
+             // Для гостя: СОХРАНИТЬ ВИДНА, ЗАГРУЗКА ВИДНА, ВЫХОД ВИДЕН
+             saveBtn.classList.remove('hidden'); 
              openUploadModalBtn.classList.remove('hidden');
+             guestLogoutBtn.classList.remove('hidden'); 
         } else {
-             // Для авторизованного: показываем все
+             // Для авторизованного: показываем все, ВЫХОД СКРЫТ
              saveBtn.classList.remove('hidden');
              openUploadModalBtn.classList.remove('hidden');
+             guestLogoutBtn.classList.add('hidden');
         }
         
         // Прокрутка к редактору
@@ -1481,11 +1508,13 @@
                 
                 // *** ПРОВЕРКА ДЛЯ УПРАВЛЕНИЯ КНОПКАМИ В РЕДАКТОРЕ ***
                 if (isAnonymousUser) {
-                    saveBtn.classList.remove('hidden'); // СОХРАНИТЬ ВИДНА
+                    saveBtn.classList.remove('hidden'); 
                     openUploadModalBtn.classList.remove('hidden'); 
+                    guestLogoutBtn.classList.remove('hidden');
                 } else {
                     saveBtn.classList.remove('hidden');
                     openUploadModalBtn.classList.remove('hidden');
+                    guestLogoutBtn.classList.add('hidden');
                 }
                 // *** КОНЕЦ ПРОВЕРКИ ***
                 
@@ -1846,13 +1875,12 @@
           downloadBtn.textContent = downloadButtonText;
           downloadBtn.onclick = () => downloadSingleChannel(entry);
           
-          // *** ИЗМЕНЕНИЕ: ПОКАЗЫВАЕМ КНОПКУ "СКАЧАТЬ КАНАЛ" ТОЛЬКО ДЛЯ АВТОРИЗОВАННЫХ ***
+          // ПОКАЗЫВАЕМ КНОПКУ "СКАЧАТЬ КАНАЛ" ТОЛЬКО ДЛЯ АВТОРИЗОВАННЫХ
           if (isAnonymousUser) {
               downloadBtn.classList.add('hidden');
           } else {
               downloadBtn.classList.remove('hidden');
           }
-          // *** КОНЕЦ ИЗМЕНЕНИЯ ***
 
 
           const delBtn = document.createElement('button');
