@@ -856,8 +856,8 @@
         <select id="formatSelect"
             class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
             <option value="m3u">M3U (стандартный)</option>
-            <option value="m3u8">M3U8 (UTF-8, для плееров)</option>
-            <option value="txt">TXT (только ссылки)</option>
+            <option value="m3u8">M3U8 (с кодировкой UTF-8)</option>
+            <option value="txt">TXT (всё содержимое)</option>
         </select>
       </div>
       <button id="downloadBtn"
@@ -2174,30 +2174,40 @@
             return !isNormalCategoryExcluded;
         });
         
-        if (format === 'txt') {
-            return includedChannels.map(c => c.url).join('\n');
+        // 1. Для TXT теперь возвращаем все содержимое
+        // 2. Для M3U и M3U8 возвращаем то же самое, но с заголовком #EXTM3U
+        
+        let modifiedLines = [];
+        if (format !== 'txt') {
+             modifiedLines.push(`#EXTM3U`);
         }
 
         const favoriteChannels = includedChannels.filter(c => c.isFavorite);
-        let modifiedLines = [`#EXTM3U`];
         
-        if (favoriteChannels.length > 0 && !isAnonymousUser) {
-            modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
+        // Добавление избранного (только для авторизованных)
+        if (favoriteChannels.length > 0 && !isAnonymousUser) { 
+            if (format !== 'txt') { // Добавляем группировку, если это не TXT
+               modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
+            }
             
             favoriteChannels.forEach(entry => {
                 let favExtinf = entry.extinf;
                 
-                favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
-                
-                if (!favExtinf.includes('group-title=')) {
-                    favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
+                if (format !== 'txt') {
+                    // Форматирование EXTINF для избранного, если это не TXT
+                    favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
+                    if (!favExtinf.includes('group-title=')) {
+                        favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
+                    }
+                    modifiedLines.push(favExtinf);
                 }
                 
-                modifiedLines.push(favExtinf);
                 modifiedLines.push(entry.url);
             });
             
-            modifiedLines.push('\n');
+            if (format !== 'txt') {
+                modifiedLines.push('');
+            }
         }
         
         const groupedChannels = {};
@@ -2214,14 +2224,16 @@
         const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
         
         sortedCategories.forEach(cat => {
-            if (cat !== 'Без категории') {
-                modifiedLines.push(`#EXTGRP:${cat}`);
+            if (cat !== 'Без категории' && format !== 'txt') {
+               modifiedLines.push(`#EXTGRP:${cat}`);
             }
 
             groupedChannels[cat].forEach(entry => {
-                modifiedLines.push(entry.extinf);
-                if (entry.extgrp) {
-                    modifiedLines.push(entry.extgrp);
+                if (format !== 'txt') {
+                    modifiedLines.push(entry.extinf);
+                    if (entry.extgrp) {
+                        modifiedLines.push(entry.extgrp);
+                    }
                 }
                 modifiedLines.push(entry.url);
             });
@@ -2235,13 +2247,12 @@
     // =======================================================
     saveBtn.addEventListener('click', async () => {
       
-      // 1. Формирование контента для локального M3U (для передачи на сервер)
-      // Мы генерируем M3U8, так как он более универсален для серверного хранения
+      // 1. Формирование контента для сервера (всегда M3U8)
       const contentForServer = generatePlaylistContent('m3u8');
       editedContent = contentForServer;
       
       // Определяем количество каналов
-      const finalChannelCount = editedContent.split('#EXTINF').length - 1; 
+      const finalChannelCount = channels.filter(c => !excludedCategories.has(c.category)).length; 
 
       // 2. УПРАВЛЕНИЕ ДЛЯ ГОСТЯ
       if (isAnonymousUser) {
@@ -2283,21 +2294,39 @@
       const selectedFormat = formatSelect.value;
       const contentToDownload = generatePlaylistContent(selectedFormat);
 
-      const mimeType = selectedFormat === 'txt' ? 'text/plain;charset=utf-8' : `application/x-mpegurl;charset=utf-8`;
-      const fileExtension = selectedFormat;
+      // Определение MIME-типа и расширения файла
+      let mimeType = 'text/plain;charset=utf-8';
+      let fileExtension = selectedFormat;
+      if (selectedFormat === 'm3u') {
+          mimeType = 'application/x-mpegurl;charset=utf-8';
+      } else if (selectedFormat === 'm3u8') {
+          mimeType = 'application/x-mpegurl;charset=utf-8';
+      } else if (selectedFormat === 'txt') {
+          mimeType = 'text/plain;charset=utf-8';
+      }
+
 
       const blob = new Blob([contentToDownload], { type: mimeType });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       
-      const finalChannelCount = contentToDownload.split('#EXTINF').length - 1; 
-      if (finalChannelCount < 0 && selectedFormat !== 'txt') { // Фикс для подсчета каналов
-           a.download = `playlist_0.${fileExtension}`; 
-      } else {
-           a.download = `playlist_${finalChannelCount}.${fileExtension}`; 
-      }
+      // Считаем каналы для имени файла
+      const remainingChannels = channels.filter(entry => {
+        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
+        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
+        const isFavorite = entry.isFavorite;
 
+        if (isFavorite) {
+            return !isFavoriteCategoryExcluded;
+        }
+        
+        return !isNormalCategoryExcluded;
+      });
+      
+      const remainingCount = remainingChannels.length; 
+      // Имя файла для локального скачивания
+      a.download = `playlist_${remainingCount}.${fileExtension}`; 
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
