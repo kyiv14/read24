@@ -266,6 +266,13 @@
         transform: translateY(-5px);
         box-shadow: 0 15px 25px -5px rgba(239, 68, 68, 0.15); /* red-500 shadow */
     }
+    
+    /* Стили для картинок в сравнении */
+    .comparison-icon {
+        width: 1.5rem; /* h-6 */
+        height: 1.5rem; /* w-6 */
+        object-fit: contain;
+    }
 
   </style>
 </head>
@@ -436,23 +443,23 @@
                 <div class="flex-grow">
                     <div class="comparison-feature">
                         <span>Единоразовое редактирование плейлиста</span>
-                        <span class="text-green-600 font-extrabold text-xl">✔</span>
+                        <span><img src="https://read24.netlify.app/image/1.png" alt="Доступно" class="comparison-icon" /></span>
                     </div>
                     <div class="comparison-feature">
                         <span>Сохранение плейлиста в облаке</span>
-                        <span class="text-red-600 font-extrabold text-xl">✘</span>
+                        <span><img src="https://read24.netlify.app/image/2.png" alt="Недоступно" class="comparison-icon" /></span>
                     </div>
                     <div class="comparison-feature">
                         <span>Динамическая ссылка на плейлист (автообновление)</span>
-                        <span class="text-red-600 font-extrabold text-xl">✘</span>
+                        <span><img src="https://read24.netlify.app/image/2.png" alt="Недоступно" class="comparison-icon" /></span>
                     </div>
                     <div class="comparison-feature">
                         <span>Доступ к истории изменений</span>
-                        <span class="text-red-600 font-extrabold text-xl">✘</span>
+                        <span><img src="https://read24.netlify.app/image/2.png" alt="Недоступно" class="comparison-icon" /></span>
                     </div>
                     <div class="comparison-feature border-none">
                         <span>Синхронизация между устройствами</span>
-                        <span class="text-red-600 font-extrabold text-xl">✘</span>
+                        <span><img src="https://read24.netlify.app/image/2.png" alt="Недоступно" class="comparison-icon" /></span>
                     </div>
                 </div>
 
@@ -468,23 +475,23 @@
                 <div class="flex-grow">
                     <div class="comparison-feature">
                         <span>Единоразовое редактирование плейлиста</span>
-                        <span class="text-green-600 font-extrabold text-xl">✔</span>
+                        <span><img src="https://read24.netlify.app/image/1.png" alt="Доступно" class="comparison-icon" /></span>
                     </div>
                     <div class="comparison-feature">
                         <span>Сохранение плейлиста в облаке</span>
-                        <span class="text-green-600 font-extrabold text-xl">✔</span>
+                        <span><img src="https://read24.netlify.app/image/1.png" alt="Доступно" class="comparison-icon" /></span>
                     </div>
                     <div class="comparison-feature">
                         <span>Динамическая ссылка на плейлист (автообновление)</span>
-                        <span class="text-green-600 font-extrabold text-xl">✔</span>
+                        <span><img src="https://read24.netlify.app/image/1.png" alt="Доступно" class="comparison-icon" /></span>
                     </div>
                     <div class="comparison-feature">
                         <span>Доступ к истории изменений</span>
-                        <span class="text-green-600 font-extrabold text-xl">✔</span>
+                        <span><img src="https://read24.netlify.app/image/1.png" alt="Доступно" class="comparison-icon" /></span>
                     </div>
                     <div class="comparison-feature border-none">
                         <span>Синхронизация между устройствами</span>
-                        <span class="text-green-600 font-extrabold text-xl">✔</span>
+                        <span><img src="https://read24.netlify.app/image/1.png" alt="Доступно" class="comparison-icon" /></span>
                     </div>
                 </div>
 
@@ -943,7 +950,6 @@
             if (faqBlock) { 
                  faqBlock.classList.remove('hidden');
             }
-            //knowledgeBaseBlock.classList.remove('hidden'); // УДАЛЕНО: База знаний теперь видима по умолчанию
             
         } else {
             // Пользователь вошел:
@@ -1450,7 +1456,7 @@
             }
 
             const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-            const response = await fetch(proxy.Url);
+            const response = await fetch(proxyUrl);
             
             if (!response.ok) {
                 throw new Error(`Ошибка HTTP: ${response.status}`);
