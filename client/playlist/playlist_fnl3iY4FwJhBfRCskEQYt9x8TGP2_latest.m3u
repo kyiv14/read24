@@ -1,4 +1,10 @@
 #EXTM3U
+#EXTGRP:✨ИЗБРАННОЕ✨
+#EXTINF:0 tvg-rec="0" group-title="✨ИЗБРАННОЕ✨",РБК 50
+http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10029/index.m3u
+#EXTINF:0 tvg-rec="0" group-title="✨ИЗБРАННОЕ✨",BBC Scotland
+http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19183/index.m3u
+
 #EXTGRP:4k
 #EXTINF:0 tvg-rec="0",Liberty Сериалы 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31665/index.m3u
@@ -3844,16 +3850,10 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31645/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31651/index.m3u
 
 #EXTGRP:Новости
-#EXTINF:0 tvg-rec="0",РБК 50
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10029/index.m3u
 #EXTINF:0 tvg-rec="0",BBC First HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19181/index.m3u
 #EXTINF:0 tvg-rec="0",BBC Parliament
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19182/index.m3u
-#EXTINF:0 tvg-rec="0",BBC Scotland
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19183/index.m3u
-#EXTINF:0 tvg-rec="0",РБК HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16075/index.m3u
 #EXTINF:0 tvg-rec="7",РБК
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/106/index.m3u
 #EXTINF:0 tvg-rec="0",РБК FHD Екатеринбург
