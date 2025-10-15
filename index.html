@@ -14,7 +14,6 @@
   <meta property="og:image:height" content="630" />
   <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <style>
     /* Добавляем стили для прокрутки категорий */
     #categoryFilter {
@@ -55,19 +54,19 @@
     .step-item:nth-child(3) { animation-delay: 0.30s; }
     .step-item:nth-child(4) { animation-delay: 0.45s; }
     
-    /* Стили для элемента, который можно перетаскивать */
-    .sortable-channel {
+    /* Стили для элемента, который можно перетаскивать (УДАЛЕНО) */
+    /* .sortable-channel {
       cursor: grab;
-      touch-action: none; /* Улучшает работу на мобильных */
-    }
+      touch-action: none;
+    } */
     
-    /* Стили для обратной связи при перетаскивании */
-    .sortable-ghost {
+    /* Стили для обратной связи при перетаскивании (УДАЛЕНО) */
+    /* .sortable-ghost {
       opacity: 0.4;
-      background-color: #f3f4f6; /* bg-gray-100 */
-      border: 2px dashed #9ca3af; /* border-gray-400 */
+      background-color: #f3f4f6;
+      border: 2px dashed #9ca3af;
       border-radius: 0.75rem;
-    }
+    } */
 
     /* Добавляем отступ к body, чтобы контент не перекрывался фиксированной шапкой */
     body {
@@ -363,6 +362,11 @@
         white-space: nowrap;
         min-width: 50px; /* Минимальная ширина, чтобы текст не исчезал */
     }
+    /* Стили для чекбокса */
+    .channel-checkbox {
+        margin-right: 0.75rem;
+        flex-shrink: 0;
+    }
 
   </style>
 </head>
@@ -503,7 +507,7 @@
                 <div class="w-20 h-20 bg-red-600 text-white font-black rounded-full flex items-center justify-center text-3xl mb-4 ring-4 ring-red-200">3</div>
                 <h3 class="text-xl font-extrabold text-gray-800 mb-2">Отредактируйте список</h3>
                 <p class="text-gray-600 text-sm">
-                    Используйте удобный drag-and-drop интерфейс для изменения порядка, удаления или добавления новых каналов/ссылок.
+                    Используйте удобный интерфейс для изменения порядка, удаления или добавления новых каналов/ссылок.
                 </p>
                 <div class="md:hidden h-10 w-1 bg-gray-200 mt-4"></div>
             </div>
@@ -654,7 +658,7 @@
                 </div>
                 <div class="faq-answer">
                     <p>
-                        Да. Наш редактор имеет интуитивно понятный интерфейс **"Drag-and-Drop (перетаскивание)"**, который позволяет легко менять порядок элементов в списке простым движением мыши или касанием.
+                        Да. Наш редактор имеет интуитивно понятный интерфейс **для изменения порядка** элементов в списке простым движением.
                     </p>
                 </div>
             </div>
@@ -778,6 +782,10 @@
           class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base">
           ЗАГРУЗИТЬ ПЛЕЙЛИСТ
         </button>
+        <button id="addChannelBtn"
+          class="bg-green-600 text-white px-5 py-2 rounded-xl hover:bg-green-700 transition text-sm sm:text-base">
+          ДОБАВИТЬ КАНАЛ
+        </button>
         <button id="removeDuplicatesBtn"
           class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
           УДАЛИТЬ ДУБЛИ
@@ -801,8 +809,36 @@
             class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black" />
         </div>
 
+        <div id="massEditControls" class="bg-gray-200 p-3 rounded-xl mb-4 hidden">
+             <h3 class="text-sm font-bold mb-2 text-gray-800">Выбрано: <span id="selectedChannelCount">0</span></h3>
+             <button id="deleteSelectedBtn"
+                class="bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition text-sm mr-2">
+                УДАЛИТЬ ВЫБРАННЫЕ
+             </button>
+             <button id="openRenameCategoryModalMassBtn"
+                class="bg-black text-white px-3 py-1 rounded-lg hover:bg-gray-800 transition text-sm">
+                ИЗМЕНИТЬ КАТЕГОРИЮ
+             </button>
+        </div>
+        
         <div class="mb-4">
-          <h3 class="text-md font-semibold mb-2 аtext-gray-800">Выбрать категорию для просмотра</h3>
+          <h3 class="text-md font-semibold mb-2 text-gray-800">Сортировка</h3>
+          <select id="sortSelect"
+              class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
+              <option value="default">По умолчанию (Порядок загрузки)</option>
+              <option value="name">По Названию (А-Я)</option>
+              <option value="category">По Категории (А-Я)</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <h3 class="text-md font-semibold mb-2 text-gray-800">
+              Выбрать категорию для просмотра
+              <button id="openRenameCategoryModalBtn" 
+                 class="bg-gray-300 text-gray-800 px-2 py-1 rounded-lg hover:bg-gray-400 transition text-xs ml-2">
+                 Переименовать
+              </button>
+          </h3>
           <select id="categorySelect"
               class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
               <option value="">Все категории</option>
@@ -820,6 +856,10 @@
       </div>
       
       <div id="listPanel" class="w-full md:w-3/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
+        <div id="selectAllContainer" class="flex items-center p-2 mb-2 bg-gray-100 rounded-xl hidden">
+            <input type="checkbox" id="selectAllCheckbox" class="form-checkbox h-5 w-5 text-black rounded border-gray-400 focus:ring-0 mr-3" />
+            <label for="selectAllCheckbox" class="text-sm font-semibold text-gray-800">Выбрать все на этой странице</label>
+        </div>
         <div id="channelList" class="space-y-2"></div>
       </div>
     </div>
@@ -870,6 +910,45 @@
     </div>
   </div>
 
+  <div id="addChannelModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
+    <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+      <h2 class="text-xl font-semibold mb-6 text-gray-800">Добавить новый канал</h2>
+      <input type="text" id="newChannelName" placeholder="Название канала (Обязательно)"
+        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 mb-4">
+      <input type="text" id="newChannelCategory" placeholder="Категория (Group-Title)"
+        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 mb-4">
+      <input type="text" id="newChannelUrl" placeholder="URL-ссылка на поток (Обязательно)"
+        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 mb-6">
+      <button id="submitNewChannelBtn"
+        class="w-full bg-green-600 text-white font-semibold py-3 rounded-xl transition hover:bg-green-700 mb-2">
+        ДОБАВИТЬ В СПИСОК
+      </button>
+      <button id="closeAddChannelModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
+        ОТМЕНА
+      </button>
+    </div>
+  </div>
+  <div id="renameCategoryModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
+    <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+      <h2 class="text-xl font-semibold mb-6 text-gray-800">Переименовать/Изменить Категорию</h2>
+      <select id="oldCategorySelect"
+              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white mb-4">
+              </select>
+      <input type="text" id="newCategoryName" placeholder="Новое название категории"
+        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 mb-6">
+      <button id="submitRenameCategoryBtn"
+        class="w-full bg-red-600 text-white font-semibold py-3 rounded-xl transition hover:bg-red-700 mb-2">
+        ПЕРЕИМЕНОВАТЬ
+      </button>
+      <button id="closeRenameCategoryModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
+        ОТМЕНА
+      </button>
+    </div>
+  </div>
   <div id="registrationModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl shadow-xl animate-fade-in text-center text-black square-modal-content">
@@ -1233,6 +1312,33 @@
     // НОВАЯ ПЕРЕМЕННАЯ ДЛЯ КРЕСТИКА
     const closeRegisterModalIcon = document.getElementById('closeRegisterModal');
 
+    // ПЕРЕМЕННЫЕ ДЛЯ ДОБАВЛЕНИЯ КАНАЛА
+    const addChannelBtn = document.getElementById('addChannelBtn');
+    const addChannelModal = document.getElementById('addChannelModal');
+    const closeAddChannelModal = document.getElementById('closeAddChannelModal');
+    const submitNewChannelBtn = document.getElementById('submitNewChannelBtn');
+    const newChannelName = document.getElementById('newChannelName');
+    const newChannelCategory = document.getElementById('newChannelCategory');
+    const newChannelUrl = document.getElementById('newChannelUrl');
+    
+    // ПЕРЕМЕННЫЕ ДЛЯ ПЕРЕИМЕНОВАНИЯ КАТЕГОРИИ
+    const renameCategoryModal = document.getElementById('renameCategoryModal');
+    const closeRenameCategoryModal = document.getElementById('closeRenameCategoryModal');
+    const openRenameCategoryModalBtn = document.getElementById('openRenameCategoryModalBtn');
+    const oldCategorySelect = document.getElementById('oldCategorySelect');
+    const newCategoryName = document.getElementById('newCategoryName');
+    const submitRenameCategoryBtn = document.getElementById('submitRenameCategoryBtn');
+    // ПЕРЕМЕННЫЕ ДЛЯ МАССОВОГО РЕДАКТИРОВАНИЯ
+    const massEditControls = document.getElementById('massEditControls');
+    const selectedChannelCount = document.getElementById('selectedChannelCount');
+    const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
+    const openRenameCategoryModalMassBtn = document.getElementById('openRenameCategoryModalMassBtn');
+    const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+    const selectAllContainer = document.getElementById('selectAllContainer');
+    
+    // ПЕРЕМЕННЫЕ ДЛЯ СОРТИРОВКИ
+    const sortSelect = document.getElementById('sortSelect');
+
     let originalLines = [];
     let channels = [];
     let allCategories = new Set();
@@ -1279,7 +1385,7 @@
     // =======================================================
 
     // ===============================
-    // ЛОГИКА DRAG AND DROP
+    // ЛОГИКА DRAG AND DROP (УДАЛЕНО)
     // =======================================================
     const dragDropAreas = [dropArea, dropAreaModal];
 
@@ -1342,7 +1448,7 @@
             toastNotification.classList.add('bg-green-600'); 
         } else {
             toastNotification.textContent = message;
-            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Email') || message.includes('Пароль') || message.includes('Неверный')) {
+            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Неверный')) {
                  toastNotification.classList.add('bg-red-600'); 
             } else {
                  toastNotification.classList.add('bg-green-600');
@@ -1775,8 +1881,7 @@
                 updateCounter(channels.length); 
                 renderChannelList();
 
-                // Инициализируем SortableJS после рендеринга
-                initializeSortable();
+                // УДАЛЕНА ИНИЦИАЛИЗАЦИЯ SortableJS
                 
                 const finalCount = channels.length;
                 const newCount = finalCount - initialChannelCount;
@@ -1807,6 +1912,11 @@
             allCategories.add(entry.category);
             categoryChannelCounts[entry.category] = (categoryChannelCounts[entry.category] || 0) + 1;
         });
+        
+        // После перестройки данных перерендерим фильтры/селекты
+        renderCategoryFilter();
+        renderCategorySelect();
+        renderChannelList(searchInput.value); // И перерендерим список
     }
 
     function deduplicateChannels() {
@@ -1836,77 +1946,11 @@
     // *** КОНЕЦ НОВЫХ ВСПОМОГАТЕЛЬНЫХ ФУНКЦИЙ ***
 
     // =======================================================
-    // ФУНКЦИЯ ДЛЯ ИНИЦИАЛИЗАЦИИ SORTABLEJS
+    // ФУНКЦИЯ ДЛЯ ИНИЦИАЛИЗАЦИИ SORTABLEJS (УДАЛЕНА)
     // =======================================================
-    function initializeSortable() {
-        if (!channelList) return;
-        
-        const isSortableEnabled = !isAnonymousUser; // Гость не может перетаскивать
-
-        // Если Sortable уже был инициализирован, уничтожаем старый экземпляр
-        if (channelList.sortableInstance) {
-            channelList.sortableInstance.destroy();
-        }
-
-        if (isSortableEnabled) {
-            channelList.sortableInstance = Sortable.create(channelList, {
-                animation: 150,
-                group: 'channels',
-                handle: '.sortable-channel', // Класс, по которому можно начать перетаскивание
-                draggable: '.channel-item',
-                onEnd: function (evt) {
-                    // evt.oldIndex и evt.newIndex относятся только к отфильтрованному/отображаемому списку.
-                    const oldIndex = evt.oldIndex;
-                    const newIndex = evt.newIndex;
-                    
-                    // Получаем массив отображаемых каналов
-                    const filteredChannels = getFilteredChannels(searchInput.value, categorySelect.value);
-
-                    if (oldIndex !== newIndex) {
-                        // 1. Получаем объект канала, который был перемещен
-                        const movedChannel = filteredChannels[oldIndex];
-                        
-                        // 2. Находим текущий индекс этого канала в основном массиве `channels`
-                        const oldChannelIndexInMainArray = channels.findIndex(c => c === movedChannel);
-
-                        if (oldChannelIndexInMainArray === -1) {
-                             // Если канал не найден в основном массиве, что-то пошло не так.
-                             return; 
-                        }
-                        
-                        // 3. Вырезаем его из основного массива
-                        channels.splice(oldChannelIndexInMainArray, 1);
-
-                        // 4. Определяем канал, после которого (или перед которым) нужно вставить
-                        let targetChannel = filteredChannels[newIndex];
-                        let newChannelIndexInMainArray;
-                        
-                        if (targetChannel) {
-                            // Находим индекс цели в основном массиве
-                            const targetIndexInMainArray = channels.findIndex(c => c === targetChannel);
-                            
-                            // Если переместили вниз, вставляем после target, иначе - перед
-                            newChannelIndexInMainArray = targetIndexInMainArray;
-                        } else if (newIndex > oldIndex && filteredChannels.length > 0) {
-                            // Если перетащено в самый конец отображаемого списка
-                            newChannelIndexInMainArray = channels.length;
-                        } else {
-                            // Если список пуст или перетащено на 0-ю позицию
-                             newChannelIndexInMainArray = 0;
-                        }
-                        
-                        // 5. Вставляем канал обратно в основной массив по новому индексу
-                        channels.splice(newChannelIndexInMainArray, 0, movedChannel);
-                        
-                        // 6. Перерендеринг списка, чтобы убедиться, что все каналы (включая скрытые) обновлены
-                        renderChannelList(searchInput.value);
-                        initializeSortable(); // Переинициализация Sortable после рендеринга
-                        showToast(`Порядок каналов обновлен.`);
-                    }
-                }
-            });
-        }
-    }
+    /* function initializeSortable() {
+        // УДАЛЕНО: Функционал перетаскивания отключен
+    } */
 
     function parseChannelsAsync() {
         return new Promise((resolve, reject) => {
@@ -1958,11 +2002,14 @@
 
                             if (url) {
                                 channels.push({
+                                    // Уникальный ID для целей редактирования (удаления/выбора)
+                                    id: Date.now() + Math.random().toString(36).substring(2, 9), 
                                     name, extinf, extgrp, url,
                                     startIndex: i,
                                     endIndex: urlIndex,
                                     category,
                                     isFavorite: false,
+                                    isSelected: false, // НОВЫЙ ФЛАГ ДЛЯ МАССОВОГО ВЫБОРА
                                 });
                                 // allCategories и categoryChannelCounts будут пересобраны в processPlaylistContent
                                 i = urlIndex;
@@ -1990,24 +2037,118 @@
     function getFilteredChannels(filter = '', selectedCategory = '') {
         let filteredChannels = channels;
 
+        // 1. Фильтрация по исключенным категориям
         filteredChannels = filteredChannels.filter(entry => !excludedCategories.has(entry.category));
 
+        // 2. Фильтрация по Избранному (если выбрано)
         if (selectedCategory === FAVORITE_CATEGORY) {
             filteredChannels = filteredChannels.filter(entry => entry.isFavorite);
         } else if (excludedCategories.has(FAVORITE_CATEGORY)) {
             filteredChannels = filteredChannels.filter(entry => !entry.isFavorite);
         }
 
+        // 3. Фильтрация по поиску
         filteredChannels = filteredChannels
             .filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
             .filter(entry => !selectedCategory || selectedCategory === FAVORITE_CATEGORY || entry.category === selectedCategory);
             
+        // 4. Сортировка
+        const sortType = sortSelect.value;
+        if (sortType === 'name') {
+            filteredChannels.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortType === 'category') {
+             filteredChannels.sort((a, b) => a.category.localeCompare(b.category));
+        }
+            
         return filteredChannels;
     }
+    
+    // ОБРАБОТЧИК ДЛЯ СОРТИРОВКИ
+    sortSelect.addEventListener('change', () => {
+        renderChannelList(searchInput.value);
+    });
 
     function getFavoriteCount() { 
         return channels.filter(c => c.isFavorite).length;
     }
+    
+    function updateMassEditControls() {
+        const selectedCount = channels.filter(c => c.isSelected).length;
+        selectedChannelCount.textContent = selectedCount;
+        if (selectedCount > 0) {
+             massEditControls.classList.remove('hidden');
+        } else {
+             massEditControls.classList.add('hidden');
+        }
+    }
+    
+    selectAllCheckbox.addEventListener('change', (e) => {
+        const isChecked = e.target.checked;
+        
+        // Выбираем или снимаем выбор со всех отображаемых каналов
+        const visibleChannels = getFilteredChannels(searchInput.value, categorySelect.value);
+        visibleChannels.forEach(channel => {
+            channel.isSelected = isChecked;
+        });
+        
+        // Перерендерим список, чтобы чекбоксы обновились
+        renderChannelList(searchInput.value);
+    });
+
+    // Обработчик для изменения категории выбранных каналов
+    openRenameCategoryModalMassBtn.addEventListener('click', () => {
+        const selectedCount = channels.filter(c => c.isSelected).length;
+        if (selectedCount === 0) {
+            showToast("Сначала выберите каналы.");
+            return;
+        }
+        
+        // Переиспользуем модальное окно, но заполняем его иначе
+        oldCategorySelect.innerHTML = '<option value="">(Все выбранные каналы)</option>';
+        newCategoryName.placeholder = 'Новая категория для выбранных каналов';
+        submitRenameCategoryBtn.textContent = 'ИЗМЕНИТЬ КАТЕГОРИИ';
+        
+        // Меняем обработчик, чтобы он выполнял массовое изменение, а не переименование
+        submitRenameCategoryBtn.onclick = () => {
+            const newCat = newCategoryName.value.trim();
+            if (!newCat) {
+                showToast("Введите название новой категории.");
+                return;
+            }
+            
+            channels.forEach(channel => {
+                if (channel.isSelected) {
+                    channel.category = newCat;
+                    channel.isSelected = false; // Снимаем выделение
+                }
+            });
+            
+            // Обновляем UI
+            rebuildCategoryData(); 
+            updateMassEditControls(); 
+            renameCategoryModal.classList.add('hidden');
+            showToast(`Категория изменена для ${selectedCount} каналов.`);
+        };
+        
+        renameCategoryModal.classList.remove('hidden');
+        newCategoryName.value = '';
+    });
+    
+    // Обработчик для удаления выбранных каналов
+    deleteSelectedBtn.addEventListener('click', () => {
+        const selectedCount = channels.filter(c => c.isSelected).length;
+        if (selectedCount === 0) return;
+
+        if (!confirm(`Вы уверены, что хотите удалить ${selectedCount} выбранных каналов?`)) return;
+
+        channels = channels.filter(c => !c.isSelected);
+
+        rebuildCategoryData(); 
+        updateMassEditControls();
+        selectAllCheckbox.checked = false; 
+        showToast(`Удалено ${selectedCount} каналов.`);
+    });
+
 
     function renderCategoryFilter() {
       categoryFilter.innerHTML = '';
@@ -2037,7 +2178,6 @@
             excludedCategories.delete(category);
           }
           renderChannelList(searchInput.value); 
-          initializeSortable(); // Переинициализация Sortable после смены фильтра
         });
 
         const span = document.createElement('span');
@@ -2069,11 +2209,91 @@
             option.textContent = `${category} (${count})`;
             categorySelect.appendChild(option);
         });
+        
+        // Обновляем список для переименования
+        renderRenameCategorySelect();
     }
+    
+    // *** НОВАЯ ФУНКЦИЯ ДЛЯ МОДАЛЬНОГО ОКНА ПЕРЕИМЕНОВАНИЯ КАТЕГОРИЙ ***
+    function renderRenameCategorySelect() {
+        oldCategorySelect.innerHTML = '<option value="">Выберите категорию</option>';
+        // Исключаем Избранное и Без категории из переименования
+        const categoriesToRename = Array.from(allCategories).filter(cat => cat !== 'Без категории').sort();
+        
+        categoriesToRename.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            oldCategorySelect.appendChild(option);
+        });
+    }
+
+    // ОБРАБОТЧИК КНОПКИ ПЕРЕИМЕНОВАНИЯ
+    openRenameCategoryModalBtn.addEventListener('click', () => {
+        if (isAnonymousUser) {
+             showToast("Функция переименования категории доступна только зарегистрированным пользователям.");
+             registrationModal.classList.remove('hidden');
+             return;
+        }
+        // Сброс настроек для переименования одной категории
+        oldCategorySelect.innerHTML = '<option value="">Выберите категорию</option>';
+        newCategoryName.placeholder = 'Новое название категории';
+        submitRenameCategoryBtn.textContent = 'ПЕРЕИМЕНОВАТЬ';
+        
+        // Устанавливаем правильный обработчик
+        submitRenameCategoryBtn.onclick = handleCategoryRename;
+        
+        renderRenameCategorySelect();
+        renameCategoryModal.classList.remove('hidden');
+        newCategoryName.value = '';
+    });
+    
+    closeRenameCategoryModal.addEventListener('click', () => {
+        renameCategoryModal.classList.add('hidden');
+    });
+
+    function handleCategoryRename() {
+        const oldCat = oldCategorySelect.value;
+        const newCat = newCategoryName.value.trim();
+
+        if (!oldCat || !newCat) {
+            showToast("Выберите категорию и введите новое имя.");
+            return;
+        }
+
+        if (oldCat === newCat) {
+            showToast("Новое имя должно отличаться от старого.");
+            return;
+        }
+
+        let renamedCount = 0;
+        channels.forEach(channel => {
+            if (channel.category === oldCat) {
+                channel.category = newCat;
+                renamedCount++;
+            }
+        });
+        
+        if (renamedCount > 0) {
+            // Удаляем старую категорию, так как она пуста
+            allCategories.delete(oldCat);
+            
+            // Добавляем или обновляем новую
+            allCategories.add(newCat);
+            
+            // Перестраиваем все данные и перерендериваем UI
+            rebuildCategoryData(); 
+            
+            renameCategoryModal.classList.add('hidden');
+            showToast(`Переименовано ${renamedCount} каналов в категорию "${newCat}".`);
+        } else {
+             showToast(`Каналы в категории "${oldCat}" не найдены.`);
+        }
+    }
+    // *** КОНЕЦ НОВЫХ ФУНКЦИЙ ДЛЯ ПЕРЕИМЕНОВАНИЯ КАТЕГОРИЙ ***
 
     categorySelect.addEventListener('change', () => {
         renderChannelList(searchInput.value);
-        initializeSortable(); // Переинициализация Sortable после смены фильтра
     });
 
     function downloadSingleChannel(entry) {
@@ -2114,15 +2334,64 @@
 
         entry.isFavorite = !entry.isFavorite; 
 
-        renderCategoryFilter();
-        renderCategorySelect();
-        renderChannelList(searchInput.value);
-        initializeSortable(); // Переинициализация Sortable после изменения избранного
+        rebuildCategoryData(); // Перестраиваем, чтобы обновить счетчики и селекты
         
         const action = entry.isFavorite ? 'добавлен в' : 'удален из';
         showToast(`Канал "${entry.name}" ${action} избранного.`);
     }
     
+    // *** НОВАЯ ФУНКЦИЯ ДЛЯ ДОБАВЛЕНИЯ КАНАЛА ***
+    addChannelBtn.addEventListener('click', () => {
+        if (isAnonymousUser) {
+             showToast("Функция 'Добавить канал' доступна только зарегистрированным пользователям.");
+             registrationModal.classList.remove('hidden');
+             return;
+        }
+        // Сброс полей
+        newChannelName.value = '';
+        newChannelCategory.value = '';
+        newChannelUrl.value = '';
+        addChannelModal.classList.remove('hidden');
+    });
+
+    closeAddChannelModal.addEventListener('click', () => {
+        addChannelModal.classList.add('hidden');
+    });
+
+    submitNewChannelBtn.addEventListener('click', () => {
+        const name = newChannelName.value.trim();
+        const category = newChannelCategory.value.trim() || 'Без категории';
+        const url = newChannelUrl.value.trim();
+        
+        if (!name || !url) {
+            showToast("Пожалуйста, введите Название и URL канала.");
+            return;
+        }
+        
+        // Создаем новые EXTINF и EXTGRP
+        const extinf = `#EXTINF:-1 tvg-id="" group-title="${category}",${name}`;
+        const extgrp = `#EXTGRP:${category}`;
+        
+        const newChannel = {
+            id: Date.now() + Math.random().toString(36).substring(2, 9), 
+            name, extinf, extgrp, url,
+            startIndex: -1, // Временно, будет обновлено при сохранении
+            endIndex: -1,
+            category,
+            isFavorite: false,
+            isSelected: false,
+        };
+        
+        // Добавляем в начало списка
+        channels.unshift(newChannel); 
+        
+        rebuildCategoryData(); 
+        addChannelModal.classList.add('hidden');
+        showToast(`Канал "${name}" успешно добавлен.`);
+    });
+    // *** КОНЕЦ ФУНКЦИЙ ДЛЯ ДОБАВЛЕНИЯ КАНАЛА ***
+
+
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
       
@@ -2134,32 +2403,54 @@
       let filteredChannels = getFilteredChannels(filter, selectedCategory);
 
       updateCounter(filteredChannels.length); 
+      
+      // Скрываем/показываем чекбокс "Выбрать все"
+      if (filteredChannels.length > 0) {
+          selectAllContainer.classList.remove('hidden');
+      } else {
+          selectAllContainer.classList.add('hidden');
+      }
         
       filteredChannels.forEach((entry, index) => {
           const item = document.createElement('div');
-          // Если гость, добавляем класс guest-mode
-          const draggableClass = isAnonymousUser ? '' : 'sortable-channel';
+          // Удален класс sortable-channel
           const guestModeClass = isAnonymousUser ? 'guest-mode' : '';
-          item.className = `channel-item flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow ${draggableClass} ${guestModeClass}`; 
-          item.dataset.channelUrl = entry.url; // Используем URL как уникальный (хоть и не всегда) идентификатор
-          item.dataset.channelName = entry.name; // Добавляем имя для более надежной идентификации
+          item.className = `channel-item flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow ${guestModeClass}`; 
+          item.dataset.channelId = entry.id; 
           
-          // *** НУМЕРАЦИЯ КАНАЛА ***
+          // *** ЧЕКБОКС И НУМЕРАЦИЯ КАНАЛА ***
           const contentWrapper = document.createElement('div');
           contentWrapper.className = 'channel-item-content';
+          
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.className = 'channel-checkbox form-checkbox h-5 w-5 text-black rounded border-gray-400 focus:ring-0';
+          checkbox.checked = entry.isSelected;
+          checkbox.addEventListener('change', (e) => {
+               entry.isSelected = e.target.checked;
+               updateMassEditControls();
+               // Если сняли выбор с одного, снимаем с "Выбрать все"
+               if (!e.target.checked) {
+                   selectAllCheckbox.checked = false;
+               } else {
+                   // Если все на странице выбраны, ставим галочку на "Выбрать все"
+                   const allSelected = filteredChannels.every(c => c.isSelected);
+                   if (allSelected) selectAllCheckbox.checked = true;
+               }
+          });
 
           const number = document.createElement('span');
           number.className = 'channel-number';
           number.textContent = index + 1; // Нумерация с 1
           
           const name = document.createElement('span');
-          // Название канала центрируется для всех, благодаря стилям в @media (max-width: 640px)
           name.className = 'channel-name text-black font-medium'; 
           name.textContent = entry.name;
 
+          contentWrapper.appendChild(checkbox);
           contentWrapper.appendChild(number);
           contentWrapper.appendChild(name);
-          // *** КОНЕЦ НУМЕРАЦИИ КАНАЛА ***
+          // *** КОНЕЦ ЧЕКБОКСА И НУМЕРАЦИИ КАНАЛА ***
 
           const favBtn = document.createElement('button');
           const starColor = entry.isFavorite ? 'text-yellow-500 hover:text-yellow-400' : 'text-gray-400 hover:text-yellow-500';
@@ -2203,10 +2494,6 @@
               
               // Обновляем все UI-элементы
               rebuildCategoryData(); // ОБНОВЛЕНО: Пересборка данных о категориях
-              renderCategoryFilter();
-              renderCategorySelect(); 
-              renderChannelList(searchInput.value); 
-              initializeSortable(); 
               showToast(`Канал "${entry.name}" удален.`);
             }
             
@@ -2228,11 +2515,17 @@
           item.appendChild(buttonContainer);
           channelList.appendChild(item);
         });
+        
+        // Обновляем контролы массового редактирования при перерендеринге
+        updateMassEditControls();
     }
     
     // Обновляем parseChannelsSync, чтобы она не сортировала, если это не удаление.
     function parseChannelsSync(maintainOrder = false) {
-      // 1. Сохраняем текущие статусы избранного перед очисткой
+      // Эта функция сейчас используется только для дедупликации,
+      // где originalLines были изменены, или при первоначальной загрузке.
+      // Логика оставлена для совместимости, но не должна использоваться для основного рендеринга.
+      
       const tempFavoriteMap = {};
       channels.forEach(c => {
         if (c.isFavorite) {
@@ -2244,10 +2537,6 @@
       allCategories.clear();
       categoryChannelCounts = {};
       
-      // Итерируемся по originalLines, чтобы восстановить channels и category data
-      // ВНИМАНИЕ: Эта функция должна использоваться только для обработки дубликатов, 
-      // где originalLines были изменены, или при первоначальной загрузке.
-      // Для удаления одиночных каналов используем более надежную логику в renderChannelList.
       for (let i = 0; i < originalLines.length; i++) {
         const line = originalLines[i].trim();
         if (line.startsWith('#EXTINF')) {
@@ -2263,7 +2552,7 @@
           let extgrp = '';
           let urlIndex = i + 1;
           while (urlIndex < originalLines.length) {
-            const nextLine = originalLines[urlIndex].trim(); // ИСПРАВЛЕНО: было lines[urlIndex].trim()
+            const nextLine = originalLines[urlIndex].trim(); 
             if (nextLine.startsWith('#EXTGRP:')) {
               if (category === 'Без категории' || category === '') {
                 category = nextLine.substring(8).trim();
@@ -2282,11 +2571,13 @@
             const isFav = tempFavoriteMap[key] || false; 
 
             channels.push({
+              id: Date.now() + Math.random().toString(36).substring(2, 9), 
               name, extinf, extgrp, url,
               startIndex: i,
               endIndex: urlIndex,
               category,
               isFavorite: isFav, 
+              isSelected: false,
             });
             allCategories.add(category);
             categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
@@ -2313,21 +2604,15 @@
 
     searchInput.addEventListener('input', () => {
       renderChannelList(searchInput.value);
-      initializeSortable();
     });
 
     function removeDuplicates() {
-        // Мы используем deduplicateChannels, но без toast'а об автоматическом удалении,
-        // а с toast'ом об ручном запуске.
         const initialCount = channels.length;
         deduplicateChannels(); 
         const removedCount = initialCount - channels.length;
         
         if (removedCount > 0) {
-            renderCategoryFilter();
-            renderCategorySelect(); 
-            renderChannelList(searchInput.value); 
-            initializeSortable(); 
+            rebuildCategoryData(); 
             showToast(`Удалено ${removedCount} дубликатов каналов.`); 
         } else {
             showToast('Дубликаты каналов не найдены.'); 
@@ -2534,7 +2819,6 @@
           // Скрываем контейнер динамической ссылки и выбор формата
           document.getElementById('dynamicLinkContainer').classList.add('hidden');
           formatSelectContainer.classList.add('hidden');
-          // guestFormatMessage.classList.remove('hidden'); // УДАЛЕНО: надпись о формате M3U
           
           saveModal.classList.remove('hidden');
           return;
