@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Редактировать Плейлист</title>
+  
+  <meta property="og:title" content="Редактировать Плейлист — Read24" />
+  <meta property="og:description" content="Получите полный контроль над вашими медиатеками: редактируйте, объединяйте и настраивайте порядок просмотра плейлистов для любых устройств." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://read24.netlify.app/" />
+  <meta property="og:image" content="https://read24.netlify.app/image/library.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
@@ -1058,7 +1066,7 @@
             logoutBtn.classList.remove('hidden'); // Показываем "ВЫЙТИ"
             userId = user.uid; 
             
-            // Показываем кнопку ОБЪЕДИНЕНИЯ и одиночную для авторизованного пользователя
+            // Показываем кнопку ОБЪЕДИНЕНИЯ и одиночную для авторизованных
             if (mergeUploadModalBtn) mergeUploadModalBtn.classList.remove('hidden');
             if (uploadSingleModalBtn) uploadSingleModalBtn.classList.remove('hidden');
             if (uploadModalBtn) uploadModalBtn.classList.add('hidden'); // Скрываем гостевую кнопку
@@ -2310,7 +2318,7 @@
 
     function removeDuplicates() {
         // Мы используем deduplicateChannels, но без toast'а об автоматическом удалении,
-        // а с toast'ом о ручном запуске.
+        // а с toast'ом об ручном запуске.
         const initialCount = channels.length;
         deduplicateChannels(); 
         const removedCount = initialCount - channels.length;
