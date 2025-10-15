@@ -829,6 +829,11 @@
             ЗАГРУЗИТЬ ФАЙЛ
           </button>
           
+          <button id="uploadSingleModalBtn"
+            class="bg-black text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-900 transition w-full mx-auto mb-4 hidden">
+            ЗАГРУЗИТЬ ФАЙЛ
+          </button>
+          
           <button id="mergeUploadModalBtn"
             class="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-blue-700 transition w-full mx-auto mb-4 hidden">
             ОБЪЕДИНИТЬ ПЛЕЙЛИСТЫ
@@ -1008,8 +1013,10 @@
             logoutBtn.classList.add('hidden');
             userId = 'guest';
             
-            // Скрываем кнопку ОБЪЕДИНЕНИЯ для гостя
+            // Скрываем кнопку ОБЪЕДИНЕНИЯ и одиночную для авторизованных
             if (mergeUploadModalBtn) mergeUploadModalBtn.classList.add('hidden');
+            if (uploadSingleModalBtn) uploadSingleModalBtn.classList.add('hidden');
+            if (uploadModalBtn) uploadModalBtn.classList.remove('hidden'); // Показываем одиночную для гостей
             // Устанавливаем fileInput для одного файла
             if (fileInput) fileInput.removeAttribute('multiple');
             
@@ -1051,8 +1058,10 @@
             logoutBtn.classList.remove('hidden'); // Показываем "ВЫЙТИ"
             userId = user.uid; 
             
-            // Показываем кнопку ОБЪЕДИНЕНИЯ для авторизованного пользователя
+            // Показываем кнопку ОБЪЕДИНЕНИЯ и одиночную для авторизованного пользователя
             if (mergeUploadModalBtn) mergeUploadModalBtn.classList.remove('hidden');
+            if (uploadSingleModalBtn) uploadSingleModalBtn.classList.remove('hidden');
+            if (uploadModalBtn) uploadModalBtn.classList.add('hidden'); // Скрываем гостевую кнопку
             // Устанавливаем fileInput для множественного выбора
             if (fileInput) fileInput.setAttribute('multiple', true);
 
@@ -1209,6 +1218,8 @@
     const guestLogoutBtn = document.getElementById('guestLogoutBtn'); 
     // НОВАЯ КНОПКА ОБЪЕДИНЕНИЯ В МОДАЛКЕ
     const mergeUploadModalBtn = document.getElementById('mergeUploadModalBtn'); 
+    // НОВАЯ КНОПКА ОДИНОЧНОЙ ЗАГРУЗКИ ДЛЯ АВТОРИЗОВАННЫХ В МОДАЛКЕ
+    const uploadSingleModalBtn = document.getElementById('uploadSingleModalBtn'); 
     // КОНЕЦ НОВЫХ ПЕРЕМЕННЫХ
     
     // НОВАЯ ПЕРЕМЕННАЯ ДЛЯ КРЕСТИКА
@@ -1392,12 +1403,14 @@
         // Обновляем видимость кнопок в модалке
         if (isAnonymousUser) {
             uploadModalBtn.classList.remove('hidden');
+            uploadSingleModalBtn.classList.add('hidden');
             mergeUploadModalBtn.classList.add('hidden');
             fileInput.removeAttribute('multiple');
         } else {
-            uploadModalBtn.classList.add('hidden'); // Скрываем одну кнопку
+            uploadModalBtn.classList.add('hidden'); // Скрываем гостевую кнопку
+            uploadSingleModalBtn.classList.remove('hidden'); // Показываем одиночную для авторизованных
             mergeUploadModalBtn.classList.remove('hidden'); // Показываем множественную
-            fileInput.setAttribute('multiple', true); // Устанавливаем множественный выбор
+            // Важно: fileInput.multiple должен быть установлен в обработчиках кнопок
         }
     });
 
@@ -1406,6 +1419,13 @@
         fileInput.removeAttribute('multiple'); // На всякий случай, если была установлена
         fileInput.click();
     });
+    
+    // *** НОВЫЙ ОБРАБОТЧИК ДЛЯ КНОПКИ "ЗАГРУЗИТЬ ФАЙЛ" (для авторизованных) ***
+    uploadSingleModalBtn.addEventListener('click', () => {
+        fileInput.removeAttribute('multiple'); // Для одиночной загрузки
+        fileInput.click();
+    });
+    // *** КОНЕЦ НОВОГО ОБРАБОТЧИКА ***
     
     // *** НОВЫЙ ОБРАБОТЧИК ДЛЯ КНОПКИ "ОБЪЕДИНИТЬ ПЛЕЙЛИСТЫ" ***
     mergeUploadModalBtn.addEventListener('click', () => {
@@ -1561,7 +1581,8 @@
              guestLogoutBtn.classList.remove('hidden'); 
              
              // Обновляем кнопки в модалке для гостя
-             uploadModalBtn.classList.remove('hidden');
+             uploadModalBtn.classList.remove('hidden'); // Показываем гостевую
+             uploadSingleModalBtn.classList.add('hidden');
              mergeUploadModalBtn.classList.add('hidden');
              fileInput.removeAttribute('multiple');
              
@@ -1580,7 +1601,8 @@
              guestLogoutBtn.classList.add('hidden');
              
              // Обновляем кнопки в модалке для авторизованного
-             uploadModalBtn.classList.add('hidden'); // Скрываем одну кнопку
+             uploadModalBtn.classList.add('hidden'); // Скрываем гостевую
+             uploadSingleModalBtn.classList.remove('hidden'); // Показываем одиночную
              mergeUploadModalBtn.classList.remove('hidden'); // Показываем множественную
              fileInput.setAttribute('multiple', true);
              
