@@ -34,6 +34,8 @@ http://cdn.admuspeh.my/8906/video.m3u8?token=otYyJzwcuL7gaYyn
 http://cdn.admuspeh.my/8907/video.m3u8?token=otYyJzwcuL7gaYyn
 
 #EXTGRP:Детские
+#EXTINF:-1 tvg-id="2x2" group-title="Детские"  tvg-logo="https://m3u.admuspeh.my/icon/2x2%20orig.png" catchup="default" catchup-days="14" catchup-source="http://cdn.admuspeh.my/8045/video-${start}-${duration}.m3u8?token=otYyJzwcuL7gaYyn" timeshift="14", 2x2
+http://cdn.admuspeh.my/8045/video.m3u8?token=otYyJzwcuL7gaYyn
 #EXTINF:-1 tvg-id="В гостях у сказки" group-title="Детские"  tvg-logo="https://m3u.admuspeh.my/icon/%D0%92%20%D0%B3%D0%BE%D1%81%D1%82%D1%8F%D1%85%20%D1%83%20%D1%81%D0%BA%D0%B0%D0%B7%D0%BA%D0%B8%20orig.png" catchup="default" catchup-days="14" catchup-source="http://cdn.admuspeh.my/8133/video-${start}-${duration}.m3u8?token=otYyJzwcuL7gaYyn" timeshift="14", В гостях у сказки
 http://cdn.admuspeh.my/8133/video.m3u8?token=otYyJzwcuL7gaYyn
 #EXTINF:-1 tvg-id="Капитан Фантастика HD" group-title="Детские"  tvg-logo="https://m3u.admuspeh.my/icon/%D0%9A%D0%B0%D0%BF%D0%B8%D1%82%D0%B0%D0%BD%20%D0%A4%D0%B0%D0%BD%D1%82%D0%B0%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20orig.png" catchup="default" catchup-days="14" catchup-source="http://cdn.admuspeh.my/8321/video-${start}-${duration}.m3u8?token=otYyJzwcuL7gaYyn" timeshift="14", Капитан Фантастика HD
@@ -744,6 +746,8 @@ http://cdn.admuspeh.my/8189/video.m3u8?token=otYyJzwcuL7gaYyn
 http://cdn.admuspeh.my/8567/video.m3u8?token=otYyJzwcuL7gaYyn
 
 #EXTGRP:Познавательные
+#EXTINF:-1 tvg-id="365 Дней" group-title="Познавательные"  tvg-logo="https://m3u.admuspeh.my/icon/365%20%D0%B4%D0%BD%D0%B5%D0%B9%20%D0%A2%D0%92%20orig.png" catchup="default" catchup-days="14" catchup-source="http://cdn.admuspeh.my/8068/video-${start}-${duration}.m3u8?token=otYyJzwcuL7gaYyn" timeshift="14", 365 Дней
+http://cdn.admuspeh.my/8068/video.m3u8?token=otYyJzwcuL7gaYyn
 #EXTINF:-1 tvg-id="Авто Плюс" group-title="Познавательные"  tvg-logo="https://m3u.admuspeh.my/icon/%D0%90%D0%B2%D1%82%D0%BE%20%D0%9F%D0%BB%D1%8E%D1%81%20orig.png" catchup="default" catchup-days="7" catchup-source="http://cdn.admuspeh.my/8095/video-${start}-${duration}.m3u8?token=otYyJzwcuL7gaYyn" timeshift="7", Авто Плюс
 http://cdn.admuspeh.my/8095/video.m3u8?token=otYyJzwcuL7gaYyn
 #EXTINF:-1 tvg-id="Арсенал HD" group-title="Познавательные"  tvg-logo="https://m3u.admuspeh.my/icon/%D0%90%D1%80%D1%81%D0%B5%D0%BD%D0%B0%D0%BB%20HD.png" catchup-days="0", Арсенал HD
@@ -1038,6 +1042,14 @@ http://cdn.admuspeh.my/8319/video.m3u8?token=otYyJzwcuL7gaYyn
 http://cdn.admuspeh.my/8015/video.m3u8?token=otYyJzwcuL7gaYyn
 
 #EXTGRP:Украина
+#EXTINF:-1 tvg-id="1+1 МАРАФОН UA" group-title="Украина"  tvg-logo="https://m3u.admuspeh.my/icon/1+1%20%D0%9C%D0%B0%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20HD%20UA.png" catchup="default" catchup-days="7" catchup-source="http://cdn.admuspeh.my/8116/video-${start}-${duration}.m3u8?token=otYyJzwcuL7gaYyn" timeshift="7", 1+1 МАРАФОН UA
+http://cdn.admuspeh.my/8116/video.m3u8?token=otYyJzwcuL7gaYyn
+#EXTINF:-1 tvg-id="1+1 Украина UA" group-title="Украина"  tvg-logo="https://m3u.admuspeh.my/icon/1+1%20%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0%20HD.png" catchup-days="0", 1+1 Украина UA
+http://cdn.admuspeh.my/8482/video.m3u8?token=otYyJzwcuL7gaYyn
+#EXTINF:-1 tvg-id="2+2 UA" group-title="Украина"  tvg-logo="https://m3u.admuspeh.my/icon/2+2%20HD%20UA.png" catchup="default" catchup-days="7" catchup-source="http://cdn.admuspeh.my/8117/video-${start}-${duration}.m3u8?token=otYyJzwcuL7gaYyn" timeshift="7", 2+2 UA
+http://cdn.admuspeh.my/8117/video.m3u8?token=otYyJzwcuL7gaYyn
+#EXTINF:-1 tvg-id="24 канал UA" group-title="Украина"  tvg-logo="https://m3u.admuspeh.my/icon/%D0%9A%D0%B0%D0%BD%D0%B0%D0%BB%2024%20HD.png" catchup-days="0", 24 канал UA
+http://cdn.admuspeh.my/8344/video.m3u8?token=otYyJzwcuL7gaYyn
 #EXTINF:-1 tvg-id="5 канал HD UA" group-title="Украина"  tvg-logo="https://m3u.admuspeh.my/icon/5%20%D0%9A%D0%B0%D0%BD%D0%B0%D0%BB%20HD.png" catchup="default" catchup-days="7" catchup-source="http://cdn.admuspeh.my/8093/video-${start}-${duration}.m3u8?token=otYyJzwcuL7gaYyn" timeshift="7", 5 канал HD UA
 http://cdn.admuspeh.my/8093/video.m3u8?token=otYyJzwcuL7gaYyn
 #EXTINF:-1 tvg-id="8 канал UA" group-title="Украина"  tvg-logo="https://m3u.admuspeh.my/icon/8%20%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%20HD%20UA.png" catchup="default" catchup-days="7" catchup-source="http://cdn.admuspeh.my/8334/video-${start}-${duration}.m3u8?token=otYyJzwcuL7gaYyn" timeshift="7", 8 канал UA
