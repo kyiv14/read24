@@ -76,73 +76,77 @@
         
       .channel-item {
         flex-direction: column;
-        align-items: flex-start; /* ВОССТАНОВЛЕНО: Выравнивание сверху для номера/имени */
-        padding: 0.75rem 1rem; /* Увеличим отступы */
+        align-items: flex-start; 
+        padding: 0.75rem 1rem; 
       }
       .channel-name {
-        max-width: 100% !important; /* На всю ширину */
-        margin-bottom: 0.5rem; /* ВОССТАНОВЛЕНО: Отступ снизу, чтобы имя/номер были отделены от кнопок */
-        font-size: 20px; /* Размер 20px */
-        font-weight: 900; /* Максимально жирный шрифт */
-        text-align: left; /* ВОССТАНОВЛЕНО: Текст слева */
-        flex-grow: 1; /* ВОССТАНОВЛЕНО: Возвращаем растяжение */
+        max-width: 100% !important; 
+        margin-bottom: 0.5rem; 
+        font-size: 20px; 
+        font-weight: 900; 
       }
-      /* ВОССТАНОВЛЕНО: Название и нумерация снова идут слева */
+      
+      /* НАСТРОЙКА КАНАЛОВ ДЛЯ АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ */
       .channel-item-content {
-          width: 100%; /* Занимает всю ширину */
+          width: 100%; 
           justify-content: flex-start;
-          margin-bottom: 0.5rem; /* Отступ между именем и кнопками */
+          margin-bottom: 0.5rem; 
       }
+      
+      /* ЦЕНТРИРОВАНИЕ НАЗВАНИЯ КАНАЛА ДЛЯ ВСЕХ НА МОБИЛЬНОМ */
+      /* Применяем flex-grow к .channel-name и text-align: center, чтобы центрировать его, сохраняя номер слева */
+      .channel-item-content .channel-name {
+          text-align: center; 
+          flex-grow: 1; /* Чтобы занять пространство и центрировать */
+      }
+      
+      /* ИМЕННОЕ ВЫРАВНИВАНИЕ ДЛЯ КНОПОК АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ (ТЕКУЩЕЕ ТРЕБОВАНИЕ) */
       .channel-buttons-container {
         display: flex; 
         flex-direction: row; 
-        justify-content: space-between; /* Используем space-between для распределения по краям */
+        justify-content: space-between; 
         width: 100%; 
         align-items: center; 
       }
-      
-      /* НОВЫЕ ПРАВИЛА ДЛЯ РАСПОЛОЖЕНИЯ КНОПОК: ИЗБРАННОЕ - ЛЕВО, УДАЛИТЬ - ПРАВО, СКАЧАТЬ - ЦЕНТР */
-      /* Используем order для изменения порядка и flex-grow для центрирования кнопки "Скачать" */
-      .channel-favorite-btn {
-          order: -1; /* Первым элементом (крайний левый) */
+      .channel-buttons-container .channel-favorite-btn {
+          order: -1; 
       }
-      .channel-download-btn {
+      .channel-buttons-container .channel-download-btn {
           order: 0;
-          margin-left: auto; /* Центрируем, используя автоотступы по бокам */
+          margin-left: auto; 
           margin-right: auto;
       }
-      .channel-delete-btn {
-          order: 1; /* Последним элементом (крайний правый) */
-          /* Отменяем предыдущие центрирующие стили, если они были */
+      .channel-buttons-container .channel-delete-btn {
+          order: 1; 
           margin-left: 0;
           margin-right: 0;
       }
-      /* КОНЕЦ НОВЫХ ПРАВИЛ */
-
-      /* Устаревшие/удаленные стили (оставлены для ясности изменений) */
-      .channel-download-btn, .channel-delete-btn, .channel-favorite-btn { 
-          flex-shrink: 0;
+      
+      /* ПЕРЕОПРЕДЕЛЕНИЕ КНОПОК ДЛЯ НЕЗАРЕГИСТРИРОВАННОГО ПОЛЬЗОВАТЕЛЯ (ГОСТЬ) */
+      /* Гость видит только кнопку "Удалить", которую нужно центрировать */
+      .channel-item.guest-mode .channel-buttons-container {
+          justify-content: center; /* Центрируем, так как видна только 1 кнопка */
+      }
+      .channel-item.guest-mode .channel-buttons-container .channel-delete-btn {
+          /* Сброс/переопределение центрирования */
+          margin-left: auto;
+          margin-right: auto;
+          order: 0; 
       }
       
-      /* НОВЫЕ СТИЛЫ ДЛЯ МОБИЛЬНОЙ АДАПТАЦИИ ЭКРАНА РЕДАКТОРА */
-      #editorScreen .sm\\:justify-between {
-          justify-content: center; /* Центрируем заголовок на мобильных */
+      /* РЕДАКТОР: 2 РЯДА ПО 2 КНОПКИ ДЛЯ ГОСТЯ */
+      #editorScreen .guest-buttons-container-mobile {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.5rem; /* gap-2 */
+          width: 100%;
+          margin-top: 0.5rem; /* mt-2 */
       }
-      #editorScreen .sm\\:items-center {
-          align-items: center; 
-      }
-      #editorScreen .sm\\:flex-row {
-          flex-direction: column; /* Размещаем заголовок и кнопки вертикально */
-      }
-      #editorScreen .sm\\:text-left {
-          text-align: center; /* Центрируем заголовок */
-      }
-      #editorScreen .sm\\:w-auto {
-          width: 100%; /* Кнопки на всю ширину */
+      #editorScreen .guest-buttons-container-mobile button {
+          width: 100%; /* Растягиваем кнопки на всю ширину ячейки */
           justify-content: center;
-          margin-top: 0.5rem; /* Отступ сверху для кнопок */
       }
-
+      
       /* Стили для мобильного меню (Гамбургер) */
       #siteMenu {
           position: absolute;
@@ -166,18 +170,8 @@
           text-align: center;
           border-bottom: 1px solid #f3f4f6; /* gray-100 */
       }
-      
-      /* Удаление устаревшего класса центрирования кнопок */
-      .channel-buttons-container-mobile {
-          justify-content: space-between; 
-      }
-      .channel-buttons-container-mobile .channel-favorite-btn,
-      .channel-buttons-container-mobile .channel-download-btn,
-      .channel-buttons-container-mobile .channel-delete-btn {
-          /* Сброс/новое определение порядка */
-      }
-
     }
+    
     /* Стили для настольной версии */
     @media (min-width: 641px) {
         #menuButton {
@@ -759,7 +753,12 @@
   <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
       <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
-      <div class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
+      
+      <div id="editorButtonsContainer" 
+          class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0 
+                 md:flex-row md:space-x-2 md:w-auto 
+                 flex-wrap sm:flex-nowrap">
+          
         <button id="openUploadModalBtn"
           class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base">
           ЗАГРУЗИТЬ ПЛЕЙЛИСТ
@@ -776,7 +775,7 @@
           class="bg-gray-600 text-white px-5 py-2 rounded-xl hover:bg-gray-700 transition text-sm sm:text-base hidden">
           ВЫЙТИ
         </button>
-        </div>
+      </div>
     </div>
     
     <div class="flex flex-col md:flex-row gap-6">
@@ -1012,6 +1011,16 @@
                  openUploadModalBtn.classList.remove('hidden'); // Загрузка доступна
                  saveBtn.classList.remove('hidden'); // СОХРАНИТЬ ВИДНА
                  guestLogoutBtn.classList.remove('hidden'); // ВЫХОД ВИДЕН
+                 
+                 // Применяем стили 2x2 для кнопок редактора гостя на мобильных
+                 if (window.innerWidth <= 640) {
+                     document.getElementById('editorButtonsContainer').classList.add('guest-buttons-container-mobile');
+                     // Скрываем flex-row, чтобы работал grid
+                     document.getElementById('editorButtonsContainer').classList.remove('flex-row', 'space-x-2');
+                 } else {
+                     document.getElementById('editorButtonsContainer').classList.remove('guest-buttons-container-mobile');
+                     document.getElementById('editorButtonsContainer').classList.add('flex-row', 'space-x-2');
+                 }
             }
             
         } else {
@@ -1030,6 +1039,10 @@
             openUploadModalBtn.classList.remove('hidden');
             saveBtn.classList.remove('hidden');
             guestLogoutBtn.classList.add('hidden'); // ВЫХОД СКРЫТ
+            
+            // Сброс стилей 2x2, если вдруг они применились
+            document.getElementById('editorButtonsContainer').classList.remove('guest-buttons-container-mobile');
+            document.getElementById('editorButtonsContainer').classList.add('flex-row', 'space-x-2');
         }
     });
 
@@ -1152,9 +1165,9 @@
     // Элементы для выбора формата
     const formatSelectContainer = document.getElementById('formatSelectContainer');
     const guestFormatMessage = document.getElementById('guestFormatMessage');
-
-
+    
     // НОВЫЕ ПЕРЕМЕННЫЕ
+    const editorButtonsContainer = document.getElementById('editorButtonsContainer');
     const heroBlock = document.getElementById('heroBlock'); 
     const whyUsBlock = document.getElementById('whyUsBlock'); 
     const howItWorksBlock = document.getElementById('howItWorksBlock'); 
@@ -1484,11 +1497,24 @@
              saveBtn.classList.remove('hidden'); 
              openUploadModalBtn.classList.remove('hidden');
              guestLogoutBtn.classList.remove('hidden'); 
+             
+             // Применяем стили 2x2 для кнопок редактора гостя на мобильных
+             if (window.innerWidth <= 640) {
+                 editorButtonsContainer.classList.add('guest-buttons-container-mobile');
+                 editorButtonsContainer.classList.remove('flex-row', 'space-x-2');
+             } else {
+                 editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
+                 editorButtonsContainer.classList.add('flex-row', 'space-x-2');
+             }
         } else {
              // Для авторизованного: показываем все, ВЫХОД СКРЫТ
              saveBtn.classList.remove('hidden');
              openUploadModalBtn.classList.remove('hidden');
              guestLogoutBtn.classList.add('hidden');
+             
+             // Сброс стилей 2x2
+             editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
+             editorButtonsContainer.classList.add('flex-row', 'space-x-2');
         }
         
         // Прокрутка к редактору
@@ -1590,10 +1616,21 @@
                     saveBtn.classList.remove('hidden'); 
                     openUploadModalBtn.classList.remove('hidden'); 
                     guestLogoutBtn.classList.remove('hidden');
+                    
+                    if (window.innerWidth <= 640) {
+                        editorButtonsContainer.classList.add('guest-buttons-container-mobile');
+                        editorButtonsContainer.classList.remove('flex-row', 'space-x-2');
+                    } else {
+                        editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
+                        editorButtonsContainer.classList.add('flex-row', 'space-x-2');
+                    }
                 } else {
                     saveBtn.classList.remove('hidden');
                     openUploadModalBtn.classList.remove('hidden');
                     guestLogoutBtn.classList.add('hidden');
+                    
+                    editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
+                    editorButtonsContainer.classList.add('flex-row', 'space-x-2');
                 }
                 // *** КОНЕЦ ПРОВЕРКИ ***
                 
@@ -1926,9 +1963,10 @@
         
       filteredChannels.forEach((entry, index) => {
           const item = document.createElement('div');
-          // Если гость, то убираем класс sortable-channel
+          // Если гость, добавляем класс guest-mode
           const draggableClass = isAnonymousUser ? '' : 'sortable-channel';
-          item.className = `channel-item flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow ${draggableClass}`; 
+          const guestModeClass = isAnonymousUser ? 'guest-mode' : '';
+          item.className = `channel-item flex items-center justify-between bg-gray-100 px-4 py-2 rounded-xl shadow ${draggableClass} ${guestModeClass}`; 
           item.dataset.channelUrl = entry.url; // Используем URL как уникальный (хоть и не всегда) идентификатор
           item.dataset.channelName = entry.name; // Добавляем имя для более надежной идентификации
           
@@ -1941,8 +1979,7 @@
           number.textContent = index + 1; // Нумерация с 1
           
           const name = document.createElement('span');
-          // Убраны классы max-w-[60%] md:max-w-[70%], так как стили truncate теперь в CSS
-          // ДОБАВЛЕН flex-grow-1, чтобы растянуть для центрирования
+          // Название канала центрируется для всех, благодаря стилям в @media (max-width: 640px)
           name.className = 'channel-name text-black font-medium'; 
           name.textContent = entry.name;
 
@@ -2004,7 +2041,7 @@
           // **********************************************
 
           const buttonContainer = document.createElement('div');
-          // ИСПОЛЬЗУЕМ НОВЫЙ КЛАСС ДЛЯ МОБИЛЬНОГО ВЫРАВНИВАНИЯ
+          // Используем стандартный класс, а логика выравнивания меняется в CSS media-query
           buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
           
           // Добавляем кнопки в контейнер, учитывая их видимость
