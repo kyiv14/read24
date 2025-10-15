@@ -70,6 +70,13 @@
     /* МОБИЛЬНАЯ АДАПТАЦИЯ: 24PX ДЛЯ ОСНОВНОГО ЗАГОЛОВКА */
     /* ************************************************************ */
     @media (max-width: 640px) { /* sm breakpoint по умолчанию в Tailwind */
+        #heroBlock {
+             /* Убираем min-h-[calc(100vh-60px)] для мобильной версии, чтобы избежать пустоты */
+            min-height: auto; 
+            padding-top: 2rem; /* Небольшой отступ сверху */
+            padding-bottom: 2rem; /* Небольшой отступ снизу */
+        }
+        
         #heroBlock h1 {
             font-size: 24px; /* Устанавливаем 24px */
         }
@@ -394,14 +401,14 @@
   <div id="mainScreen" class="text-center w-full max-w-6xl"> 
     
     <div id="heroBlock" class="animate-fade-in mb-8 w-full max-w-4xl mx-auto flex flex-col items-center justify-center min-h-[calc(100vh-60px)]"> 
-        <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 leading-tight mb-4 max-w-4xl mx-auto">
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 leading-tight mb-8 max-w-4xl mx-auto">
             <span class="block">Редактируйте любые плейлисты</span>
             <span class="block">
                 <span id="staticTitlePart" class="text-gray-800">для </span>
                 <span id="dynamicTitlePart" class="text-red-600">полного контроля</span><span class="text-red-600">.</span>
             </span>
         </h1>
-        <p class="text-base sm:text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+        <p class="text-base sm:text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
             Получите полный контроль над вашими медиатеками, объединяя
             источники и настраивая порядок просмотра.
         </p>
