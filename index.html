@@ -54,6 +54,19 @@
     .step-item:nth-child(3) { animation-delay: 0.30s; }
     .step-item:nth-child(4) { animation-delay: 0.45s; }
     
+    /* Стили для элемента, который можно перетаскивать (УДАЛЕНО) */
+    /* .sortable-channel {
+      cursor: grab;
+      touch-action: none;
+    } */
+    
+    /* Стили для обратной связи при перетаскивании (УДАЛЕНО) */
+    /* .sortable-ghost {
+      opacity: 0.4;
+      background-color: #f3f4f6;
+      border: 2px dashed #9ca3af;
+      border-radius: 0.75rem;
+    } */
 
     /* Добавляем отступ к body, чтобы контент не перекрывался фиксированной шапкой */
     body {
@@ -352,15 +365,6 @@
     /* Стили для чекбокса */
     .channel-checkbox {
         margin-right: 0.75rem;
-        flex-shrink: 0;
-    }
-    /* Стили для отображения логотипа */
-    .channel-logo {
-        width: 32px; /* Фиксированная ширина для лого */
-        height: 32px; /* Фиксированная высота для лого */
-        object-fit: contain;
-        margin-right: 0.75rem;
-        border-radius: 0.25rem;
         flex-shrink: 0;
     }
 
@@ -1345,49 +1349,6 @@
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
     const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
     
-    // НОВАЯ ПЕРЕМЕННАЯ ДЛЯ ЛОГОТИПОВ
-    let logoMap = new Map(); // Key: normalized channel name, Value: logo URL
-    const LOGO_FILE_URL = 'https://read24.netlify.app/logo.txt';
-    
-    // =======================================================
-    // ФУНКЦИЯ ДЛЯ ЗАГРУЗКИ И ПАРСИНГА LOGO.TXT
-    // =======================================================
-    async function fetchLogos() {
-        try {
-            const response = await fetch(LOGO_FILE_URL);
-            if (!response.ok) {
-                console.warn(`Could not load logo file: ${response.status}`);
-                return;
-            }
-            const content = await response.text();
-            const lines = content.split('\n');
-            const newLogoMap = new Map();
-            
-            lines.forEach(line => {
-                const parts = line.split(',');
-                // Проверяем, что есть ровно две части (Имя, URL)
-                if (parts.length === 2) {
-                    const name = parts[0].trim();
-                    const url = parts[1].trim();
-                    // Нормализуем имя канала для сопоставления (удаляем все, кроме букв и цифр)
-                    const normalizedName = name.toLowerCase().replace(/[^a-z0-9а-яё]/g, '');
-                    if (normalizedName && url) {
-                         newLogoMap.set(normalizedName, url);
-                    }
-                }
-            });
-            logoMap = newLogoMap;
-            // console.log(`Loaded ${logoMap.size} channel logos.`);
-        } catch (error) {
-            console.error('Error fetching logos:', error);
-        }
-    }
-    
-    // Запускаем загрузку логотипов при инициализации, но не блокируем UI
-    // Используем промис для ожидания в processPlaylistContent
-    const logosLoadedPromise = fetchLogos(); 
-
-
     // ===============================
     // ЛОГИКА ДИНАМИЧЕСКОГО ТЕКСТА
     // =======================================================
@@ -1843,12 +1804,9 @@
         }
     }
 
-    // *** ИСПРАВЛЕННАЯ ФУНКЦИЯ processPlaylistContent ***
-    async function processPlaylistContent(content, isMerge = false) {
+    // *** ИЗМЕНЕННАЯ ФУНКЦИЯ processPlaylistContent ***
+    function processPlaylistContent(content, isMerge = false) {
         
-        // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: ЖДЕМ ЗАГРУЗКИ КАРТЫ ЛОГОТИПОВ
-        await logosLoadedPromise; 
-
         const existingChannels = [...channels]; // Сохраняем текущие каналы
         const initialChannelCount = existingChannels.length;
         
@@ -2037,17 +1995,12 @@
                                     url = nextLine;
                                     break;
                                 } else if (nextLine.startsWith('#EXTINF')) {
-                                    // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: если следующая строка - новый EXTINF, то канал без URL.
                                     break; 
                                 }
                                 urlIndex++;
                             }
 
                             if (url) {
-                                // Поиск логотипа
-                                const normalizedName = name.toLowerCase().replace(/[^a-z0-9а-яё]/g, '');
-                                const logoUrl = logoMap.get(normalizedName) || '';
-
                                 channels.push({
                                     // Уникальный ID для целей редактирования (удаления/выбора)
                                     id: Date.now() + Math.random().toString(36).substring(2, 9), 
@@ -2057,7 +2010,6 @@
                                     category,
                                     isFavorite: false,
                                     isSelected: false, // НОВЫЙ ФЛАГ ДЛЯ МАССОВОГО ВЫБОРА
-                                    logo: logoUrl, // НОВОЕ ПОЛЕ ДЛЯ ЛОГОТИПА
                                 });
                                 // allCategories и categoryChannelCounts будут пересобраны в processPlaylistContent
                                 i = urlIndex;
@@ -2352,15 +2304,7 @@
         
       let playlistContent = `#EXTM3U\n`;
       
-      // Формируем EXTINF с добавлением tvg-logo
       let extinfLine = entry.extinf;
-      if (entry.logo) {
-          // Вставляем tvg-logo, только если его еще нет
-          if (!extinfLine.includes('tvg-logo=')) {
-               const tvgLogoAttr = ` tvg-logo="${entry.logo}"`;
-               extinfLine = extinfLine.replace(/,(.*)$/, `${tvgLogoAttr},$1`);
-          }
-      }
       
       playlistContent += `${extinfLine}\n`;
       
@@ -2424,12 +2368,7 @@
             return;
         }
         
-        // Поиск логотипа для нового канала
-        const normalizedName = name.toLowerCase().replace(/[^a-z0-9а-яё]/g, '');
-        const logoUrl = logoMap.get(normalizedName) || '';
-        
         // Создаем новые EXTINF и EXTGRP
-        // В EXTINF не добавляем tvg-logo, так как это будет сделано в generatePlaylistContent
         const extinf = `#EXTINF:-1 tvg-id="" group-title="${category}",${name}`;
         const extgrp = `#EXTGRP:${category}`;
         
@@ -2441,7 +2380,6 @@
             category,
             isFavorite: false,
             isSelected: false,
-            logo: logoUrl, // Добавляем найденный логотип
         };
         
         // Добавляем в начало списка
@@ -2482,8 +2420,7 @@
           
           // *** ЧЕКБОКС И НУМЕРАЦИЯ КАНАЛА ***
           const contentWrapper = document.createElement('div');
-          // Добавляем flex-shrink-0, чтобы лого и чекбокс не сжимались
-          contentWrapper.className = 'channel-item-content flex-shrink-0'; 
+          contentWrapper.className = 'channel-item-content';
           
           const checkbox = document.createElement('input');
           checkbox.type = 'checkbox';
@@ -2506,25 +2443,12 @@
           number.className = 'channel-number';
           number.textContent = index + 1; // Нумерация с 1
           
-          // НОВЫЙ ЭЛЕМЕНТ ЛОГОТИПА
-          const logoImg = document.createElement('img');
-          logoImg.className = 'channel-logo';
-          if (entry.logo) {
-              logoImg.src = entry.logo;
-              logoImg.alt = entry.name + ' logo';
-          } else {
-              // Изображение-заглушка или скрытие, если лого нет
-              logoImg.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNjYmNiY2IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIyIiB5PSI3IiB3aWR0aD0iMjAiIGhlaWdodD0iMTUiIHJ4PSIyIiByeT0iMiI+PC9yZWN0Pjxwb2x5bGluZSBwb2ludHM9IjE3IDIgMTIgNyA3IDIiPjwvcG9seWxpbmU+PC9zdmc+'; // Простая иконка ТВ
-              logoImg.alt = 'No logo';
-          }
-
           const name = document.createElement('span');
           name.className = 'channel-name text-black font-medium'; 
           name.textContent = entry.name;
 
           contentWrapper.appendChild(checkbox);
           contentWrapper.appendChild(number);
-          contentWrapper.appendChild(logoImg); // Добавляем логотип
           contentWrapper.appendChild(name);
           // *** КОНЕЦ ЧЕКБОКСА И НУМЕРАЦИИ КАНАЛА ***
 
@@ -2638,7 +2562,6 @@
               url = nextLine;
               break;
             } else if (nextLine.startsWith('#EXTINF')) {
-              // КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: если следующая строка - новый EXTINF, то канал без URL.
               break;
             }
             urlIndex++;
@@ -2646,10 +2569,6 @@
           if (url) {
             const key = url + name;
             const isFav = tempFavoriteMap[key] || false; 
-
-            // Поиск логотипа
-            const normalizedName = name.toLowerCase().replace(/[^a-z0-9а-яё]/g, '');
-            const logoUrl = logoMap.get(normalizedName) || '';
 
             channels.push({
               id: Date.now() + Math.random().toString(36).substring(2, 9), 
@@ -2659,7 +2578,6 @@
               category,
               isFavorite: isFav, 
               isSelected: false,
-              logo: logoUrl,
             });
             allCategories.add(category);
             categoryChannelCounts[category] = (categoryChannelCounts[category] || 0) + 1;
@@ -2769,7 +2687,7 @@
     }
 
     // =======================================================
-    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ОБНОВЛЕНО ДЛЯ TXT И LOGO)
+    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ОБНОВЛЕНО ДЛЯ TXT)
     // =======================================================
     function generatePlaylistContent(format) {
         const includedChannels = channels.filter(entry => {
@@ -2793,34 +2711,6 @@
 
         const favoriteChannels = includedChannels.filter(c => c.isFavorite);
         
-        // Функция для формирования строки EXTINF с учетом логотипа
-        function formatExtinf(entry, categoryOverride = null) {
-            let extinfLine = entry.extinf;
-            
-            // 1. Добавление логотипа
-            if (entry.logo) {
-                // Вставляем tvg-logo, только если его еще нет
-                if (!extinfLine.includes('tvg-logo=')) {
-                     const tvgLogoAttr = ` tvg-logo="${entry.logo}"`;
-                     // Ищем конец тегов (перед запятой и именем канала)
-                     extinfLine = extinfLine.replace(/,([^,]*)$/, `${tvgLogoAttr},$1`);
-                }
-            }
-
-            // 2. Изменение категории (для Избранного)
-            if (categoryOverride && format !== 'txt') {
-                const newGroupTitleAttr = `group-title="${categoryOverride}"`;
-                // Заменяем существующий group-title или добавляем его
-                if (extinfLine.includes('group-title=')) {
-                    extinfLine = extinfLine.replace(/group-title="([^"]*)"/i, newGroupTitleAttr);
-                } else {
-                    // Если нет group-title, вставляем его перед именем канала
-                    extinfLine = extinfLine.replace(/,([^,]*)$/, ` ${newGroupTitleAttr},$1`);
-                }
-            }
-            return extinfLine;
-        }
-
         // Добавление избранного (только для авторизованных)
         if (favoriteChannels.length > 0 && !isAnonymousUser) { 
             if (format !== 'txt') { // Добавляем группировку, если это не TXT
@@ -2828,11 +2718,17 @@
             }
             
             favoriteChannels.forEach(entry => {
-                const favExtinf = formatExtinf(entry, DISPLAY_FAVORITE_CATEGORY);
+                let favExtinf = entry.extinf;
                 
+                // Форматирование EXTINF для избранного, если это не TXT
                 if (format !== 'txt') {
+                    favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
+                    if (!favExtinf.includes('group-title=')) {
+                        favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
+                    }
                     modifiedLines.push(favExtinf);
                 } else {
+                     // Для TXT просто добавляем оригинальные теги
                      if (entry.extinf) modifiedLines.push(entry.extinf);
                      if (entry.extgrp) modifiedLines.push(entry.extgrp);
                 }
@@ -2868,19 +2764,20 @@
                 if (format !== 'txt') {
                     modifiedLines.push(`#EXTGRP:${cat}`);
                 } else {
+                     // Для TXT добавляем EXTGRP (если он не был в самом EXTINF)
+                     // Примечание: Для TXT мы добавляем EXTGRP только для категории.
                      modifiedLines.push(`#EXTGRP:${cat}`);
                 }
             }
 
             groupedChannels[cat].forEach(entry => {
-                // Добавляем EXTINF с логотипом
-                const extinfLine = formatExtinf(entry);
-                if (extinfLine) {
-                    modifiedLines.push(extinfLine);
+                // Добавляем EXTINF
+                if (entry.extinf) {
+                    modifiedLines.push(entry.extinf);
                 }
-                
                 // Для TXT добавляем EXTGRP (если он был в оригинале и не был добавлен выше)
                 if (format === 'txt' && entry.extgrp && cat === 'Без категории') {
+                    // Если у канала есть extgrp, но он в 'Без категории', мы его добавляем.
                     modifiedLines.push(entry.extgrp);
                 }
                 
@@ -2889,6 +2786,7 @@
             });
             
             // Добавляем пустую строку после категории (только если это не самый конец)
+            // (Простой способ избежать двойной пустой строки в конце)
              if (format !== 'txt' || cat !== sortedCategories[sortedCategories.length - 1]) {
                  modifiedLines.push('');
              }
