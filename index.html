@@ -770,10 +770,6 @@
           class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base">
           ЗАГРУЗИТЬ ПЛЕЙЛИСТ
         </button>
-        <button id="removeDeadLinksBtn"
-          class="bg-yellow-600 text-white px-5 py-2 rounded-xl hover:bg-yellow-700 transition text-sm sm:text-base">
-          УДАЛИТЬ НЕРАБОЧИЕ
-        </button>
         <button id="removeDuplicatesBtn"
           class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
           УДАЛИТЬ ДУБЛИ
@@ -1032,9 +1028,6 @@
                  saveBtn.classList.remove('hidden'); // СОХРАНИТЬ ВИДНА
                  guestLogoutBtn.classList.remove('hidden'); // ВЫХОД ВИДЕН
                  
-                 // Скрываем кнопку "Удалить нерабочие" для гостя
-                 if (removeDeadLinksBtn) removeDeadLinksBtn.classList.add('hidden');
-                 
                  // Применяем стили 2x2 для кнопок редактора гостя на мобильных
                  if (window.innerWidth <= 640) {
                      document.getElementById('editorButtonsContainer').classList.add('guest-buttons-container-mobile');
@@ -1062,9 +1055,6 @@
             if (mergeUploadModalBtn) mergeUploadModalBtn.classList.remove('hidden');
             // Устанавливаем fileInput для множественного выбора
             if (fileInput) fileInput.setAttribute('multiple', true);
-            
-            // Показываем кнопку "Удалить нерабочие" для авторизованного пользователя
-            if (removeDeadLinksBtn) removeDeadLinksBtn.classList.remove('hidden');
 
             // ПОЛНЫЙ ФУНКЦИОНАЛ ДЛЯ АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ
             openUploadModalBtn.classList.remove('hidden');
@@ -1219,8 +1209,6 @@
     const guestLogoutBtn = document.getElementById('guestLogoutBtn'); 
     // НОВАЯ КНОПКА ОБЪЕДИНЕНИЯ В МОДАЛКЕ
     const mergeUploadModalBtn = document.getElementById('mergeUploadModalBtn'); 
-    // *** НОВАЯ КНОПКА "УДАЛИТЬ НЕРАБОЧИЕ" ***
-    const removeDeadLinksBtn = document.getElementById('removeDeadLinksBtn');
     // КОНЕЦ НОВЫХ ПЕРЕМЕННЫХ
     
     // НОВАЯ ПЕРЕМЕННАЯ ДЛЯ КРЕСТИКА
@@ -1327,7 +1315,7 @@
     // =======================================================
     function showToast(message, count = null) {
         toastChannelCount.classList.add('hidden');
-        toastNotification.classList.remove('bg-green-600', 'bg-red-600', 'bg-yellow-600'); // Добавлен желтый
+        toastNotification.classList.remove('bg-green-600', 'bg-red-600'); 
         
         if (count !== null) {
             toastChannelCount.textContent = count;
@@ -1335,10 +1323,8 @@
             toastNotification.classList.add('bg-green-600'); 
         } else {
             toastNotification.textContent = message;
-            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Неверный')) {
+            if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Email') || message.includes('Пароль') || message.includes('Неверный')) {
                  toastNotification.classList.add('bg-red-600'); 
-            } else if (message.includes('дубликатов') || message.includes('нерабочих')) {
-                 toastNotification.classList.add('bg-yellow-600'); 
             } else {
                  toastNotification.classList.add('bg-green-600');
             }
@@ -1574,9 +1560,6 @@
              openUploadModalBtn.classList.remove('hidden');
              guestLogoutBtn.classList.remove('hidden'); 
              
-             // Скрываем кнопку "Удалить нерабочие"
-             if (removeDeadLinksBtn) removeDeadLinksBtn.classList.add('hidden');
-             
              // Обновляем кнопки в модалке для гостя
              uploadModalBtn.classList.remove('hidden');
              mergeUploadModalBtn.classList.add('hidden');
@@ -1595,9 +1578,6 @@
              saveBtn.classList.remove('hidden');
              openUploadModalBtn.classList.remove('hidden');
              guestLogoutBtn.classList.add('hidden');
-             
-             // Показываем кнопку "Удалить нерабочие"
-             if (removeDeadLinksBtn) removeDeadLinksBtn.classList.remove('hidden');
              
              // Обновляем кнопки в модалке для авторизованного
              uploadModalBtn.classList.add('hidden'); // Скрываем одну кнопку
@@ -1728,7 +1708,7 @@
                 // 2. Дедупликация и пересборка категорий
                 // Дедупликация должна вызываться всегда при слиянии, а также при обычной загрузке
                 // (чтобы избежать дубликатов внутри одного файла)
-                deduplicateChannels(true); // Передаем флаг "автоматическая дедупликация"
+                deduplicateChannels(); 
                 rebuildCategoryData(); 
                 
                 // Переключаем экраны: основной скрываем, редактор показываем
@@ -1740,7 +1720,6 @@
                     saveBtn.classList.remove('hidden'); 
                     openUploadModalBtn.classList.remove('hidden'); 
                     guestLogoutBtn.classList.remove('hidden');
-                    if (removeDeadLinksBtn) removeDeadLinksBtn.classList.add('hidden');
                     
                     if (window.innerWidth <= 640) {
                         editorButtonsContainer.classList.add('guest-buttons-container-mobile');
@@ -1753,7 +1732,6 @@
                     saveBtn.classList.remove('hidden');
                     openUploadModalBtn.classList.remove('hidden');
                     guestLogoutBtn.classList.add('hidden');
-                    if (removeDeadLinksBtn) removeDeadLinksBtn.classList.remove('hidden');
                     
                     editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
                     editorButtonsContainer.classList.add('flex-row', 'space-x-2');
@@ -1801,28 +1779,29 @@
         });
     }
 
-    function deduplicateChannels(isAutomatic = false) {
+    function deduplicateChannels() {
         const uniqueMap = new Map(); // Key: URL + Name (lowercase, trimmed)
         const newChannels = [];
         let removedCount = 0;
 
-        // Идем с начала, чтобы сохранить первый найденный канал
+        // Идем по порядку, чтобы сохранить первый найденный канал
         for (const channel of channels) {
             const key = (channel.url + channel.name).trim().toLowerCase();
             
             if (!uniqueMap.has(key)) {
                 uniqueMap.set(key, true);
-                newChannels.push(channel); // Сохраняем первый экземпляр
+                newChannels.push(channel);
             } else {
-                removedCount++; // Игнорируем дубликат
+                removedCount++;
             }
         }
         
         channels = newChannels;
         
-        if (removedCount > 0 && !isAutomatic) {
-            showToast(`Удалено ${removedCount} дубликатов каналов.`); 
+        if (removedCount > 0) {
+            showToast(`Автоматически удалено ${removedCount} дубликатов при обработке.`);
         }
+        // Пересборка категорий будет запущена в processPlaylistContent после этого
     }
     // *** КОНЕЦ НОВЫХ ВСПОМОГАТЕЛЬНЫХ ФУНКЦИЙ ***
 
@@ -2311,11 +2290,10 @@
         // Мы используем deduplicateChannels, но без toast'а об автоматическом удалении,
         // а с toast'ом о ручном запуске.
         const initialCount = channels.length;
-        deduplicateChannels(false); 
+        deduplicateChannels(); 
         const removedCount = initialCount - channels.length;
         
         if (removedCount > 0) {
-            rebuildCategoryData(); // Обновление категорий после ручной дедупликации
             renderCategoryFilter();
             renderCategorySelect(); 
             renderChannelList(searchInput.value); 
@@ -2327,68 +2305,6 @@
     }
     
     removeDuplicatesBtn.addEventListener('click', removeDuplicates);
-    
-    // *** НОВАЯ ФУНКЦИЯ: ПРОВЕРКА И УДАЛЕНИЕ НЕРАБОЧИХ ССЫЛОК ***
-    async function checkAndRemoveDeadLinks() {
-        if (channels.length === 0) {
-            showToast("Список каналов пуст.");
-            return;
-        }
-        
-        // Только для авторизованных пользователей
-        if (isAnonymousUser) {
-             showToast("Функция проверки ссылок доступна только зарегистрированным пользователям.");
-             return;
-        }
-
-        globalLoader.classList.remove('hidden');
-        document.querySelector('#globalLoader p').textContent = "Проверяем ссылки, это может занять время...";
-        
-        const channelsToCheck = channels.map(channel => {
-            // Используем CORS-прокси для всех проверок
-            const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(channel.url);
-            
-            return fetch(proxyUrl, { method: 'HEAD', mode: 'cors' }) // HEAD быстрее, чем GET
-                .then(response => {
-                    // Коды 200-399 считаем рабочими (включая редиректы)
-                    channel.isDead = !response.ok || response.status >= 400; 
-                    return channel;
-                })
-                .catch(() => {
-                    // Ошибка сети, CORS, таймаут - считаем нерабочей
-                    channel.isDead = true; 
-                    return channel;
-                });
-        });
-        
-        const results = await Promise.all(channelsToCheck);
-        
-        const initialCount = channels.length;
-        
-        // Обновляем основной массив channels, оставляя только рабочие ссылки
-        channels = results.filter(channel => !channel.isDead);
-        
-        const removedCount = initialCount - channels.length;
-        
-        // Обновляем UI
-        rebuildCategoryData(); 
-        renderCategoryFilter();
-        renderCategorySelect(); 
-        renderChannelList(searchInput.value); 
-        initializeSortable(); 
-        
-        globalLoader.classList.add('hidden');
-        document.querySelector('#globalLoader p').textContent = "Обработка плейлиста...";
-        
-        if (removedCount > 0) {
-            showToast(`Удалено ${removedCount} нерабочих ссылок.`);
-        } else {
-            showToast('Нерабочие ссылки не найдены.');
-        }
-    }
-
-    removeDeadLinksBtn.addEventListener('click', checkAndRemoveDeadLinks);
-    // *** КОНЕЦ НОВОЙ ФУНКЦИИ ***
     
     // =======================================================
     // ФУНКЦИИ СЕРВЕРНОГО СОХРАНЕНИЯ И СОКРАЩЕНИЯ ССЫЛКИ
