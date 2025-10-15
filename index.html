@@ -82,8 +82,13 @@
       .channel-name {
         max-width: 100% !important; /* На всю ширину */
         margin-bottom: 0.5rem;
-        font-size: 24px; /* Размер 24px */
+        font-size: 20px; /* ИЗМЕНЕНО: Размер 20px */
         font-weight: 900; /* Максимально жирный шрифт */
+      }
+      /* ИЗМЕНЕНИЕ: На мобильном режиме название и нумерация должны быть в одной линии */
+      .channel-item-content {
+          width: 100%; /* Занимает всю ширину */
+          justify-content: flex-start;
       }
       .channel-buttons-container {
         display: flex; /* Снова делаем flex для кнопок */
@@ -307,6 +312,13 @@
         align-items: center;
         flex-grow: 1;
         min-width: 0; /* Обеспечивает корректное сжатие Flex-элемента */
+    }
+    /* ИЗМЕНЕНИЕ: Стили для сокращения названия канала многоточием */
+    .channel-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 50px; /* Минимальная ширина, чтобы текст не исчезал */
     }
 
   </style>
@@ -1895,7 +1907,8 @@
           number.textContent = index + 1; // Нумерация с 1
           
           const name = document.createElement('span');
-          name.className = 'channel-name text-black font-medium truncate max-w-[60%] md:max-w-[70%]'; 
+          // Убраны классы max-w-[60%] md:max-w-[70%], так как стили truncate теперь в CSS
+          name.className = 'channel-name text-black font-medium'; 
           name.textContent = entry.name;
 
           contentWrapper.appendChild(number);
