@@ -76,38 +76,51 @@
         
       .channel-item {
         flex-direction: column;
-        align-items: center; /* ИЗМЕНЕНО: Центрируем вертикально */
+        align-items: flex-start; /* ВОССТАНОВЛЕНО: Выравнивание сверху для номера/имени */
         padding: 0.75rem 1rem; /* Увеличим отступы */
       }
       .channel-name {
         max-width: 100% !important; /* На всю ширину */
-        /* margin-bottom: 0.5rem; */ /* УБРАН, чтобы канал и номер были на одной строке, а имя центрировано */
+        margin-bottom: 0.5rem; /* ВОССТАНОВЛЕНО: Отступ снизу, чтобы имя/номер были отделены от кнопок */
         font-size: 20px; /* Размер 20px */
         font-weight: 900; /* Максимально жирный шрифт */
-        text-align: center; /* ДОБАВЛЕНО: Центрируем текст названия канала */
-        flex-grow: 1; /* Позволяем названию канала занять доступное место */
+        text-align: left; /* ВОССТАНОВЛЕНО: Текст слева */
+        flex-grow: 1; /* ВОССТАНОВЛЕНО: Возвращаем растяжение */
       }
-      /* ИЗМЕНЕНИЕ: На мобильном режиме название и нумерация должны быть в одной линии */
+      /* ВОССТАНОВЛЕНО: Название и нумерация снова идут слева */
       .channel-item-content {
           width: 100%; /* Занимает всю ширину */
           justify-content: flex-start;
           margin-bottom: 0.5rem; /* Отступ между именем и кнопками */
       }
       .channel-buttons-container {
-        display: flex; /* Снова делаем flex для кнопок */
-        flex-direction: row; /* Горизонтальное расположение кнопок */
-        justify-content: space-between;
-        width: 100%; /* Занимает всю ширину */
-        align-items: center; /* Выравнивание кнопок */
+        display: flex; 
+        flex-direction: row; 
+        justify-content: space-between; /* Используем space-between для распределения по краям */
+        width: 100%; 
+        align-items: center; 
       }
       
-      /* ДОБАВЛЕНО: Центрирование кнопки "Удалить" */
-      .channel-delete-btn {
-          margin-left: auto;
+      /* НОВЫЕ ПРАВИЛА ДЛЯ РАСПОЛОЖЕНИЯ КНОПОК: ИЗБРАННОЕ - ЛЕВО, УДАЛИТЬ - ПРАВО, СКАЧАТЬ - ЦЕНТР */
+      /* Используем order для изменения порядка и flex-grow для центрирования кнопки "Скачать" */
+      .channel-favorite-btn {
+          order: -1; /* Первым элементом (крайний левый) */
+      }
+      .channel-download-btn {
+          order: 0;
+          margin-left: auto; /* Центрируем, используя автоотступы по бокам */
           margin-right: auto;
       }
-      
-      .channel-download-btn, .channel-favorite-btn { /* ДОБАВЛЕН .channel-favorite-btn */
+      .channel-delete-btn {
+          order: 1; /* Последним элементом (крайний правый) */
+          /* Отменяем предыдущие центрирующие стили, если они были */
+          margin-left: 0;
+          margin-right: 0;
+      }
+      /* КОНЕЦ НОВЫХ ПРАВИЛ */
+
+      /* Устаревшие/удаленные стили (оставлены для ясности изменений) */
+      .channel-download-btn, .channel-delete-btn, .channel-favorite-btn { 
           flex-shrink: 0;
       }
       
@@ -154,17 +167,14 @@
           border-bottom: 1px solid #f3f4f6; /* gray-100 */
       }
       
-      /* ДОБАВЛЕНО: Новый класс для мобильного выравнивания кнопок */
+      /* Удаление устаревшего класса центрирования кнопок */
       .channel-buttons-container-mobile {
-          justify-content: space-around; /* Равное распределение места между кнопками */
+          justify-content: space-between; 
       }
       .channel-buttons-container-mobile .channel-favorite-btn,
-      .channel-buttons-container-mobile .channel-download-btn {
-          order: -1; /* Перемещаем на начало, чтобы "Удалить" была по центру */
-      }
+      .channel-buttons-container-mobile .channel-download-btn,
       .channel-buttons-container-mobile .channel-delete-btn {
-          flex-grow: 1; /* Заставляет кнопку "Удалить" занять центральное место */
-          text-align: center; /* Центрируем текст кнопки */
+          /* Сброс/новое определение порядка */
       }
 
     }
@@ -1995,7 +2005,7 @@
 
           const buttonContainer = document.createElement('div');
           // ИСПОЛЬЗУЕМ НОВЫЙ КЛАСС ДЛЯ МОБИЛЬНОГО ВЫРАВНИВАНИЯ
-          buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0 ' + (isMobile ? 'channel-buttons-container-mobile' : '');
+          buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
           
           // Добавляем кнопки в контейнер, учитывая их видимость
           buttonContainer.appendChild(favBtn); 
