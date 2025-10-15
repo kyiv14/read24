@@ -76,28 +76,38 @@
         
       .channel-item {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center; /* ИЗМЕНЕНО: Центрируем вертикально */
         padding: 0.75rem 1rem; /* Увеличим отступы */
       }
       .channel-name {
         max-width: 100% !important; /* На всю ширину */
-        margin-bottom: 0.5rem;
-        font-size: 20px; /* ИЗМЕНЕНО: Размер 20px */
+        /* margin-bottom: 0.5rem; */ /* УБРАН, чтобы канал и номер были на одной строке, а имя центрировано */
+        font-size: 20px; /* Размер 20px */
         font-weight: 900; /* Максимально жирный шрифт */
+        text-align: center; /* ДОБАВЛЕНО: Центрируем текст названия канала */
+        flex-grow: 1; /* Позволяем названию канала занять доступное место */
       }
       /* ИЗМЕНЕНИЕ: На мобильном режиме название и нумерация должны быть в одной линии */
       .channel-item-content {
           width: 100%; /* Занимает всю ширину */
           justify-content: flex-start;
+          margin-bottom: 0.5rem; /* Отступ между именем и кнопками */
       }
       .channel-buttons-container {
         display: flex; /* Снова делаем flex для кнопок */
         flex-direction: row; /* Горизонтальное расположение кнопок */
         justify-content: space-between;
         width: 100%; /* Занимает всю ширину */
+        align-items: center; /* Выравнивание кнопок */
       }
       
-      .channel-download-btn, .channel-delete-btn, .channel-favorite-btn { /* ДОБАВЛЕН .channel-favorite-btn */
+      /* ДОБАВЛЕНО: Центрирование кнопки "Удалить" */
+      .channel-delete-btn {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      
+      .channel-download-btn, .channel-favorite-btn { /* ДОБАВЛЕН .channel-favorite-btn */
           flex-shrink: 0;
       }
       
@@ -143,6 +153,20 @@
           text-align: center;
           border-bottom: 1px solid #f3f4f6; /* gray-100 */
       }
+      
+      /* ДОБАВЛЕНО: Новый класс для мобильного выравнивания кнопок */
+      .channel-buttons-container-mobile {
+          justify-content: space-around; /* Равное распределение места между кнопками */
+      }
+      .channel-buttons-container-mobile .channel-favorite-btn,
+      .channel-buttons-container-mobile .channel-download-btn {
+          order: -1; /* Перемещаем на начало, чтобы "Удалить" была по центру */
+      }
+      .channel-buttons-container-mobile .channel-delete-btn {
+          flex-grow: 1; /* Заставляет кнопку "Удалить" занять центральное место */
+          text-align: center; /* Центрируем текст кнопки */
+      }
+
     }
     /* Стили для настольной версии */
     @media (min-width: 641px) {
@@ -313,7 +337,7 @@
         flex-grow: 1;
         min-width: 0; /* Обеспечивает корректное сжатие Flex-элемента */
     }
-    /* ИЗМЕНЕНИЕ: Стили для сокращения названия канала многоточием */
+    /* Стили для сокращения названия канала многоточием */
     .channel-name {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -1482,7 +1506,7 @@
              handleStartEditing();
         });
     }
-    // *** КОНЕЦ ИЗМЕНЕНИЙ В ОБРАБОТЧИКАХ КНОПОК ***
+    // *** КОНЕЦ ИЗМЕНЕНИЙ В ОБРАБОТТЧИКАХ КНОПОК ***
 
 
     async function loadPlaylistFromUrl(url, loadingElement, buttonElement) {
@@ -1908,6 +1932,7 @@
           
           const name = document.createElement('span');
           // Убраны классы max-w-[60%] md:max-w-[70%], так как стили truncate теперь в CSS
+          // ДОБАВЛЕН flex-grow-1, чтобы растянуть для центрирования
           name.className = 'channel-name text-black font-medium'; 
           name.textContent = entry.name;
 
@@ -1969,7 +1994,8 @@
           // **********************************************
 
           const buttonContainer = document.createElement('div');
-          buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0';
+          // ИСПОЛЬЗУЕМ НОВЫЙ КЛАСС ДЛЯ МОБИЛЬНОГО ВЫРАВНИВАНИЯ
+          buttonContainer.className = 'channel-buttons-container flex items-center gap-2 flex-shrink-0 ' + (isMobile ? 'channel-buttons-container-mobile' : '');
           
           // Добавляем кнопки в контейнер, учитывая их видимость
           buttonContainer.appendChild(favBtn); 
