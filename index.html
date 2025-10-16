@@ -1679,10 +1679,10 @@
     // *** НОВЫЙ ОБРАБОТЧИК ДЛЯ КНОПКИ ВЫХОДА В РЕДАКТОРЕ ***
     if (guestLogoutBtn) {
         guestLogoutBtn.addEventListener('click', () => {
-            // Принудительный сброс UI в состояние "Гость" и переход на главную
+            // Принудительный сброс UI в состояние "Гость"
             mainScreen.classList.remove('hidden');
             editorScreen.classList.add('hidden');
-            // Очищаем список каналов, чтобы не показывать старые данные при следующем входе
+            // Очищаем список каналов
             channels = [];
             channelList.innerHTML = '';
             updateCounter(0);
@@ -1785,12 +1785,6 @@
              saveBtn.classList.remove('hidden');
              openUploadModalBtn.classList.remove('hidden');
              guestLogoutBtn.classList.add('hidden');
-             
-             // Обновляем кнопки в модалке для авторизованного
-             uploadModalBtn.classList.add('hidden'); // Скрываем гостевую
-             uploadSingleModalBtn.classList.remove('hidden'); // Показываем одиночную
-             mergeUploadModalBtn.classList.remove('hidden'); // Показываем множественную
-             fileInput.setAttribute('multiple', true);
              
              // Сброс стилей 2x2
              editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
@@ -2024,23 +2018,9 @@
         // УДАЛЕНО: Функционал перетаскивания отключен
     } */
 
-    // [ЛОГО: НОВАЯ ФУНКЦИЯ] Извлечение базового имени канала
-    function getChannelBaseName(channelName) {
-        if (!channelName) return '';
-        // 1. Очистка: Удаляем HD, FHD, SD, 4K, 3D, 50, 60, и их вариации (например, 'hd', 'HD', 'h d')
-        let baseName = channelName.replace(/\s+HD\s*(\s*\d*)?|\s+FHD\s*|\s+SD\s*|\s+4K\s*|\s+3D\s*|\s+\d+\s*| \+\d\s*|\+\d\s*| \+\d \s*| orig| \d{1,2}\/\d{1,2}| \d{1,2}\.\d{1,2}/ig, ' ').trim();
-        // 2. Очистка: Удаляем региональные скобки и прочее
-        baseName = baseName.replace(/\s*\([^)]*\)\s*|\s*\[[^\]]*\]\s*|\s*\{[^}]*\}\s*| orig| orig$/ig, ' ').trim();
-        // 3. Удаляем знаки + и - в конце
-        baseName = baseName.replace(/[\+\-]\s*$/g, '').trim();
+    // [ЛОГО: УДАЛЕНА ФУНКЦИЯ getChannelBaseName]
 
-        // Заменяем множественные пробелы на один
-        baseName = baseName.replace(/\s+/g, ' ').trim();
-        
-        return baseName;
-    }
-
-    // [ЛОГО: ИЗМЕНЕНИЕ] Обновленная функция парсинга с приоритетной логикой
+    // [ЛОГО: ИЗМЕНЕНИЕ] Обновленная функция парсинга с логикой только по точному совпадению
     function parseChannelsAsync() {
         return new Promise((resolve, reject) => {
             try {
@@ -2073,31 +2053,19 @@
                                 logoUrl = logoMatch[1].trim();
                             }
                             
-                            // *** ЛОГИКА ПРИОРИТЕТА ЛОГОТИПА ИЗ ВНЕШНЕГО ИСТОЧНИКА ***
+                            // *** ЛОГИКА ТОЛЬКО ПО ТОЧНОМУ СОВПАДЕНИЮ ***
                             if (!logoUrl && name && name !== 'Неизвестный канал') {
                                 
-                                // Форматируем имя для создания URL с %20 вместо пробелов
                                 const cleanName = name.trim();
-                                const baseName = getChannelBaseName(name);
                                 
-                                // Форматирование для URL: замена пробелов на %20
+                                // Функция для кодирования имени канала в URL-формат (пробелы -> %20)
                                 const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
                                 
+                                // Формируем URL по точному названию канала
                                 const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(cleanName);
-                                const baseLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(baseName);
-
                                 
-                                // Если имя канала совпадает с базовым (т.е. это не вариация),
-                                // берем точное совпадение (которое в этом случае совпадает с базовым).
-                                if (cleanName === baseName) {
-                                     logoUrl = exactLogoUrl;
-                                } 
-                                // Если это вариация ("Первый канал HD" != "Первый канал") и удалось
-                                // получить базовое имя, берем URL базового логотипа.
-                                else if (baseName) {
-                                    logoUrl = baseLogoUrl;
-                                }
-                                
+                                // Подставляем URL. Если файла нет, браузер покажет прозрачную заглушку.
+                                logoUrl = exactLogoUrl;
                             }
                             // ************************************************
 
@@ -2710,13 +2678,18 @@
               logoUrl = logoMatch[1].trim();
           }
           
-          // *** ЛОГИКА АВТОМАТИЧЕСКОГО ЛОГОТИПА ИЗ ЗАПРОСА ***
+          // *** ЛОГИКА ТОЧНОГО СОВПАДЕНИЯ ***
           if (!logoUrl && name && name !== 'Неизвестный канал') {
-              const baseName = getChannelBaseName(name);
-              if (baseName) {
-                  const formattedName = baseName.trim().replace(/\s+/g, '_') + '.png';
-                  logoUrl = DEFAULT_LOGO_BASE_URL + formattedName;
-              }
+              
+              const cleanName = name.trim();
+              
+              // Функция для кодирования имени канала в URL-формат (пробелы -> %20)
+              const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
+              
+              // Формируем URL по точному названию канала
+              const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(cleanName);
+              
+              logoUrl = exactLogoUrl;
           }
           // ************************************************
           
