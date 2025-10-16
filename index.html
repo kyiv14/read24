@@ -156,8 +156,7 @@
           height: 24px;
       }
       .channel-number {
-          /* [ФИКС: ИЗМЕНЕНИЕ] Увеличиваем минимальную ширину для трехзначных чисел и больше */
-          min-width: 30px; 
+          width: auto;
           margin-right: 0;
       }
       /* [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ] */
@@ -843,10 +842,8 @@
 
   <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
-      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">
-          РЕДАКТОР КАНАЛОВ 
-          <span id="editorChannelCount" class="text-red-600 font-extrabold">(0)</span>
-      </h1>
+      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
+      
       <div id="editorButtonsContainer" 
           class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0 
                  md:flex-row md:space-x-2 md:w-auto 
@@ -863,10 +860,6 @@
         <button id="removeDuplicatesBtn"
           class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
           УДАЛИТЬ ДУБЛИ
-        </button>
-        <button id="revertBtn"
-          class="bg-gray-500 text-white px-5 py-2 rounded-xl hover:bg-gray-600 transition text-sm sm:text-base">
-          ОТМЕНИТЬ ИЗМЕНЕНИЯ
         </button>
         <button id="saveBtn"
           class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition text-sm sm:text-base">
@@ -928,7 +921,10 @@
             </div>
         </div>
         
+        <div class="text-center mb-4 text-xl font-bold text-red-600">
+          КАНАЛОВ В СПИСКЕ: <span id="channelCounter">0</span>
         </div>
+      </div>
       
       <div id="listPanel" class="w-full md:w-3/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
         <div id="selectAllContainer" class="flex items-center p-2 mb-2 bg-gray-100 rounded-xl hidden">
@@ -1404,10 +1400,6 @@
     const renamedChannelName = document.getElementById('renamedChannelName');
     let currentChannelToRename = null; // Хранит объект канала, который переименовывается
     // [ПЕРЕИМЕНОВАТЬ: КОНЕЦ НОВОГО]
-    
-    // [ФИКС: НОВОЕ] Кнопка отмены
-    const revertBtn = document.getElementById('revertBtn');
-    const editorChannelCount = document.getElementById('editorChannelCount');
 
     // НОВАЯ КНОПКА ОБЪЕДИНЕНИЯ В МОДАЛКЕ
     const mergeUploadModalBtn = document.getElementById('mergeUploadModalBtn'); 
@@ -1454,8 +1446,7 @@
     let excludedCategories = new Set(); 
     let editedContent = ''; // Переменная для хранения контента плейлиста для скачивания
     let categoryChannelCounts = {}; 
-    let initialChannelsState = []; // [ФИКС: НОВОЕ] Хранение состояния после загрузки
-
+    
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
     const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
 
@@ -1953,9 +1944,6 @@
                 // (чтобы избежать дубликатов внутри одного файла)
                 deduplicateChannels(); 
                 rebuildCategoryData(); 
-
-                // [ФИКС: НОВОЕ] Сохраняем начальное состояние каналов для отмены
-                initialChannelsState = JSON.parse(JSON.stringify(channels));
                 
                 // Переключаем экраны: основной скрываем, редактор показываем
                 mainScreen.classList.add('hidden');
@@ -1988,7 +1976,7 @@
                 renderCategoryFilter();
                 renderCategorySelect();
                 categorySelect.value = ""; 
-                updateCounter(channels.length); // Обновляет и новый счетчик editorChannelCount
+                updateCounter(channels.length); 
                 renderChannelList();
 
                 // УДАЛЕНА ИНИЦИАЛИЗАЦИЯ SortableJS
@@ -2109,6 +2097,7 @@
                                 const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(cleanName);
                                 
                                 // Подставляем URL. Если файл существует, он будет отображаться.
+                                // Если нет, браузер покажет ошибку, но это соответствует логике "только по точному совпадению".
                                 logoUrl = exactLogoUrl;
                             }
                             // ************************************************
@@ -2513,17 +2502,7 @@
         // 1. Обновляем имя канала в объекте
         currentChannelToRename.name = newName;
         
-        // 2. Обновляем logoUrl по новым правилам точного совпадения
-        let updatedLogoUrl = '';
-        const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
-        
-        // При переименовании всегда берем точное совпадение нового имени
-        const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(newName);
-        updatedLogoUrl = exactLogoUrl;
-        
-        currentChannelToRename.logoUrl = updatedLogoUrl;
-
-        // 3. Обновляем строку EXTINF с новым именем и лого
+        // 2. Обновляем строку EXTINF с новым именем и, при необходимости, логотипом
         let extinfLine = `#EXTINF:-1 tvg-id="" group-title="${currentChannelToRename.category}"`;
         if (currentChannelToRename.logoUrl) {
             extinfLine += ` tvg-logo="${currentChannelToRename.logoUrl}"`;
@@ -2531,9 +2510,19 @@
         extinfLine += `,${newName}`;
         currentChannelToRename.extinf = extinfLine;
         
+        // 3. Сбрасываем/пересчитываем logoUrl, чтобы убедиться, что он соответствует новому имени
+        // Мы повторно вызываем логику из парсера для обновления logoUrl
+        let updatedLogoUrl = '';
+        const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
+        const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(newName);
+        
+        updatedLogoUrl = exactLogoUrl;
+        
+        currentChannelToRename.logoUrl = updatedLogoUrl;
+        
         
         // 4. Обновляем UI
-        rebuildCategoryData(); 
+        rebuildCategoryData(); // Перестройка нужна, если имя используется в сортировке/фильтре (хотя тут не используется)
         renameChannelModal.classList.add('hidden');
         currentChannelToRename = null;
         showToast(`Канал "${oldName}" переименован в "${newName}".`);
@@ -2610,22 +2599,6 @@
     });
     // *** КОНЕЦ ФУНКЦИЙ ДЛЯ ДОБАВЛЕНИЯ КАНАЛА ***
 
-    // [ФИКС: НОВОЕ] Логика отмены изменений
-    revertBtn.addEventListener('click', () => {
-        if (initialChannelsState.length === 0) {
-            showToast("Нет сохраненного исходного состояния.");
-            return;
-        }
-        
-        // Восстанавливаем каналы из сохраненного состояния
-        channels = JSON.parse(JSON.stringify(initialChannelsState));
-        
-        // Пересобираем UI
-        rebuildCategoryData();
-        
-        showToast("Изменения успешно отменены. Список восстановлен.");
-    });
-    // [ФИКС: КОНЕЦ НОВОГО]
 
     function renderChannelList(filter = '') {
       channelList.innerHTML = '';
@@ -2637,8 +2610,7 @@
       
       let filteredChannels = getFilteredChannels(filter, selectedCategory);
 
-      // [ФИКС: ИЗМЕНЕНИЕ] Обновляем счетчик в заголовке редактора
-      editorChannelCount.textContent = `(${filteredChannels.length})`;
+      updateCounter(filteredChannels.length); 
       
       // Скрываем/показываем чекбокс "Выбрать все"
       if (filteredChannels.length > 0) {
@@ -2882,9 +2854,7 @@
 
     function updateCounter(filteredCount = null) {
       if (filteredCount !== null) {
-          // [ФИКС: ИЗМЕНЕНИЕ] Обновляем оба счетчика
           channelCounter.textContent = filteredCount;
-          editorChannelCount.textContent = `(${filteredCount})`;
       } else {
           let remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
           
@@ -2893,7 +2863,6 @@
           }
           
           channelCounter.textContent = remainingChannels.length;
-          editorChannelCount.textContent = `(${remainingChannels.length})`;
       }
     }
 
