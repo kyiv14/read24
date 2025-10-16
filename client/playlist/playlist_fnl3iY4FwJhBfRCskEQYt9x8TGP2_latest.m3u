@@ -1284,7 +1284,7 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19367/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20138/index.m3u
 #EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Дождь%20HD.png" group-title="Другие",Дождь HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20083/index.m3u
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Вместе-РФ%20orig.png" group-title="Другие",Вместе-РФ orig
+#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Вместе-РФ%20FHD.png" group-title="Другие",Вместе-РФ FHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20139/index.m3u
 #EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Любимое%20Кино%20HD.png" group-title="Другие",Любимое Кино HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20014/index.m3u
@@ -3844,7 +3844,7 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31645/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31651/index.m3u
 
 #EXTGRP:Новости
-#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/РБК%20HD%2050.png" group-title="Новости",РБК HD 50
+#EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/РБК%2050.png" group-title="Новости",РБК 50
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10029/index.m3u
 #EXTINF:-1 tvg-id="" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BBC%20First%20HD.png" group-title="Новости",BBC First HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19181/index.m3u
