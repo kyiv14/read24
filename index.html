@@ -72,6 +72,24 @@
     body {
         padding-top: 60px; /* Высота шапки + небольшой запас */
     }
+
+    /* [ЛОГО: ИЗМЕНЕНИЕ] - Новые стили для логотипа канала */
+    .channel-logo {
+        width: 32px; /* Фиксированная ширина */
+        height: 32px; /* Фиксированная высота */
+        object-fit: contain; /* Сохраняет пропорции и помещает целиком */
+        margin-right: 0.75rem; /* ml-3 */
+        border-radius: 0.25rem; /* Немного скругления */
+        background-color: #ffffff; /* Белый фон, чтобы лучше смотрелось, если лого прозрачное */
+        flex-shrink: 0;
+    }
+    .channel-item-content {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        min-width: 0;
+    }
+    /* [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ] */
     
     /* ************************************************************ */
     /* МОБИЛЬНАЯ АДАПТАЦИЯ: 24PX ДЛЯ ОСНОВНОГО ЗАГОЛОВКА */
@@ -113,6 +131,35 @@
           text-align: center; 
           flex-grow: 1; /* Чтобы занять пространство и центрировать */
       }
+
+      /* [ЛОГО: ИЗМЕНЕНИЕ] На мобильном логотип справа от номера/чекбокса */
+      .channel-item-content {
+          /* Меняем порядок: чекбокс, номер, логотип, имя */
+          display: grid;
+          grid-template-columns: auto auto auto 1fr; /* Чекбокс, номер, лого, остальное */
+          gap: 0.5rem;
+          align-items: center;
+      }
+      .channel-item-content .channel-name {
+          text-align: left; /* Возвращаем к левому краю */
+          grid-column: 1 / 5; /* Занимает всю ширину под номером и лого */
+          font-size: 16px; /* Чуть меньше */
+          font-weight: 600;
+          margin-top: -0.25rem; /* Поднимаем ближе */
+          margin-left: 0;
+          margin-bottom: 0;
+      }
+      .channel-logo {
+          margin-right: 0;
+          margin-left: 0;
+          width: 24px; 
+          height: 24px;
+      }
+      .channel-number {
+          width: auto;
+          margin-right: 0;
+      }
+      /* [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ] */
       
       /* ИМЕННОЕ ВЫРАВНИВАНИЕ ДЛЯ КНОПОК АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ (ТЕКУЩЕЕ ТРЕБОВАНИЕ) */
       .channel-buttons-container {
@@ -211,6 +258,18 @@
             display: flex;
             align-items: center;
         }
+
+        /* [ЛОГО: ИЗМЕНЕНИЕ] На десктопе восстанавливаем стандартное flex-выравнивание */
+        .channel-item-content {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .channel-item-content .channel-name {
+             text-align: left;
+             flex-grow: 1; 
+        }
+        /* [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ] */
     }
     
     /* Стили для карточек сравнения */
@@ -348,19 +407,24 @@
         margin-right: 0.75rem;
         width: 20px; /* Фиксированная ширина */
         text-align: right;
+        flex-shrink: 0;
     }
-    .channel-item-content {
+    /* .channel-item-content { // Дублировано выше с изменениями для мобильного
         display: flex;
         align-items: center;
         flex-grow: 1;
-        min-width: 0; /* Обеспечивает корректное сжатие Flex-элемента */
-    }
+        min-width: 0; 
+    } */
     /* Стили для сокращения названия канала многоточием */
     .channel-name {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         min-width: 50px; /* Минимальная ширина, чтобы текст не исчезал */
+        flex-grow: 1;
+        /* [ЛОГО: ИЗМЕНЕНИЕ] */
+        max-width: 100%; /* Убедиться, что не выходит за пределы */
+        /* [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ] */
     }
     /* Стили для чекбокса */
     .channel-checkbox {
@@ -918,6 +982,8 @@
         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 mb-4">
       <input type="text" id="newChannelCategory" placeholder="Категория (Group-Title)"
         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 mb-4">
+      <input type="text" id="newChannelLogoUrl" placeholder="URL-ссылка на логотип (tvg-logo)"
+        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 mb-4">
       <input type="text" id="newChannelUrl" placeholder="URL-ссылка на поток (Обязательно)"
         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 mb-6">
       <button id="submitNewChannelBtn"
@@ -1319,6 +1385,9 @@
     const submitNewChannelBtn = document.getElementById('submitNewChannelBtn');
     const newChannelName = document.getElementById('newChannelName');
     const newChannelCategory = document.getElementById('newChannelCategory');
+    // [ЛОГО: ИЗМЕНЕНИЕ] Новая переменная для лого
+    const newChannelLogoUrl = document.getElementById('newChannelLogoUrl'); 
+    // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
     const newChannelUrl = document.getElementById('newChannelUrl');
     
     // ПЕРЕМЕННЫЕ ДЛЯ ПЕРЕИМЕНОВАНИЯ КАТЕГОРИИ
@@ -1348,8 +1417,11 @@
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
     const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
-    
-    // ===============================
+
+    // [ЛОГО: ИЗМЕНЕНИЕ] Обновленный базовый URL для логотипов
+    const DEFAULT_LOGO_BASE_URL = 'https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/';
+
+    // =======================================================
     // ЛОГИКА ДИНАМИЧЕСКОГО ТЕКСТА
     // =======================================================
     const dynamicPhrases = [
@@ -1384,7 +1456,7 @@
     }
     // =======================================================
 
-    // ===============================
+    // =======================================================
     // ЛОГИКА DRAG AND DROP (УДАЛЕНО)
     // =======================================================
     const dragDropAreas = [dropArea, dropAreaModal];
@@ -1435,7 +1507,7 @@
         fileInput.dispatchEvent(new Event('change'));
     }
     
-    // ===============================
+    // =======================================================
     // ФУНКЦИИ УВЕДОМЛЕНИЯ
     // =======================================================
     function showToast(message, count = null) {
@@ -1464,7 +1536,7 @@
         }, 3000);
     }
     
-    // ===============================
+    // =======================================================
     // ОБРАБОТЧИКИ СОБЫТИЙ
     // =======================================================
 
@@ -1952,12 +2024,26 @@
         // УДАЛЕНО: Функционал перетаскивания отключен
     } */
 
+    // [ЛОГО: НОВАЯ ФУНКЦИЯ] Извлечение базового имени канала
+    function getChannelBaseName(channelName) {
+        if (!channelName) return '';
+        // 1. Очистка: Удаляем HD, FHD, SD, 4K, 3D, 50, 60, и их вариации (например, 'hd', 'HD', 'h d')
+        let baseName = channelName.replace(/\s+HD\s*(\s*\d*)?|\s+FHD\s*|\s+SD\s*|\s+4K\s*|\s+3D\s*|\s+\d+\s*| \+\d\s*|\+\d\s*| \+\d \s*| orig| \d{1,2}\/\d{1,2}| \d{1,2}\.\d{1,2}/ig, ' ').trim();
+        // 2. Очистка: Удаляем региональные скобки и прочее
+        baseName = baseName.replace(/\s*\([^)]*\)\s*|\s*\[[^\]]*\]\s*|\s*\{[^}]*\}\s*| orig| orig$/ig, ' ').trim();
+        // 3. Удаляем знаки + и - в конце
+        baseName = baseName.replace(/[\+\-]\s*$/g, '').trim();
+
+        // Заменяем множественные пробелы на один
+        baseName = baseName.replace(/\s+/g, ' ').trim();
+        
+        return baseName;
+    }
+
+    // [ЛОГО: ИЗМЕНЕНИЕ] Обновленная функция парсинга с приоритетной логикой
     function parseChannelsAsync() {
         return new Promise((resolve, reject) => {
             try {
-                // channels, allCategories, categoryChannelCounts очищаются перед вызовом parseChannelsAsync
-                // в processPlaylistContent. Здесь только парсинг.
-                
                 const lines = originalLines;
                 const totalLines = lines.length;
                 let currentIndex = 0;
@@ -1979,6 +2065,42 @@
                             if (groupTitleMatch) {
                                 category = groupTitleMatch[1].trim();
                             }
+
+                            let logoUrl = '';
+                            const logoMatch = extinf.match(/tvg-logo="([^"]*)"/i);
+                            if (logoMatch) {
+                                // Приоритет 1: Использовать оригинальный tvg-logo
+                                logoUrl = logoMatch[1].trim();
+                            }
+                            
+                            // *** ЛОГИКА ПРИОРИТЕТА ЛОГОТИПА ИЗ ВНЕШНЕГО ИСТОЧНИКА ***
+                            if (!logoUrl && name && name !== 'Неизвестный канал') {
+                                
+                                // Форматируем имя для создания URL с %20 вместо пробелов
+                                const cleanName = name.trim();
+                                const baseName = getChannelBaseName(name);
+                                
+                                // Форматирование для URL: замена пробелов на %20
+                                const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
+                                
+                                const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(cleanName);
+                                const baseLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(baseName);
+
+                                
+                                // Если имя канала совпадает с базовым (т.е. это не вариация),
+                                // берем точное совпадение (которое в этом случае совпадает с базовым).
+                                if (cleanName === baseName) {
+                                     logoUrl = exactLogoUrl;
+                                } 
+                                // Если это вариация ("Первый канал HD" != "Первый канал") и удалось
+                                // получить базовое имя, берем URL базового логотипа.
+                                else if (baseName) {
+                                    logoUrl = baseLogoUrl;
+                                }
+                                
+                            }
+                            // ************************************************
+
 
                             let url = '';
                             let extgrp = '';
@@ -2002,16 +2124,15 @@
 
                             if (url) {
                                 channels.push({
-                                    // Уникальный ID для целей редактирования (удаления/выбора)
                                     id: Date.now() + Math.random().toString(36).substring(2, 9), 
                                     name, extinf, extgrp, url,
                                     startIndex: i,
                                     endIndex: urlIndex,
                                     category,
+                                    logoUrl, 
                                     isFavorite: false,
-                                    isSelected: false, // НОВЫЙ ФЛАГ ДЛЯ МАССОВОГО ВЫБОРА
+                                    isSelected: false,
                                 });
-                                // allCategories и categoryChannelCounts будут пересобраны в processPlaylistContent
                                 i = urlIndex;
                             }
                         }
@@ -2032,6 +2153,7 @@
             }
         });
     }
+    // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
     
     // Вспомогательная функция, чтобы не дублировать логику фильтрации
     function getFilteredChannels(filter = '', selectedCategory = '') {
@@ -2285,7 +2407,7 @@
             rebuildCategoryData(); 
             
             renameCategoryModal.classList.add('hidden');
-            showToast(`Переименовано ${renamedCount} каналов в категорию "${newCat}".`);
+            showToast(`Категория изменена для ${renamedCount} каналов.`);
         } else {
              showToast(`Каналы в категории "${oldCat}" не найдены.`);
         }
@@ -2351,6 +2473,9 @@
         newChannelName.value = '';
         newChannelCategory.value = '';
         newChannelUrl.value = '';
+        // [ЛОГО: ИЗМЕНЕНИЕ] Сброс поля лого
+        newChannelLogoUrl.value = ''; 
+        // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
         addChannelModal.classList.remove('hidden');
     });
 
@@ -2362,14 +2487,23 @@
         const name = newChannelName.value.trim();
         const category = newChannelCategory.value.trim() || 'Без категории';
         const url = newChannelUrl.value.trim();
+        // [ЛОГО: ИЗМЕНЕНИЕ] Получение URL логотипа
+        const logoUrl = newChannelLogoUrl.value.trim(); 
+        // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
         
         if (!name || !url) {
             showToast("Пожалуйста, введите Название и URL канала.");
             return;
         }
         
-        // Создаем новые EXTINF и EXTGRP
-        const extinf = `#EXTINF:-1 tvg-id="" group-title="${category}",${name}`;
+        // [ЛОГО: ИЗМЕНЕНИЕ] Формируем EXTINF с атрибутом tvg-logo
+        let extinf = `#EXTINF:-1 tvg-id="" group-title="${category}"`;
+        if (logoUrl) {
+            extinf += ` tvg-logo="${logoUrl}"`;
+        }
+        extinf += `,${name}`;
+        // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
+        
         const extgrp = `#EXTGRP:${category}`;
         
         const newChannel = {
@@ -2378,6 +2512,7 @@
             startIndex: -1, // Временно, будет обновлено при сохранении
             endIndex: -1,
             category,
+            logoUrl, // [ЛОГО: ИЗМЕНЕНИЕ] Сохранение URL лого
             isFavorite: false,
             isSelected: false,
         };
@@ -2442,6 +2577,22 @@
           const number = document.createElement('span');
           number.className = 'channel-number';
           number.textContent = index + 1; // Нумерация с 1
+
+          // [ЛОГО: ИЗМЕНЕНИЕ] Добавление элемента для логотипа.
+          const logo = document.createElement('img');
+          logo.className = 'channel-logo';
+          
+          // Если у канала есть logoUrl (даже сформированный автоматически) - используем его.
+          // Если logoUrl пуст, используем прозрачную заглушку, чтобы сохранить место.
+          if (entry.logoUrl) {
+             logo.src = entry.logoUrl;
+          } else {
+             // Используем пустую, прозрачную заглушку, чтобы сохранить место и не ломать верстку
+             logo.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="transparent"></svg>'; 
+          }
+          
+          logo.alt = 'Логотип канала';
+          // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
           
           const name = document.createElement('span');
           name.className = 'channel-name text-black font-medium'; 
@@ -2449,6 +2600,9 @@
 
           contentWrapper.appendChild(checkbox);
           contentWrapper.appendChild(number);
+          // [ЛОГО: ИЗМЕНЕНИЕ] Добавление логотипа
+          contentWrapper.appendChild(logo); 
+          // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
           contentWrapper.appendChild(name);
           // *** КОНЕЦ ЧЕКБОКСА И НУМЕРАЦИИ КАНАЛА ***
 
@@ -2548,6 +2702,24 @@
           if (groupTitleMatch) {
             category = groupTitleMatch[1].trim();
           }
+
+          // [ЛОГО: ИЗМЕНЕНИЕ] Извлечение атрибута tvg-logo
+          let logoUrl = '';
+          const logoMatch = extinf.match(/tvg-logo="([^"]*)"/i);
+          if (logoMatch) {
+              logoUrl = logoMatch[1].trim();
+          }
+          
+          // *** ЛОГИКА АВТОМАТИЧЕСКОГО ЛОГОТИПА ИЗ ЗАПРОСА ***
+          if (!logoUrl && name && name !== 'Неизвестный канал') {
+              const baseName = getChannelBaseName(name);
+              if (baseName) {
+                  const formattedName = baseName.trim().replace(/\s+/g, '_') + '.png';
+                  logoUrl = DEFAULT_LOGO_BASE_URL + formattedName;
+              }
+          }
+          // ************************************************
+          
           let url = '';
           let extgrp = '';
           let urlIndex = i + 1;
@@ -2576,6 +2748,7 @@
               startIndex: i,
               endIndex: urlIndex,
               category,
+              logoUrl, // [ЛОГО: ИЗМЕНЕНИЕ] Сохранение URL лого
               isFavorite: isFav, 
               isSelected: false,
             });
@@ -2687,7 +2860,7 @@
     }
 
     // =======================================================
-    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ОБНОВЛЕНО ДЛЯ TXT)
+    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ОБНОВЛЕНО ДЛЯ ЛОГО)
     // =======================================================
     function generatePlaylistContent(format) {
         const includedChannels = channels.filter(entry => {
@@ -2718,20 +2891,23 @@
             }
             
             favoriteChannels.forEach(entry => {
-                let favExtinf = entry.extinf;
                 
-                // Форматирование EXTINF для избранного, если это не TXT
+                // [ЛОГО: ИЗМЕНЕНИЕ] Пересборка EXTINF для Избранного (чтобы обновить tvg-logo)
+                let favExtinf = `#EXTINF:-1 tvg-id=""`;
+                // Используем логотип из данных канала, если он есть
+                if (entry.logoUrl) {
+                    favExtinf += ` tvg-logo="${entry.logoUrl}"`;
+                }
+                favExtinf += ` group-title="${DISPLAY_FAVORITE_CATEGORY}",${entry.name}`;
+                
                 if (format !== 'txt') {
-                    favExtinf = favExtinf.replace(/group-title="([^"]*)"/i, `group-title="${DISPLAY_FAVORITE_CATEGORY}"`);
-                    if (!favExtinf.includes('group-title=')) {
-                        favExtinf = favExtinf.replace(/,(.*)$/, ` group-title="${DISPLAY_FAVORITE_CATEGORY}",$1`);
-                    }
                     modifiedLines.push(favExtinf);
                 } else {
                      // Для TXT просто добавляем оригинальные теги
                      if (entry.extinf) modifiedLines.push(entry.extinf);
                      if (entry.extgrp) modifiedLines.push(entry.extgrp);
                 }
+                // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
                 
                 modifiedLines.push(entry.url);
             });
@@ -2771,9 +2947,21 @@
             }
 
             groupedChannels[cat].forEach(entry => {
+                
+                // [ЛОГО: ИЗМЕНЕНИЕ] Пересборка EXTINF для обычной категории
+                let extinfLine = `#EXTINF:-1 tvg-id=""`;
+                // Используем логотип из данных канала, если он есть
+                if (entry.logoUrl) {
+                    extinfLine += ` tvg-logo="${entry.logoUrl}"`;
+                }
+                extinfLine += ` group-title="${entry.category}",${entry.name}`;
+                // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
+
                 // Добавляем EXTINF
                 if (entry.extinf) {
-                    modifiedLines.push(entry.extinf);
+                    // [ЛОГО: ИЗМЕНЕНИЕ] Используем пересобранную строку
+                    modifiedLines.push(extinfLine);
+                    // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
                 }
                 // Для TXT добавляем EXTGRP (если он был в оригинале и не был добавлен выше)
                 if (format === 'txt' && entry.extgrp && cat === 'Без категории') {
