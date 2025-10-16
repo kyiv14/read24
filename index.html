@@ -182,6 +182,13 @@
           margin-left: 0;
           margin-right: 0;
       }
+
+      /* [ПЕРЕИМЕНОВАТЬ: НОВОЕ] Стили для кнопки "Переименовать" */
+      .channel-rename-btn {
+          order: 2; /* Поставим ее после Удалить */
+          font-size: 12px;
+          padding: 4px 8px;
+      }
       
       /* ПЕРЕОПРЕДЕЛЕНИЕ КНОПОК ДЛЯ НЕЗАРЕГИСТРИРОВАННОГО ПОЛЬЗОВАТЕЛЯ (ГОСТЬ) */
       /* Гость видит только кнопку "Удалить", которую нужно центрировать */
@@ -929,7 +936,23 @@
     </div>
     
   </div>
-  
+
+  <div id="renameChannelModal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
+    <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
+      <h2 class="text-xl font-semibold mb-6 text-gray-800">Переименовать канал</h2>
+      <input type="text" id="renamedChannelName" placeholder="Новое название канала"
+        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-gray-50 mb-6">
+      <button id="submitRenameChannelBtn"
+        class="w-full bg-red-600 text-white font-semibold py-3 rounded-xl transition hover:bg-red-700 mb-2">
+        ПЕРЕИМЕНОВАТЬ
+      </button>
+      <button id="closeRenameChannelModal"
+        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 rounded-xl transition">
+        ОТМЕНА
+      </button>
+    </div>
+  </div>
   <div id="uploadModal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl animate-fade-in text-center text-black">
@@ -1369,6 +1392,15 @@
     const freePlaylistsLink = document.getElementById('freePlaylistsLink'); // Ссылка на Полезные программы
     // *** НОВАЯ КНОПКА ВЫХОДА В РЕДАКТОРЕ ***
     const guestLogoutBtn = document.getElementById('guestLogoutBtn'); 
+
+    // [ПЕРЕИМЕНОВАТЬ: НОВОЕ] Переменные для модального окна переименования
+    const renameChannelModal = document.getElementById('renameChannelModal');
+    const closeRenameChannelModal = document.getElementById('closeRenameChannelModal');
+    const submitRenameChannelBtn = document.getElementById('submitRenameChannelBtn');
+    const renamedChannelName = document.getElementById('renamedChannelName');
+    let currentChannelToRename = null; // Хранит объект канала, который переименовывается
+    // [ПЕРЕИМЕНОВАТЬ: КОНЕЦ НОВОГО]
+
     // НОВАЯ КНОПКА ОБЪЕДИНЕНИЯ В МОДАЛКЕ
     const mergeUploadModalBtn = document.getElementById('mergeUploadModalBtn'); 
     // НОВАЯ КНОПКА ОДИНОЧНОЙ ЗАГРУЗКИ ДЛЯ АВТОРИЗОВАННЫХ В МОДАЛКЕ
@@ -2019,7 +2051,7 @@
     } */
 
     // [ЛОГО: УДАЛЕНА ФУНКЦИЯ getChannelBaseName]
-
+    
     // [ЛОГО: ИЗМЕНЕНИЕ] Обновленная функция парсинга с логикой только по точному совпадению
     function parseChannelsAsync() {
         return new Promise((resolve, reject) => {
@@ -2064,7 +2096,8 @@
                                 // Формируем URL по точному названию канала
                                 const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(cleanName);
                                 
-                                // Подставляем URL. Если файла нет, браузер покажет прозрачную заглушку.
+                                // Подставляем URL. Если файл существует, он будет отображаться.
+                                // Если нет, браузер покажет ошибку, но это соответствует логике "только по точному совпадению".
                                 logoUrl = exactLogoUrl;
                             }
                             // ************************************************
@@ -2386,6 +2419,7 @@
         renderChannelList(searchInput.value);
     });
 
+    // [СКАЧИВАНИЕ: ИЗМЕНЕНИЕ] Обновленная функция для включения лого
     function downloadSingleChannel(entry) {
         
       if (isAnonymousUser && saveModal.classList.contains('hidden') === false) {
@@ -2394,7 +2428,12 @@
         
       let playlistContent = `#EXTM3U\n`;
       
-      let extinfLine = entry.extinf;
+      // Формируем строку EXTINF с актуальным лого
+      let extinfLine = `#EXTINF:-1 tvg-id="" group-title="${entry.category}"`;
+      if (entry.logoUrl) {
+          extinfLine += ` tvg-logo="${entry.logoUrl}"`;
+      }
+      extinfLine += `,${entry.name}`;
       
       playlistContent += `${extinfLine}\n`;
       
@@ -2413,6 +2452,8 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
+    // [СКАЧИВАНИЕ: КОНЕЦ ИЗМЕНЕНИЯ]
+
 
     function toggleFavorite(entry) {
         // Гость не может использовать Избранное, так как нет сохранения
@@ -2429,6 +2470,64 @@
         const action = entry.isFavorite ? 'добавлен в' : 'удален из';
         showToast(`Канал "${entry.name}" ${action} избранного.`);
     }
+    
+    // [ПЕРЕИМЕНОВАТЬ: НОВОЕ] Логика переименования канала
+    function openRenameChannelModal(entry) {
+        if (isAnonymousUser) {
+             showToast("Функция переименования канала доступна только зарегистрированным пользователям.");
+             registrationModal.classList.remove('hidden');
+             return;
+        }
+
+        currentChannelToRename = entry;
+        renamedChannelName.value = entry.name;
+        renameChannelModal.classList.remove('hidden');
+    }
+
+    closeRenameChannelModal.addEventListener('click', () => {
+        renameChannelModal.classList.add('hidden');
+    });
+
+    submitRenameChannelBtn.addEventListener('click', () => {
+        if (!currentChannelToRename) return;
+
+        const newName = renamedChannelName.value.trim();
+        if (!newName) {
+            showToast("Введите новое название канала.");
+            return;
+        }
+        
+        const oldName = currentChannelToRename.name;
+        
+        // 1. Обновляем имя канала в объекте
+        currentChannelToRename.name = newName;
+        
+        // 2. Обновляем строку EXTINF с новым именем и, при необходимости, логотипом
+        let extinfLine = `#EXTINF:-1 tvg-id="" group-title="${currentChannelToRename.category}"`;
+        if (currentChannelToRename.logoUrl) {
+            extinfLine += ` tvg-logo="${currentChannelToRename.logoUrl}"`;
+        }
+        extinfLine += `,${newName}`;
+        currentChannelToRename.extinf = extinfLine;
+        
+        // 3. Сбрасываем/пересчитываем logoUrl, чтобы убедиться, что он соответствует новому имени
+        // Мы повторно вызываем логику из парсера для обновления logoUrl
+        let updatedLogoUrl = '';
+        const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
+        const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(newName);
+        
+        updatedLogoUrl = exactLogoUrl;
+        
+        currentChannelToRename.logoUrl = updatedLogoUrl;
+        
+        
+        // 4. Обновляем UI
+        rebuildCategoryData(); // Перестройка нужна, если имя используется в сортировке/фильтре (хотя тут не используется)
+        renameChannelModal.classList.add('hidden');
+        currentChannelToRename = null;
+        showToast(`Канал "${oldName}" переименован в "${newName}".`);
+    });
+    // [ПЕРЕИМЕНОВАТЬ: КОНЕЦ НОВОГО]
     
     // *** НОВАЯ ФУНКЦИЯ ДЛЯ ДОБАВЛЕНИЯ КАНАЛА ***
     addChannelBtn.addEventListener('click', () => {
@@ -2456,18 +2555,24 @@
         const category = newChannelCategory.value.trim() || 'Без категории';
         const url = newChannelUrl.value.trim();
         // [ЛОГО: ИЗМЕНЕНИЕ] Получение URL логотипа
-        const logoUrl = newChannelLogoUrl.value.trim(); 
-        // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
+        const customLogoUrl = newChannelLogoUrl.value.trim(); 
         
         if (!name || !url) {
             showToast("Пожалуйста, введите Название и URL канала.");
             return;
         }
         
-        // [ЛОГО: ИЗМЕНЕНИЕ] Формируем EXTINF с атрибутом tvg-logo
+        let finalLogoUrl = customLogoUrl;
+        // Если кастомный логотип не указан, формируем его по правилу точного совпадения
+        if (!finalLogoUrl) {
+            const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
+            finalLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(name);
+        }
+        
+        // Формируем EXTINF с атрибутом tvg-logo
         let extinf = `#EXTINF:-1 tvg-id="" group-title="${category}"`;
-        if (logoUrl) {
-            extinf += ` tvg-logo="${logoUrl}"`;
+        if (finalLogoUrl) {
+            extinf += ` tvg-logo="${finalLogoUrl}"`;
         }
         extinf += `,${name}`;
         // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
@@ -2480,7 +2585,7 @@
             startIndex: -1, // Временно, будет обновлено при сохранении
             endIndex: -1,
             category,
-            logoUrl, // [ЛОГО: ИЗМЕНЕНИЕ] Сохранение URL лого
+            logoUrl: finalLogoUrl, // [ЛОГО: ИЗМЕНЕНИЕ] Сохранение URL лого
             isFavorite: false,
             isSelected: false,
         };
@@ -2550,7 +2655,7 @@
           const logo = document.createElement('img');
           logo.className = 'channel-logo';
           
-          // Если у канала есть logoUrl (даже сформированный автоматически) - используем его.
+          // Если у канала есть logoUrl (сформированный или оригинальный) - используем его.
           // Если logoUrl пуст, используем прозрачную заглушку, чтобы сохранить место.
           if (entry.logoUrl) {
              logo.src = entry.logoUrl;
@@ -2598,6 +2703,18 @@
           } else {
               downloadBtn.classList.remove('hidden');
           }
+          
+          // [ПЕРЕИМЕНОВАТЬ: НОВОЕ] Кнопка Переименовать
+          const renameBtn = document.createElement('button');
+          renameBtn.className = 'channel-rename-btn bg-yellow-500 hover:bg-yellow-600 text-white font-semibold text-sm px-3 py-1 rounded-lg transition';
+          renameBtn.textContent = 'Переим.';
+          renameBtn.onclick = () => openRenameChannelModal(entry);
+          
+          // Скрываем кнопку для гостя
+          if (isAnonymousUser) {
+              renameBtn.classList.add('hidden');
+          }
+          // [ПЕРЕИМЕНОВАТЬ: КОНЕЦ НОВОГО]
 
 
           const delBtn = document.createElement('button');
@@ -2630,6 +2747,7 @@
           
           // Добавляем кнопки в контейнер, учитывая их видимость
           buttonContainer.appendChild(favBtn); 
+          buttonContainer.appendChild(renameBtn); // [ПЕРЕИМЕНОВАТЬ: НОВОЕ] Добавляем кнопку
           buttonContainer.appendChild(downloadBtn);
           buttonContainer.appendChild(delBtn);
 
@@ -2678,7 +2796,7 @@
               logoUrl = logoMatch[1].trim();
           }
           
-          // *** ЛОГИКА ТОЧНОГО СОВПАДЕНИЯ ***
+          // *** ЛОГИКА ТОЛЬКО ПО ТОЧНОМУ СОВПАДЕНИЮ ***
           if (!logoUrl && name && name !== 'Неизвестный канал') {
               
               const cleanName = name.trim();
