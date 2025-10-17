@@ -412,7 +412,7 @@
         font-weight: 700;
         color: #ef4444; /* red-500 */
         margin-right: 0.75rem;
-        width: 20px; /* Фиксированная ширина */
+        width: 30px; /* ИЗМЕНЕНО: Фиксированная ширина для 1000+ каналов */
         text-align: right;
         flex-shrink: 0;
     }
@@ -842,7 +842,12 @@
 
   <div id="editorScreen" class="hidden w-full max-w-7xl mx-auto py-6 px-4">
     <div class="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-4">
-      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">РЕДАКТОР КАНАЛОВ</h1>
+      <h1 class="text-xl font-bold text-gray-800 text-center sm:text-left">
+        РЕДАКТОР КАНАЛОВ
+        <span id="editorChannelCounter" class="text-2xl font-extrabold text-red-600 ml-2">
+           (0)
+        </span>
+      </h1>
       
       <div id="editorButtonsContainer" 
           class="flex gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0 
@@ -860,6 +865,10 @@
         <button id="removeDuplicatesBtn"
           class="bg-red-600 text-white px-5 py-2 rounded-xl hover:bg-red-700 transition text-sm sm:text-base">
           УДАЛИТЬ ДУБЛИ
+        </button>
+        <button id="revertBtn"
+          class="bg-yellow-600 text-white px-5 py-2 rounded-xl hover:bg-yellow-700 transition text-sm sm:text-base hidden">
+          ОТМЕНИТЬ ВСЕ
         </button>
         <button id="saveBtn"
           class="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-900 transition text-sm sm:text-base">
@@ -921,10 +930,7 @@
             </div>
         </div>
         
-        <div class="text-center mb-4 text-xl font-bold text-red-600">
-          КАНАЛОВ В СПИСКЕ: <span id="channelCounter">0</span>
         </div>
-      </div>
       
       <div id="listPanel" class="w-full md:w-3/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
         <div id="selectAllContainer" class="flex items-center p-2 mb-2 bg-gray-100 rounded-xl hidden">
@@ -1210,6 +1216,7 @@
                  openUploadModalBtn.classList.remove('hidden'); // Загрузка доступна
                  saveBtn.classList.remove('hidden'); // СОХРАНИТЬ ВИДНА
                  guestLogoutBtn.classList.remove('hidden'); // ВЫХОД ВИДЕН
+                 revertBtn.classList.add('hidden'); // Скрываем отмену для гостя
                  
                  // Применяем стили 2x2 для кнопок редактора гостя на мобильных
                  if (window.innerWidth <= 640) {
@@ -1245,6 +1252,7 @@
             openUploadModalBtn.classList.remove('hidden');
             saveBtn.classList.remove('hidden');
             guestLogoutBtn.classList.add('hidden'); // ВЫХОД СКРЫТ
+            revertBtn.classList.remove('hidden'); // Показываем отмену для авторизованного
             
             // Сброс стилей 2x2, если вдруг они применились
             document.getElementById('editorButtonsContainer').classList.remove('guest-buttons-container-mobile');
@@ -1320,7 +1328,8 @@
     const loadUrlBtn = document.getElementById('loadUrlBtn');
     const loading = document.getElementById('loading');
     const saveModal = document.getElementById('saveModal');
-    const channelCounter = document.getElementById('channelCounter');
+    // const channelCounter = document.getElementById('channelCounter'); // УДАЛЕН
+    const editorChannelCounter = document.getElementById('editorChannelCounter'); // НОВЫЙ СЧЕТЧИК
     const finalFileName = document.getElementById('finalFileName');
     const downloadBtn = document.getElementById('downloadBtn');
     const closeSaveModal = document.getElementById('closeSaveModal');
@@ -1439,6 +1448,9 @@
     
     // ПЕРЕМЕННЫЕ ДЛЯ СОРТИРОВКИ
     const sortSelect = document.getElementById('sortSelect');
+    
+    // ПЕРЕМЕННЫЕ ДЛЯ ОТМЕНЫ
+    const revertBtn = document.getElementById('revertBtn'); // НОВАЯ КНОПКА ОТМЕНЫ
 
     let originalLines = [];
     let channels = [];
@@ -1446,6 +1458,10 @@
     let excludedCategories = new Set(); 
     let editedContent = ''; // Переменная для хранения контента плейлиста для скачивания
     let categoryChannelCounts = {}; 
+    
+    // ДАННЫЕ ДЛЯ ОТМЕНЫ
+    let originalChannels = []; // Хранит исходный массив каналов для отмены
+    let originalCategories = new Set(); // Хранит исходный набор категорий
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
     const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
@@ -1717,9 +1733,10 @@
             // Очищаем список каналов
             channels = [];
             channelList.innerHTML = '';
-            updateCounter(0);
+            updateCounter();
             renderCategoryFilter();
             renderCategorySelect();
+            revertBtn.classList.add('hidden'); // Скрываем кнопку отмены
             showToast("Выход из режима редактирования.");
             // Прокрутка наверх
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1797,6 +1814,7 @@
              saveBtn.classList.remove('hidden'); 
              openUploadModalBtn.classList.remove('hidden');
              guestLogoutBtn.classList.remove('hidden'); 
+             revertBtn.classList.add('hidden'); // Скрываем отмену для гостя
              
              // Обновляем кнопки в модалке для гостя
              uploadModalBtn.classList.remove('hidden'); // Показываем гостевую
@@ -1817,6 +1835,8 @@
              saveBtn.classList.remove('hidden');
              openUploadModalBtn.classList.remove('hidden');
              guestLogoutBtn.classList.add('hidden');
+             // Кнопка отмены будет показана только после загрузки файла
+             // revertBtn.classList.remove('hidden'); 
              
              // Сброс стилей 2x2
              editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
@@ -1908,6 +1928,15 @@
         const existingChannels = [...channels]; // Сохраняем текущие каналы
         const initialChannelCount = existingChannels.length;
         
+        // *** НОВОЕ: Сохранение исходного состояния перед парсингом, если это не слияние ***
+        // Если это не слияние (первая загрузка), то сохраняем оригинальные данные
+        if (!isMerge || initialChannelCount === 0) {
+             originalChannels = []; 
+             originalCategories.clear();
+             revertBtn.classList.add('hidden'); // Скрываем, пока не получим каналы
+        }
+        // ******************************************************************************
+
         channels = []; // Временно очищаем для парсинга
         allCategories.clear();
         categoryChannelCounts = {};
@@ -1945,15 +1974,29 @@
                 deduplicateChannels(); 
                 rebuildCategoryData(); 
                 
+                // *** НОВОЕ: Сохранение исходного состояния, если это не было сделано ранее ***
+                // Сохраняем "чистую" версию после дедупликации/первого слияния
+                if (!isMerge || initialChannelCount === 0) {
+                    originalChannels = JSON.parse(JSON.stringify(channels)); // Сохраняем "чистую" версию
+                    originalCategories = new Set(allCategories);
+                }
+                
+                // *** НОВОЕ: Показываем кнопку отмены после успешной загрузки ***
+                if (channels.length > 0 && !isAnonymousUser) {
+                     revertBtn.classList.remove('hidden');
+                }
+                // **************************************************************************
+                
                 // Переключаем экраны: основной скрываем, редактор показываем
                 mainScreen.classList.add('hidden');
                 editorScreen.classList.remove('hidden');
                 
-                // *** ПРОВЕРКА ДЛЯ УПРАВЛЕНИЯ КНОПКАМИ В РЕДАКТОРЕ ***
+                // *** ПРОВЕРКА ДЛЯ УПРАВЛЕНИЕ КНОПКАМИ В РЕДАКТОРЕ ***
                 if (isAnonymousUser) {
                     saveBtn.classList.remove('hidden'); 
                     openUploadModalBtn.classList.remove('hidden'); 
                     guestLogoutBtn.classList.remove('hidden');
+                    revertBtn.classList.add('hidden'); // Скрываем отмену для гостя
                     
                     if (window.innerWidth <= 640) {
                         editorButtonsContainer.classList.add('guest-buttons-container-mobile');
@@ -1966,6 +2009,7 @@
                     saveBtn.classList.remove('hidden');
                     openUploadModalBtn.classList.remove('hidden');
                     guestLogoutBtn.classList.add('hidden');
+                    // revertBtn.classList.remove('hidden'); // Уже сделано выше
                     
                     editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
                     editorButtonsContainer.classList.add('flex-row', 'space-x-2');
@@ -1976,7 +2020,7 @@
                 renderCategoryFilter();
                 renderCategorySelect();
                 categorySelect.value = ""; 
-                updateCounter(channels.length); 
+                updateCounter(); // ИЗМЕНЕНИЕ: Вызов без аргументов
                 renderChannelList();
 
                 // УДАЛЕНА ИНИЦИАЛИЗАЦИЯ SortableJS
@@ -2011,10 +2055,18 @@
             categoryChannelCounts[entry.category] = (categoryChannelCounts[entry.category] || 0) + 1;
         });
         
+        // Показываем кнопку отмены при любом изменении массива/категорий
+        if (channels.length > 0 && !isAnonymousUser) {
+             revertBtn.classList.remove('hidden');
+        } else {
+             revertBtn.classList.add('hidden');
+        }
+        
         // После перестройки данных перерендерим фильтры/селекты
         renderCategoryFilter();
         renderCategorySelect();
         renderChannelList(searchInput.value); // И перерендерим список
+        updateCounter(); // Обновляем счетчик
     }
 
     function deduplicateChannels() {
@@ -2042,6 +2094,50 @@
         // Пересборка категорий будет запущена в processPlaylistContent после этого
     }
     // *** КОНЕЦ НОВЫХ ВСПОМОГАТЕЛЬНЫХ ФУНКЦИЙ ***
+
+    // =======================================================
+    // ФУНКЦИЯ ОТМЕНЫ ВСЕХ ИЗМЕНЕНИЙ
+    // =======================================================
+    function revertChanges() {
+        if (isAnonymousUser) return;
+
+        // Проверяем, есть ли вообще изменения
+        // Простая проверка по длине и совпадению содержимого (не глубокое сравнение, но достаточно для UI)
+        if (channels.length === originalChannels.length && 
+            channels.every((c, i) => c.id === originalChannels[i].id)) 
+        {
+            showToast("Нет изменений для отмены.");
+            return;
+        }
+
+        if (!confirm("Вы уверены, что хотите отменить ВСЕ изменения (порядок, удаление, добавление, переименование)?")) return;
+        
+        // 1. Восстанавливаем основной массив каналов (глубокое копирование)
+        channels = JSON.parse(JSON.stringify(originalChannels)); 
+        
+        // 2. Восстанавливаем данные о категориях
+        allCategories = new Set(originalCategories);
+        excludedCategories.clear();
+        categoryChannelCounts = {};
+        channels.forEach(entry => {
+            categoryChannelCounts[entry.category] = (categoryChannelCounts[entry.category] || 0) + 1;
+        });
+
+        // 3. Обновляем UI
+        renderCategoryFilter();
+        renderCategorySelect();
+        categorySelect.value = ""; 
+        searchInput.value = "";
+        renderChannelList(searchInput.value);
+        updateCounter(); 
+
+        revertBtn.classList.add('hidden');
+        showToast("Все изменения отменены. Плейлист восстановлен.");
+    }
+
+    revertBtn.addEventListener('click', revertChanges);
+    // =======================================================
+
 
     // =======================================================
     // ФУНКЦИЯ ДЛЯ ИНИЦИАЛИЗАЦИИ SORTABLEJS (УДАЛЕНА)
@@ -2852,17 +2948,26 @@
     }
 
 
+    // ИЗМЕНЕННАЯ ФУНКЦИЯ updateCounter
     function updateCounter(filteredCount = null) {
-      if (filteredCount !== null) {
-          channelCounter.textContent = filteredCount;
-      } else {
-          let remainingChannels = channels.filter(entry => !excludedCategories.has(entry.category));
-          
-          if (excludedCategories.has(FAVORITE_CATEGORY)) { 
-              remainingChannels = remainingChannels.filter(entry => !entry.isFavorite);
-          }
-          
-          channelCounter.textContent = remainingChannels.length;
+      
+      const remainingChannels = channels.filter(entry => {
+        const isNormalCategoryExcluded = excludedCategories.has(entry.category);
+        const isFavoriteCategoryExcluded = excludedCategories.has(FAVORITE_CATEGORY);
+        const isFavorite = entry.isFavorite;
+
+        if (isFavorite) {
+            return !isFavoriteCategoryExcluded;
+        }
+        
+        return !isNormalCategoryExcluded;
+      });
+      
+      const totalActiveCount = remainingChannels.length;
+        
+      // Всегда обновляем счетчик в заголовке, показывая общее количество активных каналов
+      if (editorChannelCounter) {
+          editorChannelCounter.textContent = `(${totalActiveCount})`;
       }
     }
 
