@@ -930,7 +930,7 @@
             </div>
         </div>
         
-        </div>
+      </div>
       
       <div id="listPanel" class="w-full md:w-3/5 md:max-h-[80vh] md:overflow-y-auto md:p-2">
         <div id="selectAllContainer" class="flex items-center p-2 mb-2 bg-gray-100 rounded-xl hidden">
@@ -1465,6 +1465,10 @@
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
     const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
+    
+    // *** НОВОЕ: URL ДЛЯ EPG (Обновлено на is.gd/epg2xml) ***
+    const EPG_URL = 'https://is.gd/epg2xml';
+    // *******************************************************
 
     // [ЛОГО: ИЗМЕНЕНИЕ] Обновленный базовый URL для логотипов
     const DEFAULT_LOGO_BASE_URL = 'https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/';
@@ -2173,6 +2177,14 @@
                             if (groupTitleMatch) {
                                 category = groupTitleMatch[1].trim();
                             }
+                            
+                            // *** НОВОЕ: Извлечение TVG-ID ***
+                            let tvgId = '';
+                            const tvgIdMatch = extinf.match(/tvg-id="([^"]*)"/i);
+                            if (tvgIdMatch) {
+                                tvgId = tvgIdMatch[1].trim();
+                            }
+                            // ********************************
 
                             let logoUrl = '';
                             const logoMatch = extinf.match(/tvg-logo="([^"]*)"/i);
@@ -2227,6 +2239,7 @@
                                     endIndex: urlIndex,
                                     category,
                                     logoUrl, 
+                                    tvgId, // <--- НОВЫЙ TVG-ID
                                     isFavorite: false,
                                     isSelected: false,
                                 });
@@ -2524,8 +2537,14 @@
         
       let playlistContent = `#EXTM3U\n`;
       
-      // Формируем строку EXTINF с актуальным лого
-      let extinfLine = `#EXTINF:-1 tvg-id="" group-title="${entry.category}"`;
+      // Формируем строку EXTINF с актуальным лого и TVG-ID
+      let extinfLine = `#EXTINF:-1`;
+      // *** НОВОЕ: Автоматически использовать Название Канала, если tvgId пуст ***
+      const finalTvgId = entry.tvgId || entry.name; 
+      extinfLine += ` tvg-id="${finalTvgId}"`;
+      // **************************************************************************
+
+      extinfLine += ` group-title="${entry.category}"`;
       if (entry.logoUrl) {
           extinfLine += ` tvg-logo="${entry.logoUrl}"`;
       }
@@ -2598,8 +2617,14 @@
         // 1. Обновляем имя канала в объекте
         currentChannelToRename.name = newName;
         
-        // 2. Обновляем строку EXTINF с новым именем и, при необходимости, логотипом
-        let extinfLine = `#EXTINF:-1 tvg-id="" group-title="${currentChannelToRename.category}"`;
+        // 2. Обновляем строку EXTINF с новым именем и, при необходимости, логотипом и TVG-ID
+        let extinfLine = `#EXTINF:-1`;
+        // *** НОВОЕ: Автоматически использовать Название Канала, если tvgId пуст ***
+        const finalTvgId = currentChannelToRename.tvgId || newName; 
+        extinfLine += ` tvg-id="${finalTvgId}"`;
+        // **************************************************************************
+
+        extinfLine += ` group-title="${currentChannelToRename.category}"`;
         if (currentChannelToRename.logoUrl) {
             extinfLine += ` tvg-logo="${currentChannelToRename.logoUrl}"`;
         }
@@ -2665,8 +2690,8 @@
             finalLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(name);
         }
         
-        // Формируем EXTINF с атрибутом tvg-logo
-        let extinf = `#EXTINF:-1 tvg-id="" group-title="${category}"`;
+        // Формируем EXTINF с атрибутом tvg-logo и tvg-id (будет равно Названию Канала)
+        let extinf = `#EXTINF:-1 tvg-id="${name}" group-title="${category}"`; // <--- ИЗМЕНЕНО
         if (finalLogoUrl) {
             extinf += ` tvg-logo="${finalLogoUrl}"`;
         }
@@ -2682,6 +2707,7 @@
             endIndex: -1,
             category,
             logoUrl: finalLogoUrl, // [ЛОГО: ИЗМЕНЕНИЕ] Сохранение URL лого
+            tvgId: name, // НОВЫЙ TVG-ID (равен названию)
             isFavorite: false,
             isSelected: false,
         };
@@ -2885,6 +2911,14 @@
             category = groupTitleMatch[1].trim();
           }
 
+          // *** НОВОЕ: Извлечение TVG-ID ***
+          let tvgId = '';
+          const tvgIdMatch = extinf.match(/tvg-id="([^"]*)"/i);
+          if (tvgIdMatch) {
+              tvgId = tvgIdMatch[1].trim();
+          }
+          // ********************************
+
           // [ЛОГО: ИЗМЕНЕНИЕ] Извлечение атрибута tvg-logo
           let logoUrl = '';
           const logoMatch = extinf.match(/tvg-logo="([^"]*)"/i);
@@ -2936,6 +2970,7 @@
               endIndex: urlIndex,
               category,
               logoUrl, // [ЛОГО: ИЗМЕНЕНИЕ] Сохранение URL лого
+              tvgId, // НОВЫЙ TVG-ID
               isFavorite: isFav, 
               isSelected: false,
             });
@@ -3056,7 +3091,7 @@
     }
 
     // =======================================================
-    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ОБНОВЛЕНО ДЛЯ ЛОГО)
+    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ОБНОВЛЕНО ДЛЯ ЛОГО И EPG)
     // =======================================================
     function generatePlaylistContent(format) {
         const includedChannels = channels.filter(entry => {
@@ -3076,6 +3111,13 @@
         // Добавляем заголовок #EXTM3U, если это не TXT
         if (format !== 'txt') {
              modifiedLines.push(`#EXTM3U`);
+             
+             // *** НОВОЕ: ДОБАВЛЕНИЕ ССЫЛКИ НА EPG ***
+             if (EPG_URL) {
+                 // Используем x-tvg-url для лучшей совместимости
+                 modifiedLines.push(`#EXTM3U x-tvg-url="${EPG_URL}"`); 
+             }
+             // ***************************************
         }
 
         const favoriteChannels = includedChannels.filter(c => c.isFavorite);
@@ -3088,9 +3130,15 @@
             
             favoriteChannels.forEach(entry => {
                 
-                // [ЛОГО: ИЗМЕНЕНИЕ] Пересборка EXTINF для Избранного (чтобы обновить tvg-logo)
-                let favExtinf = `#EXTINF:-1 tvg-id=""`;
-                // Используем логотип из данных канала, если он есть
+                // [ЛОГО: ИЗМЕНЕНИЕ] Пересборка EXTINF для Избранного (чтобы обновить tvg-logo и tvg-id)
+                let favExtinf = `#EXTINF:-1`;
+                
+                // *** АВТОМАТИЧЕСКАЯ ПОДСТАНОВКА НАЗВАНИЯ КАНАЛА В TVG-ID (если tvgId пуст) ***
+                const finalTvgId = entry.tvgId || entry.name; 
+                favExtinf += ` tvg-id="${finalTvgId}"`;
+                // ******************************************************************************
+                
+                // Добавляем TVG-Logo
                 if (entry.logoUrl) {
                     favExtinf += ` tvg-logo="${entry.logoUrl}"`;
                 }
@@ -3145,8 +3193,14 @@
             groupedChannels[cat].forEach(entry => {
                 
                 // [ЛОГО: ИЗМЕНЕНИЕ] Пересборка EXTINF для обычной категории
-                let extinfLine = `#EXTINF:-1 tvg-id=""`;
-                // Используем логотип из данных канала, если он есть
+                let extinfLine = `#EXTINF:-1`;
+                
+                 // *** АВТОМАТИЧЕСКАЯ ПОДСТАНОВКА НАЗВАНИЯ КАНАЛА В TVG-ID (если tvgId пуст) ***
+                const finalTvgId = entry.tvgId || entry.name; 
+                extinfLine += ` tvg-id="${finalTvgId}"`;
+                // ******************************************************************************
+                
+                // Добавляем TVG-Logo
                 if (entry.logoUrl) {
                     extinfLine += ` tvg-logo="${entry.logoUrl}"`;
                 }
