@@ -1467,7 +1467,7 @@
     const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
     
     // *** НОВОЕ: URL ДЛЯ EPG (Обновлено на is.gd/epg2xml) ***
-    const EPG_URL = 'https://is.gd/epg2xml';
+    const EPG_URL = 'https://is.gd/epg2xml'; 
     // *******************************************************
 
     // [ЛОГО: ИЗМЕНЕНИЕ] Обновленный базовый URL для логотипов
@@ -2239,7 +2239,7 @@
                                     endIndex: urlIndex,
                                     category,
                                     logoUrl, 
-                                    tvgId, // <--- НОВЫЙ TVG-ID
+                                    tvgId, // <--- НОВЫЙ TVG-ID (сохраняем оригинальный, если есть)
                                     isFavorite: false,
                                     isSelected: false,
                                 });
@@ -2539,10 +2539,10 @@
       
       // Формируем строку EXTINF с актуальным лого и TVG-ID
       let extinfLine = `#EXTINF:-1`;
-      // *** НОВОЕ: Автоматически использовать Название Канала, если tvgId пуст ***
+      // *** ИСПРАВЛЕНО: Автоматически использовать Название Канала, если tvgId пуст (даже для авторизованных) ***
       const finalTvgId = entry.tvgId || entry.name; 
       extinfLine += ` tvg-id="${finalTvgId}"`;
-      // **************************************************************************
+      // **********************************************************************************************************
 
       extinfLine += ` group-title="${entry.category}"`;
       if (entry.logoUrl) {
@@ -2619,10 +2619,10 @@
         
         // 2. Обновляем строку EXTINF с новым именем и, при необходимости, логотипом и TVG-ID
         let extinfLine = `#EXTINF:-1`;
-        // *** НОВОЕ: Автоматически использовать Название Канала, если tvgId пуст ***
+        // *** ИСПРАВЛЕНО: Автоматически использовать Название Канала, если tvgId пуст ***
         const finalTvgId = currentChannelToRename.tvgId || newName; 
         extinfLine += ` tvg-id="${finalTvgId}"`;
-        // **************************************************************************
+        // ******************************************************************************
 
         extinfLine += ` group-title="${currentChannelToRename.category}"`;
         if (currentChannelToRename.logoUrl) {
@@ -3112,7 +3112,7 @@
         if (format !== 'txt') {
              modifiedLines.push(`#EXTM3U`);
              
-             // *** НОВОЕ: ДОБАВЛЕНИЕ ССЫЛКИ НА EPG ***
+             // *** ДОБАВЛЕНИЕ ССЫЛКИ НА EPG ***
              if (EPG_URL) {
                  // Используем x-tvg-url для лучшей совместимости
                  modifiedLines.push(`#EXTM3U x-tvg-url="${EPG_URL}"`); 
@@ -3133,7 +3133,7 @@
                 // [ЛОГО: ИЗМЕНЕНИЕ] Пересборка EXTINF для Избранного (чтобы обновить tvg-logo и tvg-id)
                 let favExtinf = `#EXTINF:-1`;
                 
-                // *** АВТОМАТИЧЕСКАЯ ПОДСТАНОВКА НАЗВАНИЯ КАНАЛА В TVG-ID (если tvgId пуст) ***
+                // *** ИСПРАВЛЕНО: Автоматически использовать Название Канала, если tvgId пуст ***
                 const finalTvgId = entry.tvgId || entry.name; 
                 favExtinf += ` tvg-id="${finalTvgId}"`;
                 // ******************************************************************************
@@ -3195,7 +3195,7 @@
                 // [ЛОГО: ИЗМЕНЕНИЕ] Пересборка EXTINF для обычной категории
                 let extinfLine = `#EXTINF:-1`;
                 
-                 // *** АВТОМАТИЧЕСКАЯ ПОДСТАНОВКА НАЗВАНИЯ КАНАЛА В TVG-ID (если tvgId пуст) ***
+                 // *** ИСПРАВЛЕНО: Автоматически использовать Название Канала, если tvgId пуст ***
                 const finalTvgId = entry.tvgId || entry.name; 
                 extinfLine += ` tvg-id="${finalTvgId}"`;
                 // ******************************************************************************
