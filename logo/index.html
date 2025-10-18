@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Логотипы Каналов | Read24</title>
+  
+  <meta property="og:title" content="Логотипы Каналов" />
+  <meta property="og:description" content="Информация об источнике и правилах использования логотипов каналов в редакторе M3U." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://read24.netlify.app/logo.html" />
+  <meta property="og:image" content="https://read24.netlify.app/image/icon.png" />
+  <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* ПОВТОРЕНИЕ ОСНОВНЫХ СТИЛЕЙ С index.html */
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.3s ease-out;
+    }
+    body {
+        padding-top: 60px; /* Отступ для фиксированной шапки */
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    }
+    .logo-link img {
+        transition: transform 0.2s ease-in-out;
+    }
+    .logo-link:hover img {
+        transform: scale(1.2); 
+    }
+    
+    /* Стили для настольной версии */
+    @media (min-width: 641px) {
+        #menuButton {
+            display: none; 
+        }
+        .header-content {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #siteMenu {
+            display: flex;
+            flex-grow: 1; 
+            justify-content: center; 
+            align-items: center;
+        }
+        .auth-container {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+    }
+    /* КАРТОЧКА ЛОГОТИПА */
+    .logo-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .logo-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.1), 0 4px 6px -2px rgba(239, 68, 68, 0.05);
+    }
+    
+    /* НОВЫЕ СТИЛИ: Принудительно делаем меню горизонтальным и видимым,
+       если не используем JS для переключения на мобильное меню. */
+    #siteMenu {
+        display: flex !important;
+        flex-direction: row !important;
+        position: static !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        height: 100%;
+        width: auto;
+    }
+    #siteMenu a {
+        padding: 0 !important;
+        width: auto !important;
+        text-align: left !important;
+        border-bottom: none !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-black min-h-screen">
+
+  <header id="siteHeader" class="fixed top-0 left-0 w-full bg-white shadow-md z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex justify-between items-center header-content">
+      
+      <a href="/" class="flex items-center space-x-2 flex-shrink-0 logo-link">
+        <img src="https://read24.netlify.app/icon1.ico" alt="Логотип" class="h-8 w-8">
+        <span class="text-xl font-bold text-gray-800 hidden sm:inline"></span>
+      </a>
+
+      <nav id="siteMenu" class="sm:flex space-x-6">
+        <a href="/#whyUsBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Преимущества</a>
+        <a href="/#howItWorksBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Как редактировать</a>
+        <a href="/#comparisonBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Сравнение</a>
+        <a href="/#faqBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Частые вопросы</a>
+        <a href="/free-playlists" id="freePlaylistsLink" class="menu-link text-gray-600 hover:text-red-600 transition">Полезные программы</a>
+        <a href="/#knowledgeBaseBlock" id="knowledgeBaseLink" class="menu-link text-gray-600 hover:text-red-600 transition">База знаний</a>
+        <a href="/logo.html" class="menu-link text-red-600 font-bold transition border-b-2 border-red-600">Логотипы</a>
+      </nav>
+
+      <div class="flex items-center space-x-4 auth-container flex-shrink-0">
+        
+        <button id="openRegisterModalBtnHeader" 
+            class="bg-black text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-gray-900 transition">
+            ВОЙТИ / РЕГИСТРАЦИЯ
+        </button>
+
+        <button id="logoutBtn"
+          class="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-red-700 transition hidden">
+          ВЫЙТИ
+        </button>
+
+        </div>
+    </div>
+  </header>
+  
+  <div class="w-full max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+    
+    <div id="logoInfoBlock" class="animate-fade-in w-full max-w-4xl mx-auto text-center mb-12 bg-white p-8 rounded-3xl shadow-xl">
+        <span class="text-red-600 font-bold text-sm uppercase tracking-wider block mb-2">ИНФОРМАЦИЯ О ТВГ-ЛОГО</span>
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 leading-tight mb-6">
+            <span class="block">Библиотека Логотипов Каналов</span>
+        </h1>
+        <p class="text-base sm:text-lg text-gray-600 mb-6 text-left">
+            Наш редактор автоматически ищет логотипы, используя **точное название канала**. Это обеспечивает чистоту и актуальность вашей медиатеки без ручного ввода для большинства популярных источников.
+        </p>
+    </div>
+
+    <div id="exampleLogosBlock" class="w-full max-w-4xl mx-auto text-center mb-12">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-800 mb-8">
+            Примеры используемых логотипов
+        </h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div class="logo-card bg-white p-4 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center">
+                <img src="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20Канал.png" onerror="this.src='https://placehold.co/64x64/CCCCCC/333333?text=Нет%20лого'" alt="Первый Канал" class="w-16 h-16 object-contain mb-3 bg-white rounded-lg">
+                <span class="text-xs font-semibold text-gray-700 truncate w-full">Первый Канал</span>
+            </div>
+            <div class="logo-card bg-white p-4 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center">
+                <img src="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ.png" onerror="this.src='https://placehold.co/64x64/CCCCCC/333333?text=Нет%20лого'" alt="ТНТ" class="w-16 h-16 object-contain mb-3 bg-white rounded-lg">
+                <span class="text-xs font-semibold text-gray-700 truncate w-full">ТНТ</span>
+            </div>
+            <div class="logo-card bg-white p-4 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center">
+                <img src="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/НТВ.png" onerror="this.src='https://placehold.co/64x64/CCCCCC/333333?text=Нет%20лого'" alt="НТВ" class="w-16 h-16 object-contain mb-3 bg-white rounded-lg">
+                <span class="text-xs font-semibold text-gray-700 truncate w-full">НТВ</span>
+            </div>
+            <div class="logo-card bg-white p-4 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center">
+                <img src="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Матч%20ТВ.png" onerror="this.src='https://placehold.co/64x64/CCCCCC/333333?text=Нет%20лого'" alt="Матч ТВ" class="w-16 h-16 object-contain mb-3 bg-white rounded-lg">
+                <span class="text-xs font-semibold text-gray-700 truncate w-full">Матч ТВ</span>
+            </div>
+            <div class="logo-card bg-white p-4 rounded-xl shadow-lg border border-gray-200 flex flex-col items-center">
+                <img src="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eurosport%201.png" onerror="this.src='https://placehold.co/64x64/CCCCCC/333333?text=Нет%20лого'" alt="Eurosport 1" class="w-16 h-16 object-contain mb-3 bg-white rounded-lg">
+                <span class="text-xs font-semibold text-gray-700 truncate w-full">Eurosport 1</span>
+            </div>
+        </div>
+    </div>
+
+  </div>
+  
+  </body>
+</html>
