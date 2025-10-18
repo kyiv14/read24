@@ -456,7 +456,7 @@
         <a href="#howItWorksBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Как редактировать</a>
         <a href="#comparisonBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Сравнение</a>
         <a href="#faqBlock" class="menu-link text-gray-600 hover:text-red-600 transition">Частые вопросы</a>
-        <a href="/free-playlists" id="freePlaylistsLink" class="menu-link text-gray-600 hover:text-red-600 transition">Полезные программы</a>
+        <a href="/logo" id="logoLink" class="menu-link text-gray-600 hover:text-red-600 transition">Логотипы</a>
         <a href="#knowledgeBaseBlock" id="knowledgeBaseLink" class="menu-link text-gray-600 hover:text-red-600 transition">База знаний</a>
         </nav>
 
@@ -1398,7 +1398,7 @@
     const menuButton = document.getElementById('menuButton'); // Кнопка гамбургера
     const siteMenu = document.getElementById('siteMenu'); // Мобильное меню
     const knowledgeBaseLink = document.getElementById('knowledgeBaseLink'); // Ссылка на Базу знаний
-    const freePlaylistsLink = document.getElementById('freePlaylistsLink'); // Ссылка на Полезные программы
+    const logoLink = document.getElementById('logoLink'); // Ссылка на Логотипы
     // *** НОВАЯ КНОПКА ВЫХОДА В РЕДАКТОРЕ ***
     const guestLogoutBtn = document.getElementById('guestLogoutBtn'); 
 
@@ -1794,12 +1794,12 @@
 
     // УДАЛЕНА ЛОГИКА showKnowledgeBase, теперь это просто прокрутка по якорю.
     
-    // Обработчик для "Полезные программы" (пока просто прокручивает наверх, так как блока нет)
-    if (freePlaylistsLink) {
-        freePlaylistsLink.addEventListener('click', (e) => {
+    // Обработчик для "Логотипы" (пока просто прокручивает наверх, так как блока нет)
+    if (logoLink) {
+        logoLink.addEventListener('click', (e) => {
             e.preventDefault();
             // Здесь может быть переход на отдельную страницу или открытие модального окна
-            console.log("Клик по 'Полезные программы'.");
+            console.log("Клик по 'Логотипы'.");
         });
     }
     
