@@ -60,6 +60,13 @@
             text-align: left !important;
             border-bottom: none !important;
         }
+        /* Убеждаемся, что контейнер с меню корректно расположен на десктопе */
+        .auth-container {
+             display: flex;
+             align-items: center;
+             flex-shrink: 0;
+             /* Так как нет кнопки "ВЫЙТИ", эта область может быть пустой, но мы оставим ее для гамбургер-кнопки на мобильных */
+        }
     }
 
     /* Стили для мобильной версии (гамбургер-меню) */
@@ -94,10 +101,6 @@
              display: flex;
              align-items: center;
         }
-        /* Скрываем кнопку входа на мобильном, чтобы не перегружать шапку */
-        #openRegisterModalBtnHeader {
-             display: none;
-        }
     }
 
     /* КАРТОЧКА ЛОГОТИПА */
@@ -107,19 +110,6 @@
     .logo-card:hover {
         transform: translateY(-4px);
         box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.1), 0 4px 6px -2px rgba(239, 68, 68, 0.05);
-    }
-    
-    /* СТИЛЫ ДЛЯ КВАДРАТНОГО МОДАЛЬНОГО ОКНА РЕГИСТРАЦИИ */
-    .square-modal-content {
-        aspect-ratio: 1 / 1; /* Делаем окно квадратным */
-        max-width: 400px;
-        width: 90%;
-        padding: 1.5rem;
-        position: relative; /* Для позиционирования кнопки закрытия */
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* Центрируем контент */
-        align-items: center;
     }
   </style>
 </head>
@@ -144,16 +134,6 @@
       </nav>
 
       <div class="flex items-center space-x-4 auth-container flex-shrink-0">
-        
-        <button id="openRegisterModalBtnHeader" 
-            class="bg-black text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-gray-900 transition sm:block">
-            ВОЙТИ / РЕГИСТРАЦИЯ
-        </button>
-
-        <button id="logoutBtn"
-          class="bg-red-600 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md hover:bg-red-700 transition hidden">
-          ВЫЙТИ
-        </button>
         
         <button id="menuButton" class="sm:hidden p-2 text-gray-600 hover:text-red-600 transition">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -224,43 +204,6 @@
         </div>
     </div>
     
-    <div id="registrationModal"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm hidden z-20">
-      <div class="bg-white rounded-3xl shadow-xl animate-fade-in text-center text-black square-modal-content">
-        
-        <button id="closeRegisterModal"
-          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition p-1 rounded-full hover:bg-gray-100">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-
-        <h2 class="text-2xl font-extrabold text-center mb-4 text-gray-800">
-          Добро пожаловать!
-        </h2>
-        <p class="text-center text-gray-600 mb-8 text-sm">
-          Создайте свой аккаунт, чтобы сохранять плейлисты.
-        </p>
-
-        <button id="registerGoogleBtn"
-          class="w-full flex items-center justify-center bg-white border border-gray-300 text-gray-700 text-base font-medium px-4 py-3 rounded-xl shadow-sm hover:bg-gray-100 transition mb-3">
-          <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.0003 4.75C14.7173 4.75 16.9833 5.772 18.6673 7.359L20.5903 5.487C18.3143 3.498 15.3623 2.25 12.0003 2.25C8.01332 2.25 4.54932 4.53 2.87132 7.824L5.87532 10.125C6.73632 7.787 9.12632 6.25 12.0003 6.25C13.8823 6.25 15.6173 6.942 16.9803 8.167L19.4583 6.135C18.0493 4.904 16.1433 4.25 14.2503 4.25H12.0003V4.75Z" fill="#EA4335"/>
-            <path d="M12.0003 17.75C13.2133 17.75 14.3723 17.419 15.3853 16.829L18.3903 19.13C16.6383 20.375 14.3763 21 12.0003 21C7.81732 21 4.28832 18.577 2.50232 15.111L5.53732 12.83C6.34732 15.309 9.07332 17 12.0003 17V17.75Z" fill="#34A853"/>
-            <path d="M21.2503 12C21.2503 11.234 21.1813 10.493 21.0543 9.774H12.0003V14.25H17.2273C17.0673 15.186 16.5183 15.996 15.7503 16.591L18.7853 18.868C20.4433 17.375 21.2503 15.342 21.2503 13.007V12Z" fill="#4285F4"/>
-            <path d="M5.87532 10.125L2.87132 7.824C2.26132 9.068 2.00032 10.493 2.00032 12C2.00032 13.507 2.26132 14.932 2.87132 16.176L5.87532 13.875V10.125Z" fill="#FBBC05"/>
-          </svg>
-          Войти через Google
-        </button>
-        
-        </div>
-    </div>
-    <div id="unauthenticatedMessage" class="hidden"></div>
-    <div id="authButtonContainer" class="hidden"></div>
-    <div id="toastNotification" class="fixed bottom-5 right-5 bg-green-600 text-white px-4 py-3 rounded-xl shadow-lg hidden animate-fade-in z-50">
-      Плейлист загружен. Каналов: <span id="toastChannelCount" class="font-bold">0</span>
-    </div>
-    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('logoSearchInput');
@@ -274,7 +217,7 @@
             menuButton.addEventListener('click', function() {
                 siteMenu.classList.toggle('open');
             });
-            
+
             // Логика поиска логотипов
             searchInput.addEventListener('keyup', function() {
                 const filter = searchInput.value.toLowerCase();
@@ -289,200 +232,15 @@
                 });
             });
 
-            // Логика для кнопки "Скачать все лого"
+            // Логика для кнопки "Скачать все лого" (обновлено)
             const fileId = '1dsWmZC8xOVVMd_FFHfhWkCQ7EkUb-b-V'; // ID файла из ссылки
             const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
             
             downloadAllBtn.addEventListener('click', function() {
+                // Открываем прямую ссылку на скачивание в новом окне, что инициирует загрузку
                 window.open(downloadUrl, '_blank'); 
             });
         });
-    </script>
-    
-    <script type="module">
-        // =======================================================
-        // FIREBASE INITIALIZATION AND AUTH
-        // =======================================================
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { 
-            getAuth, 
-            signInAnonymously, 
-            signInWithCustomToken, 
-            GoogleAuthProvider,
-            signInWithPopup,
-            signOut,
-            onAuthStateChanged 
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-        // Использование конфигурации, предоставленной пользователем, с учетом глобальных переменных Canvas
-        const providedFirebaseConfig = {
-          apiKey: "AIzaSyCko3aktIDmXWbsDekdr-dKUscX2fkRpjo",
-          authDomain: "read24-7.firebaseapp.com",
-          projectId: "read24-7",
-          storageBucket: "read24-7.firebasestorage.app",
-          messagingSenderId: "966949567813",
-          appId: "1:966949567813:web:b12ff4001282d20c29922c",
-          measurementId: "G-NVEC5F7S8F"
-        };
-
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : JSON.stringify(providedFirebaseConfig));
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        
-        let userId = 'guest';
-        let isAnonymousUser = true; // Флаг для отслеживания анонимного статуса
-
-        // Авторизация при запуске
-        async function initializeAuth() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                    // console.log("Signed in with custom token.");
-                } else {
-                    await signInAnonymously(auth);
-                    // console.log("Signed in anonymously.");
-                }
-            } catch (error) {
-                console.error("Auth initialization failed:", error.message);
-            }
-        }
-
-        // ВОССТАНОВЛЕНА ЛОГИКА ДЛЯ АУТЕНТИФИКАЦИИ
-        onAuthStateChanged(auth, (user) => {
-            const isAuthenticated = user && !user.isAnonymous;
-            isAnonymousUser = !isAuthenticated; // Обновляем флаг
-            
-            // 1. Управление кнопками в шапке
-            if (isAuthenticated) {
-                // Пользователь вошел:
-                openRegisterModalBtnHeader.classList.add('hidden'); // Скрываем "ВОЙТИ / РЕГИСТРАЦИЯ"
-                logoutBtn.classList.remove('hidden'); // Показываем "ВЫЙТИ"
-                userId = user.uid; 
-                showToast(`Добро пожаловать, ${user.displayName || 'Пользователь'}!`);
-            } else {
-                // Гость:
-                openRegisterModalBtnHeader.classList.remove('hidden'); // Показываем "ВОЙТИ / РЕГИСТРАЦИЯ"
-                logoutBtn.classList.add('hidden');
-                userId = 'guest';
-            }
-            
-            // Скрываем модальное окно регистрации после изменения состояния
-            registrationModal.classList.add('hidden');
-        });
-
-        initializeAuth();
-
-        // =======================================================
-        // REGISTRATION AND LOGOUT FUNCTIONS
-        // =======================================================
-        async function handleGoogleRegistration() {
-            const provider = new GoogleAuthProvider();
-            try {
-                await signInWithPopup(auth, provider);
-                // onAuthStateChanged обработает смену UI
-            } catch (error) {
-                let errorMessage = "Ошибка входа через Google.";
-                if (error.code === 'auth/popup-closed-by-user') {
-                    errorMessage = "Окно входа было закрыто.";
-                } else {
-                    errorMessage = `Ошибка: ${error.message}`;
-                }
-                showToast(errorMessage);
-                console.error("Google sign-in error:", error.code, error.message);
-            }
-        }
-        
-        async function handleLogout() {
-            try {
-                await signOut(auth);
-                showToast("Вы успешно вышли из аккаунта.");
-            } catch (error) {
-                console.error("Logout error:", error.message);
-                showToast("Ошибка при выходе.");
-            }
-        }
-
-        // =======================================================
-        // DECLARATIONS AND EVENT HANDLERS
-        // =======================================================
-        
-        // Получаем необходимые элементы (из index2.html и добавленных модалок)
-        const openRegisterModalBtnHeader = document.getElementById('openRegisterModalBtnHeader'); 
-        const logoutBtn = document.getElementById('logoutBtn');
-        const registrationModal = document.getElementById('registrationModal');
-        const closeRegisterModalIcon = document.getElementById('closeRegisterModal');
-        const registerGoogleBtn = document.getElementById('registerGoogleBtn');
-        const toastNotification = document.getElementById('toastNotification');
-        const toastChannelCount = document.getElementById('toastChannelCount');
-        
-        // =======================================================
-        // ФУНКЦИИ УВЕДОМЛЕНИЯ
-        // =======================================================
-        function showToast(message, count = null) {
-            toastChannelCount.classList.add('hidden');
-            toastNotification.classList.remove('bg-green-600', 'bg-red-600'); 
-            
-            if (count !== null) {
-                toastChannelCount.textContent = count;
-                toastNotification.innerHTML = `Плейлист загружен. Каналов: <span class="font-bold">${count}</span>`;
-                toastNotification.classList.add('bg-green-600'); 
-            } else {
-                toastNotification.textContent = message;
-                if (message.includes('Ошибка') || message.includes('Не удалось') || message.includes('Пожалуйста') || message.includes('Неверный')) {
-                     toastNotification.classList.add('bg-red-600'); 
-                } else {
-                     toastNotification.classList.add('bg-green-600');
-                }
-            }
-            
-            toastNotification.classList.remove('hidden');
-            toastNotification.classList.add('animate-fade-in');
-
-            setTimeout(() => {
-                toastNotification.classList.add('hidden');
-                toastNotification.classList.remove('animate-fade-in');
-            }, 3000);
-        }
-        
-        // =======================================================
-        // ОБРАБОТЧИКИ СОБЫТИЙ
-        // =======================================================
-        if (openRegisterModalBtnHeader) {
-            openRegisterModalBtnHeader.addEventListener('click', () => {
-                registrationModal.classList.remove('hidden');
-            });
-        }
-
-        if (closeRegisterModalIcon) {
-            closeRegisterModalIcon.addEventListener('click', () => {
-                registrationModal.classList.add('hidden');
-            });
-        }
-        
-        if (registerGoogleBtn) {
-            registerGoogleBtn.addEventListener('click', handleGoogleRegistration);
-        }
-        
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', handleLogout); 
-        }
-
-        // ЛОГИКА ГАМБУРГЕРА
-        const menuButton = document.getElementById('menuButton');
-        const siteMenu = document.getElementById('siteMenu');
-        if (menuButton && siteMenu) {
-            menuButton.addEventListener('click', () => {
-                siteMenu.classList.toggle('open');
-            });
-            
-            document.querySelectorAll('#siteMenu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (window.innerWidth <= 640) {
-                         siteMenu.classList.remove('open');
-                    }
-                });
-            });
-        }
     </script>
     
   </div>
