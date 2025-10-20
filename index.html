@@ -2139,10 +2139,43 @@
     /* function initializeSortable() {
         // УДАЛЕНО: Функционал перетаскивания отключен
     } */
-
-    // [ЛОГО: УДАЛЕНА ФУНКЦИЯ getChannelBaseName]
     
-    // [ЛОГО: ИЗМЕНЕНИЕ] Обновленная функция парсинга с логикой только по точному совпадению
+    // =======================================================
+    // НОВАЯ ЛОГИКА ДЛЯ СТАНДАРТИЗАЦИИ ИМЕНИ КАНАЛА
+    // =======================================================
+
+    /**
+     * Создает имя для поиска логотипа в базе, используя UPPERCASE и HD/SD.
+     * Унифицирует имя канала, игнорируя регистр и распространенные разделители.
+     * * @param {string} name - Исходное имя канала (например, "Viasat Sport HD").
+     * @returns {string} - Имя для поиска (например, "VIASAT SPORT HD").
+     */
+    function getChannelSearchName(name) {
+        if (!name) return '';
+
+        // 1. Приведение к верхнему регистру, чтобы игнорировать регистр.
+        let searchName = name.trim().toUpperCase();
+
+        // 2. Унификация разделителей: заменяем распространенные разделители на пробел
+        searchName = searchName.replace(/[\-/_.\s]/g, ' ').replace(/\s\s+/g, ' ').trim();
+        
+        // 3. Удаляем только те символы, которые могут быть "шумом"
+        // (Осторожно с удалением, чтобы не удалить номера каналов, если они важны)
+        // Для цели унификации регистр и пробелы уже обработаны.
+        
+        return searchName;
+    }
+
+    /**
+     * Функция для формирования URL из имени файла (кодирует пробелы).
+     * @param {string} n - Имя файла (например, "VIASAT SPORT HD").
+     */
+    const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
+
+    // =======================================================
+    // ОБНОВЛЕННАЯ ЛОГИКА ПАРСИНГА С НОВЫМ getChannelSearchName
+    // =======================================================
+
     function parseChannelsAsync() {
         return new Promise((resolve, reject) => {
             try {
@@ -2183,20 +2216,17 @@
                                 logoUrl = logoMatch[1].trim();
                             }
                             
-                            // *** ЛОГИКА ТОЛЬКО ПО ТОЧНОМУ СОВПАДЕНИЮ ***
+                            // *** НОВАЯ ЛОГИКА: ИСПОЛЬЗУЕМ СТАНДАРТИЗИРОВАННОЕ ИМЯ ***
                             if (!logoUrl && name && name !== 'Неизвестный канал') {
                                 
-                                const cleanName = name.trim();
+                                const searchName = getChannelSearchName(name); // Получаем VIASAT SPORT HD
                                 
-                                // Функция для кодирования имени канала в URL-формат (пробелы -> %20)
-                                const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
-                                
-                                // Формируем URL по точному названию канала
-                                const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(cleanName);
-                                
-                                // Подставляем URL. Если файл существует, он будет отображаться.
-                                // Если нет, браузер покажет ошибку, но это соответствует логике "только по точному совпадению".
-                                logoUrl = exactLogoUrl;
+                                if (searchName) {
+                                    // Формируем URL по стандартизированному имени
+                                    const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(searchName);
+                                    
+                                    logoUrl = exactLogoUrl;
+                                }
                             }
                             // ************************************************
 
@@ -2253,7 +2283,6 @@
             }
         });
     }
-    // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
     
     // Вспомогательная функция, чтобы не дублировать логику фильтрации
     function getFilteredChannels(filter = '', selectedCategory = '') {
@@ -2615,21 +2644,25 @@
         // ******************************************************************************
 
         extinfLine += ` group-title="${currentChannelToRename.category}"`;
-        if (currentChannelToRename.logoUrl) {
-            extinfLine += ` tvg-logo="${currentChannelToRename.logoUrl}"`;
-        }
-        extinfLine += `,${newName}`;
-        currentChannelToRename.extinf = extinfLine;
         
         // 3. Сбрасываем/пересчитываем logoUrl, чтобы убедиться, что он соответствует новому имени
-        // Мы повторно вызываем логику из парсера для обновления logoUrl
+        // Используем новую логику стандартизации
         let updatedLogoUrl = '';
-        const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
-        const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(newName);
+        const searchName = getChannelSearchName(newName);
         
-        updatedLogoUrl = exactLogoUrl;
+        if (searchName) {
+            updatedLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(searchName);
+        }
         
         currentChannelToRename.logoUrl = updatedLogoUrl;
+        
+        // Добавляем обновленный логотип в строку EXTINF
+        if (updatedLogoUrl) {
+            extinfLine += ` tvg-logo="${updatedLogoUrl}"`;
+        }
+        
+        extinfLine += `,${newName}`;
+        currentChannelToRename.extinf = extinfLine;
         
         
         // 4. Обновляем UI
@@ -2674,10 +2707,11 @@
         }
         
         let finalLogoUrl = customLogoUrl;
-        // Если кастомный логотип не указан, формируем его по правилу точного совпадения
+        
+        // Если кастомный логотип не указан, формируем его по правилу стандартизации
         if (!finalLogoUrl) {
-            const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
-            finalLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(name);
+            const searchName = getChannelSearchName(name);
+            finalLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(searchName);
         }
         
         // Формируем EXTINF с атрибутом tvg-logo и tvg-id (будет равно Названию Канала)
@@ -2916,18 +2950,15 @@
               logoUrl = logoMatch[1].trim();
           }
           
-          // *** ЛОГИКА ТОЛЬКО ПО ТОЧНОМУ СОВПАДЕНИЮ ***
+          // *** НОВАЯ ЛОГИКА: ИСПОЛЬЗУЕМ СТАНДАРТИЗИРОВАННОЕ ИМЯ ***
           if (!logoUrl && name && name !== 'Неизвестный канал') {
               
-              const cleanName = name.trim();
+              const searchName = getChannelSearchName(name);
               
-              // Функция для кодирования имени канала в URL-формат (пробелы -> %20)
-              const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
-              
-              // Формируем URL по точному названию канала
-              const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(cleanName);
-              
-              logoUrl = exactLogoUrl;
+              if (searchName) {
+                  const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(searchName);
+                  logoUrl = exactLogoUrl;
+              }
           }
           // ************************************************
           
