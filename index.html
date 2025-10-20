@@ -1477,60 +1477,8 @@
     const EPG_URL = 'https://is.gd/epg2xml'; 
     // *******************************************************
 
-    // =======================================================
-    // НОВАЯ ЛОГИКА ДЛЯ АВТОМАТИЧЕСКОГО ПОИСКА ЛОГОТИПОВ
-    // =======================================================
-    
-    // URL вашей базы логотипов
-    const LOGO_MAP_URL = 'https://raw.githubusercontent.com/kyiv14/read24/main/logo.txt';
-    // Глобальная Map для хранения базы логотипов (ключ -> URL лого)
-    let logoMap = new Map();
-
-    /**
-     * Агрессивно нормализует имя канала, создавая ключ для поиска в базе logo.txt.
-     * Пример: "Viasat Sport HD" -> "viasatsport_hd"
-     */
-    function normalizeName(name) {
-        if (!name) return '';
-        // 1. Приводим к нижнему регистру
-        let normalized = name.toLowerCase();
-        // 2. Заменяем пробелы и знаки препинания на подчеркивание
-        normalized = normalized.replace(/[\s\.\-\/\(\)\+\*&]+/g, '_');
-        // 3. Удаляем двойные подчеркивания
-        normalized = normalized.replace(/_+/g, '_');
-        // 4. Удаляем подчеркивания с начала и конца
-        return normalized.replace(/(^_|_$)/g, '');
-    }
-
-    // Асинхронная функция для загрузки и парсинга базы логотипов
-    async function loadLogoMap() {
-        try {
-            const response = await fetch(LOGO_MAP_URL);
-            if (!response.ok) {
-                console.error(`Ошибка загрузки logo.txt: ${response.status}`);
-                return;
-            }
-            const text = await response.text();
-            
-            // Парсинг в Map (предполагаем формат "ключ,ссылка" в вашем файле)
-            text.split('\n').forEach(line => {
-                const parts = line.split(',');
-                if (parts.length >= 2) {
-                    const key = parts[0].trim();
-                    const url = parts[1].trim();
-                    if (key && url) {
-                        logoMap.set(key, url); 
-                    }
-                }
-            });
-            console.log(`База логотипов успешно загружена. Записей: ${logoMap.size}`);
-        } catch (error) {
-            console.error("Не удалось загрузить или распарсить базу логотипов:", error);
-        }
-    }
-    
-    // *** ЗАПУСК АСИНХРОННОЙ ЗАГРУЗКИ БАЗЫ ПРИ ИНИЦИАЛИЗАЦИИ ***
-    loadLogoMap();
+    // [ЛОГО: ИЗМЕНЕНИЕ] Обновленный базовый URL для логотипов
+    const DEFAULT_LOGO_BASE_URL = 'https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/';
 
     // =======================================================
     // ЛОГИКА ДИНАМИЧЕСКОГО ТЕКСТА
@@ -2206,7 +2154,9 @@
         // УДАЛЕНО: Функционал перетаскивания отключен
     } */
 
-    // [ЛОГО: ИЗМЕНЕНИЕ] Обновленная функция парсинга с новой логикой поиска лого
+    // [ЛОГО: УДАЛЕНА ФУНКЦИЯ getChannelBaseName]
+    
+    // [ЛОГО: ИЗМЕНЕНИЕ] Обновленная функция парсинга с логикой только по точному совпадению
     function parseChannelsAsync() {
         return new Promise((resolve, reject) => {
             try {
@@ -2232,7 +2182,7 @@
                                 category = groupTitleMatch[1].trim();
                             }
                             
-                            // *** Извлечение TVG-ID ***
+                            // *** НОВОЕ: Извлечение TVG-ID ***
                             let tvgId = '';
                             const tvgIdMatch = extinf.match(/tvg-id="([^"]*)"/i);
                             if (tvgIdMatch) {
@@ -2247,18 +2197,20 @@
                                 logoUrl = logoMatch[1].trim();
                             }
                             
-                            // *** НОВАЯ ЛОГИКА ПОИСКА В MAP (Приоритет 2) ***
-                            if (!logoUrl && name && name !== 'Неизвестный канал' && logoMap.size > 0) {
+                            // *** ЛОГИКА ТОЛЬКО ПО ТОЧНОМУ СОВПАДЕНИЮ ***
+                            if (!logoUrl && name && name !== 'Неизвестный канал') {
                                 
-                                // 1. Нормализуем имя для поиска в Map
-                                const searchKey = normalizeName(name);
+                                const cleanName = name.trim();
                                 
-                                // 2. Ищем URL в загруженной базе
-                                const foundUrl = logoMap.get(searchKey);
+                                // Функция для кодирования имени канала в URL-формат (пробелы -> %20)
+                                const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
                                 
-                                if (foundUrl) {
-                                    logoUrl = foundUrl;
-                                }
+                                // Формируем URL по точному названию канала
+                                const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(cleanName);
+                                
+                                // Подставляем URL. Если файл существует, он будет отображаться.
+                                // Если нет, браузер покажет ошибку, но это соответствует логике "только по точному совпадению".
+                                logoUrl = exactLogoUrl;
                             }
                             // ************************************************
 
@@ -2778,28 +2730,33 @@
         // 1. Обновляем имя канала в объекте
         currentChannelToRename.name = newName;
         
-        // 2. Определяем обновленный логотип через базу (ИЗМЕНЕНО)
-        let updatedLogoUrl = '';
-        const searchKey = normalizeName(newName);
-        updatedLogoUrl = logoMap.get(searchKey) || ''; // Ищем в базе
-        
-        // 3. Обновляем строку EXTINF с новым именем
+        // 2. Обновляем строку EXTINF с новым именем и, при необходимости, логотипом и TVG-ID
         let extinfLine = `#EXTINF:-1`;
+        // *** ИСПРАВЛЕНО: Автоматически использовать Название Канала, если tvgId пуст ***
         const finalTvgId = currentChannelToRename.tvgId || newName; 
         extinfLine += ` tvg-id="${finalTvgId}"`;
+        // ******************************************************************************
 
         extinfLine += ` group-title="${currentChannelToRename.category}"`;
-        if (updatedLogoUrl) { // Используем найденный URL
-            extinfLine += ` tvg-logo="${updatedLogoUrl}"`;
+        if (currentChannelToRename.logoUrl) {
+            extinfLine += ` tvg-logo="${currentChannelToRename.logoUrl}"`;
         }
         extinfLine += `,${newName}`;
         currentChannelToRename.extinf = extinfLine;
         
-        // 4. Сохраняем обновленный logoUrl в объекте канала
+        // 3. Сбрасываем/пересчитываем logoUrl, чтобы убедиться, что он соответствует новому имени
+        // Мы повторно вызываем логику из парсера для обновления logoUrl
+        let updatedLogoUrl = '';
+        const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
+        const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(newName);
+        
+        updatedLogoUrl = exactLogoUrl;
+        
         currentChannelToRename.logoUrl = updatedLogoUrl;
         
-        // 5. Обновляем UI
-        rebuildCategoryData(); 
+        
+        // 4. Обновляем UI
+        rebuildCategoryData(); // Перестройка нужна, если имя используется в сортировке/фильтре (хотя тут не используется)
         renameChannelModal.classList.add('hidden');
         currentChannelToRename = null;
         showToast(`Канал "${oldName}" переименован в "${newName}".`);
@@ -2840,19 +2797,19 @@
         }
         
         let finalLogoUrl = customLogoUrl;
-        
-        // Если кастомный логотип не указан, ищем его в базе (ИЗМЕНЕНО)
+        // Если кастомный логотип не указан, формируем его по правилу точного совпадения
         if (!finalLogoUrl) {
-            const searchKey = normalizeName(name);
-            finalLogoUrl = logoMap.get(searchKey) || ''; // Ищем в базе
+            const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
+            finalLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(name);
         }
         
-        // Формируем EXTINF
-        let extinf = `#EXTINF:-1 tvg-id="${name}" group-title="${category}"`; 
+        // Формируем EXTINF с атрибутом tvg-logo и tvg-id (будет равно Названию Канала)
+        let extinf = `#EXTINF:-1 tvg-id="${name}" group-title="${category}"`; // <--- ИЗМЕНЕНО
         if (finalLogoUrl) {
             extinf += ` tvg-logo="${finalLogoUrl}"`;
         }
         extinf += `,${name}`;
+        // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
         
         const extgrp = `#EXTGRP:${category}`;
         
@@ -2862,8 +2819,8 @@
             startIndex: -1, // Временно, будет обновлено при сохранении
             endIndex: -1,
             category,
-            logoUrl: finalLogoUrl, 
-            tvgId: name, 
+            logoUrl: finalLogoUrl, // [ЛОГО: ИЗМЕНЕНИЕ] Сохранение URL лого
+            tvgId: name, // НОВЫЙ TVG-ID (равен названию)
             isFavorite: false,
             isSelected: false,
         };
@@ -3067,7 +3024,7 @@
             category = groupTitleMatch[1].trim();
           }
 
-          // *** Извлечение TVG-ID ***
+          // *** НОВОЕ: Извлечение TVG-ID ***
           let tvgId = '';
           const tvgIdMatch = extinf.match(/tvg-id="([^"]*)"/i);
           if (tvgIdMatch) {
@@ -3082,18 +3039,18 @@
               logoUrl = logoMatch[1].trim();
           }
           
-          // *** НОВАЯ ЛОГИКА ПОИСКА В MAP (Приоритет 2) ***
-          if (!logoUrl && name && name !== 'Неизвестный канал' && logoMap.size > 0) {
+          // *** ЛОГИКА ТОЛЬКО ПО ТОЧНОМУ СОВПАДЕНИЮ ***
+          if (!logoUrl && name && name !== 'Неизвестный канал') {
               
-              // 1. Нормализуем имя для поиска в Map
-              const searchKey = normalizeName(name);
+              const cleanName = name.trim();
               
-              // 2. Ищем URL в загруженной базе
-              const foundUrl = logoMap.get(searchKey);
+              // Функция для кодирования имени канала в URL-формат (пробелы -> %20)
+              const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
               
-              if (foundUrl) {
-                  logoUrl = foundUrl;
-              }
+              // Формируем URL по точному названию канала
+              const exactLogoUrl = DEFAULT_LOGO_BASE_URL + formatUrlName(cleanName);
+              
+              logoUrl = exactLogoUrl;
           }
           // ************************************************
           
