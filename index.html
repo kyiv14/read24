@@ -923,6 +923,10 @@
               class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black bg-white">
               <option value="">Все категории</option>
           </select>
+          <button id="downloadCategoryBtn"
+            class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition text-sm sm:text-base w-full mt-2 hidden">
+            СКАЧАТЬ КАТЕГОРИЮ
+          </button>
         </div>
         <div class="mb-4">
           <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
@@ -1451,6 +1455,9 @@
     
     // ПЕРЕМЕННЫЕ ДЛЯ ОТМЕНЫ
     const revertBtn = document.getElementById('revertBtn'); // НОВАЯ КНОПКА ОТМЕНЫ
+    
+    // *** НОВАЯ ПЕРЕМЕННАЯ ДЛЯ СКАЧИВАНИЯ КАТЕГОРИИ ***
+    const downloadCategoryBtn = document.getElementById('downloadCategoryBtn');
 
     let originalLines = [];
     let channels = [];
@@ -2061,6 +2068,13 @@
         renderCategorySelect();
         renderChannelList(searchInput.value); // И перерендерим список
         updateCounter(); // Обновляем счетчик
+        
+        // Управление видимостью кнопки скачивания категории
+        if (categorySelect.value && categorySelect.value !== '') {
+             downloadCategoryBtn.classList.remove('hidden');
+        } else {
+             downloadCategoryBtn.classList.add('hidden');
+        }
     }
 
     function deduplicateChannels() {
@@ -2328,7 +2342,7 @@
         // Переиспользуем модальное окно, но заполняем его иначе
         oldCategorySelect.innerHTML = '<option value="">(Все выбранные каналы)</option>';
         newCategoryName.placeholder = 'Новая категория для выбранных каналов';
-        submitRenameCategoryBtn.textContent = 'ИЗМЕНИТЬ КАТЕГОРИИ';
+        submitRenameCategoryBtn.textContent = 'ИЗМЕНИТЬ КАТЕГОРИЮ';
         
         // Меняем обработчик, чтобы он выполнял массовое изменение, а не переименование
         submitRenameCategoryBtn.onclick = () => {
@@ -2341,7 +2355,19 @@
             channels.forEach(channel => {
                 if (channel.isSelected) {
                     channel.category = newCat;
-                    channel.isSelected = false; // Снимаем выделение
+                    // Обновляем EXTINF
+                    let extinfLine = `#EXTINF:-1`;
+                    const finalTvgId = channel.tvgId || channel.name; 
+                    extinfLine += ` tvg-id="${finalTvgId}"`;
+                    extinfLine += ` group-title="${newCat}"`;
+                    if (channel.logoUrl) {
+                        extinfLine += ` tvg-logo="${channel.logoUrl}"`;
+                    }
+                    extinfLine += `,${channel.name}`;
+                    channel.extinf = extinfLine;
+                    
+                    // Снимаем выделение
+                    channel.isSelected = false; 
                 }
             });
             
@@ -2492,6 +2518,18 @@
         channels.forEach(channel => {
             if (channel.category === oldCat) {
                 channel.category = newCat;
+                
+                // Обновляем EXTINF с новой категорией
+                let extinfLine = `#EXTINF:-1`;
+                const finalTvgId = channel.tvgId || channel.name; 
+                extinfLine += ` tvg-id="${finalTvgId}"`;
+                extinfLine += ` group-title="${newCat}"`;
+                if (channel.logoUrl) {
+                    extinfLine += ` tvg-logo="${channel.logoUrl}"`;
+                }
+                extinfLine += `,${channel.name}`;
+                channel.extinf = extinfLine;
+                
                 renamedCount++;
             }
         });
@@ -2515,8 +2553,93 @@
     // *** КОНЕЦ НОВЫХ ФУНКЦИЙ ДЛЯ ПЕРЕИМЕНОВАНИЯ КАТЕГОРИЙ ***
 
     categorySelect.addEventListener('change', () => {
+        // Показываем/скрываем кнопку скачивания категории
+        if (categorySelect.value && categorySelect.value !== '') {
+             downloadCategoryBtn.classList.remove('hidden');
+        } else {
+             downloadCategoryBtn.classList.add('hidden');
+        }
+        
         renderChannelList(searchInput.value);
     });
+    
+    // *** НОВАЯ ФУНКЦИЯ ДЛЯ СКАЧИВАНИЯ ОДНОЙ КАТЕГОРИИ ***
+    downloadCategoryBtn.addEventListener('click', () => {
+        const selectedCategory = categorySelect.value;
+        
+        if (!selectedCategory) {
+            showToast("Сначала выберите категорию для скачивания.");
+            return;
+        }
+        
+        // 1. Фильтруем каналы по выбранной категории
+        let categoryChannels = channels.filter(c => c.category === selectedCategory);
+        
+        if (selectedCategory === FAVORITE_CATEGORY) {
+            categoryChannels = channels.filter(c => c.isFavorite);
+        }
+
+        if (categoryChannels.length === 0) {
+             showToast(`В категории "${selectedCategory}" нет каналов для скачивания.`);
+             return;
+        }
+
+        // 2. Генерируем контент только для этих каналов
+        const contentToDownload = generateCategoryPlaylistContent(categoryChannels, selectedCategory);
+
+        // 3. Создаем файл и скачиваем
+        const blob = new Blob([contentToDownload], { type: 'application/x-mpegurl;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        
+        const fileName = selectedCategory === FAVORITE_CATEGORY ? 'favorite_playlist' : selectedCategory.replace(/[^a-zA-Z0-9а-яА-Я]/g, '_');
+        
+        a.download = `${fileName}.m3u`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showToast(`Категория "${selectedCategory}" (${categoryChannels.length} каналов) скачана.`);
+    });
+    
+    // *** ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ ГЕНЕРАЦИИ КОНТЕНТА КАТЕГОРИИ ***
+    function generateCategoryPlaylistContent(channelList, categoryName) {
+        let content = `#EXTM3U\n`;
+        
+        if (EPG_URL) {
+            content += `#EXTM3U x-tvg-url="${EPG_URL}"\n`;
+        }
+        
+        channelList.forEach(entry => {
+            // Пересобираем EXTINF, используя оригинальные параметры, но удостоверяясь в categoryName
+            let extinfLine = `#EXTINF:-1`;
+            const finalTvgId = entry.tvgId || entry.name; 
+            extinfLine += ` tvg-id="${finalTvgId}"`;
+            
+            // Используем имя категории из аргументов (DISPLAY_FAVORITE_CATEGORY для избранного)
+            const finalCategoryName = (categoryName === FAVORITE_CATEGORY) ? DISPLAY_FAVORITE_CATEGORY : categoryName;
+            
+            extinfLine += ` group-title="${finalCategoryName}"`;
+            if (entry.logoUrl) {
+                extinfLine += ` tvg-logo="${entry.logoUrl}"`;
+            }
+            extinfLine += `,${entry.name}`;
+
+            content += `${extinfLine}\n`;
+            
+            // EXTGRP не нужен, так как он уже в group-title, но если бы был, его можно было бы добавить.
+            // if (entry.extgrp) content += `${entry.extgrp}\n`;
+            
+            content += `${entry.url}\n\n`;
+        });
+        
+        // Удаляем последнюю пустую строку
+        content = content.trim();
+        return content;
+    }
+    // *** КОНЕЦ НОВОЙ ФУНКЦИИ СКАЧИВАНИЯ КАТЕГОРИИ ***
 
     // [СКАЧИВАНИЕ: ИЗМЕНЕНИЕ] Обновленная функция для включения лого
     function downloadSingleChannel(entry) {
