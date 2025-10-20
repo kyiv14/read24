@@ -2170,7 +2170,7 @@
      * Функция для формирования URL из имени файла (кодирует пробелы).
      * @param {string} n - Имя файла (например, "VIASAT SPORT HD").
      */
-    const formatUrlName = (n) => n.trim().replace(/\s/g, '%20') + '.png';
+    const formatUrlName = (n) => encodeURIComponent(n.trim()) + '.png';
 
     // =======================================================
     // ОБНОВЛЕННАЯ ЛОГИКА ПАРСИНГА С НОВЫМ getChannelSearchName
