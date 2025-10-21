@@ -3,17 +3,17 @@
 #EXTGRP:4k
 #EXTINF:-1 tvg-id="Liberty Сериалы 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Сериалы%204K.png" group-title="4k",Liberty Сериалы 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31665/index.m3u
-#EXTINF:-1 tvg-id="LIBERTY СКАЗКИ 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/LIBERTY%20СКАЗКИ%204K.png" group-title="4k",LIBERTY СКАЗКИ 4K
+#EXTINF:-1 tvg-id="Liberty Сказки 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Сказки%204K.png" group-title="4k",Liberty Сказки 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19304/index.m3u
-#EXTINF:-1 tvg-id="Liberty Фан HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Фан%20HD.png" group-title="4k",Liberty Фан HD
+#EXTINF:-1 tvg-id="Liberty Фан" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Фан.png" group-title="4k",Liberty Фан
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19403/index.m3u
-#EXTINF:-1 tvg-id="KLI_Horror_FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI_Horror_FHD.png" group-title="4k",KLI_Horror_FHD
+#EXTINF:-1 tvg-id="KLI Horror FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Horror%20FHD.png" group-title="4k",KLI Horror FHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20050/index.m3u
 #EXTINF:-1 tvg-id="KLI Horror HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Horror%20HD.png" group-title="4k",KLI Horror HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20050/index.m3u
 #EXTINF:-1 tvg-id="BOX Serial 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BOX%20Serial%204K.png" group-title="4k",BOX Serial 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31657/index.m3u
-#EXTINF:-1 tvg-id="KLI_Concert_FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI_Concert_FHD.png" group-title="4k",KLI_Concert_FHD
+#EXTINF:-1 tvg-id="KLI_Concert_FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Concert%20FHD.png" group-title="4k",KLI Concert FHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20049/index.m3u
 #EXTINF:-1 tvg-id="KLI Concert HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Concert%20HD.png" group-title="4k",KLI Concert HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20049/index.m3u
@@ -117,11 +117,11 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15140/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15141/index.m3u
 #EXTINF:-1 tvg-id="Z!Smile HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Z!Smile%20HD.png" group-title="Hd",Z!Smile HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15142/index.m3u
-#EXTINF:-1 tvg-id="KLI_Action_HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI_Action_HD.png" group-title="Hd",KLI_Action_HD
+#EXTINF:-1 tvg-id="KLI Action HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Action%20HD.png" group-title="Hd",KLI Action HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20051/index.m3u
-#EXTINF:-1 tvg-id="KLI_DRAMA_HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI_DRAMA_HD.png" group-title="Hd",KLI_DRAMA_HD
+#EXTINF:-1 tvg-id="KLI Drama HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Drama%20HD.png" group-title="Hd",KLI Drama HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20053/index.m3u
-#EXTINF:-1 tvg-id="KLI_Fantasy_HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI_Fantasy_HD.png" group-title="Hd",KLI_Fantasy_HD
+#EXTINF:-1 tvg-id="KLI Fantasy HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Fantasy%20HD.png" group-title="Hd",KLI Fantasy HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20054/index.m3u
 #EXTINF:-1 tvg-id="START World HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/START%20World%20HD.png" group-title="Hd",START World HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19248/index.m3u
@@ -709,8 +709,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20048/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2402/index.m3u
 #EXTINF:-1 tvg-id="Россия 1 FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20FHD.png" group-title="Hd orig",Россия 1 FHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2409/index.m3u
-#EXTINF:-1 tvg-id="НТВ-ХИТ orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/НТВ-ХИТ%20orig.png" group-title="Hd orig",НТВ-ХИТ orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9146/index.m3u
 #EXTINF:-1 tvg-id="Big Planet FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Big%20Planet%20FHD.png" group-title="Hd orig",Big Planet FHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9013/index.m3u
 #EXTINF:-1 tvg-id="Food Network HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Food%20Network%20HD.png" group-title="Hd orig",Food Network HD
@@ -1105,8 +1103,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9199/index.m3u
 #EXTGRP:Детские
 #EXTINF:-1 tvg-id="Капитан Фантастика" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Капитан%20Фантастика.png" group-title="Детские",Капитан Фантастика
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2098/index.m3u
-#EXTINF:-1 tvg-id="Fresh Kids HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Fresh%20Kids%20HD.png" group-title="Детские",Fresh Kids HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16068/index.m3u
 #EXTINF:-1 tvg-id="VF Disney Cartoon" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VF%20Disney%20Cartoon.png" group-title="Детские",VF Disney Cartoon
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15027/index.m3u
 #EXTINF:-1 tvg-id="VF Союзмультфильм" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VF%20Союзмультфильм.png" group-title="Детские",VF Союзмультфильм
@@ -6587,12 +6583,8 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20020/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/110/index.m3u
 #EXTINF:-1 tvg-id="Киномикс HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Киномикс%20HD.png" group-title="Фильмы",Киномикс HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/7249/index.m3u
-#EXTINF:-1 tvg-id="Киномикс" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Киномикс.png" group-title="Фильмы",Киномикс
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/509/index.m3u
 #EXTINF:-1 tvg-id="Киносемья HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Киносемья%20HD.png" group-title="Фильмы",Киносемья HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/7244/index.m3u
-#EXTINF:-1 tvg-id="Киносемья" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Киносемья.png" group-title="Фильмы",Киносемья
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/125/index.m3u
 #EXTINF:-1 tvg-id="Родное Кино" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Родное%20Кино.png" group-title="Фильмы",Родное Кино
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/126/index.m3u
 #EXTINF:-1 tvg-id="Viju TV1000 Action HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20Action%20HD.png" group-title="Фильмы",Viju TV1000 Action HD
@@ -6605,8 +6597,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/7250/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/516/index.m3u
 #EXTINF:-1 tvg-id="Наше Новое Кино HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наше%20Новое%20Кино%20HD.png" group-title="Фильмы",Наше Новое Кино HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19231/index.m3u
-#EXTINF:-1 tvg-id="Наше Новое Кино" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наше%20Новое%20Кино.png" group-title="Фильмы",Наше Новое Кино
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/517/index.m3u
 #EXTINF:-1 tvg-id="TV XXI" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TV%20XXI.png" group-title="Фильмы",TV XXI
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/525/index.m3u
 #EXTINF:-1 tvg-id="Кинокомедия HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Кинокомедия%20HD.png" group-title="Фильмы",Кинокомедия HD
@@ -6617,8 +6607,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/145/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/146/index.m3u
 #EXTINF:-1 tvg-id="Киносерия HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Киносерия%20HD.png" group-title="Фильмы",Киносерия HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19229/index.m3u
-#EXTINF:-1 tvg-id="Киносерия" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Киносерия.png" group-title="Фильмы",Киносерия
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/148/index.m3u
 #EXTINF:-1 tvg-id="Еврокино" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Еврокино.png" group-title="Фильмы",Еврокино
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/549/index.m3u
 #EXTINF:-1 tvg-id="Кинеко HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Кинеко%20HD.png" group-title="Фильмы",Кинеко HD
@@ -6725,16 +6713,10 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9005/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9017/index.m3u
 #EXTINF:-1 tvg-id="Hollywood orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Hollywood%20orig.png" group-title="Фильмы",Hollywood orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9236/index.m3u
-#EXTINF:-1 tvg-id="Fox HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Fox%20HD%20orig.png" group-title="Фильмы",Fox HD orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9018/index.m3u
 #EXTINF:-1 tvg-id="Кинопремьера HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Кинопремьера%20HD%20orig.png" group-title="Фильмы",Кинопремьера HD orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9020/index.m3u
 #EXTINF:-1 tvg-id="Amedia Premium HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Amedia%20Premium%20HD%20orig.png" group-title="Фильмы",Amedia Premium HD orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9022/index.m3u
-#EXTINF:-1 tvg-id="Amedia Premium orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Amedia%20Premium%20orig.png" group-title="Фильмы",Amedia Premium orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9233/index.m3u
-#EXTINF:-1 tvg-id="Amedia 2 HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Amedia%202%20HD%20orig.png" group-title="Фильмы",Amedia 2 HD orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9029/index.m3u
 #EXTINF:-1 tvg-id="Amedia 2 orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Amedia%202%20orig.png" group-title="Фильмы",Amedia 2 orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9129/index.m3u
 #EXTINF:-1 tvg-id="Киноужас HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Киноужас%20HD%20orig.png" group-title="Фильмы",Киноужас HD orig
@@ -6767,8 +6749,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9235/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9059/index.m3u
 #EXTINF:-1 tvg-id="Viju TV1000 Русское orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20Русское%20orig.png" group-title="Фильмы",Viju TV1000 Русское orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9227/index.m3u
-#EXTINF:-1 tvg-id="Наше любимое HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наше%20любимое%20HD%20orig.png" group-title="Фильмы",Наше любимое HD orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9062/index.m3u
 #EXTINF:-1 tvg-id="Amedia 1 HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Amedia%201%20HD%20orig.png" group-title="Фильмы",Amedia 1 HD orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9069/index.m3u
 #EXTINF:-1 tvg-id="Amedia 1 orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Amedia%201%20orig.png" group-title="Фильмы",Amedia 1 orig
@@ -6785,10 +6765,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9134/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9079/index.m3u
 #EXTINF:-1 tvg-id="Иллюзион+ orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Иллюзион+%20orig.png" group-title="Фильмы",Иллюзион+ orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9241/index.m3u
-#EXTINF:-1 tvg-id="Русский Иллюзион HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Русский%20Иллюзион%20HD%20orig.png" group-title="Фильмы",Русский Иллюзион HD orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9080/index.m3u
-#EXTINF:-1 tvg-id="Русский Иллюзион orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Русский%20Иллюзион%20orig.png" group-title="Фильмы",Русский Иллюзион orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9133/index.m3u
 #EXTINF:-1 tvg-id="Наш Кинопоказ HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наш%20Кинопоказ%20HD%20orig.png" group-title="Фильмы",Наш Кинопоказ HD orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9086/index.m3u
 #EXTINF:-1 tvg-id="Блокбастер HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Блокбастер%20HD%20orig.png" group-title="Фильмы",Блокбастер HD orig
@@ -6831,8 +6807,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9141/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9142/index.m3u
 #EXTINF:-1 tvg-id="Любимое Кино orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Любимое%20Кино%20orig.png" group-title="Фильмы",Любимое Кино orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9143/index.m3u
-#EXTINF:-1 tvg-id="Русская Комедия orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Русская%20Комедия%20orig.png" group-title="Фильмы",Русская Комедия orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9144/index.m3u
 #EXTINF:-1 tvg-id="FAN orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/FAN%20orig.png" group-title="Фильмы",FAN orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9145/index.m3u
 #EXTINF:-1 tvg-id="НТВ Сериал orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/НТВ%20Сериал%20orig.png" group-title="Фильмы",НТВ Сериал orig
@@ -6851,8 +6825,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9152/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9153/index.m3u
 #EXTINF:-1 tvg-id="Киноман orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Киноман%20orig.png" group-title="Фильмы",Киноман orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9154/index.m3u
-#EXTINF:-1 tvg-id="Comedy Central orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Comedy%20Central%20orig.png" group-title="Фильмы",Comedy Central orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9155/index.m3u
 #EXTINF:-1 tvg-id="Мосфильм. Золотая коллекция orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Мосфильм.%20Золотая%20коллекция%20orig.png" group-title="Фильмы",Мосфильм. Золотая коллекция orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9156/index.m3u
 #EXTINF:-1 tvg-id="Дорама HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Дорама%20HD%20orig.png" group-title="Фильмы",Дорама HD orig
@@ -6929,16 +6901,12 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10086/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10087/index.m3u
 #EXTINF:-1 tvg-id="Премиальное HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Премиальное%20HD%2050.png" group-title="Фильмы",Премиальное HD 50
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10017/index.m3u
-#EXTINF:-1 tvg-id="Душевное кино HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Душевное%20кино%20HD%20orig.png" group-title="Фильмы",Душевное кино HD orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10042/index.m3u
 #EXTINF:-1 tvg-id="Премиальное HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Премиальное%20HD%20orig.png" group-title="Фильмы",Премиальное HD orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10044/index.m3u
 #EXTINF:-1 tvg-id="Капитан Фантастика HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Капитан%20Фантастика%20HD.png" group-title="Фильмы",Капитан Фантастика HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10046/index.m3u
 #EXTINF:-1 tvg-id="Flix Snip" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Flix%20Snip.png" group-title="Фильмы",Flix Snip
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10060/index.m3u
-#EXTINF:-1 tvg-id="Backus TV Dark HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Backus%20TV%20Dark%20HD.png" group-title="Фильмы",Backus TV Dark HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10061/index.m3u
 #EXTINF:-1 tvg-id="Shot TV HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Shot%20TV%20HD.png" group-title="Фильмы",Shot TV HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20022/index.m3u
 #EXTINF:-1 tvg-id="Shot TV" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Shot%20TV.png" group-title="Фильмы",Shot TV
@@ -6969,8 +6937,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11014/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15106/index.m3u
 #EXTINF:-1 tvg-id="CineMan Ментовские войны" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/CineMan%20Ментовские%20войны.png" group-title="Фильмы",CineMan Ментовские войны
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16063/index.m3u
-#EXTINF:-1 tvg-id="CineMan ПёС" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/CineMan%20ПёС.png" group-title="Фильмы",CineMan ПёС
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16064/index.m3u
 #EXTINF:-1 tvg-id="CineMan Лесник" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/CineMan%20Лесник.png" group-title="Фильмы",CineMan Лесник
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16065/index.m3u
 #EXTINF:-1 tvg-id="CineMan MiniSeries" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/CineMan%20MiniSeries.png" group-title="Фильмы",CineMan MiniSeries
@@ -7039,20 +7005,10 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17019/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17020/index.m3u
 #EXTINF:-1 tvg-id="BCU Cosmo HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BCU%20Cosmo%20HD.png" group-title="Фильмы",BCU Cosmo HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17021/index.m3u
-#EXTINF:-1 tvg-id="BCU Cosmo OLD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BCU%20Cosmo%20OLD.png" group-title="Фильмы",BCU Cosmo OLD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17022/index.m3u
 #EXTINF:-1 tvg-id="BCU TruMotion HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BCU%20TruMotion%20HD.png" group-title="Фильмы",BCU TruMotion HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17054/index.m3u
 #EXTINF:-1 tvg-id="BCU Romantic OLD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BCU%20Romantic%20OLD.png" group-title="Фильмы",BCU Romantic OLD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18052/index.m3u
-#EXTINF:-1 tvg-id="Backus TV Original HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Backus%20TV%20Original%20HD.png" group-title="Фильмы",Backus TV Original HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11049/index.m3u
-#EXTINF:-1 tvg-id="BEST Films HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BEST%20Films%20HD.png" group-title="Фильмы",BEST Films HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11050/index.m3u
-#EXTINF:-1 tvg-id="Lost HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Lost%20HD.png" group-title="Фильмы",Lost HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11053/index.m3u
-#EXTINF:-1 tvg-id="Sky2000 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Sky2000%20HD.png" group-title="Фильмы",Sky2000 HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11054/index.m3u
 #EXTINF:-1 tvg-id="The X-Files" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/The%20X-Files.png" group-title="Фильмы",The X-Files
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11055/index.m3u
 #EXTINF:-1 tvg-id="Кинозал! VHS HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Кинозал!%20VHS%20HD.png" group-title="Фильмы",Кинозал! VHS HD
@@ -7069,52 +7025,10 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11063/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11064/index.m3u
 #EXTINF:-1 tvg-id="Космо HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Космо%20HD.png" group-title="Фильмы",Космо HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11065/index.m3u
-#EXTINF:-1 tvg-id="Страх HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Страх%20HD.png" group-title="Фильмы",Страх HD
+#EXTINF:-1 tvg-id="СТРАХ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТРАХ%20HD.png" group-title="Фильмы",СТРАХ HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11069/index.m3u
-#EXTINF:-1 tvg-id="Фантастика HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Фантастика%20HD.png" group-title="Фильмы",Фантастика HD
+#EXTINF:-1 tvg-id="ФАНТАСТИКА HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ФАНТАСТИКА%20HD.png" group-title="Фильмы",ФАНТАСТИКА HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11070/index.m3u
-#EXTINF:-1 tvg-id="KBC-B.O.B" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-B.O.B.png" group-title="Фильмы",KBC-B.O.B
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11072/index.m3u
-#EXTINF:-1 tvg-id="KBC-Comics" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Comics.png" group-title="Фильмы",KBC-Comics
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11073/index.m3u
-#EXTINF:-1 tvg-id="KBC-Elite comedys" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Elite%20comedys.png" group-title="Фильмы",KBC-Elite comedys
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11074/index.m3u
-#EXTINF:-1 tvg-id="KBC-Family Animation" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Family%20Animation.png" group-title="Фильмы",KBC-Family Animation
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11075/index.m3u
-#EXTINF:-1 tvg-id="KBC-Fantastic" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Fantastic.png" group-title="Фильмы",KBC-Fantastic
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11076/index.m3u
-#EXTINF:-1 tvg-id="KBC-History" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-History.png" group-title="Фильмы",KBC-History
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11077/index.m3u
-#EXTINF:-1 tvg-id="KBC-Light сериал RU" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Light%20сериал%20RU.png" group-title="Фильмы",KBC-Light сериал RU
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11078/index.m3u
-#EXTINF:-1 tvg-id="KBC-Newfilm" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Newfilm.png" group-title="Фильмы",KBC-Newfilm
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11079/index.m3u
-#EXTINF:-1 tvg-id="KBC-Premium" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Premium.png" group-title="Фильмы",KBC-Premium
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11080/index.m3u
-#EXTINF:-1 tvg-id="KBC-Russian Комедия" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Russian%20Комедия.png" group-title="Фильмы",KBC-Russian Комедия
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11081/index.m3u
-#EXTINF:-1 tvg-id="KBC-Second HIT" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Second%20HIT.png" group-title="Фильмы",KBC-Second HIT
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11082/index.m3u
-#EXTINF:-1 tvg-id="KBC-Легендарное" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Легендарное.png" group-title="Фильмы",KBC-Легендарное
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11083/index.m3u
-#EXTINF:-1 tvg-id="KBC-Видак" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Видак.png" group-title="Фильмы",KBC-Видак
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11084/index.m3u
-#EXTINF:-1 tvg-id="KBC-ГАЙ Ritchie & Tarantino" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-ГАЙ%20Ritchie%20&%20Tarantino.png" group-title="Фильмы",KBC-ГАЙ Ritchie & Tarantino
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11085/index.m3u
-#EXTINF:-1 tvg-id="KBC-Драма tic" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Драма%20tic.png" group-title="Фильмы",KBC-Драма tic
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11086/index.m3u
-#EXTINF:-1 tvg-id="KBC-Кинотеатр" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Кинотеатр.png" group-title="Фильмы",KBC-Кинотеатр
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11087/index.m3u
-#EXTINF:-1 tvg-id="KBC-Кошмарное" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Кошмарное.png" group-title="Фильмы",KBC-Кошмарное
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11088/index.m3u
-#EXTINF:-1 tvg-id="KBC-НАШ ROCK" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-НАШ%20ROCK.png" group-title="Фильмы",KBC-НАШ ROCK
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11089/index.m3u
-#EXTINF:-1 tvg-id="KBC-Страна СССР" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Страна%20СССР.png" group-title="Фильмы",KBC-Страна СССР
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11091/index.m3u
-#EXTINF:-1 tvg-id="KBC-Криминальный Serial" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Криминальный%20Serial.png" group-title="Фильмы",KBC-Криминальный Serial
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11092/index.m3u
-#EXTINF:-1 tvg-id="KBC-Шпионское" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KBC-Шпионское.png" group-title="Фильмы",KBC-Шпионское
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11093/index.m3u
 #EXTINF:-1 tvg-id="Premiere HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Premiere%20HD.png" group-title="Фильмы",Premiere HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11094/index.m3u
 #EXTINF:-1 tvg-id="Premium HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Premium%20HD.png" group-title="Фильмы",Premium HD
@@ -7137,14 +7051,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11102/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15000/index.m3u
 #EXTINF:-1 tvg-id="VB VHS Classic" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VB%20VHS%20Classic.png" group-title="Фильмы",VB VHS Classic
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19429/index.m3u
-#EXTINF:-1 tvg-id="Илья ТВ Кино HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Илья%20ТВ%20Кино%20HD.png" group-title="Фильмы",Илья ТВ Кино HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11103/index.m3u
-#EXTINF:-1 tvg-id="Илья ТВ Микс HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Илья%20ТВ%20Микс%20HD.png" group-title="Фильмы",Илья ТВ Микс HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11104/index.m3u
-#EXTINF:-1 tvg-id="Илья ТВ Музыка HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Илья%20ТВ%20Музыка%20HD.png" group-title="Фильмы",Илья ТВ Музыка HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11105/index.m3u
-#EXTINF:-1 tvg-id="Илья ТВ Наше HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Илья%20ТВ%20Наше%20HD.png" group-title="Фильмы",Илья ТВ Наше HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11106/index.m3u
 #EXTINF:-1 tvg-id="VF Кино 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VF%20Кино%204K.png" group-title="Фильмы",VF Кино 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11114/index.m3u
 #EXTINF:-1 tvg-id="VF Сериал 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VF%20Сериал%204K.png" group-title="Фильмы",VF Сериал 4K
@@ -7197,8 +7103,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13019/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13020/index.m3u
 #EXTINF:-1 tvg-id="MM USSR Сказки HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MM%20USSR%20Сказки%20HD.png" group-title="Фильмы",MM USSR Сказки HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13021/index.m3u
-#EXTINF:-1 tvg-id="MM USSR Фантастика HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MM%20USSR%20Фантастика%20HD.png" group-title="Фильмы",MM USSR Фантастика HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13022/index.m3u
 #EXTINF:-1 tvg-id="MM World Hits HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MM%20World%20Hits%20HD.png" group-title="Фильмы",MM World Hits HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13023/index.m3u
 #EXTINF:-1 tvg-id="MM Агата Кристи HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MM%20Агата%20Кристи%20HD.png" group-title="Фильмы",MM Агата Кристи HD
@@ -7299,56 +7203,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16084/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16085/index.m3u
 #EXTINF:-1 tvg-id="MM Драма HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MM%20Драма%20HD.png" group-title="Фильмы",MM Драма HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16086/index.m3u
-#EXTINF:-1 tvg-id="UZ Фантастика HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Фантастика%20HD.png" group-title="Фильмы",UZ Фантастика HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13065/index.m3u
-#EXTINF:-1 tvg-id="UZ Мультзал HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Мультзал%20HD.png" group-title="Фильмы",UZ Мультзал HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13066/index.m3u
-#EXTINF:-1 tvg-id="UZ Klip New HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Klip%20New%20HD.png" group-title="Фильмы",UZ Klip New HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13067/index.m3u
-#EXTINF:-1 tvg-id="UZ Ужасное ТВ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Ужасное%20ТВ%20HD.png" group-title="Фильмы",UZ Ужасное ТВ HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13068/index.m3u
-#EXTINF:-1 tvg-id="UZ Приключение HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Приключение%20HD.png" group-title="Фильмы",UZ Приключение HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13069/index.m3u
-#EXTINF:-1 tvg-id="UZ Бойцовское кино HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Бойцовское%20кино%20HD.png" group-title="Фильмы",UZ Бойцовское кино HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13070/index.m3u
-#EXTINF:-1 tvg-id="UZ Ералаш ТВ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Ералаш%20ТВ%20HD.png" group-title="Фильмы",UZ Ералаш ТВ HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13071/index.m3u
-#EXTINF:-1 tvg-id="UZ Малютка ТВ" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Малютка%20ТВ.png" group-title="Фильмы",UZ Малютка ТВ
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13072/index.m3u
-#EXTINF:-1 tvg-id="UZ Kino2 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Kino2%20HD.png" group-title="Фильмы",UZ Kino2 HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13073/index.m3u
-#EXTINF:-1 tvg-id="UZ Kino1 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Kino1%20HD.png" group-title="Фильмы",UZ Kino1 HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13074/index.m3u
-#EXTINF:-1 tvg-id="UZ Kino3 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Kino3%20HD.png" group-title="Фильмы",UZ Kino3 HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13075/index.m3u
-#EXTINF:-1 tvg-id="UZ Kino4 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Kino4%20HD.png" group-title="Фильмы",UZ Kino4 HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13076/index.m3u
-#EXTINF:-1 tvg-id="UZ Боевики HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Боевики%20HD.png" group-title="Фильмы",UZ Боевики HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13077/index.m3u
-#EXTINF:-1 tvg-id="UZ Tom and Jerry HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Tom%20and%20Jerry%20HD.png" group-title="Фильмы",UZ Tom and Jerry HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13078/index.m3u
-#EXTINF:-1 tvg-id="UZ Витек ТВ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Витек%20ТВ%20HD.png" group-title="Фильмы",UZ Витек ТВ HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13100/index.m3u
-#EXTINF:-1 tvg-id="UZ Кинокомфорт HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Кинокомфорт%20HD.png" group-title="Фильмы",UZ Кинокомфорт HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13101/index.m3u
-#EXTINF:-1 tvg-id="UZ Кино Новинки HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Кино%20Новинки%20HD.png" group-title="Фильмы",UZ Кино Новинки HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14126/index.m3u
-#EXTINF:-1 tvg-id="UZ Комедия HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Комедия%20HD.png" group-title="Фильмы",UZ Комедия HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14127/index.m3u
-#EXTINF:-1 tvg-id="UZ TV HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20TV%20HD.png" group-title="Фильмы",UZ TV HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14220/index.m3u
-#EXTINF:-1 tvg-id="UZ Kino5 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Kino5%20HD.png" group-title="Фильмы",UZ Kino5 HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14232/index.m3u
-#EXTINF:-1 tvg-id="UZ Swiridenko TV HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Swiridenko%20TV%20HD.png" group-title="Фильмы",UZ Swiridenko TV HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18106/index.m3u
-#EXTINF:-1 tvg-id="UZ Swiridenko TV HD 2" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Swiridenko%20TV%20HD%202.png" group-title="Фильмы",UZ Swiridenko TV HD 2
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18107/index.m3u
-#EXTINF:-1 tvg-id="UZ Катастрофа HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Катастрофа%20HD.png" group-title="Фильмы",UZ Катастрофа HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18164/index.m3u
-#EXTINF:-1 tvg-id="UZ Сваты HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Сваты%20HD.png" group-title="Фильмы",UZ Сваты HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18166/index.m3u
-#EXTINF:-1 tvg-id="UZ Союзкино HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Союзкино%20HD.png" group-title="Фильмы",UZ Союзкино HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18167/index.m3u
 #EXTINF:-1 tvg-id="VF Сваты" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VF%20Сваты.png" group-title="Фильмы",VF Сваты
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/13080/index.m3u
 #EXTINF:-1 tvg-id="VF Солдаты" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VF%20Солдаты.png" group-title="Фильмы",VF Солдаты
@@ -7433,21 +7287,17 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18125/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19427/index.m3u
 #EXTINF:-1 tvg-id="VF HBO" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VF%20HBO.png" group-title="Фильмы",VF HBO
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19428/index.m3u
-#EXTINF:-1 tvg-id="Z! Channel HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Z!%20Channel%20HD.png" group-title="Фильмы",Z! Channel HD
+#EXTINF:-1 tvg-id="Z!Channel HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Z!Channel%20HD.png" group-title="Фильмы",Z!Channel HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14134/index.m3u
-#EXTINF:-1 tvg-id="Z! Comedy HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Z!%20Comedy%20HD.png" group-title="Фильмы",Z! Comedy HD
+#EXTINF:-1 tvg-id="Z!Comedy HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Z!Comedy%20HD.png" group-title="Фильмы",Z!Comedy HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14135/index.m3u
-#EXTINF:-1 tvg-id="Z! Crime HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Z!%20Crime%20HD.png" group-title="Фильмы",Z! Crime HD
+#EXTINF:-1 tvg-id="Z!Crime HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Z!Crime%20HD.png" group-title="Фильмы",Z!Crime HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14136/index.m3u
-#EXTINF:-1 tvg-id="Z! Horror HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Z!%20Horror%20HD.png" group-title="Фильмы",Z! Horror HD
+#EXTINF:-1 tvg-id="Z!Horror HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Z!Horror%20HD.png" group-title="Фильмы",Z!Horror HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14137/index.m3u
-#EXTINF:-1 tvg-id="Millennium TV HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Millennium%20TV%20HD.png" group-title="Фильмы",Millennium TV HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14160/index.m3u
-#EXTINF:-1 tvg-id="Akudji TV HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Akudji%20TV%20HD.png" group-title="Фильмы",Akudji TV HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14161/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV Grand" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Grand.png" group-title="Фильмы",Yosso TV Grand
+#EXTINF:-1 tvg-id="YOSSO TV Grand" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20Grand.png" group-title="Фильмы",YOSSO TV Grand
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14171/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV VHS" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20VHS.png" group-title="Фильмы",Yosso TV VHS
+#EXTINF:-1 tvg-id="YOSSO TV VHS" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20VHS.png" group-title="Фильмы",YOSSO TV VHS
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14172/index.m3u
 #EXTINF:-1 tvg-id="Yosso TV Русские Фильмы" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Русские%20Фильмы.png" group-title="Фильмы",Yosso TV Русские Фильмы
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14174/index.m3u
@@ -7457,17 +7307,17 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14175/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14177/index.m3u
 #EXTINF:-1 tvg-id="Yosso TV Трагичное" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Трагичное.png" group-title="Фильмы",Yosso TV Трагичное
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14219/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV Забавное" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Забавное.png" group-title="Фильмы",Yosso TV Забавное
+#EXTINF:-1 tvg-id="YOSSO TV Забавное" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20Забавное.png" group-title="Фильмы",YOSSO TV Забавное
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14234/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV Ковбойское" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Ковбойское.png" group-title="Фильмы",Yosso TV Ковбойское
+#EXTINF:-1 tvg-id="YOSSO TV Ковбойское" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20Ковбойское.png" group-title="Фильмы",YOSSO TV Ковбойское
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14235/index.m3u
 #EXTINF:-1 tvg-id="Yosso TV Best" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Best.png" group-title="Фильмы",Yosso TV Best
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14236/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV Adrenaline" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Adrenaline.png" group-title="Фильмы",Yosso TV Adrenaline
+#EXTINF:-1 tvg-id="YOSSO TV Adrenaline" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20Adrenaline.png" group-title="Фильмы",YOSSO TV Adrenaline
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15105/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV Thriller" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Thriller.png" group-title="Фильмы",Yosso TV Thriller
+#EXTINF:-1 tvg-id="YOSSO TV Thriller" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20Thriller.png" group-title="Фильмы",YOSSO TV Thriller
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15168/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV Oblivion" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Oblivion.png" group-title="Фильмы",Yosso TV Oblivion
+#EXTINF:-1 tvg-id="YOSSO TV Oblivion" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20Oblivion.png" group-title="Фильмы",YOSSO TV Oblivion
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15509/index.m3u
 #EXTINF:-1 tvg-id="Yosso TV Adventure" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Adventure.png" group-title="Фильмы",Yosso TV Adventure
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15510/index.m3u
@@ -7475,11 +7325,11 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15510/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16153/index.m3u
 #EXTINF:-1 tvg-id="Yosso TV Мелодрама" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Мелодрама.png" group-title="Фильмы",Yosso TV Мелодрама
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19434/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV Netflix" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Netflix.png" group-title="Фильмы",Yosso TV Netflix
+#EXTINF:-1 tvg-id="YOSSO TV Netflix" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20Netflix.png" group-title="Фильмы",YOSSO TV Netflix
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20163/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV Disney" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Disney.png" group-title="Фильмы",Yosso TV Disney
+#EXTINF:-1 tvg-id="YOSSO TV Disney" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20Disney.png" group-title="Фильмы",YOSSO TV Disney
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20164/index.m3u
-#EXTINF:-1 tvg-id="Yosso TV Best 60 FPS" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Yosso%20TV%20Best%2060%20FPS.png" group-title="Фильмы",Yosso TV Best 60 FPS
+#EXTINF:-1 tvg-id="YOSSO TV Best 60 FPS" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/YOSSO%20TV%20Best%2060%20FPS.png" group-title="Фильмы",YOSSO TV Best 60 FPS
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20165/index.m3u
 #EXTINF:-1 tvg-id="Citrus Comedy" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Citrus%20Comedy.png" group-title="Фильмы",Citrus Comedy
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16151/index.m3u
@@ -7517,44 +7367,8 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14227/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14228/index.m3u
 #EXTINF:-1 tvg-id="Твое ТВ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Твое%20ТВ%20HD.png" group-title="Фильмы",Твое ТВ HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14229/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH SERIES HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20SERIES%20HD.png" group-title="Фильмы",SKY HIGH SERIES HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14240/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH HEROES HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20HEROES%20HD.png" group-title="Фильмы",SKY HIGH HEROES HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14242/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH EPOCH HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20EPOCH%20HD.png" group-title="Фильмы",SKY HIGH EPOCH HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14243/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH FRESH HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20FRESH%20HD.png" group-title="Фильмы",SKY HIGH FRESH HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14244/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH MIX 3D" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20MIX%203D.png" group-title="Фильмы",SKY HIGH MIX 3D
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14246/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH SPIRIT HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20SPIRIT%20HD.png" group-title="Фильмы",SKY HIGH SPIRIT HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14249/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH FUTURE HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20FUTURE%20HD.png" group-title="Фильмы",SKY HIGH FUTURE HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15103/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH ADULT HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20ADULT%20HD.png" group-title="Фильмы",SKY HIGH ADULT HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15166/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH RUSSIAN HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20RUSSIAN%20HD.png" group-title="Фильмы",SKY HIGH RUSSIAN HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16060/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH FRESH 60" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20FRESH%2060.png" group-title="Фильмы",SKY HIGH FRESH 60
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16061/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH FRESH HDR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20FRESH%20HDR.png" group-title="Фильмы",SKY HIGH FRESH HDR
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16066/index.m3u
 #EXTINF:-1 tvg-id="SKY HIGH ЧБУ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20ЧБУ%20HD.png" group-title="Фильмы",SKY HIGH ЧБУ HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16142/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH MIX 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20MIX%204K.png" group-title="Фильмы",SKY HIGH MIX 4K
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17025/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH VHS UHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20VHS%20UHD.png" group-title="Фильмы",SKY HIGH VHS UHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17058/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH UHD HDR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20UHD%20HDR.png" group-title="Фильмы",SKY HIGH UHD HDR
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17059/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH ORIG HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20ORIG%20HD.png" group-title="Фильмы",SKY HIGH ORIG HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19310/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH LO FI HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20LO%20FI%20HD.png" group-title="Фильмы",SKY HIGH LO FI HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19312/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH BRAIN HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20BRAIN%20HD.png" group-title="Фильмы",SKY HIGH BRAIN HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19404/index.m3u
-#EXTINF:-1 tvg-id="SKY HIGH ANIME HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SKY%20HIGH%20ANIME%20HD.png" group-title="Фильмы",SKY HIGH ANIME HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19405/index.m3u
 #EXTINF:-1 tvg-id="Liberty DC FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20DC%20FHD.png" group-title="Фильмы",Liberty DC FHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15087/index.m3u
 #EXTINF:-1 tvg-id="Liberty Ужасы 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Ужасы%204K.png" group-title="Фильмы",Liberty Ужасы 4K
@@ -7575,7 +7389,7 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15110/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15111/index.m3u
 #EXTINF:-1 tvg-id="Liberty Сваты FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Сваты%20FHD.png" group-title="Фильмы",Liberty Сваты FHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15164/index.m3u
-#EXTINF:-1 tvg-id="Liberty SouthPark FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20SouthPark%20FHD.png" group-title="Фильмы",Liberty SouthPark FHD
+#EXTINF:-1 tvg-id="Liberty SouthPark" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20SouthPark.png" group-title="Фильмы",Liberty SouthPark
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16053/index.m3u
 #EXTINF:-1 tvg-id="Liberty Комедии FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Комедии%20FHD.png" group-title="Фильмы",Liberty Комедии FHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16054/index.m3u
@@ -7609,28 +7423,20 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19307/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19308/index.m3u
 #EXTINF:-1 tvg-id="Liberty Netflix 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Netflix%204K.png" group-title="Фильмы",Liberty Netflix 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19402/index.m3u
-#EXTINF:-1 tvg-id="UZ Кинозал HEVC HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%20Кинозал%20HEVC%20HD.png" group-title="Фильмы",UZ Кинозал HEVC HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15099/index.m3u
 #EXTINF:-1 tvg-id="CineMan Скорая Помощь" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/CineMan%20Скорая%20Помощь.png" group-title="Фильмы",CineMan Скорая Помощь
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15100/index.m3u
 #EXTINF:-1 tvg-id="CineMan Симпсоны" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/CineMan%20Симпсоны.png" group-title="Фильмы",CineMan Симпсоны
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15101/index.m3u
-#EXTINF:-1 tvg-id="MS Prisons HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MS%20Prisons%20HD.png" group-title="Фильмы",MS Prisons HD
+#EXTINF:-1 tvg-id="MS PRISONS HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MS%20PRISONS%20HD.png" group-title="Фильмы",MS PRISONS HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15137/index.m3u
 #EXTINF:-1 tvg-id="MS Toons HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MS%20Toons%20HD.png" group-title="Фильмы",MS Toons HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15138/index.m3u
-#EXTINF:-1 tvg-id="MS Magic HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MS%20Magic%20HD.png" group-title="Фильмы",MS Magic HD
+#EXTINF:-1 tvg-id="MS MAGIC HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MS%20MAGIC%20HD.png" group-title="Фильмы",MS MAGIC HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16143/index.m3u
-#EXTINF:-1 tvg-id="MS Young Blood HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MS%20Young%20Blood%20HD.png" group-title="Фильмы",MS Young Blood HD
+#EXTINF:-1 tvg-id="MS YOUNG BLOOD HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MS%20YOUNG%20BLOOD%20HD.png" group-title="Фильмы",MS YOUNG BLOOD HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16147/index.m3u
 #EXTINF:-1 tvg-id="MS Animated HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MS%20Animated%20HD.png" group-title="Фильмы",MS Animated HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17024/index.m3u
-#EXTINF:-1 tvg-id="Премьера Трейлеры" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Премьера%20Трейлеры.png" group-title="Фильмы",Премьера Трейлеры
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16009/index.m3u
-#EXTINF:-1 tvg-id="PZN HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/PZN%20HD.png" group-title="Фильмы",PZN HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16037/index.m3u
-#EXTINF:-1 tvg-id="Видеокассета VHS" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Видеокассета%20VHS.png" group-title="Фильмы",Видеокассета VHS
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16049/index.m3u
 #EXTINF:-1 tvg-id="Citrus Cartoon" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Citrus%20Cartoon.png" group-title="Фильмы",Citrus Cartoon
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16050/index.m3u
 #EXTINF:-1 tvg-id="Citrus Marvel" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Citrus%20Marvel.png" group-title="Фильмы",Citrus Marvel
@@ -7665,14 +7471,10 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19299/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19300/index.m3u
 #EXTINF:-1 tvg-id="Fresh Soviet" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Fresh%20Soviet.png" group-title="Фильмы",Fresh Soviet
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19301/index.m3u
-#EXTINF:-1 tvg-id="KLI Cinema HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Cinema%20HD.png" group-title="Фильмы",KLI Cinema HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16078/index.m3u
 #EXTINF:-1 tvg-id="KLI Comedy HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Comedy%20HD.png" group-title="Фильмы",KLI Comedy HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16080/index.m3u
 #EXTINF:-1 tvg-id="KLI History HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20History%20HD.png" group-title="Фильмы",KLI History HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18047/index.m3u
-#EXTINF:-1 tvg-id="KLI Premium HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Premium%20HD.png" group-title="Фильмы",KLI Premium HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18048/index.m3u
 #EXTINF:-1 tvg-id="KLI Russian HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Russian%20HD.png" group-title="Фильмы",KLI Russian HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18049/index.m3u
 #EXTINF:-1 tvg-id="KLI Fantastic HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Fantastic%20HD.png" group-title="Фильмы",KLI Fantastic HD
@@ -7687,12 +7489,8 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18175/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18176/index.m3u
 #EXTINF:-1 tvg-id="KLI Retro HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Retro%20HD.png" group-title="Фильмы",KLI Retro HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18177/index.m3u
-#EXTINF:-1 tvg-id="KLI Киносерия FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Киносерия%20FHD.png" group-title="Фильмы",KLI Киносерия FHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19400/index.m3u
 #EXTINF:-1 tvg-id="KLI Киносерия HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Киносерия%20HD.png" group-title="Фильмы",KLI Киносерия HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19400/index.m3u
-#EXTINF:-1 tvg-id="Christmas HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Christmas%20HD.png" group-title="Фильмы",Christmas HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17031/index.m3u
 #EXTINF:-1 tvg-id="Eye Media HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eye%20Media%20HD.png" group-title="Фильмы",Eye Media HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17064/index.m3u
 #EXTINF:-1 tvg-id="Eye Oscar HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eye%20Oscar%20HD.png" group-title="Фильмы",Eye Oscar HD
@@ -7777,32 +7575,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18135/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18136/index.m3u
 #EXTINF:-1 tvg-id="Кинозал 12" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Кинозал%2012.png" group-title="Фильмы",Кинозал 12
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18137/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Criminal" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Criminal.png" group-title="Фильмы",Prokop TV Criminal
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18140/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV History" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20History.png" group-title="Фильмы",Prokop TV History
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18142/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Comedy" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Comedy.png" group-title="Фильмы",Prokop TV Comedy
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18143/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Fantazy" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Fantazy.png" group-title="Фильмы",Prokop TV Fantazy
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18144/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Horror" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Horror.png" group-title="Фильмы",Prokop TV Horror
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18145/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Cinema Best" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Cinema%20Best.png" group-title="Фильмы",Prokop TV Cinema Best
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18147/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Music" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Music.png" group-title="Фильмы",Prokop TV Music
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18148/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Serial" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Serial.png" group-title="Фильмы",Prokop TV Serial
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19271/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Netflix" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Netflix.png" group-title="Фильмы",Prokop TV Netflix
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19272/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Docu" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Docu.png" group-title="Фильмы",Prokop TV Docu
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19314/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Cinema 60 fps" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Cinema%2060%20fps.png" group-title="Фильмы",Prokop TV Cinema 60 fps
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19315/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Вторая Мировая" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Вторая%20Мировая.png" group-title="Фильмы",Prokop TV Вторая Мировая
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19316/index.m3u
-#EXTINF:-1 tvg-id="Prokop TV Сказки СССР" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Prokop%20TV%20Сказки%20СССР.png" group-title="Фильмы",Prokop TV Сказки СССР
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19317/index.m3u
 #EXTINF:-1 tvg-id="BOX Franchise HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BOX%20Franchise%20HD.png" group-title="Фильмы",BOX Franchise HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19274/index.m3u
 #EXTINF:-1 tvg-id="BOX Hybrid HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BOX%20Hybrid%20HD.png" group-title="Фильмы",BOX Hybrid HD
