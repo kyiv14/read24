@@ -13,50 +13,28 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20050/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20050/index.m3u
 #EXTINF:-1 tvg-id="BOX Serial 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BOX%20Serial%204K.png" group-title="4k",BOX Serial 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31657/index.m3u
-#EXTINF:-1 tvg-id="KLI_Concert_FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Concert%20FHD.png" group-title="4k",KLI Concert FHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20049/index.m3u
 #EXTINF:-1 tvg-id="KLI Concert HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Concert%20HD.png" group-title="4k",KLI Concert HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20049/index.m3u
-#EXTINF:-1 tvg-id="Наша Сибирь HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наша%20Сибирь%20HD.png" group-title="4k",Наша Сибирь HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/4003/index.m3u
-#EXTINF:-1 tvg-id="LIBERTY НАУКА 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/LIBERTY%20НАУКА%204K.png" group-title="4k",LIBERTY НАУКА 4K
+#EXTINF:-1 tvg-id="LIBERTY НАУКА 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Наука%204K.png" group-title="4k",Liberty Наука 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19305/index.m3u
 #EXTINF:-1 tvg-id="Eleven Sports 1 4K PL" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eleven%20Sports%201%204K%20PL.png" group-title="4k",Eleven Sports 1 4K PL
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20068/index.m3u
 #EXTINF:-1 tvg-id="BCU Kids 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BCU%20Kids%204K.png" group-title="4k",BCU Kids 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17023/index.m3u
-#EXTINF:-1 tvg-id="Rex UHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Rex%20UHD.png" group-title="4k",Rex UHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14029/index.m3u
 #EXTINF:-1 tvg-id="TRT 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TRT%204K.png" group-title="4k",TRT 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/4001/index.m3u
-#EXTINF:-1 tvg-id="Home 4K [HEVEC]" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Home%204K%20[HEVEC].png" group-title="4k",Home 4K [HEVEC]
+#EXTINF:-1 tvg-id="Home 4K [HEVEC]" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Home%204K.png" group-title="4k",Home 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15146/index.m3u
-#EXTINF:-1 tvg-id="Наша сибирь 4K [HEVEC]" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наша%20сибирь%204K%20[HEVEC].png" group-title="4k",Наша сибирь 4K [HEVEC]
+#EXTINF:-1 tvg-id="Наша сибирь 4K [HEVEC]" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наша%20Сибирь%204K.png" group-title="4k",Наша Сибирь 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15145/index.m3u
-#EXTINF:-1 tvg-id="Eurosport 1 HD NL" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eurosport%201%20HD%20NL.png" group-title="4k",Eurosport 1 HD NL
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/4004/index.m3u
-#EXTINF:-1 tvg-id="Глазами Туриста 4K [HEVEC]" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Глазами%20Туриста%204K%20[HEVEC].png" group-title="4k",Глазами Туриста 4K [HEVEC]
+#EXTINF:-1 tvg-id="Глазами Туриста 4K [HEVEC]" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Глазами%20Туриста%204K.png" group-title="4k",Глазами Туриста 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15147/index.m3u
-#EXTINF:-1 tvg-id="UZ 4k Klip UHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/UZ%204k%20Klip%20UHD.png" group-title="4k",UZ 4k Klip UHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18163/index.m3u
-#EXTINF:-1 tvg-id="LIBERTY ТУРК ФИЛЬМ 4К" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/LIBERTY%20ТУРК%20ФИЛЬМ%204К.png" group-title="4k",LIBERTY ТУРК ФИЛЬМ 4К
+#EXTINF:-1 tvg-id="LIBERTY ТУРК ФИЛЬМ 4К" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Liberty%20Турк%20Фильм%204К.png" group-title="4k",Liberty Турк Фильм 4К
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19303/index.m3u
-#EXTINF:-1 tvg-id="KLI Kids FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Kids%20FHD.png" group-title="4k",KLI Kids FHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20047/index.m3u
 #EXTINF:-1 tvg-id="KLI Kids HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Kids%20HD.png" group-title="4k",KLI Kids HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20047/index.m3u
-#EXTINF:-1 tvg-id="BT Sports 4k UHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BT%20Sports%204k%20UHD.png" group-title="4k",BT Sports 4k UHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20058/index.m3u
-#EXTINF:-1 tvg-id="SuperSport 4K World CUP" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/SuperSport%204K%20World%20CUP.png" group-title="4k",SuperSport 4K World CUP
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20066/index.m3u
 #EXTINF:-1 tvg-id="Eleven 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eleven%204K.png" group-title="4k",Eleven 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20068/index.m3u
-#EXTINF:-1 tvg-id="Pro7Sat UHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Pro7Sat%20UHD.png" group-title="4k",Pro7Sat UHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20071/index.m3u
-#EXTINF:-1 tvg-id="RTL UHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/RTL%20UHD.png" group-title="4k",RTL UHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20076/index.m3u
-#EXTINF:-1 tvg-id="Eleven Sports 1 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eleven%20Sports%201%204K.png" group-title="4k",Eleven Sports 1 4K
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20078/index.m3u
 #EXTINF:-1 tvg-id="Eurosport 4K" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eurosport%204K.png" group-title="4k",Eurosport 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31475/index.m3u
 #EXTINF:-1 tvg-id="BOX History 4K HDR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BOX%20History%204K%20HDR.png" group-title="4k",BOX History 4K HDR
@@ -99,15 +77,13 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31664/index.m3u
 #EXTGRP:Hd
 #EXTINF:-1 tvg-id="Мир 24 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Мир%2024%20HD.png" group-title="Hd",Мир 24 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2107/index.m3u
-#EXTINF:-1 tvg-id="BAND NEWS HD BR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BAND%20NEWS%20HD%20BR.png" group-title="Hd",BAND NEWS HD BR
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6160/index.m3u
 #EXTINF:-1 tvg-id="Первый канал HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20HD.png" group-title="Hd",Первый канал HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/204/index.m3u
 #EXTINF:-1 tvg-id="Первый канал HD +4" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20HD%20+4.png" group-title="Hd",Первый канал HD +4
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15117/index.m3u
 #EXTINF:-1 tvg-id="Россия 1 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20HD.png" group-title="Hd",Россия 1 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/205/index.m3u
-#EXTINF:-1 tvg-id="Fox HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Fox%20HD.png" group-title="Hd",Fox HD
+#EXTINF:-1 tvg-id="Fox HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/FOX%20HD%20PL.png" group-title="Hd",FOX HD PL
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/219/index.m3u
 #EXTINF:-1 tvg-id="Viasat Kino World HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20Kino%20World%20HD.png" group-title="Hd",Viasat Kino World HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/31448/index.m3u
@@ -129,17 +105,15 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19248/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/918/index.m3u
 #EXTINF:-1 tvg-id="Диалоги о рыбалке" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Диалоги%20о%20рыбалке.png" group-title="Hd",Диалоги о рыбалке
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2394/index.m3u
-#EXTINF:-1 tvg-id="E TV FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/E%20TV%20FHD.png" group-title="Hd",E TV FHD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5035/index.m3u
-#EXTINF:-1 tvg-id="E TV HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/E%20TV%20HD.png" group-title="Hd",E TV HD
+#EXTINF:-1 tvg-id="E TV HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/E%20TV.png" group-title="Hd",E TV
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5035/index.m3u
 #EXTINF:-1 tvg-id="Усадьба HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Усадьба%20HD.png" group-title="Hd",Усадьба HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9071/index.m3u
 #EXTINF:-1 tvg-id="Nickelodeon HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Nickelodeon%20HD.png" group-title="Hd",Nickelodeon HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/223/index.m3u
-#EXTINF:-1 tvg-id="KLI_Humor_HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI_Humor_HD.png" group-title="Hd",KLI_Humor_HD
+#EXTINF:-1 tvg-id="KLI_Humor_HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KLI%20Humor%20HD.png" group-title="Hd",KLI Humor HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20052/index.m3u
-#EXTINF:-1 tvg-id="BAND SPORTS HD BR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BAND%20SPORTS%20HD%20BR.png" group-title="Hd",BAND SPORTS HD BR
+#EXTINF:-1 tvg-id="BAND SPORTS HD BR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Band%20Sports%20BR.png" group-title="Hd",Band Sports BR
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6157/index.m3u
 #EXTINF:-1 tvg-id="Матч! Футбол 1 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Матч!%20Футбол%201%20HD.png" group-title="Hd",Матч! Футбол 1 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/222/index.m3u
@@ -159,33 +133,25 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/220/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/212/index.m3u
 #EXTINF:-1 tvg-id="Eurosport 1 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eurosport%201%20HD.png" group-title="Hd",Eurosport 1 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/228/index.m3u
-#EXTINF:-1 tvg-id="Viasat Sport HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20Sport%20HD.png" group-title="Hd",Viasat Sport HD
+#EXTINF:-1 tvg-id="Viasat Sport HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VIASAT%20SPORT%20HD.png" group-title="Hd",VIASAT SPORT HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2007/index.m3u
-#EXTINF:-1 tvg-id="Моторспорт ТВ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Моторспорт%20ТВ%20HD.png" group-title="Hd",Моторспорт ТВ HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2146/index.m3u
 #EXTINF:-1 tvg-id="Старт HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Старт%20HD.png" group-title="Hd",Старт HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6384/index.m3u
-#EXTINF:-1 tvg-id="Setanta Eurasia HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Setanta%20Eurasia%20HD.png" group-title="Hd",Setanta Eurasia HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/271/index.m3u
-#EXTINF:-1 tvg-id="Setanta Eurasia Plus HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Setanta%20Eurasia%20Plus%20HD.png" group-title="Hd",Setanta Eurasia Plus HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/270/index.m3u
 #EXTINF:-1 tvg-id="Sky Sport F1 FHD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Sky%20Sport%20F1%20FHD%20DE.png" group-title="Hd",Sky Sport F1 FHD DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10079/index.m3u
 #EXTINF:-1 tvg-id="Удар FHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Удар%20FHD.png" group-title="Hd",Удар FHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2000/index.m3u
 #EXTINF:-1 tvg-id="Удар" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Удар.png" group-title="Hd",Удар
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2000/index.m3u
-#EXTINF:-1 tvg-id="AXN HD BR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/AXN%20HD%20BR.png" group-title="Hd",AXN HD BR
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6162/index.m3u
 #EXTINF:-1 tvg-id="НТВ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/НТВ%20HD.png" group-title="Hd",НТВ HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/213/index.m3u
 #EXTINF:-1 tvg-id="ТНТ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20HD.png" group-title="Hd",ТНТ HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/237/index.m3u
 #EXTINF:-1 tvg-id="Пятница! HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Пятница!%20HD.png" group-title="Hd",Пятница! HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5031/index.m3u
-#EXTINF:-1 tvg-id="ТВ3 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТВ3%20HD.png" group-title="Hd",ТВ3 HD
+#EXTINF:-1 tvg-id="ТВ3 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТВ-3%20HD.png" group-title="Hd",ТВ-3 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5033/index.m3u
-#EXTINF:-1 tvg-id="Рен ТВ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Рен%20ТВ%20HD.png" group-title="Hd",Рен ТВ HD
+#EXTINF:-1 tvg-id="Рен ТВ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/РЕН%20ТВ%20HD.png" group-title="Hd",РЕН ТВ HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2024/index.m3u
 #EXTINF:-1 tvg-id="БСТ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/БСТ%20HD.png" group-title="Hd",БСТ HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2115/index.m3u
@@ -193,9 +159,9 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2115/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6058/index.m3u
 #EXTINF:-1 tvg-id="Сочи 24 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Сочи%2024%20HD.png" group-title="Hd",Сочи 24 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9040/index.m3u
-#EXTINF:-1 tvg-id="Первый канал HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20HD%2050.png" group-title="Hd",Первый канал HD 50
+#EXTINF:-1 tvg-id="Первый канал HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20HD.png" group-title="Hd",Первый канал HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15131/index.m3u
-#EXTINF:-1 tvg-id="NBA HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/NBA%20HD.png" group-title="Hd",NBA HD
+#EXTINF:-1 tvg-id="NBA HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/NBA%20TV%20HD%20US.png" group-title="Hd",NBA TV HD US
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14031/index.m3u
 #EXTINF:-1 tvg-id="QazSport HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/QazSport%20HD.png" group-title="Hd",QazSport HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14032/index.m3u
@@ -203,18 +169,8 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14032/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14034/index.m3u
 #EXTINF:-1 tvg-id="Trace Sport Stars HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Trace%20Sport%20Stars%20HD.png" group-title="Hd",Trace Sport Stars HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/14030/index.m3u
-#EXTINF:-1 tvg-id="Cinneman Premium HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Cinneman%20Premium%20HD.png" group-title="Hd",Cinneman Premium HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20112/index.m3u
-#EXTINF:-1 tvg-id="BAND SP HD BR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BAND%20SP%20HD%20BR.png" group-title="Hd",BAND SP HD BR
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6159/index.m3u
 #EXTINF:-1 tvg-id="beIN Movies HD2 ACTION" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Movies%20HD2%20ACTION.png" group-title="Hd",beIN Movies HD2 ACTION
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6134/index.m3u
-#EXTINF:-1 tvg-id="beIN Movies HD3 DRAMA" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Movies%20HD3%20DRAMA.png" group-title="Hd",beIN Movies HD3 DRAMA
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6135/index.m3u
-#EXTINF:-1 tvg-id="beIN Movies HD4 FAMILY" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Movies%20HD4%20FAMILY.png" group-title="Hd",beIN Movies HD4 FAMILY
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6136/index.m3u
-#EXTINF:-1 tvg-id="beIN Series HD 1" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Series%20HD%201.png" group-title="Hd",beIN Series HD 1
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6138/index.m3u
 #EXTINF:-1 tvg-id="beIN Sports 1 HD QA" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Sports%201%20HD%20QA.png" group-title="Hd",beIN Sports 1 HD QA
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6123/index.m3u
 #EXTINF:-1 tvg-id="beIN Sports 3 HD QA" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Sports%203%20HD%20QA.png" group-title="Hd",beIN Sports 3 HD QA
@@ -227,20 +183,16 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6126/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6127/index.m3u
 #EXTINF:-1 tvg-id="beIN Sports 7 HD QA" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Sports%207%20HD%20QA.png" group-title="Hd",beIN Sports 7 HD QA
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6128/index.m3u
-#EXTINF:-1 tvg-id="beIN Sports 1 Premium HD QA" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Sports%201%20Premium%20HD%20QA.png" group-title="Hd",beIN Sports 1 Premium HD QA
+#EXTINF:-1 tvg-id="beIN Sports 1 Premium HD QA" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Sports%201%20HD%20FR.png" group-title="Hd",beIN Sports 1 HD FR
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6131/index.m3u
-#EXTINF:-1 tvg-id="beIN Sports 2 HD EN" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/beIN%20Sports%202%20HD%20EN.png" group-title="Hd",beIN Sports 2 HD EN
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6133/index.m3u
 #EXTINF:-1 tvg-id="Canal Discovery HD PL" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Canal%20Discovery%20HD%20PL.png" group-title="Hd",Canal Discovery HD PL
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6102/index.m3u
-#EXTINF:-1 tvg-id="CANAL+ FAMILY HD PL" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/CANAL+%20FAMILY%20HD%20PL.png" group-title="Hd",CANAL+ FAMILY HD PL
+#EXTINF:-1 tvg-id="CANAL+ FAMILY HD PL" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Canal+%20Family%20HD%20PL.png" group-title="Hd",Canal+ Family HD PL
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6105/index.m3u
 #EXTINF:-1 tvg-id="Canal+ Film HD PL" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Canal+%20Film%20HD%20PL.png" group-title="Hd",Canal+ Film HD PL
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6101/index.m3u
 #EXTINF:-1 tvg-id="Canal+ HD FR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Canal+%20HD%20FR.png" group-title="Hd",Canal+ HD FR
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6007/index.m3u
-#EXTINF:-1 tvg-id="CINEMAX THRILLERMAX HD US" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/CINEMAX%20THRILLERMAX%20HD%20US.png" group-title="Hd",CINEMAX THRILLERMAX HD US
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6153/index.m3u
 #EXTINF:-1 tvg-id="Comedy Central HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Comedy%20Central%20HD%20DE.png" group-title="Hd",Comedy Central HD DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6081/index.m3u
 #EXTINF:-1 tvg-id="E! Entertainment HD RO" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/E!%20Entertainment%20HD%20RO.png" group-title="Hd",E! Entertainment HD RO
@@ -257,32 +209,22 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6148/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6149/index.m3u
 #EXTINF:-1 tvg-id="FRANCE 5 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/FRANCE%205%20HD.png" group-title="Hd",FRANCE 5 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6150/index.m3u
-#EXTINF:-1 tvg-id="FRANCE O HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/FRANCE%20O%20HD.png" group-title="Hd",FRANCE O HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6151/index.m3u
 #EXTINF:-1 tvg-id="Kabel Eins HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Kabel%20Eins%20HD%20DE.png" group-title="Hd",Kabel Eins HD DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6067/index.m3u
 #EXTINF:-1 tvg-id="Kino Polska HD PL" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Kino%20Polska%20HD%20PL.png" group-title="Hd",Kino Polska HD PL
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6088/index.m3u
-#EXTINF:-1 tvg-id="Movistar Cine Doc & Roll HD ES" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Movistar%20Cine%20Doc%20&%20Roll%20HD%20ES.png" group-title="Hd",Movistar Cine Doc & Roll HD ES
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6077/index.m3u
 #EXTINF:-1 tvg-id="Movistar Deportes 1 HD ES" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Movistar%20Deportes%201%20HD%20ES.png" group-title="Hd",Movistar Deportes 1 HD ES
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6070/index.m3u
 #EXTINF:-1 tvg-id="Dazn F1 HD ES" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Dazn%20F1%20HD%20ES.png" group-title="Hd",Dazn F1 HD ES
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6071/index.m3u
 #EXTINF:-1 tvg-id="DAZN F1 ES" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/DAZN%20F1%20ES.png" group-title="Hd",DAZN F1 ES
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6071/index.m3u
-#EXTINF:-1 tvg-id="Movistar Estrenos HD ES" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Movistar%20Estrenos%20HD%20ES.png" group-title="Hd",Movistar Estrenos HD ES
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6078/index.m3u
 #EXTINF:-1 tvg-id="Movistar Golf HD ES" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Movistar%20Golf%20HD%20ES.png" group-title="Hd",Movistar Golf HD ES
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6075/index.m3u
 #EXTINF:-1 tvg-id="Movistar LaLiga HD ES" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Movistar%20LaLiga%20HD%20ES.png" group-title="Hd",Movistar LaLiga HD ES
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6073/index.m3u
 #EXTINF:-1 tvg-id="Movistar Liga Campeones HD ES" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Movistar%20Liga%20Campeones%20HD%20ES.png" group-title="Hd",Movistar Liga Campeones HD ES
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6074/index.m3u
-#EXTINF:-1 tvg-id="Movistar Seriesmania HD ES" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Movistar%20Seriesmania%20HD%20ES.png" group-title="Hd",Movistar Seriesmania HD ES
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6076/index.m3u
-#EXTINF:-1 tvg-id="Paramount Comedy HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Paramount%20Comedy%20HD.png" group-title="Hd",Paramount Comedy HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6000/index.m3u
 #EXTINF:-1 tvg-id="Polsat 2 HD PL" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Polsat%202%20HD%20PL.png" group-title="Hd",Polsat 2 HD PL
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6084/index.m3u
 #EXTINF:-1 tvg-id="Polsat Cafe HD PL" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Polsat%20Cafe%20HD%20PL.png" group-title="Hd",Polsat Cafe HD PL
@@ -293,8 +235,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6086/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6087/index.m3u
 #EXTINF:-1 tvg-id="ProSieben HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ProSieben%20HD%20DE.png" group-title="Hd",ProSieben HD DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6057/index.m3u
-#EXTINF:-1 tvg-id="ZMaxx HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ZMaxx%20HD%20DE.png" group-title="Hd",ZMaxx HD DE
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6058/index.m3u
 #EXTINF:-1 tvg-id="RTL 2 HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/RTL%202%20HD%20DE.png" group-title="Hd",RTL 2 HD DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6065/index.m3u
 #EXTINF:-1 tvg-id="RTL HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/RTL%20HD%20DE.png" group-title="Hd",RTL HD DE
@@ -313,21 +253,11 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6079/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6063/index.m3u
 #EXTINF:-1 tvg-id="Syfy HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Syfy%20HD%20DE.png" group-title="Hd",Syfy HD DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6092/index.m3u
-#EXTINF:-1 tvg-id="TNT Comedy HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TNT%20Comedy%20HD%20DE.png" group-title="Hd",TNT Comedy HD DE
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6111/index.m3u
-#EXTINF:-1 tvg-id="TENNIS HD US" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TENNIS%20HD%20US.png" group-title="Hd",TENNIS HD US
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6096/index.m3u
-#EXTINF:-1 tvg-id="TNT Film HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TNT%20Film%20HD%20DE.png" group-title="Hd",TNT Film HD DE
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6089/index.m3u
-#EXTINF:-1 tvg-id="TNT Serie HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TNT%20Serie%20HD%20DE.png" group-title="Hd",TNT Serie HD DE
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6090/index.m3u
 #EXTINF:-1 tvg-id="Universal TV FHD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Universal%20TV%20FHD%20DE.png" group-title="Hd",Universal TV FHD DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6094/index.m3u
 #EXTINF:-1 tvg-id="Universal TV HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Universal%20TV%20HD%20DE.png" group-title="Hd",Universal TV HD DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6094/index.m3u
-#EXTINF:-1 tvg-id="Viasat History HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20History%20HD.png" group-title="Hd",Viasat History HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6002/index.m3u
-#EXTINF:-1 tvg-id="Viasat Sport Premium HD SK" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20Sport%20Premium%20HD%20SK.png" group-title="Hd",Viasat Sport Premium HD SK
+#EXTINF:-1 tvg-id="Viasat Sport Premium HD SK" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VIASAT%20SPORT%20PREMIUM%20HD%20SE.png" group-title="Hd",VIASAT SPORT PREMIUM HD SE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6069/index.m3u
 #EXTINF:-1 tvg-id="VOX HD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VOX%20HD%20DE.png" group-title="Hd",VOX HD DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6061/index.m3u
@@ -335,58 +265,42 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6061/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6059/index.m3u
 #EXTINF:-1 tvg-id="Canal+ Cinema HD FR" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Canal+%20Cinema%20HD%20FR.png" group-title="Hd",Canal+ Cinema HD FR
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6004/index.m3u
-#EXTINF:-1 tvg-id="VIP Premiere HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VIP%20Premiere%20HD.png" group-title="Hd",VIP Premiere HD
+#EXTINF:-1 tvg-id="VIP Premiere HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Premiere%20HD.png" group-title="Hd",Viju+ Premiere HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/202/index.m3u
-#EXTINF:-1 tvg-id="VIP Comedy HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VIP%20Comedy%20HD.png" group-title="Hd",VIP Comedy HD
+#EXTINF:-1 tvg-id="VIP Comedy HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Comedy%20HD.png" group-title="Hd",Viju+ Comedy HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/200/index.m3u
-#EXTINF:-1 tvg-id="VIP Megahit HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VIP%20Megahit%20HD.png" group-title="Hd",VIP Megahit HD
+#EXTINF:-1 tvg-id="VIP Megahit HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Megahit%20HD.png" group-title="Hd",Viju+ Megahit HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/201/index.m3u
 #EXTINF:-1 tvg-id="Россия 1 HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20HD%2050.png" group-title="Hd",Россия 1 HD 50
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15133/index.m3u
-#EXTINF:-1 tvg-id="Eurosport 2 North-East HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Eurosport%202%20North-East%20HD.png" group-title="Hd",Eurosport 2 North-East HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/234/index.m3u
-#EXTINF:-1 tvg-id="Наше крутое HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наше%20крутое%20HD.png" group-title="Hd",Наше крутое HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/915/index.m3u
 #EXTINF:-1 tvg-id="4ever Music" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/4ever%20Music.png" group-title="Hd",4ever Music
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/970/index.m3u
 #EXTINF:-1 tvg-id="Настоящее время HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Настоящее%20время%20HD.png" group-title="Hd",Настоящее время HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9179/index.m3u
 #EXTINF:-1 tvg-id="Настоящее время" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Настоящее%20время.png" group-title="Hd",Настоящее время
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/986/index.m3u
-#EXTINF:-1 tvg-id="Travel HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Travel%20HD.png" group-title="Hd",Travel HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/1043/index.m3u
 #EXTINF:-1 tvg-id="XSPORT HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/XSPORT%20HD.png" group-title="Hd",XSPORT HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/996/index.m3u
 #EXTINF:-1 tvg-id="FAST&FUN BOX HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/FAST&FUN%20BOX%20HD.png" group-title="Hd",FAST&FUN BOX HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/1018/index.m3u
-#EXTINF:-1 tvg-id="Setanta Ukraine HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Setanta%20Ukraine%20HD.png" group-title="Hd",Setanta Ukraine HD
+#EXTINF:-1 tvg-id="Setanta Ukraine HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Setanta%20Ukraine%20Plus%20HD.png" group-title="Hd",Setanta Ukraine Plus HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/272/index.m3u
 #EXTINF:-1 tvg-id="СТС Kids HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20Kids%20HD.png" group-title="Hd",СТС Kids HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2001/index.m3u
 #EXTINF:-1 tvg-id="Russian Extreme HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Russian%20Extreme%20HD.png" group-title="Hd",Russian Extreme HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2077/index.m3u
-#EXTINF:-1 tvg-id="MTV Россия HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MTV%20Россия%20HD.png" group-title="Hd",MTV Россия HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2130/index.m3u
-#EXTINF:-1 tvg-id="Fuel TV HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Fuel%20TV%20HD.png" group-title="Hd",Fuel TV HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2396/index.m3u
 #EXTINF:-1 tvg-id="Setanta Qazaqstan HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Setanta%20Qazaqstan%20HD.png" group-title="Hd",Setanta Qazaqstan HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2399/index.m3u
-#EXTINF:-1 tvg-id="Jurnal TV HD MD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Jurnal%20TV%20HD%20MD.png" group-title="Hd",Jurnal TV HD MD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5008/index.m3u
-#EXTINF:-1 tvg-id="Сочи HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Сочи%20HD.png" group-title="Hd",Сочи HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2433/index.m3u
-#EXTINF:-1 tvg-id="VIP Serial HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VIP%20Serial%20HD.png" group-title="Hd",VIP Serial HD
+#EXTINF:-1 tvg-id="VIP Serial HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Serial%20HD.png" group-title="Hd",Viju+ Serial HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2443/index.m3u
-#EXTINF:-1 tvg-id="Viasat Explore HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20Explore%20HD.png" group-title="Hd",Viasat Explore HD
+#EXTINF:-1 tvg-id="Viasat Explore HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20Explore%20CEE%20HD.png" group-title="Hd",Viasat Explore CEE HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6381/index.m3u
-#EXTINF:-1 tvg-id="TV1000 Action HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TV1000%20Action%20HD.png" group-title="Hd",TV1000 Action HD
+#EXTINF:-1 tvg-id="TV1000 Action HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20Action%20HD.png" group-title="Hd",Viju TV1000 Action HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6386/index.m3u
-#EXTINF:-1 tvg-id="TV1000 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TV1000%20HD.png" group-title="Hd",TV1000 HD
+#EXTINF:-1 tvg-id="TV1000 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20HD.png" group-title="Hd",Viju TV1000 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6387/index.m3u
-#EXTINF:-1 tvg-id="TV1000 Русское Кино HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TV1000%20Русское%20Кино%20HD.png" group-title="Hd",TV1000 Русское Кино HD
+#EXTINF:-1 tvg-id="TV1000 Русское Кино HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20Русское%20HD.png" group-title="Hd",Viju TV1000 Русское HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6388/index.m3u
-#EXTINF:-1 tvg-id="HGTV HD RU" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/HGTV%20HD%20RU.png" group-title="Hd",HGTV HD RU
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6391/index.m3u
 #EXTINF:-1 tvg-id="Матч! Игра HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Матч!%20Игра%20HD%2050.png" group-title="Hd",Матч! Игра HD 50
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10014/index.m3u
 #EXTINF:-1 tvg-id="Матч! Футбол 1 HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Матч!%20Футбол%201%20HD%2050.png" group-title="Hd",Матч! Футбол 1 HD 50
@@ -397,26 +311,18 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10016/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10020/index.m3u
 #EXTINF:-1 tvg-id="Матч! Премьер HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Матч!%20Премьер%20HD%2050.png" group-title="Hd",Матч! Премьер HD 50
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10021/index.m3u
-#EXTINF:-1 tvg-id="National Geographic Channel HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/National%20Geographic%20Channel%20HD%2050.png" group-title="Hd",National Geographic Channel HD 50
+#EXTINF:-1 tvg-id="National Geographic Channel HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/National%20Geographic%20HD.png" group-title="Hd",National Geographic HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10023/index.m3u
 #EXTINF:-1 tvg-id="Матч! Футбол 2 HD 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Матч!%20Футбол%202%20HD%2050.png" group-title="Hd",Матч! Футбол 2 HD 50
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10027/index.m3u
-#EXTINF:-1 tvg-id="KHL Prime 50" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KHL%20Prime%2050.png" group-title="Hd",KHL Prime 50
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10028/index.m3u
-#EXTINF:-1 tvg-id="9 Volna HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/9%20Volna%20HD.png" group-title="Hd",9 Volna HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/10071/index.m3u
 #EXTINF:-1 tvg-id="BCU Multserial HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BCU%20Multserial%20HD.png" group-title="Hd",BCU Multserial HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11025/index.m3u
 #EXTINF:-1 tvg-id="BCU Kids HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BCU%20Kids%20HD.png" group-title="Hd",BCU Kids HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11035/index.m3u
-#EXTINF:-1 tvg-id="BCU Kinozakaz HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BCU%20Kinozakaz%20HD.png" group-title="Hd",BCU Kinozakaz HD
+#EXTINF:-1 tvg-id="BCU Kinozakaz HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/BCU%20Kinozakaz%20Premiere%204K.png" group-title="Hd",BCU Kinozakaz Premiere 4K
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11043/index.m3u
-#EXTINF:-1 tvg-id="ВЕСЕЛАЯ КАРУСЕЛЬ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ВЕСЕЛАЯ%20КАРУСЕЛЬ%20HD.png" group-title="Hd",ВЕСЕЛАЯ КАРУСЕЛЬ HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11057/index.m3u
 #EXTINF:-1 tvg-id="ЕРАЛАШ HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ЕРАЛАШ%20HD.png" group-title="Hd",ЕРАЛАШ HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11058/index.m3u
-#EXTINF:-1 tvg-id="Илья ТВ Сериал HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Илья%20ТВ%20Сериал%20HD.png" group-title="Hd",Илья ТВ Сериал HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/11104/index.m3u
 #EXTINF:-1 tvg-id="Наш Спорт 10 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наш%20Спорт%2010%20HD.png" group-title="Hd",Наш Спорт 10 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15149/index.m3u
 #EXTINF:-1 tvg-id="Наш Спорт 11 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наш%20Спорт%2011%20HD.png" group-title="Hd",Наш Спорт 11 HD
@@ -447,22 +353,14 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15161/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15162/index.m3u
 #EXTINF:-1 tvg-id="Наш Спорт 24 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Наш%20Спорт%2024%20HD.png" group-title="Hd",Наш Спорт 24 HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15163/index.m3u
-#EXTINF:-1 tvg-id="Видеокассета Ужасы" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Видеокассета%20Ужасы.png" group-title="Hd",Видеокассета Ужасы
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/16141/index.m3u
-#EXTINF:-1 tvg-id="LIBERTY BEBIMULT HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/LIBERTY%20BEBIMULT%20HD.png" group-title="Hd",LIBERTY BEBIMULT HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17027/index.m3u
-#EXTINF:-1 tvg-id="LIBERTY ANIME HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/LIBERTY%20ANIME%20HD.png" group-title="Hd",LIBERTY ANIME HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/17029/index.m3u
-#EXTINF:-1 tvg-id="минимакс-flip UHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/минимакс-flip%20UHD.png" group-title="Hd",минимакс-flip UHD
+#EXTINF:-1 tvg-id="минимакс-flip UHD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MM%20Flip%20UHD.png" group-title="Hd",MM Flip UHD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18112/index.m3u
-#EXTINF:-1 tvg-id="минимакс-honey HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/минимакс-honey%20HD.png" group-title="Hd",минимакс-honey HD
+#EXTINF:-1 tvg-id="минимакс-honey HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MM%20Honey%20HD.png" group-title="Hd",MM Honey HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18113/index.m3u
-#EXTINF:-1 tvg-id="минимакс-lesson HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/минимакс-lesson%20HD.png" group-title="Hd",минимакс-lesson HD
+#EXTINF:-1 tvg-id="минимакс-lesson HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MM%20Lesson%20HD.png" group-title="Hd",MM Lesson HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18114/index.m3u
-#EXTINF:-1 tvg-id="минимакс-smile HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/минимакс-smile%20HD.png" group-title="Hd",минимакс-smile HD
+#EXTINF:-1 tvg-id="минимакс-smile HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MM%20Smile%20HD.png" group-title="Hd",MM Smile HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18115/index.m3u
-#EXTINF:-1 tvg-id="ZEE TV HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ZEE%20TV%20HD.png" group-title="Hd",ZEE TV HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19250/index.m3u
 #EXTINF:-1 tvg-id="kino watch тв Ужастик HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/kino%20watch%20тв%20Ужастик%20HD.png" group-title="Hd",kino watch тв Ужастик HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19273/index.m3u
 #EXTINF:-1 tvg-id="VB Контент моего детства HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VB%20Контент%20моего%20детства%20HD.png" group-title="Hd",VB Контент моего детства HD
@@ -491,8 +389,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2007/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6079/index.m3u
 #EXTINF:-1 tvg-id="Setanta Sports FHD UA" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Setanta%20Sports%20FHD%20UA.png" group-title="Hd",Setanta Sports FHD UA
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/272/index.m3u
-#EXTINF:-1 tvg-id="ТВ-3 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТВ-3%20HD.png" group-title="Hd",ТВ-3 HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5033/index.m3u
 #EXTINF:-1 tvg-id="Warner TV Film DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Warner%20TV%20Film%20DE.png" group-title="Hd",Warner TV Film DE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6111/index.m3u
 #EXTINF:-1 tvg-id="Nitro FHD DE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Nitro%20FHD%20DE.png" group-title="Hd",Nitro FHD DE
@@ -813,8 +709,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9059/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9227/index.m3u
 #EXTINF:-1 tvg-id="HD media orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/HD%20media%20orig.png" group-title="Hd orig",HD media orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9026/index.m3u
-#EXTINF:-1 tvg-id="Viasat History HD HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20History%20HD%20HD%20orig.png" group-title="Hd orig",Viasat History HD HD orig
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9027/index.m3u
 #EXTINF:-1 tvg-id="Viasat Explore HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20Explore%20HD%20orig.png" group-title="Hd orig",Viasat Explore HD orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/9075/index.m3u
 #EXTINF:-1 tvg-id="Viasat Explore orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20Explore%20orig.png" group-title="Hd orig",Viasat Explore orig
@@ -1933,8 +1827,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/12013/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/12014/index.m3u
 #EXTINF:-1 tvg-id="TV3 Film LT" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TV3%20Film%20LT.png" group-title="Другие",TV3 Film LT
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/18008/index.m3u
-#EXTINF:-1 tvg-id="VIASAT HISTORY HD LV" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VIASAT%20HISTORY%20HD%20LV.png" group-title="Другие",VIASAT HISTORY HD LV
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/12019/index.m3u
 #EXTINF:-1 tvg-id="MTV HITS LV" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/MTV%20HITS%20LV.png" group-title="Другие",MTV HITS LV
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/12020/index.m3u
 #EXTINF:-1 tvg-id="Первый Канал Европа" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20Канал%20Европа.png" group-title="Другие",Первый Канал Европа
@@ -2047,7 +1939,7 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/12097/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/12098/index.m3u
 #EXTINF:-1 tvg-id="National Geographic SE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/National%20Geographic%20SE.png" group-title="Другие",National Geographic SE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/12099/index.m3u
-#EXTINF:-1 tvg-id="VIASAT HISTORY HD SE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/VIASAT%20HISTORY%20HD%20SE.png" group-title="Другие",VIASAT HISTORY HD SE
+#EXTINF:-1 tvg-id="VIASAT HISTORY HD SE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viasat%20History%20HD%20SE.png" group-title="Другие",Viasat History HD SE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/12101/index.m3u
 #EXTINF:-1 tvg-id="TV8 SE" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/TV8%20SE.png" group-title="Другие",TV8 SE
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/12102/index.m3u
@@ -2177,21 +2069,21 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20121/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15285/index.m3u
 #EXTINF:-1 tvg-id="Надымский вестник" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Надымский%20вестник.png" group-title="Другие",Надымский вестник
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15286/index.m3u
-#EXTINF:-1 tvg-id="НТВ +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/НТВ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/НТВ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",НТВ +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="НТВ +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/НТВ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/НТВ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/НТВ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",НТВ +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15290/index.m3u
-#EXTINF:-1 tvg-id="5 канал +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/5%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/5%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",5 канал +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="5 канал +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/5%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/5%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/5%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",5 канал +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15291/index.m3u
-#EXTINF:-1 tvg-id="СТС +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",СТС +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="СТС +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",СТС +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15293/index.m3u
-#EXTINF:-1 tvg-id="Домашний +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Домашний +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="Домашний +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Домашний +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15294/index.m3u
-#EXTINF:-1 tvg-id="ТВ3 +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТВ3%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТВ3%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",ТВ3 +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="ТВ3 +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТВ3%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТВ3%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТВ3%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",ТВ3 +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15295/index.m3u
-#EXTINF:-1 tvg-id="Пятница! +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Пятница!%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Пятница!%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Пятница! +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="Пятница! +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Пятница!%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Пятница!%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Пятница!%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Пятница! +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15296/index.m3u
-#EXTINF:-1 tvg-id="Звезда +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Звезда%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Звезда%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Звезда +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="Звезда +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Звезда%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Звезда%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Звезда%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Звезда +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15297/index.m3u
-#EXTINF:-1 tvg-id="ТНТ +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",ТНТ +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="ТНТ +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+4%20(Алтай,%20Дианэт).png" group-title="Другие",ТНТ +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15298/index.m3u
 #EXTINF:-1 tvg-id="Губернский" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Губернский.png" group-title="Другие",Губернский
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15299/index.m3u
@@ -2273,11 +2165,11 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15352/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15353/index.m3u
 #EXTINF:-1 tvg-id="АТВ Ставрополь" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/АТВ%20Ставрополь.png" group-title="Другие",АТВ Ставрополь
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15354/index.m3u
-#EXTINF:-1 tvg-id="СТС +5 (Иркутск, Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+5%20(Иркутск,%20Орион).png" group-title="Другие",СТС +5 (Иркутск, Орион)
+#EXTINF:-1 tvg-id="СТС +5 (Иркутск, Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/СТС%20+5%20(Иркутск,%20Орион).png" group-title="Другие",СТС +5 (Иркутск, Орион)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15355/index.m3u
-#EXTINF:-1 tvg-id="Домашний +5 (Иркутск, Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Домашний +5 (Иркутск, Орион)
+#EXTINF:-1 tvg-id="Домашний +5 (Иркутск, Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Домашний%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Домашний +5 (Иркутск, Орион)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15356/index.m3u
-#EXTINF:-1 tvg-id="ТНТ +5 (Иркутск, Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+5%20(Иркутск,%20Орион).png" group-title="Другие",ТНТ +5 (Иркутск, Орион)
+#EXTINF:-1 tvg-id="ТНТ +5 (Иркутск, Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+5%20(Иркутск,%20Орион).png" group-title="Другие",Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/ТНТ%20+5%20(Иркутск,%20Орион).png" group-title="Другие",ТНТ +5 (Иркутск, Орион)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15357/index.m3u
 #EXTINF:-1 tvg-id="БСТ +5 (Братск-Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/БСТ%20+5%20(Братск-Орион).png" group-title="Другие",БСТ +5 (Братск-Орион)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15359/index.m3u
@@ -3941,13 +3833,13 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/714/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15486/index.m3u
 #EXTINF:-1 tvg-id="Первый канал +2 (Нефтекамск)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+2%20(Нефтекамск).png" group-title="Новости",Первый канал +2 (Нефтекамск)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15481/index.m3u
-#EXTINF:-1 tvg-id="Первый канал +2 (Уфа, ЗТ)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+2%20(Уфа,%20ЗТ).png" group-title="Новости",ЗТ)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+2%20(Уфа,%20ЗТ).png" group-title="Новости",Первый канал +2 (Уфа, ЗТ)
+#EXTINF:-1 tvg-id="Первый канал +2 (Уфа, ЗТ)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+2%20(Уфа,%20ЗТ).png" group-title="Новости",ЗТ)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+2%20(Уфа,%20ЗТ).png" group-title="Новости",ЗТ)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+2%20(Уфа,%20ЗТ).png" group-title="Новости",Первый канал +2 (Уфа, ЗТ)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15301/index.m3u
 #EXTINF:-1 tvg-id="Первый канал +3 (Омск)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+3%20(Омск).png" group-title="Новости",Первый канал +3 (Омск)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15431/index.m3u
 #EXTINF:-1 tvg-id="Первый канал +4" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+4.png" group-title="Новости",Первый канал +4
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6021/index.m3u
-#EXTINF:-1 tvg-id="Первый канал +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Первый канал +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="Первый канал +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Первый канал +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15287/index.m3u
 #EXTINF:-1 tvg-id="Первый канал +4 (Томск)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Первый%20канал%20+4%20(Томск).png" group-title="Новости",Первый канал +4 (Томск)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15385/index.m3u
@@ -3967,7 +3859,7 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15408/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15324/index.m3u
 #EXTINF:-1 tvg-id="Россия 1 +0 (Липецк)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+0%20(Липецк).png" group-title="Новости",Россия 1 +0 (Липецк)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15313/index.m3u
-#EXTINF:-1 tvg-id="Россия 1 +1 (Приволжье, Китеж)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+1%20(Приволжье,%20Китеж).png" group-title="Новости",Китеж)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+1%20(Приволжье,%20Китеж).png" group-title="Новости",Россия 1 +1 (Приволжье, Китеж)
+#EXTINF:-1 tvg-id="Россия 1 +1 (Приволжье, Китеж)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+1%20(Приволжье,%20Китеж).png" group-title="Новости",Китеж)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+1%20(Приволжье,%20Китеж).png" group-title="Новости",Китеж)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+1%20(Приволжье,%20Китеж).png" group-title="Новости",Россия 1 +1 (Приволжье, Китеж)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15284/index.m3u
 #EXTINF:-1 tvg-id="Россия-1 +2" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия-1%20+2.png" group-title="Новости",Россия-1 +2
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6011/index.m3u
@@ -3979,7 +3871,7 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15377/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6022/index.m3u
 #EXTINF:-1 tvg-id="Россия 1 +4 (Абакан-Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+4%20(Абакан-Орион).png" group-title="Новости",Россия 1 +4 (Абакан-Орион)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15367/index.m3u
-#EXTINF:-1 tvg-id="Россия 1 +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Россия 1 +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="Россия 1 +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Россия 1 +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15288/index.m3u
 #EXTINF:-1 tvg-id="Россия 1 +4 (Иркутск-Dreamnet)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%201%20+4%20(Иркутск-Dreamnet).png" group-title="Новости",Россия 1 +4 (Иркутск-Dreamnet)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15413/index.m3u
@@ -4019,7 +3911,7 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15312/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15378/index.m3u
 #EXTINF:-1 tvg-id="Россия 24 +4 (Абакан-Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%2024%20+4%20(Абакан-Орион).png" group-title="Новости",Россия 24 +4 (Абакан-Орион)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15368/index.m3u
-#EXTINF:-1 tvg-id="Россия 24 +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%2024%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%2024%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Россия 24 +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="Россия 24 +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%2024%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%2024%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%2024%20+4%20(Алтай,%20Дианэт).png" group-title="Новости",Россия 24 +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15292/index.m3u
 #EXTINF:-1 tvg-id="Россия 24 +4 (Орион)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Россия%2024%20+4%20(Орион).png" group-title="Новости",Россия 24 +4 (Орион)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15416/index.m3u
@@ -4781,7 +4673,7 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/20044/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2021/index.m3u
 
 #EXTGRP:Спорт
-#EXTINF:-1 tvg-id="МАТЧ! +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/МАТЧ!%20+4%20(Алтай,%20Дианэт).png" group-title="Спорт",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/МАТЧ!%20+4%20(Алтай,%20Дианэт).png" group-title="Спорт",МАТЧ! +4 (Алтай, Дианэт)
+#EXTINF:-1 tvg-id="МАТЧ! +4 (Алтай, Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/МАТЧ!%20+4%20(Алтай,%20Дианэт).png" group-title="Спорт",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/МАТЧ!%20+4%20(Алтай,%20Дианэт).png" group-title="Спорт",Дианэт)" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/МАТЧ!%20+4%20(Алтай,%20Дианэт).png" group-title="Спорт",МАТЧ! +4 (Алтай, Дианэт)
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/15289/index.m3u
 #EXTINF:-1 tvg-id="KHL Prime HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/KHL%20Prime%20HD.png" group-title="Спорт",KHL Prime HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/19396/index.m3u
@@ -6507,8 +6399,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2439/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2440/index.m3u
 #EXTINF:-1 tvg-id="Камеди HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Камеди%20HD.png" group-title="Фильмы",Камеди HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2441/index.m3u
-#EXTINF:-1 tvg-id="Viju+ Serial HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Serial%20HD.png" group-title="Фильмы",Viju+ Serial HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2443/index.m3u
 #EXTINF:-1 tvg-id="Романтичное HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Романтичное%20HD.png" group-title="Фильмы",Романтичное HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5053/index.m3u
 #EXTINF:-1 tvg-id="Комедийное HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Комедийное%20HD.png" group-title="Фильмы",Комедийное HD
@@ -6549,16 +6439,10 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/209/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/557/index.m3u
 #EXTINF:-1 tvg-id="Bollywood HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Bollywood%20HD.png" group-title="Фильмы",Bollywood HD
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/239/index.m3u
-#EXTINF:-1 tvg-id="Viju+ Premiere HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Premiere%20HD.png" group-title="Фильмы",Viju+ Premiere HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/202/index.m3u
 #EXTINF:-1 tvg-id="Viju+ Premiere HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Premiere%20HD%20orig.png" group-title="Фильмы",Viju+ Premiere HD orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5079/index.m3u
-#EXTINF:-1 tvg-id="Viju+ Comedy HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Comedy%20HD.png" group-title="Фильмы",Viju+ Comedy HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/200/index.m3u
 #EXTINF:-1 tvg-id="Viju+ Comedy HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Comedy%20HD%20orig.png" group-title="Фильмы",Viju+ Comedy HD orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5080/index.m3u
-#EXTINF:-1 tvg-id="Viju+ Megahit HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Megahit%20HD.png" group-title="Фильмы",Viju+ Megahit HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/201/index.m3u
 #EXTINF:-1 tvg-id="Viju+ Megahit HD orig" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju+%20Megahit%20HD%20orig.png" group-title="Фильмы",Viju+ Megahit HD orig
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/5081/index.m3u
 #EXTINF:-1 tvg-id="Epic Drama" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Epic%20Drama.png" group-title="Фильмы",Epic Drama
@@ -6573,8 +6457,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2003/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/2046/index.m3u
 #EXTINF:-1 tvg-id="Amedia 2" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Amedia%202.png" group-title="Фильмы",Amedia 2
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/510/index.m3u
-#EXTINF:-1 tvg-id="Viju TV1000 Русское HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20Русское%20HD.png" group-title="Фильмы",Viju TV1000 Русское HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6388/index.m3u
 #EXTINF:-1 tvg-id="Viju TV1000 Русское" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20Русское.png" group-title="Фильмы",Viju TV1000 Русское
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/101/index.m3u
 #EXTINF:-1 tvg-id=".sci-fi HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/.sci-fi%20HD.png" group-title="Фильмы",.sci-fi HD
@@ -6587,8 +6469,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/7249/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/7244/index.m3u
 #EXTINF:-1 tvg-id="Родное Кино" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Родное%20Кино.png" group-title="Фильмы",Родное Кино
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/126/index.m3u
-#EXTINF:-1 tvg-id="Viju TV1000 Action HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20Action%20HD.png" group-title="Фильмы",Viju TV1000 Action HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6386/index.m3u
 #EXTINF:-1 tvg-id="Viju TV1000 Action" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20Action.png" group-title="Фильмы",Viju TV1000 Action
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/131/index.m3u
 #EXTINF:-1 tvg-id="Кинохит HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Кинохит%20HD.png" group-title="Фильмы",Кинохит HD
@@ -6621,8 +6501,6 @@ http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/553/index.m3u
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/154/index.m3u
 #EXTINF:-1 tvg-id="Amedia 1" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Amedia%201.png" group-title="Фильмы",Amedia 1
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/554/index.m3u
-#EXTINF:-1 tvg-id="Viju TV1000 HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000%20HD.png" group-title="Фильмы",Viju TV1000 HD
-http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/6387/index.m3u
 #EXTINF:-1 tvg-id="Viju TV1000" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Viju%20TV1000.png" group-title="Фильмы",Viju TV1000
 http://u9trto3l.siauliairsavlt.org/iptv/FXM7A5A537QW8L/132/index.m3u
 #EXTINF:-1 tvg-id="Мужское Кино HD" tvg-logo="https://raw.githubusercontent.com/25aibiz25-maker/edit/refs/heads/main/Мужское%20Кино%20HD.png" group-title="Фильмы",Мужское Кино HD
