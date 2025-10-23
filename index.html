@@ -104,6 +104,38 @@
     }
     /* [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ] */
     
+    /* Стили для стрелок сортировки категорий */
+    .category-sort-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin-left: 8px;
+    }
+    
+    .sort-arrow-btn {
+        background: #6c757d;
+        border: none;
+        color: white;
+        width: 20px;
+        height: 16px;
+        border-radius: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        transition: background-color 0.2s;
+    }
+    
+    .sort-arrow-btn:hover {
+        background: #5a6268;
+    }
+    
+    .sort-arrow-btn:disabled {
+        background: #adb5bd;
+        cursor: not-allowed;
+    }
+    
     /* ************************************************************ */
     /* МОБИЛЬНАЯ АДАПТАЦИЯ: 24PX ДЛЯ ОСНОВНОГО ЗАГОЛОВКА */
     /* ************************************************************ */
@@ -943,9 +975,7 @@
         </div>
         <div class="mb-4">
           <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
-          <div id="sortableCategoryContainer" class="bg-gray-50 p-2 rounded-xl">
-             <div id="categoryFilter" class="flex flex-wrap gap-2">
-             </div>
+          <div id="categoryFilter" class="flex flex-wrap gap-2">
           </div>
           </div>
         
@@ -1276,9 +1306,6 @@
             // Сброс стилей 2x2, если вдруг они применились
             document.getElementById('editorButtonsContainer').classList.remove('guest-buttons-container-mobile');
             document.getElementById('editorButtonsContainer').classList.add('flex-row', 'space-x-2');
-            
-            // НОВОЕ: ИНИЦИАЛИЗАЦИЯ SORTABLEJS ДЛЯ КАТЕГОРИЙ
-            initializeCategorySortable();
         }
     });
 
@@ -1476,9 +1503,6 @@
     
     // *** НОВАЯ ПЕРЕМЕННАЯ ДЛЯ СКАЧИВАНИЯ КАТЕГОРИИ ***
     const downloadCategoryBtn = document.getElementById('downloadCategoryBtn');
-    
-    // 3. НОВАЯ ПЕРЕМЕННАЯ ДЛЯ SORTABLEJS КОНТЕЙНЕРА
-    const sortableCategoryContainer = document.getElementById('sortableCategoryContainer');
 
     let originalLines = [];
     let channels = [];
@@ -1491,7 +1515,7 @@
     let originalChannels = []; // Хранит исходный массив каналов для отмены
     let originalCategories = new Set(); // Хранит исходный набор категорий
     
-    // НОВОЕ: Массив для хранения порядка категорий
+    // НОВОЕ: Массив для хранения порядка категорий (сохраняет порядок из плейлиста)
     let sortedCategoriesArray = [];
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
@@ -1866,9 +1890,6 @@
              // Сброс стилей 2x2
              editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
              editorButtonsContainer.classList.add('flex-row', 'space-x-2');
-             
-             // НОВОЕ: ИНИЦИАЛИЗАЦИЯ SORTABLEJS ДЛЯ КАТЕГОРИЙ
-             initializeCategorySortable();
         }
         
         // Прокрутка к редактору
@@ -2002,22 +2023,39 @@
                 deduplicateChannels(); 
                 rebuildCategoryData(); 
                 
-                // *** НОВОЕ: ИНИЦИАЛИЗАЦИЯ ПОРЯДКА КАТЕГОРИЙ ***
+                // *** НОВОЕ: СОХРАНЕНИЕ ПОРЯДКА КАТЕГОРИЙ ИЗ ПЛЕЙЛИСТА ***
+                // Вместо алфавитной сортировки сохраняем порядок появления в плейлисте
                 if (sortedCategoriesArray.length === 0 || !isMerge) {
-                    // Если первый раз, или не слияние, устанавливаем алфавитный порядок
-                    const initialCategories = Array.from(allCategories).sort();
+                    // Сохраняем порядок категорий из плейлиста (как они встречаются)
+                    const categoryOrder = [];
+                    const seenCategories = new Set();
+                    
+                    channels.forEach(channel => {
+                        if (!seenCategories.has(channel.category)) {
+                            seenCategories.add(channel.category);
+                            categoryOrder.push(channel.category);
+                        }
+                    });
+                    
+                    sortedCategoriesArray = categoryOrder;
+                    
+                    // Добавляем избранное в начало, если есть избранные каналы
                     if (getFavoriteCount() > 0) {
-                        initialCategories.unshift(FAVORITE_CATEGORY);
+                        sortedCategoriesArray.unshift(FAVORITE_CATEGORY);
                     }
-                    sortedCategoriesArray = initialCategories;
                 } else {
                     // Если слияние, добавляем новые категории в конец списка (кроме избранного, оно всегда первое)
                     const existingCategoriesSet = new Set(sortedCategoriesArray);
-                    Array.from(allCategories).forEach(cat => {
-                        if (!existingCategoriesSet.has(cat)) {
-                             sortedCategoriesArray.push(cat);
+                    const newCategories = [];
+                    
+                    channels.forEach(channel => {
+                        if (!existingCategoriesSet.has(channel.category) && !newCategories.includes(channel.category)) {
+                            newCategories.push(channel.category);
                         }
                     });
+                    
+                    sortedCategoriesArray.push(...newCategories);
+                    
                     // Убедимся, что избранное всегда первое, если оно есть
                     if (getFavoriteCount() > 0 && sortedCategoriesArray[0] !== FAVORITE_CATEGORY) {
                         const index = sortedCategoriesArray.indexOf(FAVORITE_CATEGORY);
@@ -2025,8 +2063,7 @@
                         sortedCategoriesArray.unshift(FAVORITE_CATEGORY);
                     }
                 }
-                // *** КОНЕЦ ИНИЦИАЛИЗАЦИИ ПОРЯДКА КАТЕГОРИЙ ***
-
+                // *** КОНЕЦ СОХРАНЕНИЯ ПОРЯДКА КАТЕГОРИЙ ***
                 
                 // *** НОВОЕ: Сохранение исходного состояния, если это не было сделано ранее ***
                 // Сохраняем "чистую" версию после дедупликации/первого слияния
@@ -2077,8 +2114,6 @@
                 updateCounter(); // ИЗМЕНЕНИЕ: Вызов без аргументов
                 renderChannelList();
 
-                // УДАЛЕНА ИНИЦИАЛИЗАЦИЯ SortableJS
-                
                 const finalCount = channels.length;
                 const newCount = finalCount - initialChannelCount;
                 if (isMerge) {
@@ -2113,7 +2148,7 @@
         const currentCategoriesSet = new Set(allCategories);
         const newSortedArray = [];
         
-        // 1. Сохраняем порядок существующих
+        // 1. Сохраняем порядок существующих категорий из sortedCategoriesArray
         sortedCategoriesArray.forEach(cat => {
             if (currentCategoriesSet.has(cat) || cat === FAVORITE_CATEGORY) {
                  newSortedArray.push(cat);
@@ -2121,8 +2156,15 @@
             }
         });
         
-        // 2. Добавляем новые (сортируем по алфавиту для консистентности, добавляем в конец)
-        const newCategories = Array.from(currentCategoriesSet).sort();
+        // 2. Добавляем новые категории в конец (сохраняем порядок из плейлиста)
+        // Для этого проходим по channels и добавляем категории в порядке их появления
+        const newCategories = [];
+        channels.forEach(channel => {
+            if (currentCategoriesSet.has(channel.category) && !newCategories.includes(channel.category)) {
+                newCategories.push(channel.category);
+            }
+        });
+        
         newSortedArray.push(...newCategories);
         
         // 3. Убедимся, что избранное, если оно есть, всегда первое
@@ -2130,6 +2172,10 @@
         const favIndex = newSortedArray.indexOf(FAVORITE_CATEGORY);
         if (favoriteCount > 0) {
             if (favIndex === -1) {
+                newSortedArray.unshift(FAVORITE_CATEGORY);
+            } else if (favIndex > 0) {
+                // Если избранное не на первом месте, перемещаем его
+                newSortedArray.splice(favIndex, 1);
                 newSortedArray.unshift(FAVORITE_CATEGORY);
             }
         } else if (favIndex !== -1) {
@@ -2215,10 +2261,19 @@
             categoryChannelCounts[entry.category] = (categoryChannelCounts[entry.category] || 0) + 1;
         });
         
-        // НОВОЕ: Сброс порядка категорий на алфавитный + избранное
-        const initialCategories = Array.from(allCategories).sort();
+        // НОВОЕ: Восстанавливаем исходный порядок категорий
+        const initialCategories = [];
+        const seenCategories = new Set();
+        
+        channels.forEach(channel => {
+            if (!seenCategories.has(channel.category)) {
+                seenCategories.add(channel.category);
+                initialCategories.push(channel.category);
+            }
+        });
+        
         if (getFavoriteCount() > 0) {
-             initialCategories.unshift(FAVORITE_CATEGORY);
+            initialCategories.unshift(FAVORITE_CATEGORY);
         }
         sortedCategoriesArray = initialCategories;
 
@@ -2237,45 +2292,6 @@
     revertBtn.addEventListener('click', revertChanges);
     // =======================================================
 
-
-    // =======================================================
-    // ФУНКЦИЯ ДЛЯ ИНИЦИАЛИЗАЦИИ SORTABLEJS (КАТЕГОРИИ)
-    // =======================================================
-    function initializeCategorySortable() {
-        if (isAnonymousUser) return;
-        
-        // Убеждаемся, что инициализация происходит только один раз
-        if (sortableCategoryContainer.sortableInstance) {
-             return;
-        }
-        
-        // Используем #categoryFilter как область для перетаскивания
-        sortableCategoryContainer.sortableInstance = Sortable.create(categoryFilter, {
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            filter: '.no-sort', // Если будут элементы, которые нельзя сортировать
-            draggable: '.sortable-category-item', // Класс для элементов, которые можно тащить
-            
-            onEnd: function (evt) {
-                // Обновление массива sortedCategoriesArray после перетаскивания
-                const oldIndex = evt.oldIndex;
-                const newIndex = evt.newIndex;
-                
-                const movedElement = sortedCategoriesArray.splice(oldIndex, 1)[0];
-                sortedCategoriesArray.splice(newIndex, 0, movedElement);
-                
-                // Перерендеринг списка каналов для отражения нового порядка
-                renderChannelList(searchInput.value);
-                
-                // Обновляем селект категорий
-                renderCategorySelect();
-                
-                showToast("Порядок категорий изменен.");
-            },
-        });
-    }
-    // =======================================================
-    
     // [ЛОГО: УДАЛЕНА ФУНКЦИЯ getChannelBaseName]
     
     // [ЛОГО: ИЗМЕНЕНИЕ] Обновленная функция парсинга с логикой только по точному совпадению
@@ -2535,7 +2551,7 @@
         showToast(`Удалено ${selectedCount} каналов.`);
     });
 
-    // ОБНОВЛЕННАЯ ФУНКЦИЯ renderCategoryFilter
+    // *** ОБНОВЛЕННАЯ ФУНКЦИЯ renderCategoryFilter С ДОБАВЛЕНИЕМ СТРЕЛОК ***
     function renderCategoryFilter() {
       categoryFilter.innerHTML = '';
       
@@ -2558,10 +2574,12 @@
           categoriesToRender.unshift(FAVORITE_CATEGORY); // Добавляем в начало, если появилось
       }
 
-      categoriesToRender.forEach(category => {
-        const container = document.createElement('label');
-        // Добавляем класс для SortableJS
-        container.className = 'sortable-category-item flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 transition text-sm';
+      categoriesToRender.forEach((category, index) => {
+        const container = document.createElement('div');
+        container.className = 'flex items-center space-x-2';
+
+        const checkboxContainer = document.createElement('label');
+        checkboxContainer.className = 'sortable-category-item flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 transition text-sm flex-grow';
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -2583,11 +2601,71 @@
         span.className = 'text-gray-800 truncate max-w-[150px]';
         span.innerHTML = `${category} (<span class="text-red-600 font-bold">${count}</span>)`;
 
-        container.appendChild(checkbox);
-        container.appendChild(span);
+        checkboxContainer.appendChild(checkbox);
+        checkboxContainer.appendChild(span);
+        
+        // Добавляем стрелки сортировки только для авторизованных пользователей
+        if (!isAnonymousUser) {
+            const sortControls = document.createElement('div');
+            sortControls.className = 'category-sort-controls';
+            
+            const upButton = document.createElement('button');
+            upButton.className = 'sort-arrow-btn';
+            upButton.innerHTML = '↑';
+            upButton.title = 'Переместить вверх';
+            upButton.disabled = index === 0;
+            
+            upButton.addEventListener('click', () => {
+                moveCategoryUp(index);
+            });
+            
+            const downButton = document.createElement('button');
+            downButton.className = 'sort-arrow-btn';
+            downButton.innerHTML = '↓';
+            downButton.title = 'Переместить вниз';
+            downButton.disabled = index === categoriesToRender.length - 1;
+            
+            downButton.addEventListener('click', () => {
+                moveCategoryDown(index);
+            });
+            
+            sortControls.appendChild(upButton);
+            sortControls.appendChild(downButton);
+            container.appendChild(sortControls);
+        }
+        
+        container.appendChild(checkboxContainer);
         categoryFilter.appendChild(container);
       });
     }
+    
+    // *** НОВЫЕ ФУНКЦИИ ДЛЯ ПЕРЕМЕЩЕНИЯ КАТЕГОРИЙ ***
+    function moveCategoryUp(index) {
+        if (index <= 0) return;
+        
+        const temp = sortedCategoriesArray[index];
+        sortedCategoriesArray[index] = sortedCategoriesArray[index - 1];
+        sortedCategoriesArray[index - 1] = temp;
+        
+        renderCategoryFilter();
+        renderCategorySelect();
+        renderChannelList(searchInput.value);
+        showToast("Порядок категорий изменен.");
+    }
+    
+    function moveCategoryDown(index) {
+        if (index >= sortedCategoriesArray.length - 1) return;
+        
+        const temp = sortedCategoriesArray[index];
+        sortedCategoriesArray[index] = sortedCategoriesArray[index + 1];
+        sortedCategoriesArray[index + 1] = temp;
+        
+        renderCategoryFilter();
+        renderCategorySelect();
+        renderChannelList(searchInput.value);
+        showToast("Порядок категорий изменен.");
+    }
+    // *** КОНЕЦ НОВЫХ ФУНКЦИЙ ***
     
     // ОБНОВЛЕННАЯ ФУНКЦИЯ renderCategorySelect
     function renderCategorySelect() {
