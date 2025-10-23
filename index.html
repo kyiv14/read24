@@ -14,6 +14,7 @@
   <meta property="og:image:height" content="630" />
   <link rel="icon" type="image/x-icon" href="https://read24.netlify.app/icon1.ico">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
   <style>
     /* Добавляем стили для прокрутки категорий */
     #categoryFilter {
@@ -23,6 +24,18 @@
       border-radius: 0.75rem; /* rounded-xl */
       padding: 0.5rem; /* p-2 */
     }
+    /* НОВЫЙ СТИЛЬ: для элемента SortableJS */
+    .sortable-category-item {
+        cursor: grab;
+        touch-action: none;
+    }
+    .sortable-ghost {
+      opacity: 0.4;
+      background-color: #f3f4f6;
+      border: 2px dashed #9ca3af;
+      border-radius: 0.75rem;
+    }
+    /* КОНЕЦ НОВОГО СТИЛЯ */
     @keyframes fade-in {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -930,9 +943,11 @@
         </div>
         <div class="mb-4">
           <h3 class="text-md font-semibold mb-2 text-gray-800">Исключить категории (отметьте, чтобы удалить)</h3>
-          <div id="categoryFilter" class="flex flex-wrap gap-2 p-2 bg-gray-50">
-            </div>
-        </div>
+          <div id="sortableCategoryContainer" class="bg-gray-50 p-2 rounded-xl">
+             <div id="categoryFilter" class="flex flex-wrap gap-2">
+             </div>
+          </div>
+          </div>
         
       </div>
       
@@ -1261,6 +1276,9 @@
             // Сброс стилей 2x2, если вдруг они применились
             document.getElementById('editorButtonsContainer').classList.remove('guest-buttons-container-mobile');
             document.getElementById('editorButtonsContainer').classList.add('flex-row', 'space-x-2');
+            
+            // НОВОЕ: ИНИЦИАЛИЗАЦИЯ SORTABLEJS ДЛЯ КАТЕГОРИЙ
+            initializeCategorySortable();
         }
     });
 
@@ -1458,6 +1476,9 @@
     
     // *** НОВАЯ ПЕРЕМЕННАЯ ДЛЯ СКАЧИВАНИЯ КАТЕГОРИИ ***
     const downloadCategoryBtn = document.getElementById('downloadCategoryBtn');
+    
+    // 3. НОВАЯ ПЕРЕМЕННАЯ ДЛЯ SORTABLEJS КОНТЕЙНЕРА
+    const sortableCategoryContainer = document.getElementById('sortableCategoryContainer');
 
     let originalLines = [];
     let channels = [];
@@ -1469,6 +1490,9 @@
     // ДАННЫЕ ДЛЯ ОТМЕНЫ
     let originalChannels = []; // Хранит исходный массив каналов для отмены
     let originalCategories = new Set(); // Хранит исходный набор категорий
+    
+    // НОВОЕ: Массив для хранения порядка категорий
+    let sortedCategoriesArray = [];
     
     const FAVORITE_CATEGORY = 'ИЗБРАННОЕ'; 
     const DISPLAY_FAVORITE_CATEGORY = '✨ИЗБРАННОЕ✨'; 
@@ -1842,6 +1866,9 @@
              // Сброс стилей 2x2
              editorButtonsContainer.classList.remove('guest-buttons-container-mobile');
              editorButtonsContainer.classList.add('flex-row', 'space-x-2');
+             
+             // НОВОЕ: ИНИЦИАЛИЗАЦИЯ SORTABLEJS ДЛЯ КАТЕГОРИЙ
+             initializeCategorySortable();
         }
         
         // Прокрутка к редактору
@@ -1975,6 +2002,32 @@
                 deduplicateChannels(); 
                 rebuildCategoryData(); 
                 
+                // *** НОВОЕ: ИНИЦИАЛИЗАЦИЯ ПОРЯДКА КАТЕГОРИЙ ***
+                if (sortedCategoriesArray.length === 0 || !isMerge) {
+                    // Если первый раз, или не слияние, устанавливаем алфавитный порядок
+                    const initialCategories = Array.from(allCategories).sort();
+                    if (getFavoriteCount() > 0) {
+                        initialCategories.unshift(FAVORITE_CATEGORY);
+                    }
+                    sortedCategoriesArray = initialCategories;
+                } else {
+                    // Если слияние, добавляем новые категории в конец списка (кроме избранного, оно всегда первое)
+                    const existingCategoriesSet = new Set(sortedCategoriesArray);
+                    Array.from(allCategories).forEach(cat => {
+                        if (!existingCategoriesSet.has(cat)) {
+                             sortedCategoriesArray.push(cat);
+                        }
+                    });
+                    // Убедимся, что избранное всегда первое, если оно есть
+                    if (getFavoriteCount() > 0 && sortedCategoriesArray[0] !== FAVORITE_CATEGORY) {
+                        const index = sortedCategoriesArray.indexOf(FAVORITE_CATEGORY);
+                        if (index !== -1) sortedCategoriesArray.splice(index, 1);
+                        sortedCategoriesArray.unshift(FAVORITE_CATEGORY);
+                    }
+                }
+                // *** КОНЕЦ ИНИЦИАЛИЗАЦИИ ПОРЯДКА КАТЕГОРИЙ ***
+
+                
                 // *** НОВОЕ: Сохранение исходного состояния, если это не было сделано ранее ***
                 // Сохраняем "чистую" версию после дедупликации/первого слияния
                 if (!isMerge || initialChannelCount === 0) {
@@ -2056,6 +2109,37 @@
             categoryChannelCounts[entry.category] = (categoryChannelCounts[entry.category] || 0) + 1;
         });
         
+        // НОВОЕ: Обновление массива sortedCategoriesArray
+        const currentCategoriesSet = new Set(allCategories);
+        const newSortedArray = [];
+        
+        // 1. Сохраняем порядок существующих
+        sortedCategoriesArray.forEach(cat => {
+            if (currentCategoriesSet.has(cat) || cat === FAVORITE_CATEGORY) {
+                 newSortedArray.push(cat);
+                 currentCategoriesSet.delete(cat); // Удаляем, чтобы знать, какие новые
+            }
+        });
+        
+        // 2. Добавляем новые (сортируем по алфавиту для консистентности, добавляем в конец)
+        const newCategories = Array.from(currentCategoriesSet).sort();
+        newSortedArray.push(...newCategories);
+        
+        // 3. Убедимся, что избранное, если оно есть, всегда первое
+        const favoriteCount = getFavoriteCount();
+        const favIndex = newSortedArray.indexOf(FAVORITE_CATEGORY);
+        if (favoriteCount > 0) {
+            if (favIndex === -1) {
+                newSortedArray.unshift(FAVORITE_CATEGORY);
+            }
+        } else if (favIndex !== -1) {
+            newSortedArray.splice(favIndex, 1);
+        }
+        
+        sortedCategoriesArray = newSortedArray;
+        // КОНЕЦ ОБНОВЛЕНИЯ sortedCategoriesArray
+
+        
         // Показываем кнопку отмены при любом изменении массива/категорий
         if (channels.length > 0 && !isAnonymousUser) {
              revertBtn.classList.remove('hidden');
@@ -2130,6 +2214,13 @@
         channels.forEach(entry => {
             categoryChannelCounts[entry.category] = (categoryChannelCounts[entry.category] || 0) + 1;
         });
+        
+        // НОВОЕ: Сброс порядка категорий на алфавитный + избранное
+        const initialCategories = Array.from(allCategories).sort();
+        if (getFavoriteCount() > 0) {
+             initialCategories.unshift(FAVORITE_CATEGORY);
+        }
+        sortedCategoriesArray = initialCategories;
 
         // 3. Обновляем UI
         renderCategoryFilter();
@@ -2148,12 +2239,43 @@
 
 
     // =======================================================
-    // ФУНКЦИЯ ДЛЯ ИНИЦИАЛИЗАЦИИ SORTABLEJS (УДАЛЕНА)
+    // ФУНКЦИЯ ДЛЯ ИНИЦИАЛИЗАЦИИ SORTABLEJS (КАТЕГОРИИ)
     // =======================================================
-    /* function initializeSortable() {
-        // УДАЛЕНО: Функционал перетаскивания отключен
-    } */
-
+    function initializeCategorySortable() {
+        if (isAnonymousUser) return;
+        
+        // Убеждаемся, что инициализация происходит только один раз
+        if (sortableCategoryContainer.sortableInstance) {
+             return;
+        }
+        
+        // Используем #categoryFilter как область для перетаскивания
+        sortableCategoryContainer.sortableInstance = Sortable.create(categoryFilter, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            filter: '.no-sort', // Если будут элементы, которые нельзя сортировать
+            draggable: '.sortable-category-item', // Класс для элементов, которые можно тащить
+            
+            onEnd: function (evt) {
+                // Обновление массива sortedCategoriesArray после перетаскивания
+                const oldIndex = evt.oldIndex;
+                const newIndex = evt.newIndex;
+                
+                const movedElement = sortedCategoriesArray.splice(oldIndex, 1)[0];
+                sortedCategoriesArray.splice(newIndex, 0, movedElement);
+                
+                // Перерендеринг списка каналов для отражения нового порядка
+                renderChannelList(searchInput.value);
+                
+                // Обновляем селект категорий
+                renderCategorySelect();
+                
+                showToast("Порядок категорий изменен.");
+            },
+        });
+    }
+    // =======================================================
+    
     // [ЛОГО: УДАЛЕНА ФУНКЦИЯ getChannelBaseName]
     
     // [ЛОГО: ИЗМЕНЕНИЕ] Обновленная функция парсинга с логикой только по точному совпадению
@@ -2293,8 +2415,24 @@
         if (sortType === 'name') {
             filteredChannels.sort((a, b) => a.name.localeCompare(b.name));
         } else if (sortType === 'category') {
-             filteredChannels.sort((a, b) => a.category.localeCompare(b.category));
+             // Используем порядок категорий, а внутри категории - текущий порядок (default)
+             
+             // Создаем Map для быстрого доступа к порядку
+             const categoryOrderMap = new Map(sortedCategoriesArray.map((cat, index) => [cat, index]));
+             
+             filteredChannels.sort((a, b) => {
+                 const orderA = categoryOrderMap.get(a.category) !== undefined ? categoryOrderMap.get(a.category) : 9999;
+                 const orderB = categoryOrderMap.get(b.category) !== undefined ? categoryOrderMap.get(b.category) : 9999;
+                 
+                 if (orderA !== orderB) {
+                     return orderA - orderB;
+                 }
+                 // Если категории одинаковые, сохраняем исходный порядок в массиве channels
+                 return channels.indexOf(a) - channels.indexOf(b);
+             });
         }
+        // Если sortType === 'default', сохраняется порядок, заданный массивом channels
+        // (который отражает порядок загрузки и ручное перемещение)
             
         return filteredChannels;
     }
@@ -2397,21 +2535,33 @@
         showToast(`Удалено ${selectedCount} каналов.`);
     });
 
-
+    // ОБНОВЛЕННАЯ ФУНКЦИЯ renderCategoryFilter
     function renderCategoryFilter() {
       categoryFilter.innerHTML = '';
-      const sortedCategories = Array.from(allCategories).sort();
-
-      const favoriteCount = getFavoriteCount(); 
       
-      if (favoriteCount > 0 || excludedCategories.has(FAVORITE_CATEGORY)) {
-          sortedCategories.unshift(FAVORITE_CATEGORY);
-          categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
+      // Используем массив с порядком категорий
+      const categoriesToRender = [...sortedCategoriesArray]; 
+
+      // Если в allCategories есть категории, которых нет в sortedCategoriesArray (не должно быть после rebuildCategoryData, но на всякий случай)
+      Array.from(allCategories).forEach(cat => {
+          if (!categoriesToRender.includes(cat)) {
+              categoriesToRender.push(cat); // Добавляем в конец
+          }
+      });
+      
+      // Удаляем избранное, если нет избранных каналов, и оно осталось в массиве
+      const favoriteCount = getFavoriteCount();
+      const favIndex = categoriesToRender.indexOf(FAVORITE_CATEGORY);
+      if (favoriteCount === 0 && favIndex !== -1) {
+          categoriesToRender.splice(favIndex, 1);
+      } else if (favoriteCount > 0 && favIndex === -1) {
+          categoriesToRender.unshift(FAVORITE_CATEGORY); // Добавляем в начало, если появилось
       }
 
-      sortedCategories.forEach(category => {
+      categoriesToRender.forEach(category => {
         const container = document.createElement('label');
-        container.className = 'flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 transition text-sm';
+        // Добавляем класс для SortableJS
+        container.className = 'sortable-category-item flex items-center space-x-2 bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 transition text-sm';
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -2439,18 +2589,32 @@
       });
     }
     
+    // ОБНОВЛЕННАЯ ФУНКЦИЯ renderCategorySelect
     function renderCategorySelect() {
         categorySelect.innerHTML = '<option value="">Все категории</option>';
-        const sortedCategories = Array.from(allCategories).sort();
         
-        const favoriteCount = getFavoriteCount(); 
+        // Используем массив с порядком категорий
+        const categoriesToRender = [...sortedCategoriesArray];
+
+        // Фильтрация: если категория не имеет каналов, но не является Избранным, то ее не показываем.
+        const filteredCategories = categoriesToRender.filter(category => 
+            categoryChannelCounts[category] > 0 || 
+            (category === FAVORITE_CATEGORY && getFavoriteCount() > 0) ||
+            category === 'Без категории' // Всегда показываем "Без категории", если она есть в allCategories
+        );
         
-        if (favoriteCount > 0) { 
-             sortedCategories.unshift(FAVORITE_CATEGORY);
-             categoryChannelCounts[FAVORITE_CATEGORY] = favoriteCount;
+        // Исключаем Избранное из основного списка, если оно есть, так как оно обрабатывается отдельно
+        const finalCategories = filteredCategories.filter(cat => cat !== FAVORITE_CATEGORY);
+        
+        // Добавляем избранное в начало, если оно есть
+        if (getFavoriteCount() > 0) { 
+             const favOption = document.createElement('option');
+             favOption.value = FAVORITE_CATEGORY;
+             favOption.textContent = `${FAVORITE_CATEGORY} (${getFavoriteCount()})`;
+             categorySelect.appendChild(favOption);
         }
 
-        sortedCategories.forEach(category => {
+        finalCategories.forEach(category => {
             const option = document.createElement('option');
             option.value = category;
             const count = categoryChannelCounts[category] || 0;
@@ -2466,7 +2630,7 @@
     function renderRenameCategorySelect() {
         oldCategorySelect.innerHTML = '<option value="">Выберите категорию</option>';
         // Исключаем Избранное и Без категории из переименования
-        const categoriesToRename = Array.from(allCategories).filter(cat => cat !== 'Без категории').sort();
+        const categoriesToRename = Array.from(allCategories).filter(cat => cat !== 'Без категории' && cat !== FAVORITE_CATEGORY).sort();
         
         categoriesToRename.forEach(category => {
             const option = document.createElement('option');
@@ -2537,6 +2701,15 @@
         if (renamedCount > 0) {
             // Удаляем старую категорию, так как она пуста
             allCategories.delete(oldCat);
+            
+            // НОВОЕ: Обновляем sortedCategoriesArray
+            const oldIndex = sortedCategoriesArray.indexOf(oldCat);
+            if (oldIndex !== -1) {
+                sortedCategoriesArray.splice(oldIndex, 1, newCat);
+            } else {
+                 // Если по какой-то причине нет в sortedCategoriesArray (например, это была 'Без категории' - что исключено)
+                 sortedCategoriesArray.push(newCat);
+            }
             
             // Добавляем или обновляем новую
             allCategories.add(newCat);
@@ -3204,7 +3377,7 @@
     }
 
     // =======================================================
-    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ОБНОВЛЕНО ДЛЯ ЛОГО И EPG)
+    // ФОРМИРОВАНИЕ КОНТЕНТА ПЛЕЙЛИСТА (ОБНОВЛЕНО ДЛЯ ЛОГО И EPG И ПОРЯДКА КАТЕГОРИЙ)
     // =======================================================
     function generatePlaylistContent(format) {
         const includedChannels = channels.filter(entry => {
@@ -3233,103 +3406,69 @@
              // ***************************************
         }
 
-        const favoriteChannels = includedChannels.filter(c => c.isFavorite);
-        
-        // Добавление избранного (только для авторизованных)
-        if (favoriteChannels.length > 0 && !isAnonymousUser) { 
-            if (format !== 'txt') { // Добавляем группировку, если это не TXT
-               modifiedLines.push(`#EXTGRP:${DISPLAY_FAVORITE_CATEGORY}`); 
-            }
-            
-            favoriteChannels.forEach(entry => {
-                
-                // [ЛОГО: ИЗМЕНЕНИЕ] Пересборка EXTINF для Избранного (чтобы обновить tvg-logo и tvg-id)
-                let favExtinf = `#EXTINF:-1`;
-                
-                // *** ИСПРАВЛЕНО: Автоматически использовать Название Канала, если tvgId пуст ***
-                const finalTvgId = entry.tvgId || entry.name; 
-                favExtinf += ` tvg-id="${finalTvgId}"`;
-                // ******************************************************************************
-                
-                // Добавляем TVG-Logo
-                if (entry.logoUrl) {
-                    favExtinf += ` tvg-logo="${entry.logoUrl}"`;
-                }
-                favExtinf += ` group-title="${DISPLAY_FAVORITE_CATEGORY}",${entry.name}`;
-                
-                if (format !== 'txt') {
-                    modifiedLines.push(favExtinf);
-                } else {
-                     // Для TXT просто добавляем оригинальные теги
-                     if (entry.extinf) modifiedLines.push(entry.extinf);
-                     if (entry.extgrp) modifiedLines.push(entry.extgrp);
-                }
-                // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
-                
-                modifiedLines.push(entry.url);
-            });
-            
-            if (format !== 'txt') {
-                modifiedLines.push('');
-            } else {
-                // Если TXT, добавляем разделитель после группы избранного (если она есть)
-                if (favoriteChannels.length > 0) modifiedLines.push('');
-            }
-        }
-        
         const groupedChannels = {};
         includedChannels.forEach(entry => {
-            if (entry.isFavorite && !isAnonymousUser) return;
-            
             const cat = entry.category || 'Без категории';
             if (!groupedChannels[cat]) {
                 groupedChannels[cat] = [];
             }
-            groupedChannels[cat].push(entry);
+            // Если канал избранный, и мы не гость, ставим его в Избранное
+            if (entry.isFavorite && !isAnonymousUser) {
+                if (!groupedChannels[FAVORITE_CATEGORY]) groupedChannels[FAVORITE_CATEGORY] = [];
+                groupedChannels[FAVORITE_CATEGORY].push(entry);
+            } else {
+                // Иначе в свою категорию
+                groupedChannels[cat].push(entry);
+            }
         });
         
-        const sortedCategories = Object.keys(groupedChannels).filter(cat => cat !== FAVORITE_CATEGORY).sort();
+        // ** НОВОЕ: ИСПОЛЬЗУЕМ СОХРАНЕННЫЙ ПОРЯДОК КАТЕГОРИЙ **
+        const categoriesInOrder = [...sortedCategoriesArray]; 
         
-        sortedCategories.forEach(cat => {
-            // Добавляем EXTGRP
-            if (cat !== 'Без категории') {
-                // Если это не TXT, используем EXTGRP для группировки
-                if (format !== 'txt') {
-                    modifiedLines.push(`#EXTGRP:${cat}`);
-                } else {
-                     // Для TXT добавляем EXTGRP (если он не был в самом EXTINF)
-                     // Примечание: Для TXT мы добавляем EXTGRP только для категории.
-                     modifiedLines.push(`#EXTGRP:${cat}`);
-                }
+        // Фильтруем категории, чтобы остались только те, в которых есть каналы
+        const finalCategoriesOrder = categoriesInOrder.filter(cat => 
+            (groupedChannels[cat] && groupedChannels[cat].length > 0)
+        );
+        // *************************************************
+
+        finalCategoriesOrder.forEach((cat, index) => {
+            const isFavoriteGroup = cat === FAVORITE_CATEGORY;
+            const channelsInGroup = groupedChannels[cat];
+            
+            if (channelsInGroup.length === 0) return;
+            
+            const displayCatName = isFavoriteGroup ? DISPLAY_FAVORITE_CATEGORY : cat;
+            
+            // Добавляем EXTGRP (только если это не TXT)
+            if (format !== 'txt') {
+                modifiedLines.push(`#EXTGRP:${displayCatName}`); 
+            } else if (!isFavoriteGroup && cat !== 'Без категории') {
+                // Для TXT добавляем EXTGRP (для категорий, кроме Избранного)
+                modifiedLines.push(`#EXTGRP:${displayCatName}`);
             }
 
-            groupedChannels[cat].forEach(entry => {
+            channelsInGroup.forEach(entry => {
                 
-                // [ЛОГО: ИЗМЕНЕНИЕ] Пересборка EXTINF для обычной категории
+                // Пересборка EXTINF 
                 let extinfLine = `#EXTINF:-1`;
-                
-                 // *** ИСПРАВЛЕНО: Автоматически использовать Название Канала, если tvgId пуст ***
                 const finalTvgId = entry.tvgId || entry.name; 
                 extinfLine += ` tvg-id="${finalTvgId}"`;
-                // ******************************************************************************
+                
+                // Используем имя категории для group-title
+                extinfLine += ` group-title="${displayCatName}"`;
                 
                 // Добавляем TVG-Logo
                 if (entry.logoUrl) {
                     extinfLine += ` tvg-logo="${entry.logoUrl}"`;
                 }
-                extinfLine += ` group-title="${entry.category}",${entry.name}`;
-                // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
+                extinfLine += `,${entry.name}`;
 
                 // Добавляем EXTINF
-                if (entry.extinf) {
-                    // [ЛОГО: ИЗМЕНЕНИЕ] Используем пересобранную строку
+                if (format !== 'txt' || (format === 'txt' && !isFavoriteGroup)) {
                     modifiedLines.push(extinfLine);
-                    // [ЛОГО: КОНЕЦ ИЗМЕНЕНИЯ]
-                }
-                // Для TXT добавляем EXTGRP (если он был в оригинале и не был добавлен выше)
-                if (format === 'txt' && entry.extgrp && cat === 'Без категории') {
-                    // Если у канала есть extgrp, но он в 'Без категории', мы его добавляем.
-                    modifiedLines.push(entry.extgrp);
+                } else if (format === 'txt' && isFavoriteGroup) {
+                    // Для TXT Избранное обрабатывается отдельно, но здесь просто добавляем тег
+                    modifiedLines.push(extinfLine);
                 }
                 
                 // Добавляем URL
@@ -3337,10 +3476,9 @@
             });
             
             // Добавляем пустую строку после категории (только если это не самый конец)
-            // (Простой способ избежать двойной пустой строки в конце)
-             if (format !== 'txt' || cat !== sortedCategories[sortedCategories.length - 1]) {
+            if (format !== 'txt' || index !== finalCategoriesOrder.length - 1) {
                  modifiedLines.push('');
-             }
+            }
         });
         
         // Удаляем последнюю пустую строку, если она есть
